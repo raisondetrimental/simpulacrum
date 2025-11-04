@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://meridian-universal.com/schemas/deal.json",
+  "title": "Deal",
+  "description": "Infrastructure financing opportunity matching sponsor needs with capital partners",
+  "type": "object",
+  "required": [
+    "deal_id",
+    "sponsor_id",
+    "sponsor_name",
+    "matched_partners",
+    "matched_teams",
+    "priority_score",
+    "stage",
+    "created_at"
+  ],
+  "properties": {
+    "deal_id": {
+      "type": "string",
+      "description": "Unique identifier for the deal"
+    },
+    "sponsor_id": {
+      "type": "string",
+      "description": "ID of the sponsor (corporate)"
+    },
+    "sponsor_name": {
+      "type": "string",
+      "description": "Name of the sponsor"
+    },
+    "sponsor_ticket_min": {
+      "type": ["number", "null"],
+      "description": "Minimum investment amount needed by sponsor"
+    },
+    "sponsor_ticket_max": {
+      "type": ["number", "null"],
+      "description": "Maximum investment amount needed by sponsor"
+    },
+    "matched_partners": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of capital partner entity IDs"
+    },
+    "matched_teams": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of team entity IDs"
+    },
+    "priority_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Priority score (0-100)"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "identified",
+        "introduced",
+        "in_diligence",
+        "term_sheet",
+        "closed",
+        "dead"
+      ],
+      "description": "Current stage of the deal"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of deal creation"
+    },
+    "deadline": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of deal deadline"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes about the deal"
+    },
+    "overlap_preferences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of overlapping preference keys"
+    },
+    "overlap_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of overlapping preferences"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DealAction"
+      },
+      "description": "Array of actions taken on this deal"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "definitions": {
+    "DealAction": {
+      "type": "object",
+      "required": ["action_type", "timestamp", "user"],
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "enum": [
+            "email_sent",
+            "meeting_scheduled",
+            "meeting_completed",
+            "memo_generated",
+            "stage_changed",
+            "note_added"
+          ],
+          "description": "Type of action"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of action"
+        },
+        "user": {
+          "type": "string",
+          "description": "Username who performed the action"
+        },
+        "details": {
+          "type": "object",
+          "description": "Additional details about the action"
+        }
+      }
+    }
+  }
+}

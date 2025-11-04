@@ -1,0 +1,4 @@
+[defaults]
+group = meridian-dashboard-rg
+location = eastus
+web = meridian-dashboard-frontend

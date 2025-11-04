@@ -1,0 +1,68 @@
+[
+  {
+    "createdAt": "2025-10-28T10:16:14.333Z",
+    "id": "1761646574333",
+    "name": "Monglia",
+    "preferenceFilters": {
+      "africa_em": "any",
+      "asia_em": "any",
+      "bonds": "any",
+      "coal": "any",
+      "emea_em": "any",
+      "emerging_markets": "any",
+      "energy_infra": "any",
+      "high_yield": "Y",
+      "infra_debt": "Y",
+      "investment_grade": "any",
+      "loan_agreement": "any",
+      "mongolia": "Y",
+      "more_expensive_than_usual": "any",
+      "public_bond_high_yield": "any",
+      "quasi_sovereign_only": "any",
+      "require_bank_guarantee": "any",
+      "senior_secured": "any",
+      "subordinated": "any",
+      "transport_infra": "any",
+      "turkey": "any",
+      "us_market": "any",
+      "vietnam": "any"
+    },
+    "sizeFilter": {
+      "maxInvestment": 100,
+      "minInvestment": 0
+    }
+  },
+  {
+    "id": "1761930112399",
+    "name": "Mongolia",
+    "preferenceFilters": {
+      "investment_grade": "any",
+      "high_yield": "Y",
+      "infra_debt": "Y",
+      "senior_secured": "any",
+      "subordinated": "any",
+      "bonds": "any",
+      "loan_agreement": "any",
+      "quasi_sovereign_only": "any",
+      "public_bond_high_yield": "any",
+      "us_market": "any",
+      "emerging_markets": "any",
+      "asia_em": "any",
+      "africa_em": "any",
+      "emea_em": "any",
+      "vietnam": "any",
+      "mongolia": "Y",
+      "turkey": "any",
+      "coal": "any",
+      "energy_infra": "any",
+      "transport_infra": "any",
+      "more_expensive_than_usual": "any",
+      "require_bank_guarantee": "any"
+    },
+    "sizeFilter": {
+      "minInvestment": 0,
+      "maxInvestment": 0
+    },
+    "createdAt": "2025-10-31T17:01:52.399Z"
+  }
+]

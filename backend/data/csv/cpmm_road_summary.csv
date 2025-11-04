@@ -1,0 +1,15 @@
+country,direction,bcp_count,tfi1_median_h,tfi2_median_usd,tfi1_min_h,tfi1_max_h,tfi2_min_usd,tfi2_max_usd
+Afghanistan,Inbound,4,,,,,,
+Afghanistan,Outbound,4,11.3,272.0,5.1,14.2,141.0,295.0
+Kazakhstan,Inbound,23,2.1,30.0,0.9,22.2,3.0,601.0
+Kazakhstan,Outbound,23,2.8,16.0,0.7,7.1,6.0,86.0
+Kyrgyz Republic,Inbound,10,0.7,28.0,0.6,1.7,3.0,583.0
+Kyrgyz Republic,Outbound,10,0.6,10.0,0.5,2.3,5.0,48.0
+People's Republic of China,Inbound,5,2.3,,2.3,2.3,,
+People's Republic of China,Outbound,5,2.1,33.0,0.9,51.4,0.0,821.0
+Tajikistan,Inbound,11,2.7,133.5,1.9,7.1,69.0,185.0
+Tajikistan,Outbound,11,5.7,44.5,2.1,9.3,20.0,69.0
+Turkmenistan,Inbound,7,5.5,70.0,5.5,5.5,70.0,70.0
+Turkmenistan,Outbound,7,,,,,,
+Uzbekistan,Inbound,15,2.3,15.0,0.8,4.5,3.0,67.0
+Uzbekistan,Outbound,15,5.15,12.5,1.1,10.2,8.0,122.0

@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+  }
+
+  .metric-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 rounded-md text-sm font-medium transition-colors;
+  }
+
+  .nav-link-active {
+    @apply bg-primary-100 text-primary-700;
+  }
+
+  .nav-link-inactive {
+    @apply text-gray-500 hover:text-gray-700 hover:bg-gray-100;
+  }
+}
+
+/* Search highlight flash animation */
+@keyframes flash {
+  0% {
+    background-color: #fef08a;
+    box-shadow: 0 0 10px rgba(250, 204, 21, 0.5);
+  }
+  50% {
+    background-color: #fde047;
+    box-shadow: 0 0 20px rgba(250, 204, 21, 0.8);
+  }
+  100% {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "last_updated": "2025-11-04T15:53:14.879160Z",
+  "source": "exchangerate-api",
+  "base_currency": "USD",
+  "rates": {
+    "VND": {
+      "name": "Vietnamese Dong",
+      "rate": 26165.5324,
+      "changes": {
+        "1D": null,
+        "1W": -0.12236660170584845,
+        "1M": -0.8561384204296217
+      }
+    },
+    "TRY": {
+      "name": "Turkish Lira",
+      "rate": 42.0711,
+      "changes": {
+        "1D": null,
+        "1W": 0.26525388586218224,
+        "1M": 0.552342256214144
+      }
+    },
+    "MNT": {
+      "name": "Mongolian Tugrik",
+      "rate": 3580.9102,
+      "changes": {
+        "1D": null,
+        "1W": -0.09629329540040905,
+        "1M": -0.34202938884559764
+      }
+    },
+    "UZS": {
+      "name": "Uzbek Som",
+      "rate": 12051.4105,
+      "changes": {
+        "1D": null,
+        "1W": -0.4318257890104144,
+        "1M": null
+      }
+    },
+    "AMD": {
+      "name": "Armenian Dram",
+      "rate": 382.5,
+      "changes": {
+        "1D": null,
+        "1W": -0.0591023034221346,
+        "1M": null
+      }
+    },
+    "GBP": {
+      "name": "British Pound Sterling",
+      "rate": 0.7613,
+      "changes": {
+        "1D": null,
+        "1W": 1.5608324439701082,
+        "1M": null
+      }
+    }
+  }
+}

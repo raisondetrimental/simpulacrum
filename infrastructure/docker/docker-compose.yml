@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # Backend Flask API
+  backend:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.backend
+    ports:
+      - "5000:8000"
+    environment:
+      - FLASK_ENV=development
+      - PORT=8000
+      - DATA_DIR=/app/data
+      - STORAGE_DIR=/app/storage
+    volumes:
+      - ../../backend:/app
+      - ../../data:/app/data
+      - ../../storage:/app/storage
+    command: python src/app.py
+    networks:
+      - meridian-network
+
+  # Frontend React App (development)
+  frontend:
+    image: node:18-alpine
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    volumes:
+      - ../../frontend:/app
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - meridian-network
+    depends_on:
+      - backend
+
+  # ETL job (run manually)
+  etl:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile.etl
+    volumes:
+      - ../../data:/app/data
+      - ../../storage:/app/storage
+    networks:
+      - meridian-network
+    profiles:
+      - etl
+
+networks:
+  meridian-network:
+    driver: bridge
+
+# Usage:
+# Start backend + frontend: docker-compose up
+# Run ETL: docker-compose --profile etl run etl
+# Stop all: docker-compose down

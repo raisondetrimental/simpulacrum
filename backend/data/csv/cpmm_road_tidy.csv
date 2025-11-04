@@ -1,0 +1,199 @@
+transport,country,corridor,bcp_code,bcp_name,direction,tfi1_h,tfi2_usd
+road,Afghanistan,P57,P57-1,Aqina,Outbound,,
+road,Afghanistan,P01,P01-1,Hairatan,Outbound,5.1,141.0
+road,Afghanistan,P02,P02-1,Islam Qala,Outbound,,
+road,Afghanistan,P04,P04-1,Shirkhan Bandar,Outbound,14.2,295.0
+road,Afghanistan,P35,P35-2,Spin Buldak,Outbound,,
+road,Afghanistan,P55,P55-1,Torghondi,Outbound,11.3,272.0
+road,Afghanistan,P03,P03-1,Torkham,Outbound,,
+road,Azerbaijan,P05,P05-1,Baku,Outbound,0.1,52.0
+road,Azerbaijan,P06,P06-1,Beyuk Kesik ,Outbound,,
+road,Azerbaijan,P07,P07-1,Krasnyi Most,Outbound,16.5,40.0
+road,Georgia,P64,P64-1,Batumi,Outbound,,
+road,Georgia,P06,P06-2,Gabdabani,Outbound,,
+road,Georgia,P63,P63-1,Poti,Outbound,,
+road,Georgia,P07,P07-2,Tsiteli Khidi,Outbound,54.9,160.0
+road,Kazakhstan,P40,P40-1,Aisha Bibi,Outbound,,
+road,Kazakhstan,P05,P05-2,Aktau,Outbound,,
+road,Kazakhstan,P53,P53-2,Altynkol,Outbound,,
+road,Kazakhstan,P17,P17-1,Aul,Outbound,,
+road,Kazakhstan,P21,P21-1,Beyneu,Outbound,,
+road,Kazakhstan,P58,P58-1,Bolashak,Outbound,,
+road,Kazakhstan,P08,P08-2,Dostyk,Outbound,,
+road,Kazakhstan,P25,P25-1,Ganyushking,Outbound,,
+road,Kazakhstan,P43,P43-1,Jana Jol,Outbound,,
+road,Kazakhstan,P18,P18-1,Kairak,Outbound,2.5,16.0
+road,Kazakhstan,P52,P52-2,Karasu,Outbound,1.9,15.0
+road,Kazakhstan,P11,P11-2,Khorgos,Outbound,,
+road,Kazakhstan,P37,P37-1,Konysbayeva,Outbound,5.2,40.0
+road,Kazakhstan,P34,P34-2,Kordai,Outbound,,
+road,Kazakhstan,P26,P26-1,Kurmangazy,Outbound,2.8,14.0
+road,Kazakhstan,P61,P61-2,Kuryk,Outbound,0.7,86.0
+road,Kazakhstan,P15,P15-2,Merke,Outbound,2.9,16.0
+road,Kazakhstan,P44,P44-1,Pogodaevo,Outbound,,
+road,Kazakhstan,P23,P23-1,Saryagash,Outbound,,
+road,Kazakhstan,P42,P42-1,Taskala,Outbound,2.8,6.0
+road,Kazakhstan,P22,P22-1,Tazhen,Outbound,7.1,37.0
+road,Kazakhstan,P19,P19-1,Zhaisan,Outbound,2.4,17.0
+road,Kazakhstan,P24,P24-1,Zhibek Zholy,Outbound,,
+road,Kyrgyz Republic,P34,P34-1,Ak Zhol,Outbound,,
+road,Kyrgyz Republic,P52,P52-1,Ak-Tilek,Outbound,0.5,5.0
+road,Kyrgyz Republic,P15,P15-1,Chaldovar,Outbound,,
+road,Kyrgyz Republic,P40,P40-2,Chon Kapka,Outbound,,
+road,Kyrgyz Republic,P14,P14-1,Dostuk,Outbound,0.6,10.0
+road,Kyrgyz Republic,P13,P13-2,Irkeshtam,Outbound,,
+road,Kyrgyz Republic,P16,P16-1,Karamyk,Outbound,2.3,48.0
+road,Kyrgyz Republic,P45,P45-1,Kensay,Outbound,,
+road,Kyrgyz Republic,P49,P49-1,Kyzyl-Bel,Outbound,,
+road,Kyrgyz Republic,P12,P12-2,Torugart,Outbound,,
+road,Mongolia,P51,P51-2,Altanbulag,Outbound,,
+road,Mongolia,P54,P54-1,Bichigt,Outbound,,
+road,Mongolia,P27,P27-1,Sukhbaatar,Outbound,,
+road,Mongolia,P28,P28-1,Ulaanbaishint,Outbound,,
+road,Mongolia,P09,P09-2,Yarant,Outbound,,
+road,Mongolia,P10,P10-2,Zamiin-Uud,Outbound,,
+road,Pakistan,P35,P35-1,Chaman,Outbound,48.3,81.0
+road,Pakistan,P38,P38-1,Karachi,Outbound,,
+road,Pakistan,P56,P56-2,Khunjerab,Outbound,,
+road,Pakistan,P03,P03-2,Peshawar,Outbound,30.0,270.0
+road,People's Republic of China,P08,P08-1,Alashankou,Outbound,37.2,821.0
+road,People's Republic of China,P10,P10-1,Erenhot,Outbound,1.8,17.0
+road,People's Republic of China,P11,P11-1,Horgos,Outbound,51.4,723.0
+road,People's Republic of China,P13,P13-1,Irkeshtan,Outbound,1.1,0.0
+road,People's Republic of China,P50,P50-1,Karasu,Outbound,2.1,33.0
+road,People's Republic of China,P56,P56-1,Khunjerab,Outbound,,
+road,People's Republic of China,P09,P09-1,Takeshikent,Outbound,6.0,416.0
+road,People's Republic of China,P12,P12-1,Torugart,Outbound,0.9,23.0
+road,People's Republic of China,P54,P54-2,Zuun Khatavch,Outbound,,
+road,Tajikistan,P31,P31-1,Dusti,Outbound,9.3,69.0
+road,Tajikistan,P46,P46-1,Fotehobod,Outbound,,
+road,Tajikistan,P49,P49-2,Guliston,Outbound,,
+road,Tajikistan,P33,P33-2,Istaravshan,Outbound,,
+road,Tajikistan,P60,P60-2,Jalgan,Outbound,,
+road,Tajikistan,P29,P29-1,Kanibadam,Outbound,,
+road,Tajikistan,P16,P16-2,Karamyk,Outbound,,
+road,Tajikistan,P47,P47-1,Khodjand,Outbound,,
+road,Tajikistan,P50,P50-2,Kulma,Outbound,,
+road,Tajikistan,P30,P30-1,Nau,Outbound,,
+road,Tajikistan,P04,P04-2,Panji Poyon,Outbound,2.1,20.0
+road,Turkmenistan,P32,P32-2,Farap,Outbound,,
+road,Turkmenistan,P57,P57-2,Imam Nazar,Outbound,,
+road,Turkmenistan,P48,P48-1,Kunya Urganch,Outbound,,
+road,Turkmenistan,P41,P41-1,Sarahs,Outbound,,
+road,Turkmenistan,P55,P55-2,Serkhet Abad,Outbound,,
+road,Turkmenistan,P58,P58-2,Serkhetyaka,Outbound,,
+road,Turkmenistan,P36,P36-2,Turkmenbashi,Outbound,,
+road,Uzbekistan,P32,P32-1,Alat,Outbound,5.0,
+road,Uzbekistan,P30,P30-2,Bekabad,Outbound,,
+road,Uzbekistan,P21,P21-2,Dautota,Outbound,5.7,9.0
+road,Uzbekistan,P14,P14-2,Dustlik,Outbound,1.1,16.0
+road,Uzbekistan,P24,P24-2,Gisht Kuprik,Outbound,,
+road,Uzbekistan,P23,P23-2,Keles,Outbound,,
+road,Uzbekistan,P33,P33-1,Khavast,Outbound,,
+road,Uzbekistan,P48,P48-2,Khodjayli,Outbound,,
+road,Uzbekistan,P59,P59-1,Khodzhadavlet,Outbound,,
+road,Uzbekistan,P29,P29-2,Kokland,Outbound,,
+road,Uzbekistan,P46,P46-2,Oibek,Outbound,10.2,
+road,Uzbekistan,P31,P31-2,Saryasia,Outbound,5.3,122.0
+road,Uzbekistan,P01,P01-2,Termez,Outbound,,
+road,Uzbekistan,P45,P45-2,Uchkurgan,Outbound,,
+road,Uzbekistan,P37,P37-2,Yallama,Outbound,3.9,8.0
+road,Afghanistan,P57,P57-1,Aqina,Inbound,,
+road,Afghanistan,P01,P01-1,Hairatan,Inbound,,
+road,Afghanistan,P02,P02-1,Islam Qala,Inbound,,
+road,Afghanistan,P04,P04-1,Shirkhan Bandar,Inbound,,
+road,Afghanistan,P35,P35-2,Spin Buldak,Inbound,10.7,34.0
+road,Afghanistan,P55,P55-1,Torghondi,Inbound,,
+road,Afghanistan,P03,P03-1,Torkham,Inbound,19.0,183.0
+road,Azerbaijan,P05,P05-1,Baku,Inbound,0.1,49.0
+road,Azerbaijan,P06,P06-1,Beyuk Kesik ,Inbound,,
+road,Azerbaijan,P07,P07-1,Krasnyi Most,Inbound,5.2,72.0
+road,Georgia,P64,P64-1,Batumi,Inbound,,
+road,Georgia,P06,P06-2,Gabdabani,Inbound,,
+road,Georgia,P63,P63-1,Poti,Inbound,,
+road,Georgia,P07,P07-2,Tsiteli Khidi,Inbound,2.8,97.0
+road,Kazakhstan,P40,P40-1,Aisha Bibi,Inbound,,
+road,Kazakhstan,P05,P05-2,Aktau,Inbound,,
+road,Kazakhstan,P53,P53-2,Altynkol,Inbound,,
+road,Kazakhstan,P17,P17-1,Aul,Inbound,,
+road,Kazakhstan,P21,P21-1,Beyneu,Inbound,,
+road,Kazakhstan,P58,P58-1,Bolashak,Inbound,,
+road,Kazakhstan,P08,P08-2,Dostyk,Inbound,22.2,601.0
+road,Kazakhstan,P25,P25-1,Ganyushking,Inbound,,
+road,Kazakhstan,P43,P43-1,Jana Jol,Inbound,,
+road,Kazakhstan,P18,P18-1,Kairak,Inbound,,
+road,Kazakhstan,P52,P52-2,Karasu,Inbound,3.4,26.0
+road,Kazakhstan,P11,P11-2,Khorgos,Inbound,,
+road,Kazakhstan,P37,P37-1,Konysbayeva,Inbound,1.4,75.0
+road,Kazakhstan,P34,P34-2,Kordai,Inbound,,
+road,Kazakhstan,P26,P26-1,Kurmangazy,Inbound,1.7,7.0
+road,Kazakhstan,P61,P61-2,Kuryk,Inbound,1.0,157.0
+road,Kazakhstan,P15,P15-2,Merke,Inbound,,
+road,Kazakhstan,P44,P44-1,Pogodaevo,Inbound,2.1,3.0
+road,Kazakhstan,P23,P23-1,Saryagash,Inbound,,
+road,Kazakhstan,P42,P42-1,Taskala,Inbound,2.1,3.0
+road,Kazakhstan,P22,P22-1,Tazhen,Inbound,2.1,59.0
+road,Kazakhstan,P19,P19-1,Zhaisan,Inbound,0.9,30.0
+road,Kazakhstan,P24,P24-1,Zhibek Zholy,Inbound,,
+road,Kyrgyz Republic,P34,P34-1,Ak Zhol,Inbound,,
+road,Kyrgyz Republic,P52,P52-1,Ak-Tilek,Inbound,0.6,3.0
+road,Kyrgyz Republic,P15,P15-1,Chaldovar,Inbound,0.7,35.0
+road,Kyrgyz Republic,P40,P40-2,Chon Kapka,Inbound,,
+road,Kyrgyz Republic,P14,P14-1,Dostuk,Inbound,0.7,6.0
+road,Kyrgyz Republic,P13,P13-2,Irkeshtam,Inbound,1.4,583.0
+road,Kyrgyz Republic,P16,P16-1,Karamyk,Inbound,,
+road,Kyrgyz Republic,P45,P45-1,Kensay,Inbound,,
+road,Kyrgyz Republic,P49,P49-1,Kyzyl-Bel,Inbound,,
+road,Kyrgyz Republic,P12,P12-2,Torugart,Inbound,1.7,28.0
+road,Mongolia,P51,P51-2,Altanbulag,Inbound,1.7,8.0
+road,Mongolia,P54,P54-1,Bichigt,Inbound,,
+road,Mongolia,P27,P27-1,Sukhbaatar,Inbound,,
+road,Mongolia,P28,P28-1,Ulaanbaishint,Inbound,,
+road,Mongolia,P09,P09-2,Yarant,Inbound,7.1,199.0
+road,Mongolia,P10,P10-2,Zamiin-Uud,Inbound,1.8,8.0
+road,Pakistan,P35,P35-1,Chaman,Inbound,,
+road,Pakistan,P38,P38-1,Karachi,Inbound,,
+road,Pakistan,P56,P56-2,Khunjerab,Inbound,,
+road,Pakistan,P03,P03-2,Peshawar,Inbound,,
+road,People's Republic of China,P08,P08-1,Alashankou,Inbound,,
+road,People's Republic of China,P10,P10-1,Erenhot,Inbound,,
+road,People's Republic of China,P11,P11-1,Horgos,Inbound,,
+road,People's Republic of China,P13,P13-1,Irkeshtan,Inbound,2.3,
+road,People's Republic of China,P50,P50-1,Karasu,Inbound,,
+road,People's Republic of China,P56,P56-1,Khunjerab,Inbound,,
+road,People's Republic of China,P09,P09-1,Takeshikent,Inbound,,
+road,People's Republic of China,P12,P12-1,Torugart,Inbound,,
+road,People's Republic of China,P54,P54-2,Zuun Khatavch,Inbound,,
+road,Tajikistan,P31,P31-1,Dusti,Inbound,2.1,82.0
+road,Tajikistan,P46,P46-1,Fotehobod,Inbound,6.3,185.0
+road,Tajikistan,P49,P49-2,Guliston,Inbound,,
+road,Tajikistan,P33,P33-2,Istaravshan,Inbound,,
+road,Tajikistan,P60,P60-2,Jalgan,Inbound,1.9,69.0
+road,Tajikistan,P29,P29-1,Kanibadam,Inbound,,
+road,Tajikistan,P16,P16-2,Karamyk,Inbound,,
+road,Tajikistan,P47,P47-1,Khodjand,Inbound,,
+road,Tajikistan,P50,P50-2,Kulma,Inbound,2.7,
+road,Tajikistan,P30,P30-1,Nau,Inbound,,
+road,Tajikistan,P04,P04-2,Panji Poyon,Inbound,7.1,185.0
+road,Turkmenistan,P32,P32-2,Farap,Inbound,5.5,70.0
+road,Turkmenistan,P57,P57-2,Imam Nazar,Inbound,,
+road,Turkmenistan,P48,P48-1,Kunya Urganch,Inbound,,
+road,Turkmenistan,P41,P41-1,Sarahs,Inbound,,
+road,Turkmenistan,P55,P55-2,Serkhet Abad,Inbound,,
+road,Turkmenistan,P58,P58-2,Serkhetyaka,Inbound,,
+road,Turkmenistan,P36,P36-2,Turkmenbashi,Inbound,,
+road,Uzbekistan,P32,P32-1,Alat,Inbound,,
+road,Uzbekistan,P30,P30-2,Bekabad,Inbound,,
+road,Uzbekistan,P21,P21-2,Dautota,Inbound,4.5,67.0
+road,Uzbekistan,P14,P14-2,Dustlik,Inbound,0.8,22.0
+road,Uzbekistan,P24,P24-2,Gisht Kuprik,Inbound,,
+road,Uzbekistan,P23,P23-2,Keles,Inbound,,
+road,Uzbekistan,P33,P33-1,Khavast,Inbound,,
+road,Uzbekistan,P48,P48-2,Khodjayli,Inbound,,
+road,Uzbekistan,P59,P59-1,Khodzhadavlet,Inbound,,
+road,Uzbekistan,P29,P29-2,Kokland,Inbound,,
+road,Uzbekistan,P46,P46-2,Oibek,Inbound,,
+road,Uzbekistan,P31,P31-2,Saryasia,Inbound,3.8,3.0
+road,Uzbekistan,P01,P01-2,Termez,Inbound,2.3,11.0
+road,Uzbekistan,P45,P45-2,Uchkurgan,Inbound,,
+road,Uzbekistan,P37,P37-2,Yallama,Inbound,1.1,15.0

@@ -1,0 +1,151 @@
+transport,country,corridor,bcp_code,bcp_name,direction,tfi1_h,tfi2_usd,lat,lon,geospatial_context
+road,Afghanistan,P57,P57-1,Aqina,Outbound,,,37.388,65.514,Rail/Road Crossing (Turkmenistan)
+road,Afghanistan,P01,P01-1,Hairatan,Outbound,5.1,141.0,37.24,67.42,Rail/Road Crossing (Uzbekistan)
+road,Afghanistan,P04,P04-1,Shirkhan Bandar,Outbound,14.2,295.0,37.1528,68.8056,River Port (Tajikistan)
+road,Afghanistan,P55,P55-1,Torghondi,Outbound,11.3,272.0,35.808,62.784,Rail/Road Crossing (Turkmenistan)
+road,Kazakhstan,P40,P40-1,Aisha Bibi,Outbound,,,42.87,71.01,Road Crossing (Kyrgyz Republic)
+road,Kazakhstan,P05,P05-2,Aktau,Outbound,,,43.6167,51.1667,Caspian Sea Port
+road,Kazakhstan,P53,P53-2,Altynkol,Outbound,,,44.1647,80.2952,Rail Station (China) 1
+road,Kazakhstan,P17,P17-1,Aul,Outbound,,,54.43,81.35,Road Crossing (Russia)
+road,Kazakhstan,P21,P21-1,Beyneu,Outbound,,,45.345,55.195,Road Crossing (Uzbekistan)
+road,Kazakhstan,P58,P58-1,Bolashak,Outbound,,,42.34,54.51,Rail Crossing (Turkmenistan)
+road,Kazakhstan,P08,P08-2,Dostyk,Outbound,,,45.285,82.494,Rail Crossing (China)
+road,Kazakhstan,P25,P25-1,Ganyushking,Outbound,,,46.99,47.93,Road Crossing (Russia)
+road,Kazakhstan,P43,P43-1,Jana Jol,Outbound,,,51.35,50.83,Road Crossing (Russia)
+road,Kazakhstan,P18,P18-1,Kairak,Outbound,2.5,16.0,54.77,61.18,Road Crossing (Russia)
+road,Kazakhstan,P52,P52-2,Karasu,Outbound,1.9,15.0,42.5,70.38,Rail Crossing (Kyrgyz Republic)
+road,Kazakhstan,P11,P11-2,Khorgos,Outbound,,,44.181,80.252,Road Crossing (China)
+road,Kazakhstan,P37,P37-1,Konysbayeva,Outbound,5.2,40.0,40.92,68.745,Road Crossing (Uzbekistan)
+road,Kazakhstan,P34,P34-2,Kordai,Outbound,,,43.0369,74.7114,Road Crossing (Kyrgyz Republic) 4
+road,Kazakhstan,P26,P26-1,Kurmangazy,Outbound,2.8,14.0,46.94,48.09,Road Crossing (Russia)
+road,Kazakhstan,P61,P61-2,Kuryk,Outbound,0.7,86.0,43.2667,51.75,Caspian Sea Port 2
+road,Kazakhstan,P15,P15-2,Merke,Outbound,2.9,16.0,43.085,73.064,Road Crossing (Kyrgyz Republic)
+road,Kazakhstan,P44,P44-1,Pogodaevo,Outbound,,,50.32,53.68,Road Crossing (Russia)
+road,Kazakhstan,P23,P23-1,Saryagash,Outbound,,,41.432,69.215,Rail Crossing (Uzbekistan)
+road,Kazakhstan,P42,P42-1,Taskala,Outbound,2.8,6.0,51.36,50.84,Road Crossing (Russia)
+road,Kazakhstan,P22,P22-1,Tazhen,Outbound,7.1,37.0,44.84,56.4,Road Crossing (Uzbekistan)
+road,Kazakhstan,P19,P19-1,Zhaisan,Outbound,2.4,17.0,51.52,54.51,Road Crossing (Russia)
+road,Kazakhstan,P24,P24-1,Zhibek Zholy,Outbound,,,41.38,69.41,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P34,P34-1,Ak Zhol,Outbound,,,43.037,74.71,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P52,P52-1,Ak-Tilek,Outbound,0.5,5.0,42.236,77.7309,Road Crossing (Kazakhstan) 13
+road,Kyrgyz Republic,P15,P15-1,Chaldovar,Outbound,,,42.85,73.47,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P40,P40-2,Chon Kapka,Outbound,,,42.87,70.99,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P14,P14-1,Dostuk,Outbound,0.6,10.0,40.79,72.84,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P13,P13-2,Irkeshtam,Outbound,,,39.52,73.91,Road Pass (China)
+road,Kyrgyz Republic,P16,P16-1,Karamyk,Outbound,2.3,48.0,39.37,72.93,Road Crossing (Tajikistan)
+road,Kyrgyz Republic,P45,P45-1,Kensay,Outbound,,,42.1,71.3,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P49,P49-1,Kyzyl-Bel,Outbound,,,39.51,73.18,Road Crossing (Tajikistan)
+road,Kyrgyz Republic,P12,P12-2,Torugart,Outbound,,,39.757,75.297,Road Pass (China)
+road,People's Republic of China,P08,P08-1,Alashankou,Outbound,37.2,821.0,45.18,82.5,Rail Crossing (Kazakhstan)
+road,People's Republic of China,P11,P11-1,Horgos,Outbound,51.4,723.0,44.18,80.44,Road Crossing (Kazakhstan)
+road,People's Republic of China,P13,P13-1,Irkeshtan,Outbound,1.1,0.0,39.52,73.91,Road Pass (Kyrgyz Republic)
+road,People's Republic of China,P50,P50-1,Karasu,Outbound,2.1,33.0,38.15,74.805,High-Altitude Pass (Tajikistan)
+road,People's Republic of China,P12,P12-1,Torugart,Outbound,0.9,23.0,39.757,75.305,Road Pass (Kyrgyz Republic)
+road,Tajikistan,P31,P31-1,Dusti,Outbound,9.3,69.0,37.56,68.64,Road Crossing (Uzbekistan)
+road,Tajikistan,P46,P46-1,Fotehobod,Outbound,,,40.54,69.21,Road Crossing (Uzbekistan)
+road,Tajikistan,P49,P49-2,Guliston,Outbound,,,40.36,70.46,Road Crossing (Kyrgyz Republic) 17
+road,Tajikistan,P33,P33-2,Istaravshan,Outbound,,,39.9108,69.0064,City Proximity 16
+road,Tajikistan,P60,P60-2,Jalgan,Outbound,,,38.01,70.8,Road Crossing (Afghanistan)
+road,Tajikistan,P29,P29-1,Kanibadam,Outbound,,,40.3,70.4,Road Crossing (Uzbekistan)
+road,Tajikistan,P16,P16-2,Karamyk,Outbound,,,39.37,72.93,Road Crossing (Kyrgyz Republic)
+road,Tajikistan,P47,P47-1,Khodjand,Outbound,,,40.23,69.62,City Proximity
+road,Tajikistan,P50,P50-2,Kulma,Outbound,,,38.1494,74.8014,High-Altitude Pass (China) 18
+road,Tajikistan,P30,P30-1,Nau,Outbound,,,40.1147,70.7307,Road Crossing (Kyrgyz Republic) 15
+road,Tajikistan,P04,P04-2,Panji Poyon,Outbound,2.1,20.0,37.153,68.805,River Bridge (Afghanistan)
+road,Turkmenistan,P32,P32-2,Farap,Outbound,,,39.1,63.85,Road Crossing (Uzbekistan) 7
+road,Turkmenistan,P57,P57-2,Imam Nazar,Outbound,,,37.388,65.514,Rail/Road Crossing (Afghanistan)
+road,Turkmenistan,P48,P48-1,Kunya Urganch,Outbound,,,42.32,59.15,Road Crossing (Uzbekistan)
+road,Turkmenistan,P41,P41-1,Sarahs,Outbound,,,36.5333,61.2167,Rail/Road Crossing (Iran) 19
+road,Turkmenistan,P55,P55-2,Serkhet Abad,Outbound,,,35.808,62.784,Rail/Road Crossing (Afghanistan)
+road,Turkmenistan,P58,P58-2,Serkhetyaka,Outbound,,,42.34,54.51,Rail Crossing (Kazakhstan)
+road,Turkmenistan,P36,P36-2,Turkmenbashi,Outbound,,,40.0167,53.0333,Caspian Sea Port
+road,Uzbekistan,P32,P32-1,Alat,Outbound,5.0,,39.1,63.85,Road Crossing (Turkmenistan) 7
+road,Uzbekistan,P30,P30-2,Bekabad,Outbound,,,40.23,69.28,Road Crossing (Tajikistan)
+road,Uzbekistan,P21,P21-2,Dautota,Outbound,5.7,9.0,45.345,55.195,Road Crossing (Kazakhstan)
+road,Uzbekistan,P14,P14-2,Dustlik,Outbound,1.1,16.0,40.79,72.84,Road Crossing (Kyrgyz Republic)
+road,Uzbekistan,P24,P24-2,Gisht Kuprik,Outbound,,,41.38,69.41,Road Crossing (Kazakhstan)
+road,Uzbekistan,P23,P23-2,Keles,Outbound,,,41.432,69.215,Rail Crossing (Kazakhstan)
+road,Uzbekistan,P33,P33-1,Khavast,Outbound,,,40.45,68.8,Road Crossing (Tajikistan)
+road,Uzbekistan,P48,P48-2,Khodjayli,Outbound,,,42.4234,59.4522,Rail/Road Crossing (Turkmenistan) 20
+road,Uzbekistan,P59,P59-1,Khodzhadavlet,Outbound,,,41.3,60.1,Road Crossing (Turkmenistan)
+road,Uzbekistan,P29,P29-2,Kokland,Outbound,,,40.3,70.4,Road Crossing (Tajikistan)
+road,Uzbekistan,P46,P46-2,Oibek,Outbound,10.2,,40.54,69.21,Road Crossing (Tajikistan)
+road,Uzbekistan,P31,P31-2,Saryasia,Outbound,5.3,122.0,38.38,67.58,Road Crossing (Tajikistan)
+road,Uzbekistan,P01,P01-2,Termez,Outbound,,,37.24,67.28,Rail/Road Crossing (Afghanistan)
+road,Uzbekistan,P45,P45-2,Uchkurgan,Outbound,,,41.1,72.0,Road Crossing (Kyrgyz Republic)
+road,Uzbekistan,P37,P37-2,Yallama,Outbound,3.9,8.0,40.9533,68.7389,Road Crossing (Kazakhstan) 9
+road,Afghanistan,P57,P57-1,Aqina,Inbound,,,37.388,65.514,Rail/Road Crossing (Turkmenistan)
+road,Afghanistan,P01,P01-1,Hairatan,Inbound,,,37.24,67.42,Rail/Road Crossing (Uzbekistan)
+road,Afghanistan,P04,P04-1,Shirkhan Bandar,Inbound,,,37.1528,68.8056,River Port (Tajikistan)
+road,Afghanistan,P55,P55-1,Torghondi,Inbound,,,35.808,62.784,Rail/Road Crossing (Turkmenistan)
+road,Kazakhstan,P40,P40-1,Aisha Bibi,Inbound,,,42.87,71.01,Road Crossing (Kyrgyz Republic)
+road,Kazakhstan,P05,P05-2,Aktau,Inbound,,,43.6167,51.1667,Caspian Sea Port
+road,Kazakhstan,P53,P53-2,Altynkol,Inbound,,,44.1647,80.2952,Rail Station (China) 1
+road,Kazakhstan,P17,P17-1,Aul,Inbound,,,54.43,81.35,Road Crossing (Russia)
+road,Kazakhstan,P21,P21-1,Beyneu,Inbound,,,45.345,55.195,Road Crossing (Uzbekistan)
+road,Kazakhstan,P58,P58-1,Bolashak,Inbound,,,42.34,54.51,Rail Crossing (Turkmenistan)
+road,Kazakhstan,P08,P08-2,Dostyk,Inbound,22.2,601.0,45.285,82.494,Rail Crossing (China)
+road,Kazakhstan,P25,P25-1,Ganyushking,Inbound,,,46.99,47.93,Road Crossing (Russia)
+road,Kazakhstan,P43,P43-1,Jana Jol,Inbound,,,51.35,50.83,Road Crossing (Russia)
+road,Kazakhstan,P18,P18-1,Kairak,Inbound,,,54.77,61.18,Road Crossing (Russia)
+road,Kazakhstan,P52,P52-2,Karasu,Inbound,3.4,26.0,42.5,70.38,Rail Crossing (Kyrgyz Republic)
+road,Kazakhstan,P11,P11-2,Khorgos,Inbound,,,44.181,80.252,Road Crossing (China)
+road,Kazakhstan,P37,P37-1,Konysbayeva,Inbound,1.4,75.0,40.92,68.745,Road Crossing (Uzbekistan)
+road,Kazakhstan,P34,P34-2,Kordai,Inbound,,,43.0369,74.7114,Road Crossing (Kyrgyz Republic) 4
+road,Kazakhstan,P26,P26-1,Kurmangazy,Inbound,1.7,7.0,46.94,48.09,Road Crossing (Russia)
+road,Kazakhstan,P61,P61-2,Kuryk,Inbound,1.0,157.0,43.2667,51.75,Caspian Sea Port 2
+road,Kazakhstan,P15,P15-2,Merke,Inbound,,,43.085,73.064,Road Crossing (Kyrgyz Republic)
+road,Kazakhstan,P44,P44-1,Pogodaevo,Inbound,2.1,3.0,50.32,53.68,Road Crossing (Russia)
+road,Kazakhstan,P23,P23-1,Saryagash,Inbound,,,41.432,69.215,Rail Crossing (Uzbekistan)
+road,Kazakhstan,P42,P42-1,Taskala,Inbound,2.1,3.0,51.36,50.84,Road Crossing (Russia)
+road,Kazakhstan,P22,P22-1,Tazhen,Inbound,2.1,59.0,44.84,56.4,Road Crossing (Uzbekistan)
+road,Kazakhstan,P19,P19-1,Zhaisan,Inbound,0.9,30.0,51.52,54.51,Road Crossing (Russia)
+road,Kazakhstan,P24,P24-1,Zhibek Zholy,Inbound,,,41.38,69.41,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P34,P34-1,Ak Zhol,Inbound,,,43.037,74.71,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P52,P52-1,Ak-Tilek,Inbound,0.6,3.0,42.236,77.7309,Road Crossing (Kazakhstan) 13
+road,Kyrgyz Republic,P15,P15-1,Chaldovar,Inbound,0.7,35.0,42.85,73.47,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P40,P40-2,Chon Kapka,Inbound,,,42.87,70.99,Road Crossing (Kazakhstan)
+road,Kyrgyz Republic,P14,P14-1,Dostuk,Inbound,0.7,6.0,40.79,72.84,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P13,P13-2,Irkeshtam,Inbound,1.4,583.0,39.52,73.91,Road Pass (China)
+road,Kyrgyz Republic,P16,P16-1,Karamyk,Inbound,,,39.37,72.93,Road Crossing (Tajikistan)
+road,Kyrgyz Republic,P45,P45-1,Kensay,Inbound,,,42.1,71.3,Road Crossing (Uzbekistan)
+road,Kyrgyz Republic,P49,P49-1,Kyzyl-Bel,Inbound,,,39.51,73.18,Road Crossing (Tajikistan)
+road,Kyrgyz Republic,P12,P12-2,Torugart,Inbound,1.7,28.0,39.757,75.297,Road Pass (China)
+road,People's Republic of China,P08,P08-1,Alashankou,Inbound,,,45.18,82.5,Rail Crossing (Kazakhstan)
+road,People's Republic of China,P11,P11-1,Horgos,Inbound,,,44.18,80.44,Road Crossing (Kazakhstan)
+road,People's Republic of China,P13,P13-1,Irkeshtan,Inbound,2.3,,39.52,73.91,Road Pass (Kyrgyz Republic)
+road,People's Republic of China,P50,P50-1,Karasu,Inbound,,,38.15,74.805,High-Altitude Pass (Tajikistan)
+road,People's Republic of China,P12,P12-1,Torugart,Inbound,,,39.757,75.305,Road Pass (Kyrgyz Republic)
+road,Tajikistan,P31,P31-1,Dusti,Inbound,2.1,82.0,37.56,68.64,Road Crossing (Uzbekistan)
+road,Tajikistan,P46,P46-1,Fotehobod,Inbound,6.3,185.0,40.54,69.21,Road Crossing (Uzbekistan)
+road,Tajikistan,P49,P49-2,Guliston,Inbound,,,40.36,70.46,Road Crossing (Kyrgyz Republic) 17
+road,Tajikistan,P33,P33-2,Istaravshan,Inbound,,,39.9108,69.0064,City Proximity 16
+road,Tajikistan,P60,P60-2,Jalgan,Inbound,1.9,69.0,38.01,70.8,Road Crossing (Afghanistan)
+road,Tajikistan,P29,P29-1,Kanibadam,Inbound,,,40.3,70.4,Road Crossing (Uzbekistan)
+road,Tajikistan,P16,P16-2,Karamyk,Inbound,,,39.37,72.93,Road Crossing (Kyrgyz Republic)
+road,Tajikistan,P47,P47-1,Khodjand,Inbound,,,40.23,69.62,City Proximity
+road,Tajikistan,P50,P50-2,Kulma,Inbound,2.7,,38.1494,74.8014,High-Altitude Pass (China) 18
+road,Tajikistan,P30,P30-1,Nau,Inbound,,,40.1147,70.7307,Road Crossing (Kyrgyz Republic) 15
+road,Tajikistan,P04,P04-2,Panji Poyon,Inbound,7.1,185.0,37.153,68.805,River Bridge (Afghanistan)
+road,Turkmenistan,P32,P32-2,Farap,Inbound,5.5,70.0,39.1,63.85,Road Crossing (Uzbekistan) 7
+road,Turkmenistan,P57,P57-2,Imam Nazar,Inbound,,,37.388,65.514,Rail/Road Crossing (Afghanistan)
+road,Turkmenistan,P48,P48-1,Kunya Urganch,Inbound,,,42.32,59.15,Road Crossing (Uzbekistan)
+road,Turkmenistan,P41,P41-1,Sarahs,Inbound,,,36.5333,61.2167,Rail/Road Crossing (Iran) 19
+road,Turkmenistan,P55,P55-2,Serkhet Abad,Inbound,,,35.808,62.784,Rail/Road Crossing (Afghanistan)
+road,Turkmenistan,P58,P58-2,Serkhetyaka,Inbound,,,42.34,54.51,Rail Crossing (Kazakhstan)
+road,Turkmenistan,P36,P36-2,Turkmenbashi,Inbound,,,40.0167,53.0333,Caspian Sea Port
+road,Uzbekistan,P32,P32-1,Alat,Inbound,,,39.1,63.85,Road Crossing (Turkmenistan) 7
+road,Uzbekistan,P30,P30-2,Bekabad,Inbound,,,40.23,69.28,Road Crossing (Tajikistan)
+road,Uzbekistan,P21,P21-2,Dautota,Inbound,4.5,67.0,45.345,55.195,Road Crossing (Kazakhstan)
+road,Uzbekistan,P14,P14-2,Dustlik,Inbound,0.8,22.0,40.79,72.84,Road Crossing (Kyrgyz Republic)
+road,Uzbekistan,P24,P24-2,Gisht Kuprik,Inbound,,,41.38,69.41,Road Crossing (Kazakhstan)
+road,Uzbekistan,P23,P23-2,Keles,Inbound,,,41.432,69.215,Rail Crossing (Kazakhstan)
+road,Uzbekistan,P33,P33-1,Khavast,Inbound,,,40.45,68.8,Road Crossing (Tajikistan)
+road,Uzbekistan,P48,P48-2,Khodjayli,Inbound,,,42.4234,59.4522,Rail/Road Crossing (Turkmenistan) 20
+road,Uzbekistan,P59,P59-1,Khodzhadavlet,Inbound,,,41.3,60.1,Road Crossing (Turkmenistan)
+road,Uzbekistan,P29,P29-2,Kokland,Inbound,,,40.3,70.4,Road Crossing (Tajikistan)
+road,Uzbekistan,P46,P46-2,Oibek,Inbound,,,40.54,69.21,Road Crossing (Tajikistan)
+road,Uzbekistan,P31,P31-2,Saryasia,Inbound,3.8,3.0,38.38,67.58,Road Crossing (Tajikistan)
+road,Uzbekistan,P01,P01-2,Termez,Inbound,2.3,11.0,37.24,67.28,Rail/Road Crossing (Afghanistan)
+road,Uzbekistan,P45,P45-2,Uchkurgan,Inbound,,,41.1,72.0,Road Crossing (Kyrgyz Republic)
+road,Uzbekistan,P37,P37-2,Yallama,Inbound,1.1,15.0,40.9533,68.7389,Road Crossing (Kazakhstan) 9

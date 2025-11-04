@@ -1,0 +1,311 @@
+Analysis: Current Structure vs Industry Best Practices
+
+  Current Structure:
+
+  Dashboard Website/
+  ├── api/                    # Flask backend
+  ├── etl/                    # ETL scripts
+  ├── web/                    # React frontend
+  ├── data/
+  │   ├── excel/             # Source Excel files
+  │   ├── json/              # JSON databases
+  │   └── csv/               # CSV exports
+  ├── docs/                   # Documentation
+  ├── scripts/                # Utility scripts
+  ├── assets/                 # Misc assets
+  ├── Documents/              # Company documents
+  ├── app-logs/              # Logs
+  ├── .azure/                # Azure config
+  └── [loose files in root]   # Various files
+
+  ---
+  Issues Identified:
+
+  🔴 Critical Issues
+
+  1. Loose files in root directory - Several Excel files, PDFs, and ZIPs
+  scattered in root
+  2. No monorepo structure - Backend and frontend aren't properly isolated
+  3. Mixed concerns in root - Business documents, data files, config, and code
+  all mixed
+  4. No environment configuration files - No .env.example or proper config
+  management
+  5. No testing infrastructure - No test directories or test files
+  6. Backend structure too flat - All API logic in one massive file
+  (excel_api.py)
+  7. No proper requirements split - Should have dev/prod/test requirements
+  8. Data directory exposed - Should not be in source control or should be in
+  gitignore
+  9. Generated files in source - JSON databases committed to git
+  10. No CI/CD configuration - No GitHub Actions, pre-commit hooks, etc.
+
+  🟡 Medium Priority Issues
+
+  11. Frontend lacks feature organization - Pages/components growing large
+  without grouping
+  12. Inconsistent naming - contacts.json vs counsel_contacts.json,
+  read_dashboard.py vs excel_api.py
+  13. No shared types/constants - Duplicated between frontend/backend
+  14. Scripts directory underutilized - Only 2 scripts, should be organized
+  better
+  15. Assets scattered - Images in multiple locations (etl/, web/public/,
+  assets/)
+
+  🟢 Good Practices Found
+
+  - Clear separation of api/, etl/, and web/
+  - Frontend has proper structure (components/, pages/, hooks/, types/)
+  - Documentation in docs/ directory
+  - Component organization by module (liquidity, counsel, sponsors)
+
+  ---
+  Recommended Structure (Industry Standard):
+
+  meridian-dashboard/                    # Root project
+  ├── .github/                           # GitHub Actions, templates
+  │   ├── workflows/
+  │   │   ├── ci.yml
+  │   │   ├── deploy-frontend.yml
+  │   │   └── deploy-backend.yml
+  │   └── ISSUE_TEMPLATE/
+  │
+  ├── backend/                           # Python backend (renamed from 'api')
+  │   ├── src/                          # Source code
+  │   │   ├── api/                      # API routes
+  │   │   │   ├── __init__.py
+  │   │   │   ├── auth.py
+  │   │   │   ├── capital_partners.py
+  │   │   │   ├── counsel.py
+  │   │   │   ├── deals.py
+  │   │   │   ├── excel.py
+  │   │   │   ├── investment.py
+  │   │   │   └── sponsors.py
+  │   │   ├── models/                   # Data models/schemas
+  │   │   │   ├── __init__.py
+  │   │   │   ├── capital_partner.py
+  │   │   │   ├── deal.py
+  │   │   │   └── user.py
+  │   │   ├── services/                 # Business logic
+  │   │   │   ├── __init__.py
+  │   │   │   ├── deal_pipeline.py
+  │   │   │   ├── investment_matching.py
+  │   │   │   └── investment_profiles.py
+  │   │   ├── utils/                    # Utilities
+  │   │   │   ├── __init__.py
+  │   │   │   └── json_store.py
+  │   │   ├── config.py                 # Configuration
+  │   │   └── app.py                    # Flask app factory
+  │   ├── tests/                        # Backend tests
+  │   │   ├── test_api/
+  │   │   ├── test_services/
+  │   │   └── conftest.py
+  │   ├── requirements/                 # Split requirements
+  │   │   ├── base.txt
+  │   │   ├── dev.txt
+  │   │   ├── prod.txt
+  │   │   └── test.txt
+  │   ├── .env.example                  # Environment template
+  │   ├── pytest.ini
+  │   └── README.md
+  │
+  ├── etl/                              # ETL pipeline
+  │   ├── src/
+  │   │   ├── extractors/
+  │   │   │   ├── __init__.py
+  │   │   │   ├── dashboard.py          # read_dashboard.py
+  │   │   │   └── usa_historical.py     # extract_usa_historical.py
+  │   │   ├── generators/
+  │   │   │   ├── __init__.py
+  │   │   │   └── pdf.py                # pdf_generator.py
+  │   │   ├── excel/
+  │   │   │   ├── __init__.py
+  │   │   │   └── com_interface.py      # excel_com_interface.py
+  │   │   └── utils/
+  │   ├── tests/
+  │   ├── requirements.txt
+  │   └── README.md
+  │
+  ├── frontend/                         # React frontend (renamed from 'web')
+  │   ├── public/                       # Static assets only
+  │   │   ├── assets/                   # Images, fonts
+  │   │   └── documents/                # Static documents
+  │   ├── src/
+  │   │   ├── components/
+  │   │   │   ├── common/               # Shared components
+  │   │   │   │   ├── Footer.tsx
+  │   │   │   │   ├── Layout.tsx
+  │   │   │   │   ├── Sidebar.tsx
+  │   │   │   │   └── ProtectedRoute.tsx
+  │   │   │   ├── features/             # Feature-specific components
+  │   │   │   │   ├── capital-partners/
+  │   │   │   │   ├── counsel/
+  │   │   │   │   ├── deals/
+  │   │   │   │   ├── excel/
+  │   │   │   │   └── sponsors/
+  │   │   │   └── ui/                   # Reusable UI components
+  │   │   │       ├── Button.tsx
+  │   │   │       ├── Card.tsx
+  │   │   │       └── Modal.tsx
+  │   │   ├── pages/
+  │   │   │   ├── auth/
+  │   │   │   ├── capital-partners/
+  │   │   │   ├── counsel/
+  │   │   │   ├── deals/
+  │   │   │   ├── markets/
+  │   │   │   └── sponsors/
+  │   │   ├── hooks/
+  │   │   ├── contexts/
+  │   │   ├── services/                 # API client services
+  │   │   │   ├── api.ts
+  │   │   │   ├── capitalPartnersService.ts
+  │   │   │   └── dealsService.ts
+  │   │   ├── types/
+  │   │   ├── utils/
+  │   │   ├── config.ts
+  │   │   ├── App.tsx
+  │   │   └── main.tsx
+  │   ├── tests/                        # Frontend tests
+  │   │   ├── unit/
+  │   │   └── integration/
+  │   ├── .env.example
+  │   ├── .env.development
+  │   ├── .env.production
+  │   ├── package.json
+  │   ├── tsconfig.json
+  │   └── README.md
+  │
+  ├── shared/                           # Shared types/constants
+  │   ├── types/
+  │   │   ├── capital-partner.ts
+  │   │   ├── deal.ts
+  │   │   └── investment.ts
+  │   └── constants/
+  │       ├── deal-stages.ts
+  │       └── preferences.ts
+  │
+  ├── data/                             # Data storage (gitignored)
+  │   ├── excel/                        # Source Excel files
+  │   ├── json/                         # JSON databases
+  │   ├── csv/                          # CSV exports
+  │   ├── backups/                      # Automated backups
+  │   └── .gitkeep
+  │
+  ├── storage/                          # Generated/temporary files
+  (gitignored)
+  │   ├── generated-reports/            # PDF outputs
+  │   ├── logs/
+  │   └── uploads/
+  │
+  ├── infrastructure/                   # Deployment configs
+  │   ├── azure/
+  │   │   ├── app-service.bicep
+  │   │   └── static-web-app.bicep
+  │   ├── docker/
+  │   │   ├── Dockerfile.backend
+  │   │   └── Dockerfile.etl
+  │   └── scripts/
+  │       ├── deploy-backend.sh
+  │       └── deploy-frontend.sh
+  │
+  ├── docs/                             # Documentation
+  │   ├── api/
+  │   ├── architecture/
+  │   ├── deployment/
+  │   └── development/
+  │
+  ├── scripts/                          # Utility scripts
+  │   ├── build-cpmm-map.py
+  │   ├── migrate-data.py
+  │   ├── seed-database.py
+  │   └── backup-data.sh
+  │
+  ├── .gitignore
+  ├── .gitattributes
+  ├── .editorconfig
+  ├── docker-compose.yml                # Local development
+  ├── Makefile                          # Common commands
+  ├── README.md                         # Main readme
+  └── CLAUDE.md                         # AI instructions
+
+  ---
+  Migration Benefits:
+
+  Backend Improvements:
+
+  - ✅ Split monolithic excel_api.py (1000+ lines) into modular routes
+  - ✅ Separate business logic (services) from API routes
+  - ✅ Add data models/schemas for validation
+  - ✅ Enable proper testing with isolated modules
+  - ✅ Split requirements for different environments
+
+  Frontend Improvements:
+
+  - ✅ Feature-based component organization (easier to find related code)
+  - ✅ Separate API client services from components
+  - ✅ Common UI components for consistency
+  - ✅ Proper environment configuration files
+  - ✅ Test infrastructure
+
+  Overall Improvements:
+
+  - ✅ Clean root directory (only config files)
+  - ✅ Shared types between frontend/backend
+  - ✅ Proper gitignore for data/generated files
+  - ✅ CI/CD ready structure
+  - ✅ Docker support for deployment
+  - ✅ Clear separation of concerns
+  - ✅ Standard naming conventions
+  - ✅ Scalable structure for future growth
+
+  ---
+  Proposed Migration Plan:
+
+  Phase 1: Backend Restructure (2-3 hours)
+
+  1. Create new backend/src structure
+  2. Split excel_api.py into route modules
+  3. Extract services (deal_pipeline.py, investment_*.py)
+  4. Create app factory pattern
+  5. Split requirements files
+  6. Add .env.example
+
+  Phase 2: Frontend Restructure (2-3 hours)
+
+  1. Rename web/ to frontend/
+  2. Reorganize components into common/, features/, ui/
+  3. Group pages by feature
+  4. Create API service layer
+  5. Add environment files
+
+  Phase 3: Data & Storage (1 hour)
+
+  1. Move generated files out of source
+  2. Create proper .gitignore
+  3. Set up storage/ directory
+  4. Move loose root files to appropriate locations
+
+  Phase 4: Infrastructure (1-2 hours)
+
+  1. Create infrastructure/ directory
+  2. Move Azure configs
+  3. Add Docker configs
+  4. Create deployment scripts
+  5. Add Makefile for common commands
+
+  Phase 5: Shared Types (1 hour)
+
+  1. Extract common types to shared/
+  2. Update imports in frontend/backend
+  3. Add constants for magic strings
+
+  Phase 6: CI/CD & Testing (2-3 hours)
+
+  1. Add .github/workflows/
+  2. Set up test directories
+  3. Add pytest/vitest configs
+  4. Create pre-commit hooks
+
+  ---
+  Would you like me to proceed with this restructure? I can do it incrementally
+   (phase by phase) to minimize disruption, or create a complete migration
+  script that transforms everything at once.

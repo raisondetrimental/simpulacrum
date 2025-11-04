@@ -1,0 +1,23 @@
+[
+  {
+    "id": "participant_1762269186442",
+    "deal_id": "deal_1730755200000",
+    "entity_type": "corporate",
+    "entity_id": "corp_1761587956368",
+    "role": "sponsor",
+    "role_detail": "",
+    "commitment_amount": 0,
+    "funded_amount": 0,
+    "participation_pct": 0,
+    "hold_amount": 0,
+    "sold_amount": 0,
+    "seniority": "",
+    "ticket_size_category": "",
+    "commitment_date": "",
+    "funded_date": "",
+    "status": "committed",
+    "notes": "",
+    "created_at": "2025-11-04T15:13:06.442365",
+    "updated_at": "2025-11-04T15:13:06.442365"
+  }
+]

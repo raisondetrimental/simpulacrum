@@ -1,0 +1,30 @@
+# Dockerfile for Meridian Dashboard ETL
+# Python ETL job container for generating dashboard data
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy ETL requirements
+COPY etl/requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy ETL scripts
+COPY etl/ /app/etl/
+
+# Copy data directory structure
+COPY data/ /app/data/
+
+# Create storage directory for output
+RUN mkdir -p /app/storage
+
+# Set working directory
+WORKDIR /app
+
+# Default command runs both ETL scripts
+CMD ["sh", "-c", "python etl/read_dashboard.py && python etl/extract_usa_historical.py"]

@@ -1,0 +1,100 @@
+BCP Name,Country,BCP Code,Latitude (Decimal Degrees),Longitude (Decimal Degrees),Geospatial Context,D-P Grade
+Islam Qala,Afghanistan,P02-1,34.7303,62.9069,Road Crossing (Iran),D-P 2
+Shirkhan Bandar,Afghanistan,P04-1,37.1528,68.8056,River Port (Tajikistan),D-P 2
+Torkham,Afghanistan,P03-1,34.103,71.1009,Road Crossing (Pakistan),D-P 2
+Spin Buldak,Afghanistan,P35-2,31.02,66.386,Road Crossing (Pakistan),D-P 2
+Torghondi,Afghanistan,P55-1,35.808,62.784,Rail/Road Crossing (Turkmenistan),D-P 2
+Aqina,Afghanistan,P57-1,37.388,65.514,Rail/Road Crossing (Turkmenistan),D-P 2
+Hairatan,Afghanistan,P01-1,37.24,67.42,Rail/Road Crossing (Uzbekistan),D-P 2
+Baku,Azerbaijan,P05-1,40.3667,49.8333,Caspian Sea Port,D-P 1
+Beyuk Kesik,Azerbaijan,P06-1,40.94,45.105,Rail Crossing (Georgia),D-P 2
+Krasnyi Most,Azerbaijan,P07-1,41.272,45.021,Road Crossing (Georgia),D-P 2
+Gabdabani,Georgia,P06-2,41.52,44.825,Rail Crossing (Azerbaijan),D-P 2
+Tsiteli Khidi,Georgia,P07-2,41.312,45.093,Road Crossing (Azerbaijan),D-P 2
+Poti,Georgia,P63-1,42.1481,41.6669,Black Sea Port,D-P 1
+Batumi,Georgia,P64-1,41.65,41.6333,Black Sea Port,D-P 1
+Aktau,Kazakhstan,P05-2,43.6167,51.1667,Caspian Sea Port,D-P 1
+Dostyk,Kazakhstan,P08-2,45.285,82.494,Rail Crossing (China),D-P 1
+Khorgos,Kazakhstan,P11-2,44.181,80.252,Road Crossing (China),D-P 2
+Merke,Kazakhstan,P15-2,43.085,73.064,Road Crossing (Kyrgyz Republic),D-P 2
+Aul,Kazakhstan,P17-1,54.43,81.35,Road Crossing (Russia),D-P 2
+Kairak,Kazakhstan,P18-1,54.77,61.18,Road Crossing (Russia),D-P 2
+Zhaisan,Kazakhstan,P19-1,51.52,54.51,Road Crossing (Russia),D-P 2
+Beyneu,Kazakhstan,P21-1,45.345,55.195,Road Crossing (Uzbekistan),D-P 2
+Tazhen,Kazakhstan,P22-1,44.84,56.4,Road Crossing (Uzbekistan),D-P 2
+Saryagash,Kazakhstan,P23-1,41.432,69.215,Rail Crossing (Uzbekistan),D-P 1
+Zhibek Zholy,Kazakhstan,P24-1,41.38,69.41,Road Crossing (Uzbekistan),D-P 2
+Ganyushking,Kazakhstan,P25-1,46.99,47.93,Road Crossing (Russia),D-P 2
+Kurmangazy,Kazakhstan,P26-1,46.94,48.09,Road Crossing (Russia),D-P 2
+Kordai,Kazakhstan,P34-2,43.0369,74.7114,Road Crossing (Kyrgyz Republic) 4,D-P 2
+Konysbayeva,Kazakhstan,P37-1,40.92,68.745,Road Crossing (Uzbekistan),D-P 2
+Aisha Bibi,Kazakhstan,P40-1,42.87,71.01,Road Crossing (Kyrgyz Republic),D-P 2
+Taskala,Kazakhstan,P42-1,51.36,50.84,Road Crossing (Russia),D-P 2
+Jana Jol,Kazakhstan,P43-1,51.35,50.83,Road Crossing (Russia),D-P 2
+Pogodaevo,Kazakhstan,P44-1,50.32,53.68,Road Crossing (Russia),D-P 2
+Karasu,Kazakhstan,P52-2,42.5,70.38,Rail Crossing (Kyrgyz Republic),D-P 2
+Altynkol,Kazakhstan,P53-2,44.1647,80.2952,Rail Station (China) 1,D-P 1
+Bolashak,Kazakhstan,P58-1,42.34,54.51,Rail Crossing (Turkmenistan),D-P 2
+Kuryk,Kazakhstan,P61-2,43.2667,51.75,Caspian Sea Port 2,D-P 1
+Torugart,Kyrgyz Republic,P12-2,39.757,75.297,Road Pass (China),D-P 2
+Irkeshtam,Kyrgyz Republic,P13-2,39.52,73.91,Road Pass (China),D-P 2
+Dostuk,Kyrgyz Republic,P14-1,40.79,72.84,Road Crossing (Uzbekistan),D-P 2
+Chaldovar,Kyrgyz Republic,P15-1,42.85,73.47,Road Crossing (Kazakhstan),D-P 2
+Karamyk,Kyrgyz Republic,P16-1,39.37,72.93,Road Crossing (Tajikistan),D-P 2
+Ak Zhol,Kyrgyz Republic,P34-1,43.037,74.71,Road Crossing (Kazakhstan),D-P 2
+Chon Kapka,Kyrgyz Republic,P40-2,42.87,70.99,Road Crossing (Kazakhstan),D-P 2
+Kensay,Kyrgyz Republic,P45-1,42.1,71.3,Road Crossing (Uzbekistan),D-P 3
+Kyzyl-Bel,Kyrgyz Republic,P49-1,39.51,73.18,Road Crossing (Tajikistan),D-P 2
+Ak-Tilek,Kyrgyz Republic,P52-1,42.236,77.7309,Road Crossing (Kazakhstan) 13,D-P 3
+Yarant,Mongolia,P09-2,44.9,91.9,Road Crossing (China),D-P 2
+Zamiin-Uud,Mongolia,P10-2,44.07,111.9,Rail/Road Crossing (China),D-P 2
+Sukhbaatar,Mongolia,P27-1,50.25,106.18,Rail Crossing (Russia),D-P 2
+Ulaanbaishint,Mongolia,P28-1,47.9203,106.9172,General Ulaanbaatar Area 14,D-P 3
+Altanbulag,Mongolia,P51-2,50.33,106.15,Road Crossing (Russia),D-P 2
+Bichigt,Mongolia,P54-1,45.42,116.14,Road Crossing (China),D-P 2
+Peshawar,Pakistan,P03-2,34.0083,71.4578,City Proximity,D-P 3
+Chaman,Pakistan,P35-1,30.92,66.45,Rail/Road Crossing (Afghanistan),D-P 2
+Karachi,Pakistan,P38-1,24.86,67.01,Port City,D-P 3
+Khunjerab,Pakistan,P56-2,36.85,75.42,High-Altitude Pass (China),D-P 2
+Alashankou,People's Republic of China,P08-1,45.18,82.5,Rail Crossing (Kazakhstan),D-P 1
+Takeshikent,People's Republic of China,P09-1,45.02,91.68,Road Crossing (Mongolia),D-P 2
+Erenhot,People's Republic of China,P10-1,43.76,111.97,Rail/Road Crossing (Mongolia),D-P 2
+Horgos,People's Republic of China,P11-1,44.18,80.44,Road Crossing (Kazakhstan),D-P 2
+Torugart,People's Republic of China,P12-1,39.757,75.305,Road Pass (Kyrgyz Republic),D-P 2
+Irkeshtan,People's Republic of China,P13-1,39.52,73.91,Road Pass (Kyrgyz Republic),D-P 2
+Karasu,People's Republic of China,P50-1,38.15,74.805,High-Altitude Pass (Tajikistan),D-P 2
+Zuun Khatavch,People's Republic of China,P54-2,45.42,116.15,Road Crossing (Mongolia),D-P 2
+Khunjerab,People's Republic of China,P56-1,36.85,75.43,High-Altitude Pass (Pakistan),D-P 2
+Panji Poyon,Tajikistan,P04-2,37.153,68.805,River Bridge (Afghanistan),D-P 2
+Karamyk,Tajikistan,P16-2,39.37,72.93,Road Crossing (Kyrgyz Republic),D-P 2
+Kanibadam,Tajikistan,P29-1,40.3,70.4,Road Crossing (Uzbekistan),D-P 2
+Nau,Tajikistan,P30-1,40.1147,70.7307,Road Crossing (Kyrgyz Republic) 15,D-P 2
+Dusti,Tajikistan,P31-1,37.56,68.64,Road Crossing (Uzbekistan),D-P 3
+Istaravshan,Tajikistan,P33-2,39.9108,69.0064,City Proximity 16,D-P 3
+Fotehobod,Tajikistan,P46-1,40.54,69.21,Road Crossing (Uzbekistan),D-P 2
+Khodjand,Tajikistan,P47-1,40.23,69.62,City Proximity,D-P 3
+Guliston,Tajikistan,P49-2,40.36,70.46,Road Crossing (Kyrgyz Republic) 17,D-P 2
+Kulma,Tajikistan,P50-2,38.1494,74.8014,High-Altitude Pass (China) 18,D-P 2
+Jalgan,Tajikistan,P60-2,38.01,70.8,Road Crossing (Afghanistan),D-P 3
+Farap,Turkmenistan,P32-2,39.1,63.85,Road Crossing (Uzbekistan) 7,D-P 2
+Turkmenbashi,Turkmenistan,P36-2,40.0167,53.0333,Caspian Sea Port,D-P 1
+Sarahs,Turkmenistan,P41-1,36.5333,61.2167,Rail/Road Crossing (Iran) 19,D-P 2
+Kunya Urganch,Turkmenistan,P48-1,42.32,59.15,Road Crossing (Uzbekistan),D-P 2
+Serkhet Abad,Turkmenistan,P55-2,35.808,62.784,Rail/Road Crossing (Afghanistan),D-P 2
+Imam Nazar,Turkmenistan,P57-2,37.388,65.514,Rail/Road Crossing (Afghanistan),D-P 2
+Serkhetyaka,Turkmenistan,P58-2,42.34,54.51,Rail Crossing (Kazakhstan),D-P 2
+Termez,Uzbekistan,P01-2,37.24,67.28,Rail/Road Crossing (Afghanistan),D-P 2
+Dustlik,Uzbekistan,P14-2,40.79,72.84,Road Crossing (Kyrgyz Republic),D-P 2
+Dautota,Uzbekistan,P21-2,45.345,55.195,Road Crossing (Kazakhstan),D-P 2
+Keles,Uzbekistan,P23-2,41.432,69.215,Rail Crossing (Kazakhstan),D-P 1
+Gisht Kuprik,Uzbekistan,P24-2,41.38,69.41,Road Crossing (Kazakhstan),D-P 2
+Kokland,Uzbekistan,P29-2,40.3,70.4,Road Crossing (Tajikistan),D-P 2
+Bekabad,Uzbekistan,P30-2,40.23,69.28,Road Crossing (Tajikistan),D-P 2
+Saryasia,Uzbekistan,P31-2,38.38,67.58,Road Crossing (Tajikistan),D-P 3
+Alat,Uzbekistan,P32-1,39.1,63.85,Road Crossing (Turkmenistan) 7,D-P 2
+Khavast,Uzbekistan,P33-1,40.45,68.8,Road Crossing (Tajikistan),D-P 3
+Yallama,Uzbekistan,P37-2,40.9533,68.7389,Road Crossing (Kazakhstan) 9,D-P 2
+Uchkurgan,Uzbekistan,P45-2,41.1,72,Road Crossing (Kyrgyz Republic),D-P 3
+Oibek,Uzbekistan,P46-2,40.54,69.21,Road Crossing (Tajikistan),D-P 2
+Khodjayli,Uzbekistan,P48-2,42.4234,59.4522,Rail/Road Crossing (Turkmenistan) 20,D-P 2
+Khodzhadavlet,Uzbekistan,P59-1,41.3,60.1,Road Crossing (Turkmenistan),D-P 3

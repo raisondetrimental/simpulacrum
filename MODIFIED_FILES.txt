@@ -1,0 +1,66 @@
+CSV Download Button Replacement - Summary of Modified Files
+============================================================
+
+The following 8 files have been updated to replace CSV download buttons with the new DownloadDropdown component:
+
+LIQUIDITY MODULE (Capital Partners):
+1. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\capital-partners\CapitalPartnersList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadCapitalPartnersXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+
+2. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\capital-partners\ContactsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadContactsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+   - Integrated filter logic inline with download functions
+
+SPONSORS MODULE:
+3. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\sponsors\CorporatesList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadCorporatesXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+
+4. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\sponsors\SponsorContactsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadSponsorContactsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+   - Integrated filter logic inline with download functions
+
+COUNSEL MODULE:
+5. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\counsel\LegalAdvisorsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadLegalAdvisorsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+
+6. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\counsel\CounselContactsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadCounselContactsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+   - Integrated filter logic inline with download functions
+
+AGENTS MODULE:
+7. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\agents\AgentsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadAgentsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+
+8. C:\Users\Cameron Thomas\OneDrive - Meridian Universal\Documents\Dashboard Website\frontend\src\pages\agents\AgentContactsList.tsx
+   - Imported DownloadDropdown component
+   - Imported downloadAgentContactsXLSX function
+   - Removed handleExportCSV function
+   - Replaced CSV export button with DownloadDropdown component
+   - Integrated filter logic inline with download functions
+
+NOTES:
+- All modifications preserve error handling via the DownloadDropdown component's built-in try/catch
+- Filter logic for contact list pages was integrated inline within the component callbacks
+- The DealsList.tsx file already had the DownloadDropdown component implemented correctly, so no changes were needed
+- All service functions (downloadXXXXXLSX) are already implemented in the respective service files

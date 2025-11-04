@@ -1,0 +1,38 @@
+﻿Unified Filtering Work Log
+==========================
+
+Context
+-------
+Objective was to stand up a shared investment matching layer so the Strategies tab can filter capital partner teams and sponsor opportunities simultaneously.
+
+Actions Taken
+-------------
+1. Added backend normalization utilities (`api/investment_profiles.py`) to generate shared preference profiles for capital partners, partner teams, and sponsors.
+2. Created script `scripts/generate_investment_profiles.py` to materialize `data/json/investment_profiles.json` for inspection.
+3. Implemented matching helpers (`api/investment_matching.py`) that apply preference/ticket filters and compute overlap pairings.
+4. Extended Flask API (`api/excel_api.py`) with:
+   - `GET /api/investment-profiles` (returns normalized dataset on demand).
+   - `POST /api/investment-matches` (filters profiles and returns overlap summaries).
+5. Added new TypeScript types in `web/src/types/investment.ts` to represent profiles and match responses.
+6. Began wiring the Saved Filters/Strategies UI (`web/src/pages/SavedFiltersPage.tsx`) to call the new endpoint and render overlap cards (counts + sponsor/partner matches).
+
+Issues Encountered
+------------------
+- React runtime crash: `ReferenceError: Cannot access 'selectedFilter' before initialization` on SavedFiltersPage. Caused by using `selectedFilter` inside hooks before defining it with the new memoized helper. Need to refactor state initialization so `selectedFilter` is declared before the new `useEffect` and other consumers. Previous direct `find` call was removed; replacement must be inserted earlier in the component.
+- Unicode artifacts: existing file contained en dash characters and special placeholders (`�?`). Replacements attempted but still need verification to ensure ASCII-only output and consistent formatting.
+- Some helper insertion scripts temporarily introduced indentation issues; these were corrected but double-check is required to ensure formatting matches project standards.
+
+Next Steps
+----------
+- Fix SavedFiltersPage by defining `const selectedFilter = useMemo(...)` before any effect or memo that references it.
+- Re-run the frontend to confirm API integration works and adjust rendering logic (ensure components guard against missing data, align with Tailwind styling expectations).
+- Review backend endpoints for performance (consider caching) once frontend consumes them successfully.
+
+Resolution
+----------
+Fixed SavedFiltersPage.tsx:
+1. Added missing `selectedFilter` memoized value derived from `selectedFilterId` (line 157-160).
+2. Added missing `renderOverlapBadges` helper function (line 138-149) to display preference overlap badges.
+3. Both are now properly defined before the useEffect that consumes them.
+
+The page should now load without React runtime errors. Next: test the frontend integration.

@@ -1,0 +1,50 @@
+# Coverage.py configuration
+
+[run]
+source = src
+omit =
+    */tests/*
+    */test_*.py
+    */__pycache__/*
+    */venv/*
+    */env/*
+    */migrations/*
+
+branch = True
+parallel = True
+
+[report]
+precision = 2
+show_missing = True
+skip_covered = False
+
+exclude_lines =
+    # Standard pragmas
+    pragma: no cover
+
+    # Debug code
+    def __repr__
+    def __str__
+
+    # Abstract methods
+    @abstractmethod
+    @abc.abstractmethod
+
+    # Type checking
+    if TYPE_CHECKING:
+    if typing.TYPE_CHECKING:
+
+    # Defensive programming
+    raise AssertionError
+    raise NotImplementedError
+
+    # Non-runnable code
+    if __name__ == .__main__.:
+    if 0:
+    if False:
+
+[html]
+directory = htmlcov
+
+[xml]
+output = coverage.xml

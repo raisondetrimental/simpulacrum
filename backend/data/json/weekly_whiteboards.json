@@ -1,0 +1,70 @@
+{
+  "posts": [
+    {
+      "id": "weekly_001",
+      "week_start": "2025-10-27T00:00:00",
+      "week_end": "2025-11-02T23:59:59",
+      "user_id": "user_001",
+      "full_name": "Cameron Thomas",
+      "title": "a,f ",
+      "content": "<p>aSNN qwfl/</p>",
+      "created_at": "2025-10-31T17:03:07.222355",
+      "updated_at": "2025-10-31T17:03:07.222355"
+    },
+    {
+      "id": "weekly_002",
+      "week_start": "2025-11-03T00:00:00",
+      "week_end": "2025-11-09T23:59:59",
+      "user_id": "user_001",
+      "full_name": "Cameron Thomas",
+      "title": "CT WGs (w/c 03/11/25)",
+      "content": "<p>II. Assist Uzbekistan</p><p>IV. Market Dashboard</p><p>IV. Bloomberg</p><p>VII. Uzbekistan Deep Dive</p><p>VII. Find SWE for Website Backend</p>",
+      "created_at": "2025-11-03T16:02:28.023425",
+      "updated_at": "2025-11-04T11:10:14.288565"
+    },
+    {
+      "id": "weekly_003",
+      "week_start": "2025-11-03T00:00:00",
+      "week_end": "2025-11-09T23:59:59",
+      "user_id": "user003",
+      "full_name": "Kush Ganatra",
+      "title": "KG WGs (w/c 03/11/2025)",
+      "content": "<p>I: BPT - Assist on any questions</p><p>I: YEO FM - AS Review (assumptions) - schedule time</p><p>I: YEO FM - Assumptions Book, Macros</p><p>II: Assist with OCI DC underwriting, if any</p>",
+      "created_at": "2025-11-04T11:01:03.925638",
+      "updated_at": "2025-11-04T11:01:03.925638"
+    },
+    {
+      "id": "weekly_004",
+      "week_start": "2025-11-03T00:00:00",
+      "week_end": "2025-11-09T23:59:59",
+      "user_id": "user002",
+      "full_name": "Aijan Sadyrova",
+      "title": "AS WGs (w/c 03/11/2025)",
+      "content": "<p>Pillar I: YEO - waiting for the model from Kush</p><p>Pillar I: FTS for TME - add numbers</p><p></p><p>Long Term</p><ol><li><p>Vietnam (CII/DMD);</p></li><li><p>Vietnam - update proposals / understand MU's capabilities</p></li><li><p>Stakeholder update (Aijan's One Drive) - ongoing</p></li><li><p>Provide input into Uzbekistan - ongoing</p></li><li><p>Modelling templates</p></li></ol><p><br></p>",
+      "created_at": "2025-11-04T11:03:00.845970",
+      "updated_at": "2025-11-04T11:10:22.678249"
+    },
+    {
+      "id": "weekly_005",
+      "week_start": "2025-11-03T00:00:00",
+      "week_end": "2025-11-09T23:59:59",
+      "user_id": "user001",
+      "full_name": "Naveen Anandakumar",
+      "title": "NA WGs (w/c 03/11/2025)",
+      "content": "<ul><li><p>II: CIF reply send with proposal</p></li><li><p>II: DCF: prepare available funding options in anticipation of DCG reply - in progress</p></li><li><p>II: CC1: check-in regarding LNG/ other opportunities/ requirements</p></li><li><p>IV: Complete Dropbox -&gt; Onedrive migration</p></li><li><p>IV: Company website next steps (awaiting confirmation from LG)</p></li><li><p>IV: Complete DES Directory</p></li><li><p>I: YSB: Review and revert to FiM on mandate letter - confirm fee</p></li><li><p>I: YSB: Review and revert to FiM on mandate letter - confirm fee</p></li><li><p>II: YMA: receive post-NDA material from Michael Haas (\"MH\")</p></li><li><p>II: YMA: process and prepare VDR for post-NDA material from MH</p></li><li><p>II: YMA: share terms of TS for JV and request EOI expressing indicative interest based on struct...</p></li><li><p>II: OGC: update key underwriting risk/ areas that influence DD</p></li><li><p>II: OGC: share scope with NR for info memo</p></li><li><p>II: Vietnam Reception</p></li><li><p>I: OSI: Investor-Sponsor clear schedule/ next steps/ Co-Invest agreement</p></li></ul><p></p>",
+      "created_at": "2025-11-04T11:11:47.489281",
+      "updated_at": "2025-11-04T11:11:47.489281"
+    },
+    {
+      "id": "weekly_006",
+      "week_start": "2025-11-03T00:00:00",
+      "week_end": "2025-11-09T23:59:59",
+      "user_id": "user004",
+      "full_name": "Lavinia Geraldo",
+      "title": "LG WGs (w/c 03/11/2025)",
+      "content": "<ul><li><p>Pillar 1: Complete TME VDR (Review BPP Official library with Nav)</p></li><li><p>Pillar 1: TME VDR (Finalise Paperwork with Syndtrak) - Nav to sign</p></li><li><p>Pillar 3: Complete Stakeholder directory (Aijan &gt; Friday / Nav? / Max?)</p></li><li><p>Create IMI For Uzbekistan</p></li><li><p>I: YSB EIA Translation</p></li><li><p>III: create \"How to hire a lender guide\"</p></li><li><p>I: YSB - Schedule meeting with Worley (lender technical consultant)</p></li><li><p>I: YSB - Update lender consultant outreach tracker</p></li><li><p>I: YSB: Create folder structure to save all the lender consultant emails</p></li><li><p>II: Origination: IMI Uzbek - complete financing structure info for PPP examples (Max IJ Trial)</p></li><li><p>Website: Our market website copy</p></li><li><p>I: YSB Q&amp;A: update - PRIORITY 2</p></li><li><p>I: TME Q&amp;A Update - Coordinate with Cameron PRIORITY 1</p></li><li><p>I: TME - Coordination on the legal side with AS and AB</p></li><li><p>Gridlines minutes</p></li><li><p>DEOCA Meeting schedule</p></li><li><p>Create list of conference next 12 month</p></li><li><p>Support AS on the advisors outreach: update comparaison matrix</p></li></ul><p></p>",
+      "created_at": "2025-11-04T11:12:31.337206",
+      "updated_at": "2025-11-04T11:12:31.337206"
+    }
+  ]
+}

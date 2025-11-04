@@ -1,0 +1,3 @@
+[config]
+# Let Azure Oryx handle deployment automatically
+# command = bash deploy.sh

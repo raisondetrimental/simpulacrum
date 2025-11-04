@@ -1,0 +1,77 @@
+# Storage - Generated and temporary files
+backend/storage/
+*.log
+
+# Data - Database files and backups
+backend/data/json/*.bak
+# Uncomment below to exclude all JSON databases from git:
+# backend/data/json/*.json
+
+# Backup directories (created during reorganization)
+data_backup/
+storage_backup/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Frontend
+node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Azure
+.azure/
+
+# Generated reports (covered by storage/ but explicit)
+generated_reports/
+*.pdf
+
+# Temporary files
+*.tmp
+*.temp
+nul
+directory_*.txt

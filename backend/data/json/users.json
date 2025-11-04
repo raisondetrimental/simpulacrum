@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "id": "user_001",
+      "username": "cameron.thomas@mu-llc.com",
+      "full_name": "Cameron Thomas",
+      "email": "cameron.thomas@mu-llc.com",
+      "role": "admin",
+      "password_hash": "$2b$12$OU1.aDh8wCtzkjYj90QyIuBwlkvLxkckJvHelMXRxJDWYxIgmiBEi",
+      "is_active": true,
+      "created_at": "2025-10-03T00:00:00.000000"
+    },
+    {
+      "id": "user001",
+      "username": "nav.kumar@mu-llc.com",
+      "full_name": "Naveen Anandakumar",
+      "email": "nav.kumar@mu-llc.com",
+      "role": "admin",
+      "password_hash": "$2b$12$o8r.FSwGu74oNbOn4WkM3uuciq9iXcgFxbiXGsJy/VXNHenQSP/pG",
+      "is_active": true,
+      "created_at": "2025-10-28T11:18:57.262111"
+    },
+    {
+      "id": "user002",
+      "username": "aijan.sadyrova@mu-llc.com",
+      "full_name": "Aijan Sadyrova",
+      "email": "aijan.sadyrova@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$1ZUcV5PQlOSTpOuASWgRv.XxY3oV/KIvyf/WPui8HjXX.c3iW6xBC",
+      "is_active": true,
+      "created_at": "2025-10-28T11:19:44.932327"
+    },
+    {
+      "id": "user003",
+      "username": "kush.ganatra@mu-llc.com",
+      "full_name": "Kush Ganatra",
+      "email": "kush.ganatra@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$t8rWirKXVbNDdqeHeJ.ZMupnepNMx2E97.EbpiZscA8TZ5fhfnXNW",
+      "is_active": true,
+      "created_at": "2025-10-28T11:46:41.650206"
+    },
+    {
+      "id": "user004",
+      "username": "lavinia.geraldo@mu-llc.com",
+      "full_name": "Lavinia Geraldo",
+      "email": "lavinia.geraldo@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$RJgh3rsxG1kA8yAFv9jaTeRTUNqa8D6FmJEpIkuLBF1MCDSNgfH6G",
+      "is_active": true,
+      "created_at": "2025-10-28T11:47:27.851460"
+    },
+    {
+      "id": "user005",
+      "username": "max.johnson@mu-llc.com",
+      "full_name": "Maximilian Johnson",
+      "email": "max.johnson@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$yqZfRAGfIBs2pDNRrGfvNeB9TQL2ZBEJX3KkXYjC3z.mRulXz4BvG",
+      "is_active": true,
+      "created_at": "2025-10-28T11:48:30.669032"
+    },
+    {
+      "id": "user006",
+      "username": "amgalan.battulga@mu-llc.com",
+      "full_name": "Amgalan Battulga",
+      "email": "amgalan.battulga@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$vSiT.yBj9L6n4Q7x/VhDFulSmVtpURDwLGw46mzsqS7Nmh/bHLVOu",
+      "is_active": true,
+      "created_at": "2025-10-28T11:49:12.129987"
+    },
+    {
+      "id": "user007",
+      "username": "jess.larner@mu-llc.com",
+      "full_name": "Jessica Larner",
+      "email": "jess.larner@mu-llc.com",
+      "role": "user",
+      "password_hash": "$2b$12$nihl1gN.WL/PphI6fB/ftOTeUT61.3KyJhXF5XJCDEeDv3TyR..JS",
+      "is_active": true,
+      "created_at": "2025-10-28T11:49:52.164868"
+    }
+  ]
+}

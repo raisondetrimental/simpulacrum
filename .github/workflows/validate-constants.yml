@@ -1,0 +1,50 @@
+name: Validate Shared Constants
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'shared/**'
+      - 'frontend/src/constants/**'
+      - 'backend/src/constants/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'shared/**'
+      - 'frontend/src/constants/**'
+      - 'backend/src/constants/**'
+
+jobs:
+  validate:
+    name: Validate Constants Sync
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run validation script
+        run: |
+          echo "Running shared constants validation..."
+          python shared/scripts/validate-sync.py
+
+      - name: Validation successful
+        if: success()
+        run: |
+          echo "✅ All shared constants are in sync!"
+          echo "Frontend and backend constants match canonical definitions."
+
+      - name: Validation failed
+        if: failure()
+        run: |
+          echo "❌ Shared constants validation failed!"
+          echo "Please ensure frontend and backend constants match:"
+          echo "  1. Check shared/constants/*.md for canonical definitions"
+          echo "  2. Update frontend/src/constants/shared.ts"
+          echo "  3. Update backend/src/constants/shared.py"
+          echo "  4. Run: python shared/scripts/validate-sync.py"
+          exit 1

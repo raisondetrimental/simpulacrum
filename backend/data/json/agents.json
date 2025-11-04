@@ -1,0 +1,48 @@
+[
+  {
+    "id": "agent_1761693151890",
+    "name": "BNY",
+    "agent_type": "Underwriter",
+    "country": "Singapore",
+    "headquarters_location": "New York",
+    "agent_preferences": {
+      "transport_infra": "N",
+      "energy_infra": "Y",
+      "us_market": "N",
+      "emerging_markets": "Y",
+      "asia_em": "N",
+      "africa_em": "N",
+      "emea_em": "N",
+      "vietnam": "N",
+      "mongolia": "Y",
+      "turkey": "N"
+    },
+    "relationship": "Developing",
+    "notes": "",
+    "created_at": "2025-10-28T23:12:31.890485",
+    "last_updated": "2025-10-28T23:12:31.890485"
+  },
+  {
+    "id": "agent_1761693245321",
+    "name": "Bond Capital House",
+    "agent_type": "Clearing Agent",
+    "country": "Switzerland",
+    "headquarters_location": "Zurich",
+    "agent_preferences": {
+      "africa_em": "N",
+      "asia_em": "Y",
+      "emea_em": "Y",
+      "emerging_markets": "Y",
+      "energy_infra": "Y",
+      "mongolia": "Y",
+      "transport_infra": "N",
+      "turkey": "N",
+      "us_market": "N",
+      "vietnam": "Y"
+    },
+    "relationship": "Developing",
+    "notes": "",
+    "created_at": "2025-10-28T23:14:05.321762",
+    "last_updated": "2025-10-29T18:34:43.523769"
+  }
+]

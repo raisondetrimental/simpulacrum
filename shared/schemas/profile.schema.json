@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://meridian-universal.com/schemas/profile.json",
+  "title": "InvestmentProfile",
+  "description": "Normalized investment profile for capital partners, teams, and sponsors",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "category",
+    "entity_id",
+    "name",
+    "organization_name",
+    "preferences"
+  ],
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Unique profile identifier"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["capital_partner", "capital_partner_team", "sponsor"],
+      "description": "Type of entity"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Original entity ID from source database"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the entity or person"
+    },
+    "organization_name": {
+      "type": "string",
+      "description": "Name of the organization"
+    },
+    "relationship": {
+      "type": ["string", "null"],
+      "enum": ["Strong", "Medium", "Developing", "Cold", null],
+      "description": "Relationship status"
+    },
+    "currency": {
+      "type": ["string", "null"],
+      "description": "Currency code (e.g., USD, EUR)"
+    },
+    "ticket_min": {
+      "type": ["number", "null"],
+      "description": "Minimum investment amount"
+    },
+    "ticket_max": {
+      "type": ["number", "null"],
+      "description": "Maximum investment amount"
+    },
+    "preferences": {
+      "type": "object",
+      "description": "Investment preferences (key-value pairs, values are Y/N/any)",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["Y", "N", "any"]
+      }
+    },
+    "capital_partner_id": {
+      "type": ["string", "null"],
+      "description": "Parent capital partner ID (for teams)"
+    },
+    "capital_partner_name": {
+      "type": ["string", "null"],
+      "description": "Parent capital partner name (for teams)"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  }
+}
