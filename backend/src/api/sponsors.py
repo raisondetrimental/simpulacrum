@@ -13,6 +13,13 @@ from ..utils.json_store import (
     read_json_list, write_json_file, find_by_id, filter_by_field,
     remove_by_id, generate_timestamp_id
 )
+from ..utils.unified_dal import (
+    get_all_organizations, get_organization_by_id,
+    create_organization, update_organization, delete_organization,
+    get_all_contacts, get_contact_by_id,
+    create_contact, update_contact, delete_contact,
+    delete_contacts_by_organization
+)
 
 sponsors_bp = Blueprint('sponsors', __name__, url_prefix='/api')
 
@@ -25,8 +32,7 @@ sponsors_bp = Blueprint('sponsors', __name__, url_prefix='/api')
 def get_corporates():
     """Get all corporates"""
     try:
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
+        corporates = get_all_organizations("sponsor")
 
         return jsonify({
             "success": True,
@@ -45,9 +51,7 @@ def get_corporates():
 def get_corporate(corporate_id):
     """Get a single corporate by ID"""
     try:
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-        corporate = find_by_id(corporates, 'id', corporate_id)
+        corporate = get_organization_by_id(corporate_id, "sponsor")
 
         if not corporate:
             return jsonify({
@@ -88,16 +92,12 @@ def create_corporate():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing corporates
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-
         # Generate new ID (timestamp-based)
         corporate_id = f"corp_{int(time.time() * 1000)}"
 
-        # Create new corporate
+        # Create new corporate data
         now = datetime.now().isoformat()
-        new_corporate = {
+        new_corporate_data = {
             "id": corporate_id,
             "name": data['name'],
             "country": data['country'],
@@ -114,10 +114,10 @@ def create_corporate():
             "last_updated": now
         }
 
-        corporates.append(new_corporate)
+        # Create using unified DAL
+        new_corporate = create_organization(new_corporate_data, "sponsor")
 
-        # Save to file
-        if write_json_file(corporates_path, corporates):
+        if new_corporate:
             return jsonify({
                 "success": True,
                 "data": new_corporate,
@@ -148,36 +148,40 @@ def update_corporate(corporate_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing corporates
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-        corporate = find_by_id(corporates, 'id', corporate_id)
+        # Get existing corporate
+        existing_corporate = get_organization_by_id(corporate_id, "sponsor")
 
-        if not corporate:
+        if not existing_corporate:
             return jsonify({
                 "success": False,
                 "message": f"Corporate {corporate_id} not found"
             }), 404
 
         # Update fields
-        corporate['name'] = data.get('name', corporate['name'])
-        corporate['country'] = data.get('country', corporate['country'])
-        corporate['headquarters_location'] = data.get('headquarters_location', corporate.get('headquarters_location', ''))
-        corporate['investment_need_min'] = data.get('investment_need_min', corporate.get('investment_need_min', 0))
-        corporate['investment_need_max'] = data.get('investment_need_max', corporate.get('investment_need_max', 0))
-        corporate['currency'] = data.get('currency', corporate.get('currency', 'USD'))
-        corporate['infrastructure_types'] = data.get('infrastructure_types', corporate.get('infrastructure_types', {}))
-        corporate['regions'] = data.get('regions', corporate.get('regions', {}))
-        corporate['relationship'] = data.get('relationship', corporate.get('relationship', 'Developing'))
-        corporate['notes'] = data.get('notes', corporate.get('notes', ''))
-        corporate['company_description'] = data.get('company_description', corporate.get('company_description', ''))
-        corporate['last_updated'] = datetime.now().isoformat()
+        update_data = {
+            "id": corporate_id,
+            "name": data.get('name', existing_corporate['name']),
+            "country": data.get('country', existing_corporate['country']),
+            "headquarters_location": data.get('headquarters_location', existing_corporate.get('headquarters_location', '')),
+            "investment_need_min": data.get('investment_need_min', existing_corporate.get('investment_need_min', 0)),
+            "investment_need_max": data.get('investment_need_max', existing_corporate.get('investment_need_max', 0)),
+            "currency": data.get('currency', existing_corporate.get('currency', 'USD')),
+            "infrastructure_types": data.get('infrastructure_types', existing_corporate.get('infrastructure_types', {})),
+            "regions": data.get('regions', existing_corporate.get('regions', {})),
+            "relationship": data.get('relationship', existing_corporate.get('relationship', 'Developing')),
+            "notes": data.get('notes', existing_corporate.get('notes', '')),
+            "company_description": data.get('company_description', existing_corporate.get('company_description', '')),
+            "created_at": existing_corporate['created_at'],
+            "last_updated": datetime.now().isoformat()
+        }
 
-        # Save to file
-        if write_json_file(corporates_path, corporates):
+        # Update using unified DAL
+        updated_corporate = update_organization(corporate_id, update_data, "sponsor")
+
+        if updated_corporate:
             return jsonify({
                 "success": True,
-                "data": corporate,
+                "data": updated_corporate,
                 "message": "Corporate updated successfully"
             })
         else:
@@ -197,22 +201,19 @@ def update_corporate(corporate_id):
 def delete_corporate(corporate_id):
     """Delete a corporate"""
     try:
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-
-        # Find corporate
-        corporate = find_by_id(corporates, 'id', corporate_id)
+        # Check if corporate exists
+        corporate = get_organization_by_id(corporate_id, "sponsor")
         if not corporate:
             return jsonify({
                 "success": False,
                 "message": f"Corporate {corporate_id} not found"
             }), 404
 
-        # Remove the corporate
-        corporates = remove_by_id(corporates, 'id', corporate_id)
+        # CASCADE DELETE: Remove all contacts for this corporate
+        delete_contacts_by_organization(corporate_id, "sponsor")
 
-        # Save changes
-        if write_json_file(corporates_path, corporates):
+        # Delete the corporate using unified DAL
+        if delete_organization(corporate_id, "sponsor"):
             return jsonify({
                 "success": True,
                 "message": "Corporate deleted successfully"
@@ -234,9 +235,7 @@ def delete_corporate(corporate_id):
 def toggle_corporate_star(corporate_id):
     """Toggle starred status for a corporate"""
     try:
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-        corporate = find_by_id(corporates, 'id', corporate_id)
+        corporate = get_organization_by_id(corporate_id, "sponsor")
 
         if not corporate:
             return jsonify({
@@ -248,12 +247,14 @@ def toggle_corporate_star(corporate_id):
         corporate['starred'] = not corporate.get('starred', False)
         corporate['last_updated'] = datetime.now().isoformat()
 
-        # Save to file
-        if write_json_file(corporates_path, corporates):
+        # Update using unified DAL
+        updated_corporate = update_organization(corporate_id, corporate, "sponsor")
+
+        if updated_corporate:
             return jsonify({
                 "success": True,
-                "data": corporate,
-                "message": f"Corporate {'starred' if corporate['starred'] else 'unstarred'} successfully"
+                "data": updated_corporate,
+                "message": f"Corporate {'starred' if updated_corporate['starred'] else 'unstarred'} successfully"
             })
         else:
             return jsonify({
@@ -276,13 +277,11 @@ def toggle_corporate_star(corporate_id):
 def get_sponsor_contacts():
     """Get all sponsor contacts or filter by corporate_id"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Filter by corporate_id if provided
+        # Get optional filter parameter
         corporate_id = request.args.get('corporate_id')
-        if corporate_id:
-            contacts = filter_by_field(contacts, 'corporate_id', corporate_id)
+
+        # Get contacts from unified DAL
+        contacts = get_all_contacts("sponsor", corporate_id)
 
         return jsonify({
             "success": True,
@@ -301,9 +300,7 @@ def get_sponsor_contacts():
 def get_sponsor_contact(contact_id):
     """Get a single sponsor contact by ID"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        contact = get_contact_by_id(contact_id, "sponsor")
 
         if not contact:
             return jsonify({
@@ -344,18 +341,15 @@ def create_sponsor_contact():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Generate new ID (timestamp-based)
         contact_id = f"scontact_{int(time.time() * 1000)}"
 
-        # Create new contact
+        # Create new contact data
         now = datetime.now().isoformat()
-        new_contact = {
+        new_contact_data = {
             "id": contact_id,
             "corporate_id": data['corporate_id'],
+            "organization_id": data['corporate_id'],
             "name": data['name'],
             "role": data.get('role', ''),
             "email": data.get('email', ''),
@@ -371,10 +365,10 @@ def create_sponsor_contact():
             "last_updated": now
         }
 
-        contacts.append(new_contact)
+        # Create using unified DAL
+        new_contact = create_contact(new_contact_data, "sponsor")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if new_contact:
             return jsonify({
                 "success": True,
                 "data": new_contact,
@@ -405,10 +399,8 @@ def update_sponsor_contact(contact_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get existing contact
+        contact = get_contact_by_id(contact_id, "sponsor")
 
         if not contact:
             return jsonify({
@@ -417,21 +409,24 @@ def update_sponsor_contact(contact_id):
             }), 404
 
         # Update fields
-        contact['name'] = data.get('name', contact['name'])
-        contact['role'] = data.get('role', contact['role'])
-        contact['email'] = data.get('email', contact.get('email', ''))
-        contact['phone'] = data.get('phone', contact.get('phone', ''))
-        contact['linkedin'] = data.get('linkedin', contact.get('linkedin', ''))
-        contact['relationship'] = data.get('relationship', contact.get('relationship', 'Developing'))
-        contact['disc_profile'] = data.get('disc_profile', contact.get('disc_profile', ''))
-        contact['contact_notes'] = data.get('contact_notes', contact.get('contact_notes', ''))
-        contact['last_updated'] = datetime.now().isoformat()
+        update_data = {
+            "name": data.get('name', contact['name']),
+            "role": data.get('role', contact['role']),
+            "email": data.get('email', contact.get('email', '')),
+            "phone": data.get('phone', contact.get('phone', '')),
+            "linkedin": data.get('linkedin', contact.get('linkedin', '')),
+            "relationship": data.get('relationship', contact.get('relationship', 'Developing')),
+            "disc_profile": data.get('disc_profile', contact.get('disc_profile', '')),
+            "contact_notes": data.get('contact_notes', contact.get('contact_notes', '')),
+        }
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        # Update using unified DAL
+        updated_contact = update_contact(contact_id, update_data, "sponsor")
+
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Contact updated successfully"
             })
         else:
@@ -451,22 +446,16 @@ def update_sponsor_contact(contact_id):
 def delete_sponsor_contact(contact_id):
     """Delete a sponsor contact"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Check if contact exists
+        contact = get_contact_by_id(contact_id, "sponsor")
         if not contact:
             return jsonify({
                 "success": False,
                 "message": f"Contact {contact_id} not found"
             }), 404
 
-        # Remove the contact
-        contacts = remove_by_id(contacts, 'id', contact_id)
-
-        # Save changes
-        if write_json_file(contacts_path, contacts):
+        # Delete using unified DAL
+        if delete_contact(contact_id, "sponsor"):
             return jsonify({
                 "success": True,
                 "message": "Contact deleted successfully"
@@ -512,12 +501,8 @@ def save_sponsor_meeting_notes():
                 "message": "contact_id is required"
             }), 400
 
-        # Load contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "sponsor")
         if not contact:
             return jsonify({
                 "success": False,
@@ -526,9 +511,9 @@ def save_sponsor_meeting_notes():
 
         corporate_id = contact['corporate_id']
 
-        # Update contact
-        if contact_updates:
-            contact.update(contact_updates)
+        # Update contact fields
+        for key, value in contact_updates.items():
+            contact[key] = value
 
         # Add meeting to history
         if meeting_note:
@@ -556,25 +541,20 @@ def save_sponsor_meeting_notes():
             if meeting_note.get('next_follow_up'):
                 contact['next_contact_reminder'] = meeting_note['next_follow_up']
 
-        contact['last_updated'] = datetime.now().isoformat()
-
-        # Save contacts
-        write_json_file(contacts_path, contacts)
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "sponsor")
 
         # Update corporate if needed
         if corporate_updates:
-            corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-            corporates = read_json_list(corporates_path)
-            corporate = find_by_id(corporates, 'id', corporate_id)
-
+            corporate = get_organization_by_id(corporate_id, "sponsor")
             if corporate:
-                corporate.update(corporate_updates)
-                corporate['last_updated'] = datetime.now().isoformat()
-                write_json_file(corporates_path, corporates)
+                for key, value in corporate_updates.items():
+                    corporate[key] = value
+                update_organization(corporate_id, corporate, "sponsor")
 
         return jsonify({
             "success": True,
-            "data": contact,
+            "data": updated_contact,
             "message": "Meeting notes saved successfully"
         })
 
@@ -591,8 +571,8 @@ def get_sponsor_meeting_reminders():
     try:
         from datetime import datetime, timedelta
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
+        # Get all contacts from unified DAL
+        contacts = get_all_contacts("sponsor")
 
         # Filter contacts with reminders
         today = datetime.now().date()
@@ -643,11 +623,8 @@ def update_sponsor_meeting_note(contact_id, meeting_id):
                 "message": "No data provided"
             }), 400
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "sponsor")
         if not contact:
             return jsonify({
                 "success": False,
@@ -683,13 +660,13 @@ def update_sponsor_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "sponsor")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Meeting note updated successfully"
             })
         else:
@@ -710,11 +687,8 @@ def update_sponsor_meeting_note(contact_id, meeting_id):
 def delete_sponsor_meeting_note(contact_id, meeting_id):
     """Delete a specific sponsor meeting note"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_SPONSOR_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "sponsor")
         if not contact:
             return jsonify({
                 "success": False,
@@ -737,10 +711,10 @@ def delete_sponsor_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "sponsor")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
                 "message": "Meeting note deleted successfully"
@@ -771,10 +745,8 @@ def get_corporate_deals(corporate_id):
     Returns deals with participation details (role, commitment, etc.)
     """
     try:
-        # Check if corporate exists
-        corporates_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CORPORATES']
-        corporates = read_json_list(corporates_path)
-        corporate = find_by_id(corporates, 'id', corporate_id)
+        # Check if corporate exists using unified DAL
+        corporate = get_organization_by_id(corporate_id, "sponsor")
 
         if not corporate:
             return jsonify({

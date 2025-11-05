@@ -1,16 +1,13 @@
 /**
- * Saved Filters Page for Liquidity/DES
- * Allows users to create, save, manage, and apply custom filter combinations
- * Includes investment preferences AND investment size ranges
+ * Investment Strategies Page - Completely Rebuilt
+ * Simple approach: Create strategies, view ALL matching organizations
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { CapitalPartner, Contact, ApiResponse } from '../../types/liquidity';
-import { InvestmentMatchesResponse, MatchEntrySummary, SponsorMatchEntry } from '../../types/investment';
-import { API_BASE_URL } from '../../config';
+import React, { useState, useEffect } from 'react';
+import { InvestmentMatchesResponse, InvestmentProfile, SavedStrategy, Contact } from '../../types/investment';
+import { getInvestmentStrategies, saveInvestmentStrategies, getInvestmentMatches } from '../../services/investmentService';
 
-// Preference column keys matching the database
+// ALL 22 preference columns
 const PREFERENCE_COLUMNS = [
   { key: 'investment_grade', label: 'Investment Grade' },
   { key: 'high_yield', label: 'High Yield' },
@@ -38,30 +35,11 @@ const PREFERENCE_COLUMNS = [
 
 type FilterState = 'any' | 'Y' | 'N';
 
-interface InvestmentSizeFilter {
-  minInvestment: number; // in millions USD
-  maxInvestment: number; // in millions USD
-}
-
-interface SavedFilter {
-  id: string;
-  name: string;
-  preferenceFilters: Record<string, FilterState>;
-  sizeFilter: InvestmentSizeFilter;
-  createdAt: string;
-}
-
-interface PartnerWithContacts extends CapitalPartner {
-  contacts: Contact[];
-}
-
-interface TriStateToggleProps {
+const TriStateToggle: React.FC<{
   label: string;
   value: FilterState;
   onChange: (value: FilterState) => void;
-}
-
-const TriStateToggle: React.FC<TriStateToggleProps> = ({ label, value, onChange }) => {
+}> = ({ label, value, onChange }) => {
   const display = value === 'any' ? '—' : value;
   const title = value === 'any' ? 'No filter' : value === 'Y' ? 'Yes' : 'No';
 
@@ -88,21 +66,45 @@ const TriStateToggle: React.FC<TriStateToggleProps> = ({ label, value, onChange 
   );
 };
 
-const SavedFiltersPage: React.FC = () => {
-  const [partners, setPartners] = useState<PartnerWithContacts[]>([]);
-  const [loading, setLoading] = useState(true);
+const RelationshipBadge: React.FC<{ relationship?: string | null }> = ({ relationship }) => {
+  if (!relationship) return null;
+
+  const getBadgeClass = () => {
+    switch (relationship) {
+      case 'Strong': return 'bg-green-100 text-green-800 border-green-200';
+      case 'Medium': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'Developing': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Cold': return 'bg-gray-100 text-gray-800 border-gray-200';
+      default: return 'bg-gray-100 text-gray-600 border-gray-200';
+    }
+  };
+
+  return (
+    <span className={`px-2 py-1 rounded-md text-xs font-medium border ${getBadgeClass()}`}>
+      {relationship}
+    </span>
+  );
+};
+
+const InvestmentStrategiesPage: React.FC = () => {
+  const [savedStrategies, setSavedStrategies] = useState<SavedStrategy[]>([]);
+  const [selectedStrategyId, setSelectedStrategyId] = useState<string | null>(null);
+  const [matchResults, setMatchResults] = useState<InvestmentMatchesResponse | null>(null);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [savedFilters, setSavedFilters] = useState<SavedFilter[]>([]);
-  const [selectedFilterId, setSelectedFilterId] = useState<string | null>(null);
-  const [expandedPartner, setExpandedPartner] = useState<string | null>(null);
+  // Tab state
+  const [activeTab, setActiveTab] = useState<'organizations' | 'contacts'>('organizations');
 
-  const [matchResults, setMatchResults] = useState<InvestmentMatchesResponse | null>(null);
-  const [matchLoading, setMatchLoading] = useState(false);
-  const [matchError, setMatchError] = useState<string | null>(null);
+  // Contact filters
+  const [roleFilter, setRoleFilter] = useState('');
+  const [orgTypeFilters, setOrgTypeFilters] = useState<Set<string>>(new Set());
+  const [relationshipFilters, setRelationshipFilters] = useState<Set<string>>(new Set());
+  const [followUpFilter, setFollowUpFilter] = useState<'all' | 'overdue' | 'due_soon' | 'no_reminder'>('all');
+  const [sortBy, setSortBy] = useState<'name' | 'organization' | 'last_contact'>('name');
 
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newFilterName, setNewFilterName] = useState('');
+  const [newStrategyName, setNewStrategyName] = useState('');
   const [newPreferenceFilters, setNewPreferenceFilters] = useState<Record<string, FilterState>>(() => {
     const initial: Record<string, FilterState> = {};
     PREFERENCE_COLUMNS.forEach((col) => {
@@ -110,18 +112,7 @@ const SavedFiltersPage: React.FC = () => {
     });
     return initial;
   });
-  const [newSizeFilter, setNewSizeFilter] = useState<InvestmentSizeFilter>({
-    minInvestment: 0,
-    maxInvestment: 0
-  });
-
-  const preferenceLabelMap = useMemo(() => {
-    const map: Record<string, string> = {};
-    PREFERENCE_COLUMNS.forEach((col) => {
-      map[col.key] = col.label;
-    });
-    return map;
-  }, []);
+  const [newSizeFilter, setNewSizeFilter] = useState({ minInvestment: 0, maxInvestment: 0 });
 
   const formatMillions = (value: number | null | undefined) => {
     if (value === null || value === undefined) return '—';
@@ -132,319 +123,304 @@ const SavedFiltersPage: React.FC = () => {
     return `$${formatted}M`;
   };
 
-  const renderOverlapBadges = (preferences: string[]) => {
-    if (!preferences || preferences.length === 0) return null;
-    return (
-      <div className="flex flex-wrap gap-1 mt-2">
-        {preferences.map((pref) => (
-          <span key={pref} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded">
-            {preferenceLabelMap[pref] || pref}
-          </span>
-        ))}
-      </div>
-    );
+  const sortByRelationship = (entities: InvestmentProfile[]) => {
+    const order: Record<string, number> = { 'Strong': 1, 'Medium': 2, 'Developing': 3, 'Cold': 4 };
+    return [...entities].sort((a, b) => {
+      const aOrder = order[a.relationship || ''] || 999;
+      const bOrder = order[b.relationship || ''] || 999;
+      return aOrder - bOrder;
+    });
   };
 
-  // Load saved filters from API on mount
+  // Filter and sort contacts
+  const getFilteredContacts = () => {
+    if (!matchResults || !matchResults.all_contacts) return [];
+
+    let filtered = matchResults.all_contacts.filter(contact => {
+      // Role filter
+      if (roleFilter && !contact.role.toLowerCase().includes(roleFilter.toLowerCase())) {
+        return false;
+      }
+
+      // Organization type filter
+      if (orgTypeFilters.size > 0 && !orgTypeFilters.has(contact.parent_org_type)) {
+        return false;
+      }
+
+      // Relationship filter
+      if (relationshipFilters.size > 0 && !relationshipFilters.has(contact.relationship || '')) {
+        return false;
+      }
+
+      // Follow-up status filter
+      if (followUpFilter !== 'all') {
+        const today = new Date();
+        const reminderDate = contact.next_contact_reminder ? new Date(contact.next_contact_reminder) : null;
+
+        if (followUpFilter === 'overdue' && (!reminderDate || reminderDate >= today)) {
+          return false;
+        }
+        if (followUpFilter === 'due_soon') {
+          if (!reminderDate) return false;
+          const daysUntil = Math.ceil((reminderDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+          if (daysUntil < 0 || daysUntil > 7) return false;
+        }
+        if (followUpFilter === 'no_reminder' && reminderDate) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+
+    // Sort contacts
+    filtered.sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name);
+      } else if (sortBy === 'organization') {
+        return a.parent_org_name.localeCompare(b.parent_org_name);
+      } else if (sortBy === 'last_contact') {
+        const dateA = a.last_contact_date ? new Date(a.last_contact_date).getTime() : 0;
+        const dateB = b.last_contact_date ? new Date(b.last_contact_date).getTime() : 0;
+        return dateB - dateA; // Most recent first
+      }
+      return 0;
+    });
+
+    return filtered;
+  };
+
+  const toggleOrgTypeFilter = (type: string) => {
+    const newFilters = new Set(orgTypeFilters);
+    if (newFilters.has(type)) {
+      newFilters.delete(type);
+    } else {
+      newFilters.add(type);
+    }
+    setOrgTypeFilters(newFilters);
+  };
+
+  const toggleRelationshipFilter = (relationship: string) => {
+    const newFilters = new Set(relationshipFilters);
+    if (newFilters.has(relationship)) {
+      newFilters.delete(relationship);
+    } else {
+      newFilters.add(relationship);
+    }
+    setRelationshipFilters(newFilters);
+  };
+
+  const exportContactsCSV = () => {
+    const contacts = getFilteredContacts();
+    if (contacts.length === 0) return;
+
+    const headers = ['Name', 'Role', 'Organization', 'Type', 'Email', 'Phone', 'Last Contact', 'Next Reminder', 'Relationship'];
+    const rows = contacts.map(contact => [
+      contact.name,
+      contact.role,
+      contact.parent_org_name,
+      contact.parent_org_type,
+      contact.email || '',
+      contact.phone || '',
+      contact.last_contact_date || '',
+      contact.next_contact_reminder || '',
+      contact.relationship || ''
+    ]);
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell}"`).join(','))
+    ].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `investment_strategy_contacts_${selectedStrategy?.name.replace(/\s+/g, '_')}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const getOrgTypeBadgeClass = (type: string) => {
+    switch (type) {
+      case 'capital_partner': return 'bg-green-100 text-green-800 border-green-200';
+      case 'sponsor': return 'bg-purple-100 text-purple-800 border-purple-200';
+      case 'agent': return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'counsel': return 'bg-violet-100 text-violet-800 border-violet-200';
+      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+    }
+  };
+
+  const formatOrgType = (type: string) => {
+    switch (type) {
+      case 'capital_partner': return 'Capital Partner';
+      case 'sponsor': return 'Sponsor';
+      case 'agent': return 'Agent';
+      case 'counsel': return 'Counsel';
+      default: return type;
+    }
+  };
+
+  const formatDate = (dateStr: string | null | undefined) => {
+    if (!dateStr) return '—';
+    const date = new Date(dateStr);
+    return date.toLocaleDateString();
+  };
+
+  const getReminderClass = (reminderDate: string | null | undefined) => {
+    if (!reminderDate) return '';
+    const today = new Date();
+    const reminder = new Date(reminderDate);
+    const daysUntil = Math.ceil((reminder.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (daysUntil < 0) return 'text-red-600 font-semibold'; // Overdue
+    if (daysUntil <= 7) return 'text-orange-600 font-semibold'; // Due soon
+    return '';
+  };
+
   useEffect(() => {
-    fetchFilters();
+    loadStrategies();
   }, []);
 
-  // Memoize selected filter
-  const selectedFilter = useMemo(() => {
-    if (!selectedFilterId) return null;
-    return savedFilters.find(f => f.id === selectedFilterId) || null;
-  }, [selectedFilterId, savedFilters]);
-
   useEffect(() => {
-    if (!selectedFilter) {
+    if (selectedStrategyId) {
+      loadMatches();
+    } else {
       setMatchResults(null);
-      setMatchError(null);
-      return;
     }
+  }, [selectedStrategyId]);
 
-    const controller = new AbortController();
-
-    const loadMatches = async () => {
-      setMatchLoading(true);
-      setMatchError(null);
-      try {
-        // Filter to only send SHARED preference keys that work across sponsors and partners
-        // The backend only matches on these 10 shared keys
-        const SHARED_PREFERENCE_KEYS = [
-          'transport_infra',
-          'energy_infra',
-          'us_market',
-          'emerging_markets',
-          'asia_em',
-          'africa_em',
-          'emea_em',
-          'vietnam',
-          'mongolia',
-          'turkey'
-        ];
-
-        // Only include shared preferences in the filter
-        const filteredPreferences: Record<string, string> = {};
-        Object.entries(selectedFilter.preferenceFilters).forEach(([key, value]) => {
-          if (SHARED_PREFERENCE_KEYS.includes(key) && value !== 'any') {
-            filteredPreferences[key] = value;
-          }
-        });
-
-        const requestBody = {
-          preferenceFilters: filteredPreferences,
-          ticketRange: {
-            minInvestment: selectedFilter.sizeFilter.minInvestment,
-            maxInvestment: selectedFilter.sizeFilter.maxInvestment,
-            unit: 'million'
-          }
-        };
-
-        const response = await fetch(`${API_BASE_URL}/api/investment-matches`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(requestBody),
-          credentials: 'include',
-          signal: controller.signal
-        });
-
-        const data: InvestmentMatchesResponse = await response.json();
-        if (!response.ok || !data.success) {
-          throw new Error(data.message || 'Failed to load unified investment matches.');
-        }
-        setMatchResults(data);
-      } catch (error) {
-        if (error instanceof DOMException && error.name === 'AbortError') {
-          return;
-        }
-        console.error('Unified investment match error:', error);
-        setMatchError(error instanceof Error ? error.message : 'Unable to load unified investment matches.');
-        setMatchResults(null);
-      } finally {
-        setMatchLoading(false);
-      }
-    };
-
-    loadMatches();
-
-    return () => {
-      controller.abort();
-    };
-  }, [selectedFilter]);
-
-  const fetchFilters = async () => {
+  const loadStrategies = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/investment-strategies`, {
-        credentials: 'include'
-      });
-      const result = await response.json();
+      const result = await getInvestmentStrategies();
       if (result.success && result.data) {
-        setSavedFilters(result.data);
+        setSavedStrategies(result.data);
       }
     } catch (err) {
-      console.error('Failed to load investment strategies:', err);
+      console.error('Failed to load strategies:', err);
     }
   };
 
-  // Fetch data from API
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const loadMatches = async () => {
+    const strategy = savedStrategies.find(s => s.id === selectedStrategyId);
+    if (!strategy) return;
 
-  const fetchData = async () => {
     setLoading(true);
+    setError(null);
+
     try {
-      const [partnersRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/capital-partners`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' })
-      ]);
+      // Send ALL preference filters (not just shared keys)
+      const filteredPreferences: Record<string, string> = {};
+      Object.entries(strategy.preferenceFilters).forEach(([key, value]) => {
+        if (value !== 'any') {
+          filteredPreferences[key] = value;
+        }
+      });
 
-      const partnersResult: ApiResponse<CapitalPartner[]> = await partnersRes.json();
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
+      const result = await getInvestmentMatches(
+        filteredPreferences,
+        {
+          minInvestment: strategy.sizeFilter.minInvestment,
+          maxInvestment: strategy.sizeFilter.maxInvestment,
+          unit: 'million'
+        }
+      );
 
-      if (partnersResult.success && contactsResult.success) {
-        const partnersWithContacts = partnersResult.data!.map(partner => {
-          const partnerContacts = contactsResult.data!.filter(
-            c => c.capital_partner_id === partner.id
-          );
-
-          return { ...partner, contacts: partnerContacts };
-        });
-
-        setPartners(partnersWithContacts);
-        setError(null);
+      if (result.success) {
+        setMatchResults(result);
       } else {
-        setError('Failed to load data');
+        setError(result.message || 'Failed to load matches');
       }
     } catch (err) {
-      setError('Failed to connect to API. Make sure the server is running on port 5000.');
+      console.error('Failed to load matches:', err);
+      setError('Failed to load matching organizations');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreateFilter = async () => {
-    if (!newFilterName.trim()) {
+  const handleCreateStrategy = async () => {
+    if (!newStrategyName.trim()) {
       alert('Please enter a strategy name');
       return;
     }
 
-    const newFilter: SavedFilter = {
+    const newStrategy: SavedStrategy = {
       id: Date.now().toString(),
-      name: newFilterName.trim(),
+      name: newStrategyName.trim(),
       preferenceFilters: { ...newPreferenceFilters },
       sizeFilter: { ...newSizeFilter },
       createdAt: new Date().toISOString(),
     };
 
-    const updatedFilters = [...savedFilters, newFilter];
-    setSavedFilters(updatedFilters);
+    const updatedStrategies = [...savedStrategies, newStrategy];
 
-    // Save to backend
     try {
-      const response = await fetch(`${API_BASE_URL}/api/investment-strategies/save`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedFilters),
-        credentials: 'include'
-      });
+      const result = await saveInvestmentStrategies(updatedStrategies);
+      if (result.success) {
+        setSavedStrategies(updatedStrategies);
+        setSelectedStrategyId(newStrategy.id);
 
-      const result = await response.json();
-      if (!result.success) {
+        // Reset modal
+        setNewStrategyName('');
+        const resetFilters: Record<string, FilterState> = {};
+        PREFERENCE_COLUMNS.forEach((col) => {
+          resetFilters[col.key] = 'any';
+        });
+        setNewPreferenceFilters(resetFilters);
+        setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
+        setShowCreateModal(false);
+      } else {
         alert('Failed to save strategy: ' + result.message);
-        setSavedFilters(savedFilters); // Revert on error
-        return;
       }
     } catch (err) {
-      alert('Failed to save strategy. Make sure the API server is running.');
-      setSavedFilters(savedFilters); // Revert on error
-      return;
-    }
-
-    // Reset modal state
-    setNewFilterName('');
-    const resetFilters: Record<string, FilterState> = {};
-    PREFERENCE_COLUMNS.forEach((col) => {
-      resetFilters[col.key] = 'any';
-    });
-    setNewPreferenceFilters(resetFilters);
-    setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
-    setShowCreateModal(false);
-
-    setSelectedFilterId(newFilter.id);
-  };
-
-  const handleDeleteFilter = async (filterId: string) => {
-    if (confirm('Are you sure you want to delete this strategy?')) {
-      // Clear selection first if deleting the selected filter
-      if (selectedFilterId === filterId) {
-        setSelectedFilterId(null);
-      }
-
-      const updatedFilters = savedFilters.filter(f => f.id !== filterId);
-
-      // Update state optimistically
-      setSavedFilters(updatedFilters);
-
-      // Save to backend
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/investment-strategies/save`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedFilters),
-          credentials: 'include'
-        });
-
-        const result = await response.json();
-
-        if (!result.success) {
-          alert('Failed to delete strategy: ' + result.message);
-          setSavedFilters(savedFilters); // Revert on error
-          if (selectedFilterId === filterId) {
-            setSelectedFilterId(filterId); // Restore selection
-          }
-          return;
-        }
-      } catch (err) {
-        console.error('Delete error:', err);
-        alert('Failed to delete strategy. Make sure the API server is running.');
-        setSavedFilters(savedFilters); // Revert on error
-        if (selectedFilterId === filterId) {
-          setSelectedFilterId(filterId); // Restore selection
-        }
-        return;
-      }
+      alert('Failed to save strategy');
     }
   };
 
-  const handlePartnerClick = (partnerId: string) => {
-    setExpandedPartner(expandedPartner === partnerId ? null : partnerId);
+  const handleDeleteStrategy = async (strategyId: string) => {
+    if (!confirm('Are you sure you want to delete this strategy?')) return;
+
+    if (selectedStrategyId === strategyId) {
+      setSelectedStrategyId(null);
+    }
+
+    const updatedStrategies = savedStrategies.filter(s => s.id !== strategyId);
+
+    try {
+      const result = await saveInvestmentStrategies(updatedStrategies);
+      if (result.success) {
+        setSavedStrategies(updatedStrategies);
+      } else {
+        alert('Failed to delete strategy');
+      }
+    } catch (err) {
+      alert('Failed to delete strategy');
+    }
   };
 
+  const totalMatches = matchResults
+    ? matchResults.counts.capital_partners +
+      matchResults.counts.sponsors +
+      matchResults.counts.agents +
+      matchResults.counts.counsel
+    : 0;
 
-  // Filter partners based on selected filter
-  const filteredPartners = useMemo(() => {
-    if (!selectedFilter) return [];
-
-    return partners.filter(partner => {
-      // Check preference filters on the partner
-      const preferencesMatch = PREFERENCE_COLUMNS.every((col) => {
-        const state = selectedFilter.preferenceFilters[col.key];
-        const cell = (partner.preferences?.[col.key] || '').toUpperCase();
-        if (state === 'any') return true;
-        if (state === 'Y') return cell === 'Y';
-        if (state === 'N') return cell === 'N';
-        return true;
-      });
-
-      // Check investment size filters on the partner
-      let sizeMatch = true;
-      if (selectedFilter.sizeFilter.minInvestment > 0 && partner.investment_max) {
-        const partnerMaxInMM = partner.investment_max / 1000000;
-        sizeMatch = sizeMatch && partnerMaxInMM >= selectedFilter.sizeFilter.minInvestment;
-      }
-      if (selectedFilter.sizeFilter.maxInvestment > 0 && partner.investment_min) {
-        const partnerMinInMM = partner.investment_min / 1000000;
-        sizeMatch = sizeMatch && partnerMinInMM <= selectedFilter.sizeFilter.maxInvestment;
-      }
-
-      return preferencesMatch && sizeMatch;
-    });
-  }, [partners, selectedFilter]);
-
-  const totalMatches = filteredPartners.length;
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center p-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800 font-semibold">Error loading data</p>
-          <p className="text-red-600 mt-2">{error}</p>
-        </div>
-      </div>
-    );
-  }
+  const selectedStrategy = savedStrategies.find(s => s.id === selectedStrategyId);
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
+      {/* Header */}
       <div className="border-b border-gray-200 pb-4">
         <h1 className="text-3xl font-bold text-gray-900">Investment Strategies</h1>
         <p className="mt-2 text-gray-600">
-          Create and save custom filter combinations including investment preferences and deal size ranges.
+          Create and save custom filter combinations to find matching organizations across all CRM modules.
         </p>
       </div>
 
-      {/* Create New Strategy Button */}
+      {/* Strategy Management */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-gray-900">Your Saved Strategies</h2>
         <button
@@ -456,40 +432,39 @@ const SavedFiltersPage: React.FC = () => {
       </div>
 
       {/* Saved Strategies List */}
-      <div className="card">
-        {savedFilters.length === 0 ? (
+      <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+        {savedStrategies.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
             <p className="text-lg">No saved strategies yet.</p>
             <p className="mt-2 text-sm">Click "Create New Strategy" to get started.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            {savedFilters.map((filter) => {
-              const activePrefs = Object.values(filter.preferenceFilters).filter(v => v !== 'any').length;
-              const hasSizeFilter = filter.sizeFilter.minInvestment > 0 || filter.sizeFilter.maxInvestment > 0;
+            {savedStrategies.map((strategy) => {
+              const activePrefs = Object.values(strategy.preferenceFilters).filter(v => v !== 'any').length;
+              const hasSizeFilter = strategy.sizeFilter.minInvestment > 0 || strategy.sizeFilter.maxInvestment > 0;
 
               return (
                 <div
-                  key={filter.id}
-                  className={`border rounded-lg p-4 transition-all ${
-                    selectedFilterId === filter.id
+                  key={strategy.id}
+                  className={`border rounded-lg p-4 transition-all cursor-pointer ${
+                    selectedStrategyId === strategy.id
                       ? 'border-blue-500 bg-blue-50'
                       : 'border-gray-300 bg-white hover:border-gray-400'
                   }`}
+                  onClick={() => setSelectedStrategyId(strategy.id)}
                 >
                   <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-semibold text-gray-900 flex-1">
+                      {strategy.name}
+                    </h3>
                     <button
-                      onClick={() => setSelectedFilterId(filter.id)}
-                      className="text-left flex-1"
-                    >
-                      <h3 className="font-semibold text-gray-900 hover:text-blue-600 transition-colors">
-                        {filter.name}
-                      </h3>
-                    </button>
-                    <button
-                      onClick={() => handleDeleteFilter(filter.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteStrategy(strategy.id);
+                      }}
                       className="ml-2 text-red-600 hover:text-red-800 transition-colors"
-                      title="Delete filter"
+                      title="Delete strategy"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -501,7 +476,7 @@ const SavedFiltersPage: React.FC = () => {
                     <div>{activePrefs} preference filter{activePrefs !== 1 ? 's' : ''}</div>
                     {hasSizeFilter && (
                       <div>
-                        Size: ${filter.sizeFilter.minInvestment}M - ${filter.sizeFilter.maxInvestment}M
+                        Size: ${strategy.sizeFilter.minInvestment}M - ${strategy.sizeFilter.maxInvestment}M
                       </div>
                     )}
                   </div>
@@ -512,244 +487,433 @@ const SavedFiltersPage: React.FC = () => {
         )}
       </div>
 
-      {/* Filtered Results */}
-      {selectedFilter && (
-        <div className="card">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Results for "{selectedFilter.name}"
-            </h2>
-            <span className="text-sm text-gray-600">
-              {totalMatches} matching partner{totalMatches !== 1 ? 's' : ''}
-            </span>
-          </div>
+      {/* Results Section */}
+      {selectedStrategy && (
+        <div className="space-y-6">
+          <div className="border-t border-gray-200 pt-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-semibold text-gray-900">
+                {selectedStrategy.name}
+              </h2>
+            </div>
 
-          <div className="space-y-3">
-            {filteredPartners.length === 0 ? (
-              <div className="text-center py-12 text-gray-500">
-                No partners match this filter combination.
+            {/* Tab Navigation */}
+            <div className="flex space-x-1 border-b border-gray-200 mb-6">
+              <button
+                onClick={() => setActiveTab('organizations')}
+                className={`px-4 py-2 font-medium text-sm transition-colors ${
+                  activeTab === 'organizations'
+                    ? 'border-b-2 border-blue-600 text-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Organizations
+                {matchResults && (
+                  <span className="ml-2 px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800">
+                    {totalMatches}
+                  </span>
+                )}
+              </button>
+              <button
+                onClick={() => setActiveTab('contacts')}
+                className={`px-4 py-2 font-medium text-sm transition-colors ${
+                  activeTab === 'contacts'
+                    ? 'border-b-2 border-blue-600 text-blue-600'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Contacts
+                {matchResults && matchResults.all_contacts && (
+                  <span className="ml-2 px-2 py-0.5 rounded-full text-xs bg-blue-100 text-blue-800">
+                    {matchResults.all_contacts.length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {loading && (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
               </div>
-            ) : (
-              filteredPartners.map(partner => {
-                const isExpanded = expandedPartner === partner.id;
-
-                return (
-                  <div key={partner.id} className="bg-white rounded-lg shadow-sm border border-gray-200">
-                    {/* Partner Header */}
-                    <div
-                      onClick={() => handlePartnerClick(partner.id)}
-                      className="bg-gray-50 px-6 py-4 cursor-pointer hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <svg
-                            className={`w-5 h-5 transition-transform ${isExpanded ? 'rotate-90' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                          <div>
-                            <Link
-                              to={`/liquidity/capital-partners/${partner.id}`}
-                              className="text-lg font-bold text-gray-900 hover:text-blue-600"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {partner.name}
-                            </Link>
-                            <p className="text-sm text-gray-600">
-                              {partner.type} • {partner.country}
-                              {(partner.investment_min > 0 || partner.investment_max > 0) && (
-                                <> • ${(partner.investment_min / 1000000).toFixed(0)}M - ${(partner.investment_max / 1000000).toFixed(0)}M USD</>
-                              )}
-                              {partner.contacts.length > 0 && (
-                                <> • {partner.contacts.length} contact{partner.contacts.length !== 1 ? 's' : ''}</>
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Contacts (when expanded) */}
-                    {isExpanded && partner.contacts.length > 0 && (
-                      <div className="divide-y divide-gray-200">
-                        {partner.contacts.map(contact => (
-                          <div key={contact.id} className="px-6 py-4 bg-white">
-                            <div className="flex items-start justify-between">
-                              <div className="flex-1">
-                                <Link
-                                  to={`/liquidity/contacts/${contact.id}`}
-                                  className="font-semibold text-gray-900 hover:text-blue-600"
-                                >
-                                  {contact.name}
-                                </Link>
-                                <p className="text-sm text-gray-600">{contact.role}</p>
-                                {contact.team_name && (
-                                  <p className="text-sm text-gray-500">Team: {contact.team_name}</p>
-                                )}
-                                {contact.email && (
-                                  <p className="text-sm text-gray-500">{contact.email}</p>
-                                )}
-                              </div>
-                              <Link
-                                to={`/liquidity/meeting-notes/${contact.id}`}
-                                className="ml-4 bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 text-sm"
-                              >
-                                Start Meeting
-                              </Link>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })
             )}
-          </div>
-        </div>
-      )}
 
-      {selectedFilter && (
-        <div className="mt-10">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-2xl font-semibold text-gray-900">Unified CRM Matches</h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Cross-references capital partner mandates with sponsor opportunities using shared filters.
-              </p>
-            </div>
-          </div>
+            {error && !loading && (
+              <div className="border border-red-200 bg-red-50 text-red-700 px-4 py-3 rounded-md">
+                {error}
+              </div>
+            )}
 
-          {matchLoading && (
-            <div className="mt-4 text-sm text-gray-500">Loading cross-CRM matches...</div>
-          )}
-
-          {matchError && !matchLoading && (
-            <div className="mt-4 border border-red-200 bg-red-50 text-red-700 px-4 py-3 rounded-md text-sm">
-              {matchError}
-            </div>
-          )}
-
-          {!matchLoading && !matchError && (
-            <>
-              {matchResults ? (
-                <div className="mt-6 space-y-6">
-                  <div className="grid gap-4 md:grid-cols-3">
-                    <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-4">
-                      <div className="text-sm text-gray-500">Capital Partners</div>
-                      <div className="text-2xl font-semibold text-gray-900">{matchResults.counts.capital_partners}</div>
-                      <div className="text-xs text-gray-500 mt-1">Matching organisations</div>
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-4">
-                      <div className="text-sm text-gray-500">Partner Teams</div>
-                      <div className="text-2xl font-semibold text-gray-900">{matchResults.counts.capital_partner_teams}</div>
-                      <div className="text-xs text-gray-500 mt-1">Mandates aligned to filters</div>
-                    </div>
-                    <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-4">
-                      <div className="text-sm text-gray-500">Sponsors</div>
-                      <div className="text-2xl font-semibold text-gray-900">{matchResults.counts.sponsors}</div>
-                      <div className="text-xs text-gray-500 mt-1">Opportunities matching filters</div>
-                    </div>
+            {!loading && !error && matchResults && activeTab === 'organizations' && (
+              <>
+                {/* Summary Stats */}
+                <div className="grid gap-4 md:grid-cols-5 mb-6">
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                    <div className="text-sm text-gray-500">Capital Partners</div>
+                    <div className="text-3xl font-bold text-gray-900">{matchResults.counts.capital_partners}</div>
                   </div>
-
-                  <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-5">
-                    <h3 className="text-lg font-semibold text-gray-900">Sponsor Overlaps</h3>
-                    {matchResults.pairings.by_sponsor.length === 0 ? (
-                      <p className="text-sm text-gray-600 mt-2">
-                        No sponsors match this strategy yet. Capture additional mandates or broaden the filters.
-                      </p>
-                    ) : (
-                      <div className="space-y-6 mt-4">
-                        {matchResults.pairings.by_sponsor.map((entry: SponsorMatchEntry) => {
-                          const sponsor = entry.sponsor_profile;
-                          return (
-                            <div key={sponsor.profile_id} className="border border-gray-200 rounded-md p-4">
-                              <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                                <div>
-                                  <h4 className="text-lg font-semibold text-gray-900">{sponsor.name}</h4>
-                                  <div className="text-sm text-gray-600">
-                                    {sponsor.metadata?.headquarters_location || sponsor.organization_name}
-                                  </div>
-                                  <div className="text-sm text-gray-500 mt-1">
-                                    Ticket range {formatMillions(sponsor.ticket_min)} - {formatMillions(sponsor.ticket_max)}
-                                  </div>
-                                </div>
-                                <div className="text-xs text-gray-500 uppercase tracking-wide">
-                                  {entry.capital_partners.length + entry.capital_partner_teams.length} matches
-                                </div>
-                              </div>
-
-                              {entry.capital_partners.length > 0 && (
-                                <div className="mt-4">
-                                  <h5 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Capital Partners</h5>
-                                  <div className="space-y-3 mt-2">
-                                    {entry.capital_partners.map((match: MatchEntrySummary) => (
-                                      <div key={match.profile_id} className="border border-gray-100 rounded-md p-3">
-                                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                                          <div>
-                                            <div className="text-sm font-medium text-gray-900">{match.capital_partner_name || match.name}</div>
-                                            <div className="text-xs text-gray-500">
-                                              Ticket window {formatMillions(match.ticket_min)} - {formatMillions(match.ticket_max)}
-                                            </div>
-                                            {match.ticket_overlap && (
-                                              <div className="text-xs text-gray-500 mt-1">
-                                                Overlap {formatMillions(match.ticket_overlap.min)} - {formatMillions(match.ticket_overlap.max)}
-                                              </div>
-                                            )}
-                                          </div>
-                                          <div className="text-xs text-gray-500">Overlap drivers: {match.overlap_size}</div>
-                                        </div>
-                                        {renderOverlapBadges(match.overlap_preferences)}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-
-                              {entry.capital_partner_teams.length > 0 && (
-                                <div className="mt-4">
-                                  <h5 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">Capital Partner Teams</h5>
-                                  <div className="space-y-3 mt-2">
-                                    {entry.capital_partner_teams.map((match: MatchEntrySummary) => (
-                                      <div key={match.profile_id} className="border border-gray-100 rounded-md p-3">
-                                        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                                          <div>
-                                            <div className="text-sm font-medium text-gray-900">{match.name}</div>
-                                            {match.capital_partner_name && (
-                                              <div className="text-xs text-gray-500">{match.capital_partner_name}</div>
-                                            )}
-                                            <div className="text-xs text-gray-500 mt-1">
-                                              Ticket window {formatMillions(match.ticket_min)} - {formatMillions(match.ticket_max)}
-                                            </div>
-                                            {match.ticket_overlap && (
-                                              <div className="text-xs text-gray-500 mt-1">
-                                                Overlap {formatMillions(match.ticket_overlap.min)} - {formatMillions(match.ticket_overlap.max)}
-                                              </div>
-                                            )}
-                                          </div>
-                                          <div className="text-xs text-gray-500">Overlap drivers: {match.overlap_size}</div>
-                                        </div>
-                                        {renderOverlapBadges(match.overlap_preferences)}
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                    <div className="text-sm text-gray-500">Sponsors</div>
+                    <div className="text-3xl font-bold text-gray-900">{matchResults.counts.sponsors}</div>
+                  </div>
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                    <div className="text-sm text-gray-500">Agents</div>
+                    <div className="text-3xl font-bold text-gray-900">{matchResults.counts.agents}</div>
+                  </div>
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4">
+                    <div className="text-sm text-gray-500">Counsel</div>
+                    <div className="text-3xl font-bold text-gray-900">{matchResults.counts.counsel}</div>
+                  </div>
+                  <div className="bg-blue-600 text-white rounded-lg shadow-sm p-4">
+                    <div className="text-sm opacity-90">Total Matches</div>
+                    <div className="text-3xl font-bold">{totalMatches}</div>
                   </div>
                 </div>
-              ) : (
-                <div className="mt-4 text-sm text-gray-500">Select a saved strategy to see cross-CRM matches.</div>
-              )}
-            </>
-          )}
+
+                {/* Capital Partners Table */}
+                {matchResults.results.capital_partners.length > 0 && (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm mb-6">
+                    <div className="px-6 py-4 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900">Capital Partners</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket Range</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relationship</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {sortByRelationship(matchResults.results.capital_partners).map((partner) => (
+                            <tr key={partner.profile_id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">{partner.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {(partner.metadata?.country as string) || '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {formatMillions(partner.ticket_min)} - {formatMillions(partner.ticket_max)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <RelationshipBadge relationship={partner.relationship} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Sponsors Table */}
+                {matchResults.results.sponsors.length > 0 && (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm mb-6">
+                    <div className="px-6 py-4 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900">Sponsors</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Investment Need</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relationship</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {sortByRelationship(matchResults.results.sponsors).map((sponsor) => (
+                            <tr key={sponsor.profile_id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">{sponsor.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {(sponsor.metadata?.country as string) || '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {sponsor.ticket_min && sponsor.ticket_max
+                                  ? `${formatMillions(sponsor.ticket_min)} - ${formatMillions(sponsor.ticket_max)}`
+                                  : '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <RelationshipBadge relationship={sponsor.relationship} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Agents Table */}
+                {matchResults.results.agents.length > 0 && (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm mb-6">
+                    <div className="px-6 py-4 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900">Transaction Agents</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Agent Type</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relationship</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {sortByRelationship(matchResults.results.agents).map((agent) => (
+                            <tr key={agent.profile_id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">{agent.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {(agent.metadata?.agent_type as string) || '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {(agent.metadata?.headquarters_location as string) || (agent.metadata?.country as string) || '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <RelationshipBadge relationship={agent.relationship} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Counsel Table */}
+                {matchResults.results.counsel.length > 0 && (
+                  <div className="bg-white border border-gray-200 rounded-lg shadow-sm mb-6">
+                    <div className="px-6 py-4 border-b border-gray-200">
+                      <h3 className="text-lg font-semibold text-gray-900">Legal Advisors</h3>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relationship</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {sortByRelationship(matchResults.results.counsel).map((counsel) => (
+                            <tr key={counsel.profile_id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">{counsel.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {(counsel.metadata?.headquarters_location as string) || (counsel.metadata?.country as string) || '—'}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <RelationshipBadge relationship={counsel.relationship} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
+
+                {/* Empty State */}
+                {totalMatches === 0 && (
+                  <div className="text-center py-12 text-gray-500">
+                    <p className="text-lg">No organizations match this strategy.</p>
+                    <p className="text-sm mt-2">Try adjusting the filters or creating a new strategy.</p>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Contacts Tab */}
+            {!loading && !error && matchResults && activeTab === 'contacts' && (
+              <>
+                {/* Filters */}
+                <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Contacts</h3>
+
+                  <div className="space-y-4">
+                    {/* Role Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Role (search)
+                      </label>
+                      <input
+                        type="text"
+                        value={roleFilter}
+                        onChange={(e) => setRoleFilter(e.target.value)}
+                        placeholder="e.g., CEO, CFO, Director..."
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+
+                    {/* Organization Type Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Organization Type
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {['capital_partner', 'sponsor', 'agent', 'counsel'].map(type => (
+                          <button
+                            key={type}
+                            onClick={() => toggleOrgTypeFilter(type)}
+                            className={`px-3 py-1 rounded-md border text-sm transition-colors ${
+                              orgTypeFilters.has(type)
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            }`}
+                          >
+                            {formatOrgType(type)}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Relationship Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Relationship
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {['Strong', 'Medium', 'Developing', 'Cold'].map(rel => (
+                          <button
+                            key={rel}
+                            onClick={() => toggleRelationshipFilter(rel)}
+                            className={`px-3 py-1 rounded-md border text-sm transition-colors ${
+                              relationshipFilters.has(rel)
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                            }`}
+                          >
+                            {rel}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Follow-up Status Filter */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Follow-up Status
+                      </label>
+                      <select
+                        value={followUpFilter}
+                        onChange={(e) => setFollowUpFilter(e.target.value as any)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="all">All Contacts</option>
+                        <option value="overdue">Overdue Reminders</option>
+                        <option value="due_soon">Due This Week</option>
+                        <option value="no_reminder">No Reminder Set</option>
+                      </select>
+                    </div>
+
+                    {/* Sort */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Sort By
+                      </label>
+                      <select
+                        value={sortBy}
+                        onChange={(e) => setSortBy(e.target.value as any)}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="name">Name</option>
+                        <option value="organization">Organization</option>
+                        <option value="last_contact">Last Contact Date</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Contacts Table */}
+                <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
+                  <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Contacts ({getFilteredContacts().length})
+                    </h3>
+                    <button
+                      onClick={exportContactsCSV}
+                      disabled={getFilteredContacts().length === 0}
+                      className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors font-medium text-sm disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                      Export to CSV
+                    </button>
+                  </div>
+
+                  {getFilteredContacts().length > 0 ? (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Organization</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Contact</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Next Reminder</th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Relationship</th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {getFilteredContacts().map((contact) => (
+                            <tr key={contact.id} className="hover:bg-gray-50">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">{contact.name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {contact.role}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{contact.parent_org_name}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className={`px-2 py-1 rounded-md text-xs font-medium border ${getOrgTypeBadgeClass(contact.parent_org_type)}`}>
+                                  {formatOrgType(contact.parent_org_type)}
+                                </span>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                {contact.email ? (
+                                  <a href={`mailto:${contact.email}`} className="text-blue-600 hover:text-blue-800">
+                                    {contact.email}
+                                  </a>
+                                ) : (
+                                  <span className="text-gray-400">—</span>
+                                )}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                {formatDate(contact.last_contact_date)}
+                              </td>
+                              <td className={`px-6 py-4 whitespace-nowrap text-sm ${getReminderClass(contact.next_contact_reminder)}`}>
+                                {formatDate(contact.next_contact_reminder)}
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <RelationshipBadge relationship={contact.relationship} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-gray-500">
+                      <p className="text-lg">No contacts match the selected filters.</p>
+                      <p className="text-sm mt-2">Try adjusting your filter criteria.</p>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
 
@@ -767,8 +931,8 @@ const SavedFiltersPage: React.FC = () => {
                 </label>
                 <input
                   type="text"
-                  value={newFilterName}
-                  onChange={(e) => setNewFilterName(e.target.value)}
+                  value={newStrategyName}
+                  onChange={(e) => setNewStrategyName(e.target.value)}
                   placeholder="e.g., High Yield Emerging Markets $50M+"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -830,7 +994,7 @@ const SavedFiltersPage: React.FC = () => {
                 <button
                   onClick={() => {
                     setShowCreateModal(false);
-                    setNewFilterName('');
+                    setNewStrategyName('');
                     const resetFilters: Record<string, FilterState> = {};
                     PREFERENCE_COLUMNS.forEach((col) => {
                       resetFilters[col.key] = 'any';
@@ -843,7 +1007,7 @@ const SavedFiltersPage: React.FC = () => {
                   Cancel
                 </button>
                 <button
-                  onClick={handleCreateFilter}
+                  onClick={handleCreateStrategy}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
                 >
                   Save Strategy
@@ -857,4 +1021,4 @@ const SavedFiltersPage: React.FC = () => {
   );
 };
 
-export default SavedFiltersPage;
+export default InvestmentStrategiesPage;

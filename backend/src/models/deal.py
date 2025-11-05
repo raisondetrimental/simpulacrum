@@ -157,7 +157,7 @@ class Deal:
             "country": data.get('country', ''),
             "region": data.get('region', ''),
 
-            # Financial Terms
+            # Financial Terms (Debt)
             "total_size": data.get('total_size', 0),
             "currency": data.get('currency', 'USD'),
             "structure": data.get('structure', ''),
@@ -166,10 +166,38 @@ class Deal:
             "all_in_rate": data.get('all_in_rate', 0),
             "maturity": data.get('maturity', ''),
 
-            # Fees
+            # Fees (Debt)
             "upfront_fee_bps": data.get('upfront_fee_bps', 0),
             "commitment_fee_bps": data.get('commitment_fee_bps', 0),
             "agency_fee": data.get('agency_fee', 0),
+
+            # Equity-Specific Terms
+            "equity_percentage": data.get('equity_percentage'),
+            "pre_money_valuation": data.get('pre_money_valuation'),
+            "post_money_valuation": data.get('post_money_valuation'),
+            "target_irr": data.get('target_irr'),
+            "target_multiple": data.get('target_multiple'),
+            "liquidation_preference": data.get('liquidation_preference', ''),
+            "board_seats": data.get('board_seats'),
+            "governance_rights": data.get('governance_rights', ''),
+            "drag_along_rights": data.get('drag_along_rights'),
+            "tag_along_rights": data.get('tag_along_rights'),
+            "anti_dilution_protection": data.get('anti_dilution_protection', ''),
+
+            # JV-Specific Terms
+            "jv_ownership_split": data.get('jv_ownership_split', ''),
+            "capital_contribution": data.get('capital_contribution', ''),
+            "profit_sharing_ratio": data.get('profit_sharing_ratio', ''),
+            "management_structure": data.get('management_structure', ''),
+            "voting_rights": data.get('voting_rights', ''),
+
+            # Mezzanine-Specific Terms
+            "pik_rate": data.get('pik_rate'),
+            "equity_kicker": data.get('equity_kicker'),
+            "warrant_coverage": data.get('warrant_coverage'),
+            "conversion_price": data.get('conversion_price'),
+            "conversion_ratio": data.get('conversion_ratio', ''),
+            "redemption_premium": data.get('redemption_premium'),
 
             # Covenants & Terms
             "covenants": data.get('covenants', {}),

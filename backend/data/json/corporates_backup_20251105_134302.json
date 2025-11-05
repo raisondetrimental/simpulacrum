@@ -1,0 +1,142 @@
+[
+  {
+    "id": "corp_1759411576409",
+    "name": "Tsetsens Mining & Energy LLC",
+    "country": "Mongolia",
+    "headquarters_location": "Ulaanbatar",
+    "investment_need_min": 20000000,
+    "investment_need_max": 350000000,
+    "currency": "USD",
+    "infrastructure_types": {
+      "energy_infra": "Y",
+      "transport_infra": "N"
+    },
+    "regions": {
+      "africa_em": "N",
+      "asia_em": "N",
+      "emea_em": "N",
+      "emerging_markets": "N",
+      "mongolia": "Y",
+      "turkey": "N",
+      "us_market": "N",
+      "vietnam": "N"
+    },
+    "relationship": "Strong",
+    "notes": "",
+    "created_at": "2025-10-02T14:26:16.409785",
+    "last_updated": "2025-10-10T10:09:08.078216",
+    "company_description": ""
+  },
+  {
+    "id": "corp_1761059535544",
+    "name": "OCI Solar Power",
+    "country": "USA",
+    "headquarters_location": "Seoul",
+    "investment_need_min": 0,
+    "investment_need_max": 0,
+    "currency": "USD",
+    "infrastructure_types": {
+      "energy_infra": "Y",
+      "transport_infra": "N"
+    },
+    "regions": {
+      "africa_em": "N",
+      "asia_em": "N",
+      "emea_em": "N",
+      "emerging_markets": "N",
+      "mongolia": "N",
+      "turkey": "N",
+      "us_market": "Y",
+      "vietnam": "N"
+    },
+    "relationship": "Strong",
+    "notes": "",
+    "company_description": "",
+    "created_at": "2025-10-21T16:12:15.544105",
+    "last_updated": "2025-10-21T16:14:44.773223"
+  },
+  {
+    "id": "corp_1761587664535",
+    "name": "Ramboll",
+    "country": "Denmark",
+    "headquarters_location": "Copenhagen (Team based in Turkey)",
+    "investment_need_min": 0,
+    "investment_need_max": 0,
+    "currency": "USD",
+    "infrastructure_types": {
+      "energy_infra": "N",
+      "transport_infra": "N"
+    },
+    "regions": {
+      "africa_em": "N",
+      "asia_em": "N",
+      "emea_em": "N",
+      "emerging_markets": "N",
+      "mongolia": "N",
+      "turkey": "N",
+      "us_market": "N",
+      "vietnam": "N"
+    },
+    "relationship": "Developing",
+    "notes": "",
+    "company_description": "",
+    "created_at": "2025-10-27T17:54:24.535890",
+    "last_updated": "2025-10-27T17:55:48.609828"
+  },
+  {
+    "id": "corp_1761587956368",
+    "name": "Orix",
+    "country": "South Korea",
+    "headquarters_location": "New York",
+    "investment_need_min": 0,
+    "investment_need_max": 0,
+    "currency": "USD",
+    "infrastructure_types": {
+      "energy_infra": "N",
+      "transport_infra": "N"
+    },
+    "regions": {
+      "africa_em": "N",
+      "asia_em": "N",
+      "emea_em": "N",
+      "emerging_markets": "N",
+      "mongolia": "N",
+      "turkey": "N",
+      "us_market": "N",
+      "vietnam": "N"
+    },
+    "relationship": "Developing",
+    "notes": "",
+    "company_description": "",
+    "created_at": "2025-10-27T17:59:16.368545",
+    "last_updated": "2025-10-29T18:43:10.660246"
+  },
+  {
+    "id": "corp_1761816402985",
+    "name": "Deoca Group",
+    "country": "Vietnam",
+    "headquarters_location": "Ho Chi Minh",
+    "investment_need_min": 0,
+    "investment_need_max": 0,
+    "currency": "USD",
+    "infrastructure_types": {
+      "transport_infra": "Y",
+      "energy_infra": "N"
+    },
+    "regions": {
+      "us_market": "N",
+      "emerging_markets": "Y",
+      "asia_em": "Y",
+      "africa_em": "N",
+      "emea_em": "N",
+      "vietnam": "Y",
+      "mongolia": "N",
+      "turkey": "N"
+    },
+    "relationship": "Developing",
+    "notes": "",
+    "company_description": "",
+    "created_at": "2025-10-30T09:26:42.985753",
+    "last_updated": "2025-10-30T09:26:42.985753"
+  }
+]

@@ -241,16 +241,6 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
           </Link>
 
           <Link
-            to="/investment-strategies"
-            className="flex flex-col items-center justify-center p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-slate-400 hover:shadow-md transition-all"
-          >
-            <svg className="w-8 h-8 text-slate-600 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-            </svg>
-            <span className="text-sm font-medium text-gray-900">Investment Match</span>
-          </Link>
-
-          <Link
             to="/dashboard/markets"
             className="flex flex-col items-center justify-center p-4 bg-white rounded-lg border-2 border-gray-200 hover:border-slate-400 hover:shadow-md transition-all"
           >
@@ -522,18 +512,6 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
           <div className="flex items-start gap-3">
             <div className="flex-shrink-0 w-10 h-10 bg-slate-600 rounded-lg flex items-center justify-center">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-1">Investment Matching</h3>
-              <p className="text-sm text-gray-600">AI-powered matching between capital partners and sponsor investment needs</p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 w-10 h-10 bg-slate-600 rounded-lg flex items-center justify-center">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
@@ -682,24 +660,6 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
               <div className="text-center">
                 <p className="text-2xl font-bold text-slate-700">{crmStats.legalAdvisorsCount}</p>
                 <p className="text-xs text-gray-500 mt-1">Legal Advisors</p>
-              </div>
-            }
-          />
-
-          {/* Investment Strategies */}
-          <ModuleCard
-            title="Investment Strategies"
-            description="Cross-CRM investment matching and strategy tools"
-            color="indigo"
-            icon="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
-            subLinks={[
-              { name: 'Investment Matching', path: '/investment-strategies' },
-              { name: 'Unified Calendar', path: '/liquidity/calendar' }
-            ]}
-            preview={
-              <div className="text-center">
-                <p className="text-2xl font-bold text-indigo-700">{crmStats.upcomingMeetingsCount}</p>
-                <p className="text-xs text-gray-500 mt-1">Upcoming This Week</p>
               </div>
             }
           />

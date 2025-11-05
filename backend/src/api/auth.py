@@ -36,7 +36,13 @@ def login():
         # Verify password
         if verify_password(password, user_data['password_hash']):
             # Create user object and login
-            user = User(user_data['id'], user_data['username'], user_data.get('full_name'), user_data.get('role', 'user'))
+            user = User(
+                user_data['id'],
+                user_data['username'],
+                user_data.get('full_name'),
+                user_data.get('role', 'user'),
+                user_data.get('is_super_admin', False)
+            )
             login_user(user, remember=True)
 
             return jsonify({
@@ -46,7 +52,8 @@ def login():
                     "id": user_data['id'],
                     "username": user_data['username'],
                     "full_name": user_data.get('full_name', user_data['username']),
-                    "role": user_data.get('role', 'user')
+                    "role": user_data.get('role', 'user'),
+                    "is_super_admin": user_data.get('is_super_admin', False)
                 }
             })
         else:
@@ -83,7 +90,8 @@ def auth_status():
                 "id": current_user.id,
                 "username": current_user.username,
                 "full_name": current_user.full_name,
-                "role": current_user.role
+                "role": current_user.role,
+                "is_super_admin": current_user.is_super_admin
             }
         })
     else:

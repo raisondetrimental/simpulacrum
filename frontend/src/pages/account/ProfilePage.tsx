@@ -139,15 +139,25 @@ const ProfilePage: React.FC = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">My Account</h1>
             <p className="text-gray-600">Manage your account settings and preferences</p>
           </div>
-          {/* Admin button - only show for admin users */}
-          {profileData.role === 'admin' && (
-            <Link
-              to="/admin/users"
-              className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors font-medium"
-            >
-              Admin Panel
-            </Link>
-          )}
+          {/* Admin buttons - show for admin and super admin users */}
+          <div className="flex gap-2">
+            {user?.is_super_admin && (
+              <Link
+                to="/admin/super"
+                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-md hover:from-purple-700 hover:to-blue-700 transition-colors font-medium"
+              >
+                My Portal
+              </Link>
+            )}
+            {profileData.role === 'admin' && (
+              <Link
+                to="/admin/users"
+                className="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800 transition-colors font-medium"
+              >
+                Admin Panel
+              </Link>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

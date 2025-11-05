@@ -65,7 +65,9 @@ SHARED_PREFERENCE_KEYS = (
 PROFILE_CATEGORIES = [
     "capital_partner",
     "capital_partner_team",
-    "sponsor"
+    "sponsor",
+    "agent",
+    "counsel"
 ]
 
 # ============================================================================

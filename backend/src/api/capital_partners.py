@@ -12,6 +12,13 @@ from ..utils.json_store import (
     read_json_list, write_json_file, find_by_id, filter_by_field,
     remove_by_id, generate_sequential_id
 )
+from ..utils.unified_dal import (
+    get_all_organizations, get_organization_by_id,
+    create_organization, update_organization, delete_organization,
+    get_all_contacts, get_contact_by_id,
+    create_contact, update_contact, delete_contact,
+    delete_contacts_by_organization
+)
 
 capital_partners_bp = Blueprint('capital_partners', __name__, url_prefix='/api')
 
@@ -24,8 +31,7 @@ capital_partners_bp = Blueprint('capital_partners', __name__, url_prefix='/api')
 def get_capital_partners():
     """Get all capital partners"""
     try:
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        partners = read_json_list(partners_path)
+        partners = get_all_organizations("capital_partner")
 
         return jsonify({
             "success": True,
@@ -44,9 +50,7 @@ def get_capital_partners():
 def get_capital_partner(partner_id):
     """Get a specific capital partner by ID"""
     try:
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        partners = read_json_list(partners_path)
-        partner = find_by_id(partners, 'id', partner_id)
+        partner = get_organization_by_id(partner_id, "capital_partner")
 
         if not partner:
             return jsonify({
@@ -87,12 +91,11 @@ def create_capital_partner():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing partners
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        partners = read_json_list(partners_path)
+        # Get existing partners to generate new ID
+        existing_partners = get_all_organizations("capital_partner")
 
         # Generate new ID
-        new_id = generate_sequential_id(partners, 'id', 'cp_')
+        new_id = generate_sequential_id(existing_partners, 'id', 'cp_')
 
         # Default preferences (all "any")
         default_preferences = {
@@ -106,8 +109,8 @@ def create_capital_partner():
             ]
         }
 
-        # Create new partner
-        new_partner = {
+        # Create new partner data
+        new_partner_data = {
             "id": new_id,
             "name": data['name'],
             "type": data['type'],
@@ -124,10 +127,10 @@ def create_capital_partner():
             "updated_at": datetime.now().isoformat()
         }
 
-        partners.append(new_partner)
+        # Create using unified DAL
+        new_partner = create_organization(new_partner_data, "capital_partner")
 
-        # Save to file
-        if write_json_file(partners_path, partners):
+        if new_partner:
             return jsonify({
                 "success": True,
                 "data": new_partner,
@@ -158,36 +161,40 @@ def update_capital_partner(partner_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing partners
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        partners = read_json_list(partners_path)
-        partner = find_by_id(partners, 'id', partner_id)
+        # Get existing partner to merge with updates
+        existing_partner = get_organization_by_id(partner_id, "capital_partner")
 
-        if not partner:
+        if not existing_partner:
             return jsonify({
                 "success": False,
                 "message": f"Capital partner {partner_id} not found"
             }), 404
 
         # Update fields
-        partner['name'] = data.get('name', partner['name'])
-        partner['type'] = data.get('type', partner['type'])
-        partner['country'] = data.get('country', partner['country'])
-        partner['headquarters_location'] = data.get('headquarters_location', partner.get('headquarters_location', ''))
-        partner['relationship'] = data.get('relationship', partner.get('relationship', ''))
-        partner['notes'] = data.get('notes', partner.get('notes', ''))
-        partner['company_description'] = data.get('company_description', partner.get('company_description', ''))
-        partner['preferences'] = data.get('preferences', partner.get('preferences', {}))
-        partner['investment_min'] = data.get('investment_min', partner.get('investment_min', 0))
-        partner['investment_max'] = data.get('investment_max', partner.get('investment_max', 0))
-        partner['currency'] = data.get('currency', partner.get('currency', 'USD'))
-        partner['updated_at'] = datetime.now().isoformat()
+        update_data = {
+            "id": partner_id,
+            "name": data.get('name', existing_partner['name']),
+            "type": data.get('type', existing_partner['type']),
+            "country": data.get('country', existing_partner['country']),
+            "headquarters_location": data.get('headquarters_location', existing_partner.get('headquarters_location', '')),
+            "relationship": data.get('relationship', existing_partner.get('relationship', '')),
+            "notes": data.get('notes', existing_partner.get('notes', '')),
+            "company_description": data.get('company_description', existing_partner.get('company_description', '')),
+            "preferences": data.get('preferences', existing_partner.get('preferences', {})),
+            "investment_min": data.get('investment_min', existing_partner.get('investment_min', 0)),
+            "investment_max": data.get('investment_max', existing_partner.get('investment_max', 0)),
+            "currency": data.get('currency', existing_partner.get('currency', 'USD')),
+            "created_at": existing_partner['created_at'],
+            "updated_at": datetime.now().isoformat()
+        }
 
-        # Save to file
-        if write_json_file(partners_path, partners):
+        # Update using unified DAL
+        updated_partner = update_organization(partner_id, update_data, "capital_partner")
+
+        if updated_partner:
             return jsonify({
                 "success": True,
-                "data": partner,
+                "data": updated_partner,
                 "message": "Capital partner updated successfully"
             })
         else:
@@ -207,15 +214,8 @@ def update_capital_partner(partner_id):
 def delete_capital_partner(partner_id):
     """Delete a capital partner (cascades to contacts)"""
     try:
-        # Load all data
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-
-        partners = read_json_list(partners_path)
-        contacts = read_json_list(contacts_path)
-
-        # Find partner
-        partner = find_by_id(partners, 'id', partner_id)
+        # Check if partner exists
+        partner = get_organization_by_id(partner_id, "capital_partner")
         if not partner:
             return jsonify({
                 "success": False,
@@ -223,19 +223,19 @@ def delete_capital_partner(partner_id):
             }), 404
 
         # CASCADE DELETE: Remove all contacts for this partner
-        contacts = [c for c in contacts if c.get('capital_partner_id') != partner_id]
+        delete_contacts_by_organization(partner_id, "capital_partner")
 
         # Remove the partner
-        partners = remove_by_id(partners, 'id', partner_id)
-
-        # Save all changes
-        write_json_file(partners_path, partners)
-        write_json_file(contacts_path, contacts)
-
-        return jsonify({
-            "success": True,
-            "message": "Capital partner and associated contacts deleted successfully"
-        })
+        if delete_organization(partner_id, "capital_partner"):
+            return jsonify({
+                "success": True,
+                "message": "Capital partner and associated contacts deleted successfully"
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to delete capital partner"
+            }), 500
 
     except Exception as e:
         return jsonify({
@@ -248,9 +248,7 @@ def delete_capital_partner(partner_id):
 def toggle_capital_partner_star(partner_id):
     """Toggle starred status for a capital partner"""
     try:
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-        partners = read_json_list(partners_path)
-        partner = find_by_id(partners, 'id', partner_id)
+        partner = get_organization_by_id(partner_id, "capital_partner")
 
         if not partner:
             return jsonify({
@@ -262,12 +260,14 @@ def toggle_capital_partner_star(partner_id):
         partner['starred'] = not partner.get('starred', False)
         partner['updated_at'] = datetime.now().isoformat()
 
-        # Save to file
-        if write_json_file(partners_path, partners):
+        # Update using unified DAL
+        updated_partner = update_organization(partner_id, partner, "capital_partner")
+
+        if updated_partner:
             return jsonify({
                 "success": True,
-                "data": partner,
-                "message": f"Capital partner {'starred' if partner['starred'] else 'unstarred'} successfully"
+                "data": updated_partner,
+                "message": f"Capital partner {'starred' if updated_partner['starred'] else 'unstarred'} successfully"
             })
         else:
             return jsonify({
@@ -290,13 +290,11 @@ def toggle_capital_partner_star(partner_id):
 def get_contacts_new():
     """Get all contacts or contacts for a specific capital partner"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Filter by capital_partner_id if provided
+        # Get optional filter parameter
         capital_partner_id = request.args.get('capital_partner_id')
-        if capital_partner_id:
-            contacts = filter_by_field(contacts, 'capital_partner_id', capital_partner_id)
+
+        # Get contacts from unified DAL
+        contacts = get_all_contacts("capital_partner", capital_partner_id)
 
         return jsonify({
             "success": True,
@@ -315,9 +313,7 @@ def get_contacts_new():
 def get_contact_new(contact_id):
     """Get a specific contact by ID"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        contact = get_contact_by_id(contact_id, "capital_partner")
 
         if not contact:
             return jsonify({
@@ -358,17 +354,17 @@ def create_contact_new():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
+        # Get existing contacts to generate new ID
+        existing_contacts = get_all_contacts("capital_partner")
 
         # Generate new ID
-        new_id = generate_sequential_id(contacts, 'id', 'contact_')
+        new_id = generate_sequential_id(existing_contacts, 'id', 'contact_')
 
-        # Create new contact
-        new_contact = {
+        # Create new contact data
+        new_contact_data = {
             "id": new_id,
             "capital_partner_id": data['capital_partner_id'],
+            "organization_id": data['capital_partner_id'],
             "team_name": data.get('team_name', ''),
             "name": data['name'],
             "role": data.get('role', ''),
@@ -382,13 +378,13 @@ def create_contact_new():
             "last_contact_date": data.get('last_contact_date'),
             "next_contact_reminder": data.get('next_contact_reminder'),
             "created_at": datetime.now().isoformat(),
-            "updated_at": datetime.now().isoformat()
+            "last_updated": datetime.now().isoformat()
         }
 
-        contacts.append(new_contact)
+        # Create using unified DAL
+        new_contact = create_contact(new_contact_data, "capital_partner")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if new_contact:
             return jsonify({
                 "success": True,
                 "data": new_contact,
@@ -419,10 +415,8 @@ def update_contact_new(contact_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get existing contact
+        contact = get_contact_by_id(contact_id, "capital_partner")
 
         if not contact:
             return jsonify({
@@ -431,25 +425,28 @@ def update_contact_new(contact_id):
             }), 404
 
         # Update fields
-        contact['name'] = data.get('name', contact['name'])
-        contact['team_name'] = data.get('team_name', contact.get('team_name', ''))
-        contact['role'] = data.get('role', contact.get('role', ''))
-        contact['email'] = data.get('email', contact.get('email', ''))
-        contact['phone'] = data.get('phone', contact.get('phone', ''))
-        contact['linkedin'] = data.get('linkedin', contact.get('linkedin', ''))
-        contact['relationship'] = data.get('relationship', contact.get('relationship', ''))
-        contact['disc_profile'] = data.get('disc_profile', contact.get('disc_profile', ''))
-        contact['contact_notes'] = data.get('contact_notes', contact.get('contact_notes', ''))
-        contact['meeting_history'] = data.get('meeting_history', contact.get('meeting_history', []))
-        contact['last_contact_date'] = data.get('last_contact_date', contact.get('last_contact_date'))
-        contact['next_contact_reminder'] = data.get('next_contact_reminder', contact.get('next_contact_reminder'))
-        contact['updated_at'] = datetime.now().isoformat()
+        update_data = {
+            "name": data.get('name', contact['name']),
+            "team_name": data.get('team_name', contact.get('team_name', '')),
+            "role": data.get('role', contact.get('role', '')),
+            "email": data.get('email', contact.get('email', '')),
+            "phone": data.get('phone', contact.get('phone', '')),
+            "linkedin": data.get('linkedin', contact.get('linkedin', '')),
+            "relationship": data.get('relationship', contact.get('relationship', '')),
+            "disc_profile": data.get('disc_profile', contact.get('disc_profile', '')),
+            "contact_notes": data.get('contact_notes', contact.get('contact_notes', '')),
+            "meeting_history": data.get('meeting_history', contact.get('meeting_history', [])),
+            "last_contact_date": data.get('last_contact_date', contact.get('last_contact_date')),
+            "next_contact_reminder": data.get('next_contact_reminder', contact.get('next_contact_reminder')),
+        }
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        # Update using unified DAL
+        updated_contact = update_contact(contact_id, update_data, "capital_partner")
+
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Contact updated successfully"
             })
         else:
@@ -469,22 +466,16 @@ def update_contact_new(contact_id):
 def delete_contact_new(contact_id):
     """Delete a contact"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Check if contact exists
+        contact = get_contact_by_id(contact_id, "capital_partner")
         if not contact:
             return jsonify({
                 "success": False,
                 "message": f"Contact {contact_id} not found"
             }), 404
 
-        # Remove the contact
-        contacts = remove_by_id(contacts, 'id', contact_id)
-
-        # Save changes
-        if write_json_file(contacts_path, contacts):
+        # Delete using unified DAL
+        if delete_contact(contact_id, "capital_partner"):
             return jsonify({
                 "success": True,
                 "message": "Contact deleted successfully"
@@ -530,15 +521,8 @@ def save_meeting_notes():
                 "message": "contact_id is required"
             }), 400
 
-        # Load contacts and partners
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        partners_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CAPITAL_PARTNERS']
-
-        contacts = read_json_list(contacts_path)
-        partners = read_json_list(partners_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "capital_partner")
         if not contact:
             return jsonify({
                 "success": False,
@@ -579,24 +563,20 @@ def save_meeting_notes():
             if meeting_note.get('next_follow_up'):
                 contact['next_contact_reminder'] = meeting_note['next_follow_up']
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "capital_partner")
 
         # Update partner if partner_updates provided
         if partner_updates and contact.get('capital_partner_id'):
-            partner = find_by_id(partners, 'id', contact['capital_partner_id'])
+            partner = get_organization_by_id(contact['capital_partner_id'], "capital_partner")
             if partner:
                 for key, value in partner_updates.items():
                     partner[key] = value
-                partner['last_updated'] = datetime.now().isoformat()
-
-        # Save both files
-        write_json_file(contacts_path, contacts)
-        if partner_updates:
-            write_json_file(partners_path, partners)
+                update_organization(contact['capital_partner_id'], partner, "capital_partner")
 
         return jsonify({
             "success": True,
-            "data": contact,
+            "data": updated_contact,
             "message": "Meeting notes saved successfully"
         })
 
@@ -613,8 +593,8 @@ def get_meeting_reminders():
     try:
         from datetime import datetime, timedelta
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
+        # Get all contacts from unified DAL
+        contacts = get_all_contacts("capital_partner")
 
         # Filter contacts with next_contact_reminder
         reminders = []
@@ -665,11 +645,8 @@ def update_meeting_note(contact_id, meeting_id):
                 "message": "No data provided"
             }), 400
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "capital_partner")
         if not contact:
             return jsonify({
                 "success": False,
@@ -705,13 +682,13 @@ def update_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "capital_partner")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Meeting note updated successfully"
             })
         else:
@@ -732,11 +709,8 @@ def update_meeting_note(contact_id, meeting_id):
 def delete_meeting_note(contact_id, meeting_id):
     """Delete a specific meeting note"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, "capital_partner")
         if not contact:
             return jsonify({
                 "success": False,
@@ -759,10 +733,10 @@ def delete_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, "capital_partner")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
                 "message": "Meeting note deleted successfully"

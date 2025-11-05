@@ -1,0 +1,38 @@
+[
+  {
+    "id": "acontact_1761693400829",
+    "agent_id": "agent_1761693245321",
+    "name": "Armin Fallahi",
+    "role": "Managing Director",
+    "email": "armin.fallahi@bondcapitalhouse.com",
+    "phone": "",
+    "linkedin": "",
+    "relationship": "Developing",
+    "disc_profile": "",
+    "meeting_history": [
+      {
+        "id": "meeting_1761693444771",
+        "date": "2025-10-28T23:17:24.771647",
+        "notes": "yes.",
+        "participants": "",
+        "next_follow_up": "",
+        "created_by": {
+          "user_id": "user_001",
+          "username": "Cam",
+          "full_name": "Cameron Thomas"
+        },
+        "updated_at": "2025-10-29T10:05:27.985394",
+        "updated_by": {
+          "user_id": "user_001",
+          "username": "Cam",
+          "full_name": "Cameron Thomas"
+        }
+      }
+    ],
+    "contact_notes": "",
+    "last_contact_date": "2025-10-29T18:34:43.507776",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-28T23:16:40.829886",
+    "last_updated": "2025-10-29T18:34:50.059971"
+  }
+]

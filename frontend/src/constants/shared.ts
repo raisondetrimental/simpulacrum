@@ -71,7 +71,9 @@ export type SharedPreferenceKey = typeof SHARED_PREFERENCE_KEYS[number];
 export const PROFILE_CATEGORIES = [
   'capital_partner',
   'capital_partner_team',
-  'sponsor'
+  'sponsor',
+  'agent',
+  'counsel'
 ] as const;
 
 export type ProfileCategory = typeof PROFILE_CATEGORIES[number];

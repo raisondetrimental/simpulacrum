@@ -6,6 +6,7 @@ interface User {
   username: string;
   full_name?: string;
   role?: string;
+  is_super_admin?: boolean;
 }
 
 interface AuthContextType {

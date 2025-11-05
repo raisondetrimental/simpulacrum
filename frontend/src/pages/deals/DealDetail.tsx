@@ -19,6 +19,7 @@ import {
 } from '../../types/deals';
 import {
   getDeal,
+  createDeal,
   deleteDeal,
   updateDeal,
   getDealParticipants,
@@ -150,8 +151,15 @@ const DealDetail: React.FC = () => {
   const handleSave = async (formData: any) => {
     try {
       if (id === 'new') {
-        // Create new deal through service
-        navigate('/deals'); // Redirect to list after creation
+        // Create new deal
+        const response = await createDeal(formData);
+
+        if (response.success && response.data) {
+          // Redirect to the newly created deal's detail page
+          navigate(`/deals/${response.data.id}`);
+        } else {
+          setError(response.message || 'Failed to create deal');
+        }
       } else {
         const response = await updateDeal(id!, formData);
 

@@ -1,26 +1,23 @@
 """
-Investment strategies and matching routes
+Investment Strategies API - Simplified Version
+Simple endpoints for creating strategies and finding matching organizations
 """
 from flask import Blueprint, jsonify, request, current_app
 from flask_login import login_required
 from pathlib import Path
-from datetime import datetime
 
 from ..utils.json_store import read_json_list, write_json_file
+from ..services.investment_matching import find_matching_organizations, get_contacts_for_matches
 
 investment_bp = Blueprint('investment', __name__, url_prefix='/api')
 
 
-# ============================================================================
-# INVESTMENT STRATEGIES
-# ============================================================================
-
 @investment_bp.route('/investment-strategies', methods=['GET'])
-@investment_bp.route('/filters', methods=['GET'])  # Legacy route for backward compatibility
+@login_required
 def get_investment_strategies():
-    """Get saved investment strategies from JSON file"""
+    """Get saved investment strategies"""
     try:
-        strategies_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_INVESTMENT_STRATEGIES']
+        strategies_path = Path(current_app.config['JSON_DIR']) / 'investment_strategies.json'
         strategies = read_json_list(strategies_path)
 
         return jsonify({
@@ -32,14 +29,14 @@ def get_investment_strategies():
     except Exception as e:
         return jsonify({
             "success": False,
-            "message": f"Error reading investment strategies data: {str(e)}"
+            "message": f"Error reading investment strategies: {str(e)}"
         }), 500
 
 
 @investment_bp.route('/investment-strategies/save', methods=['POST'])
-@investment_bp.route('/filters/save', methods=['POST'])  # Legacy route for backward compatibility
+@login_required
 def save_investment_strategies():
-    """Save investment strategies data to JSON file"""
+    """Save investment strategies"""
     try:
         data = request.get_json()
 
@@ -49,36 +46,19 @@ def save_investment_strategies():
                 "message": "No data provided"
             }), 400
 
-        # Validate data is a list
         if not isinstance(data, list):
             return jsonify({
                 "success": False,
-                "message": "Data must be an array of investment strategies"
+                "message": "Data must be an array of strategies"
             }), 400
 
-        # Validate each strategy has required fields
-        required_fields = ['id', 'name', 'preferenceFilters', 'sizeFilter', 'createdAt']
-        for i, strategy_item in enumerate(data):
-            if not isinstance(strategy_item, dict):
-                return jsonify({
-                    "success": False,
-                    "message": f"Strategy at index {i} is not an object"
-                }), 400
-
-            for field in required_fields:
-                if field not in strategy_item:
-                    return jsonify({
-                        "success": False,
-                        "message": f"Strategy at index {i} missing required field: {field}"
-                    }), 400
-
         # Save to file
-        strategies_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_INVESTMENT_STRATEGIES']
+        strategies_path = Path(current_app.config['JSON_DIR']) / 'investment_strategies.json'
 
         if write_json_file(strategies_path, data):
             return jsonify({
                 "success": True,
-                "message": "Investment strategies data saved successfully",
+                "message": "Investment strategies saved successfully",
                 "count": len(data)
             })
         else:
@@ -90,105 +70,52 @@ def save_investment_strategies():
     except Exception as e:
         return jsonify({
             "success": False,
-            "message": f"Error saving investment strategies data: {str(e)}"
-        }), 500
-
-
-# ============================================================================
-# INVESTMENT PROFILES & MATCHING
-# ============================================================================
-
-@investment_bp.route('/investment-profiles', methods=['GET'])
-def get_investment_profiles():
-    """Return normalized investment profiles used for unified filtering."""
-    try:
-        # Import from services
-        from ..services.investment_profiles import build_investment_profiles, SHARED_PREFERENCE_KEYS
-
-        data = build_investment_profiles()
-        return jsonify({
-            "success": True,
-            "generated_at": data.get("generated_at"),
-            "preference_keys": data.get("preference_keys", list(SHARED_PREFERENCE_KEYS)),
-            "data": data,
-        })
-    except Exception as exc:
-        return jsonify({
-            "success": False,
-            "message": f"Failed to load investment profiles: {exc}"
+            "message": f"Error saving investment strategies: {str(e)}"
         }), 500
 
 
 @investment_bp.route('/investment-matches', methods=['POST'])
+@login_required
 def get_investment_matches():
-    """Filter capital partner/team and sponsor profiles using shared parameters."""
+    """Get organizations matching the strategy filters"""
     try:
-        # Import from services
-        from ..services.investment_profiles import build_investment_profiles, SHARED_PREFERENCE_KEYS
-        from ..services.investment_matching import filter_profiles as filter_investment_profiles, compute_pairings
-
         payload = request.get_json(silent=True) or {}
-        preference_filters = payload.get("preferenceFilters") or payload.get("preferences") or {}
-        ticket_range = payload.get("ticketRange") or payload.get("ticket") or {}
-        include_categories = payload.get("includeCategories") or payload.get("categories")
+        preference_filters = payload.get("preferenceFilters", {})
+        ticket_range = payload.get("ticketRange", {})
 
-        data = build_investment_profiles()
-        capital_partners = data.get("capital_partners", [])
-        capital_partner_teams = data.get("capital_partner_teams", [])
-        sponsors = data.get("sponsors", [])
+        # Load CRM data files
+        json_dir = Path(current_app.config['JSON_DIR'])
 
-        if include_categories:
-            include_set = {str(item) for item in include_categories}
-        else:
-            include_set = {"capital_partners", "capital_partner_teams", "sponsors"}
-
-        filtered_capital_partners = filter_investment_profiles(
-            capital_partners,
+        # Find matching organizations across all CRM modules
+        results = find_matching_organizations(
+            json_dir=json_dir,
             preference_filters=preference_filters,
-            ticket_range=ticket_range,
-        ) if "capital_partners" in include_set else []
+            ticket_range=ticket_range
+        )
 
-        filtered_capital_partner_teams = filter_investment_profiles(
-            capital_partner_teams,
-            preference_filters=preference_filters,
-            ticket_range=ticket_range,
-        ) if "capital_partner_teams" in include_set else []
-
-        filtered_sponsors = filter_investment_profiles(
-            sponsors,
-            preference_filters=preference_filters,
-            ticket_range=ticket_range,
-        ) if "sponsors" in include_set else []
-
-        pairings = compute_pairings(
-            filtered_sponsors,
-            filtered_capital_partners,
-            filtered_capital_partner_teams,
+        # Get contacts for all matching organizations
+        contact_data = get_contacts_for_matches(
+            json_dir=json_dir,
+            matching_results=results
         )
 
         return jsonify({
             "success": True,
-            "generated_at": data.get("generated_at"),
-            "preference_keys": data.get("preference_keys", list(SHARED_PREFERENCE_KEYS)),
-            "filters_applied": {
-                "preferenceFilters": preference_filters,
-                "ticketRange": ticket_range,
-                "includeCategories": sorted(include_set),
-            },
             "counts": {
-                "capital_partners": len(filtered_capital_partners),
-                "capital_partner_teams": len(filtered_capital_partner_teams),
-                "sponsors": len(filtered_sponsors),
+                "capital_partners": len(results["capital_partners"]),
+                "sponsors": len(results["sponsors"]),
+                "agents": len(results["agents"]),
+                "counsel": len(results["counsel"]),
             },
-            "results": {
-                "capital_partners": filtered_capital_partners,
-                "capital_partner_teams": filtered_capital_partner_teams,
-                "sponsors": filtered_sponsors,
-            },
-            "pairings": pairings,
+            "results": results,
+            "all_contacts": contact_data["all_contacts"],
+            "contact_stats": contact_data["contact_stats"]
         })
     except Exception as exc:
         return jsonify({
             "success": False,
             "message": f"Investment match query failed: {exc}"
         }), 500
+
+
+__all__ = ['investment_bp']

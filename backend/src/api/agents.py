@@ -11,6 +11,13 @@ from ..utils.json_store import (
     read_json_list, write_json_file, find_by_id, filter_by_field,
     remove_by_id, generate_timestamp_id
 )
+from ..utils.unified_dal import (
+    get_all_organizations, get_organization_by_id,
+    create_organization, update_organization, delete_organization,
+    get_all_contacts, get_contact_by_id,
+    create_contact, update_contact, delete_contact,
+    delete_contacts_by_organization
+)
 
 agents_bp = Blueprint('agents', __name__, url_prefix='/api')
 
@@ -23,8 +30,7 @@ agents_bp = Blueprint('agents', __name__, url_prefix='/api')
 def get_agents():
     """Get all agents"""
     try:
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
+        agents = get_all_organizations("agent")
 
         return jsonify({
             "success": True,
@@ -43,9 +49,7 @@ def get_agents():
 def get_agent(agent_id):
     """Get a specific agent by ID"""
     try:
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
-        agent = find_by_id(agents, 'id', agent_id)
+        agent = get_organization_by_id(agent_id, "agent")
 
         if not agent:
             return jsonify({
@@ -86,15 +90,11 @@ def create_agent():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing agents
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
-
         # Generate new ID (timestamp-based)
         new_id = f"agent_{int(time.time() * 1000)}"
 
-        # Create new agent
-        new_agent = {
+        # Create new agent data
+        new_agent_data = {
             "id": new_id,
             "name": data['name'],
             "agent_type": data.get('agent_type', ''),
@@ -107,10 +107,10 @@ def create_agent():
             "last_updated": datetime.now().isoformat()
         }
 
-        agents.append(new_agent)
+        # Create via unified DAL
+        new_agent = create_organization(new_agent_data, "agent")
 
-        # Save to file
-        if write_json_file(agents_path, agents):
+        if new_agent:
             return jsonify({
                 "success": True,
                 "data": new_agent,
@@ -141,39 +141,20 @@ def update_agent(agent_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing agents
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
-        agent = find_by_id(agents, 'id', agent_id)
+        # Update via unified DAL
+        updated_agent = update_organization(agent_id, data, "agent")
 
-        if not agent:
+        if not updated_agent:
             return jsonify({
                 "success": False,
                 "message": "Agent not found"
             }), 404
 
-        # Update fields
-        agent['name'] = data.get('name', agent['name'])
-        agent['agent_type'] = data.get('agent_type', agent.get('agent_type', ''))
-        agent['country'] = data.get('country', agent['country'])
-        agent['headquarters_location'] = data.get('headquarters_location', agent.get('headquarters_location', ''))
-        agent['agent_preferences'] = data.get('agent_preferences', agent.get('agent_preferences', {}))
-        agent['relationship'] = data.get('relationship', agent['relationship'])
-        agent['notes'] = data.get('notes', agent.get('notes', ''))
-        agent['last_updated'] = datetime.now().isoformat()
-
-        # Save to file
-        if write_json_file(agents_path, agents):
-            return jsonify({
-                "success": True,
-                "data": agent,
-                "message": "Agent updated successfully"
-            })
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Failed to save agent"
-            }), 500
+        return jsonify({
+            "success": True,
+            "data": updated_agent,
+            "message": "Agent updated successfully"
+        })
 
     except Exception as e:
         return jsonify({
@@ -186,14 +167,8 @@ def update_agent(agent_id):
 def delete_agent(agent_id):
     """Delete an agent and cascade delete all agent contacts"""
     try:
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-
-        agents = read_json_list(agents_path)
-        contacts = read_json_list(contacts_path)
-
-        # Find agent
-        agent = find_by_id(agents, 'id', agent_id)
+        # Check if agent exists
+        agent = get_organization_by_id(agent_id, "agent")
         if not agent:
             return jsonify({
                 "success": False,
@@ -201,19 +176,19 @@ def delete_agent(agent_id):
             }), 404
 
         # CASCADE DELETE: Remove all contacts for this agent
-        contacts = [c for c in contacts if c.get('agent_id') != agent_id]
+        delete_contacts_by_organization(agent_id, "agent")
 
         # Remove the agent
-        agents = remove_by_id(agents, 'id', agent_id)
-
-        # Save all changes
-        write_json_file(agents_path, agents)
-        write_json_file(contacts_path, contacts)
-
-        return jsonify({
-            "success": True,
-            "message": "Agent and associated contacts deleted successfully"
-        })
+        if delete_organization(agent_id, "agent"):
+            return jsonify({
+                "success": True,
+                "message": "Agent and associated contacts deleted successfully"
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to delete agent"
+            }), 500
 
     except Exception as e:
         return jsonify({
@@ -226,9 +201,8 @@ def delete_agent(agent_id):
 def toggle_agent_star(agent_id):
     """Toggle starred status for an agent"""
     try:
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
-        agent = find_by_id(agents, 'id', agent_id)
+        # Get current agent
+        agent = get_organization_by_id(agent_id, "agent")
 
         if not agent:
             return jsonify({
@@ -237,15 +211,18 @@ def toggle_agent_star(agent_id):
             }), 404
 
         # Toggle starred status
-        agent['starred'] = not agent.get('starred', False)
-        agent['last_updated'] = datetime.now().isoformat()
+        update_data = {
+            "starred": not agent.get('starred', False)
+        }
 
-        # Save to file
-        if write_json_file(agents_path, agents):
+        # Update via unified DAL
+        updated_agent = update_organization(agent_id, update_data, "agent")
+
+        if updated_agent:
             return jsonify({
                 "success": True,
-                "data": agent,
-                "message": f"Agent {'starred' if agent['starred'] else 'unstarred'} successfully"
+                "data": updated_agent,
+                "message": f"Agent {'starred' if updated_agent['starred'] else 'unstarred'} successfully"
             })
         else:
             return jsonify({
@@ -268,13 +245,9 @@ def toggle_agent_star(agent_id):
 def get_agent_contacts():
     """Get all agent contacts or filter by agent_id"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Filter by agent_id if provided
         agent_id = request.args.get('agent_id')
-        if agent_id:
-            contacts = filter_by_field(contacts, 'agent_id', agent_id)
+        contacts = get_all_contacts("agent", agent_id)
 
         return jsonify({
             "success": True,
@@ -293,9 +266,7 @@ def get_agent_contacts():
 def get_agent_contact(contact_id):
     """Get a specific agent contact by ID"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        contact = get_contact_by_id(contact_id, "agent")
 
         if not contact:
             return jsonify({
@@ -336,15 +307,11 @@ def create_agent_contact():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Generate new ID (timestamp-based)
         new_id = f"acontact_{int(time.time() * 1000)}"
 
         # Create new contact
-        new_contact = {
+        new_contact_data = {
             "id": new_id,
             "agent_id": data['agent_id'],
             "name": data['name'],
@@ -362,10 +329,10 @@ def create_agent_contact():
             "last_updated": datetime.now().isoformat()
         }
 
-        contacts.append(new_contact)
+        # Create via unified DAL
+        new_contact = create_contact(new_contact_data, "agent")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if new_contact:
             return jsonify({
                 "success": True,
                 "data": new_contact,
@@ -396,40 +363,20 @@ def update_agent_contact(contact_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Update via unified DAL
+        updated_contact = update_contact(contact_id, data, "agent")
 
-        if not contact:
+        if not updated_contact:
             return jsonify({
                 "success": False,
                 "message": "Contact not found"
             }), 404
 
-        # Update fields
-        contact['name'] = data.get('name', contact['name'])
-        contact['role'] = data.get('role', contact['role'])
-        contact['email'] = data.get('email', contact['email'])
-        contact['phone'] = data.get('phone', contact.get('phone', ''))
-        contact['linkedin'] = data.get('linkedin', contact.get('linkedin', ''))
-        contact['relationship'] = data.get('relationship', contact['relationship'])
-        contact['disc_profile'] = data.get('disc_profile', contact.get('disc_profile', ''))
-        contact['contact_notes'] = data.get('contact_notes', contact.get('contact_notes', ''))
-        contact['last_updated'] = datetime.now().isoformat()
-
-        # Save to file
-        if write_json_file(contacts_path, contacts):
-            return jsonify({
-                "success": True,
-                "data": contact,
-                "message": "Agent contact updated successfully"
-            })
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Failed to save agent contact"
-            }), 500
+        return jsonify({
+            "success": True,
+            "data": updated_contact,
+            "message": "Agent contact updated successfully"
+        })
 
     except Exception as e:
         return jsonify({
@@ -442,22 +389,16 @@ def update_agent_contact(contact_id):
 def delete_agent_contact(contact_id):
     """Delete an agent contact"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Check if contact exists
+        contact = get_contact_by_id(contact_id, "agent")
         if not contact:
             return jsonify({
                 "success": False,
                 "message": "Contact not found"
             }), 404
 
-        # Remove the contact
-        contacts = remove_by_id(contacts, 'id', contact_id)
-
-        # Save changes
-        if write_json_file(contacts_path, contacts):
+        # Delete via unified DAL
+        if delete_contact(contact_id, "agent"):
             return jsonify({
                 "success": True,
                 "message": "Agent contact deleted successfully"
@@ -503,11 +444,8 @@ def save_agent_meeting():
                 "message": "contact_id is required"
             }), 400
 
-        # Update contact with meeting note
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact via unified DAL
+        contact = get_contact_by_id(contact_id, "agent")
 
         if not contact:
             return jsonify({
@@ -546,30 +484,17 @@ def save_agent_meeting():
             if key in contact:
                 contact[key] = value
 
-        contact['last_updated'] = datetime.now().isoformat()
-
-        # Save contacts
-        write_json_file(contacts_path, contacts)
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "agent")
 
         # Update agent if needed
         if agent_updates:
-            agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-            agents = read_json_list(agents_path)
-
             agent_id = contact.get('agent_id')
-            agent = find_by_id(agents, 'id', agent_id)
-
-            if agent:
-                for key, value in agent_updates.items():
-                    if key in agent:
-                        agent[key] = value
-
-                agent['last_updated'] = datetime.now().isoformat()
-                write_json_file(agents_path, agents)
+            update_organization(agent_id, agent_updates, "agent")
 
         return jsonify({
             "success": True,
-            "data": contact,
+            "data": updated_contact,
             "message": "Meeting notes saved successfully"
         })
 
@@ -586,8 +511,7 @@ def get_agent_reminders():
     try:
         from datetime import datetime
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
+        contacts = get_all_contacts("agent")
 
         # Filter contacts with reminders
         reminders = []
@@ -637,11 +561,8 @@ def update_agent_meeting_note(contact_id, meeting_id):
                 "message": "No data provided"
             }), 400
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Find contact via unified DAL
+        contact = get_contact_by_id(contact_id, "agent")
         if not contact:
             return jsonify({
                 "success": False,
@@ -677,13 +598,13 @@ def update_agent_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "agent")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Meeting note updated successfully"
             })
         else:
@@ -704,11 +625,8 @@ def update_agent_meeting_note(contact_id, meeting_id):
 def delete_agent_meeting_note(contact_id, meeting_id):
     """Delete a specific agent meeting note"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENT_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Find contact via unified DAL
+        contact = get_contact_by_id(contact_id, "agent")
         if not contact:
             return jsonify({
                 "success": False,
@@ -731,10 +649,10 @@ def delete_agent_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "agent")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
                 "message": "Meeting note deleted successfully"
@@ -765,10 +683,8 @@ def get_agent_deals(agent_id):
     Returns deals with participation details (role, commitment, etc.)
     """
     try:
-        # Check if agent exists
-        agents_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_AGENTS']
-        agents = read_json_list(agents_path)
-        agent = find_by_id(agents, 'id', agent_id)
+        # Check if agent exists via unified DAL
+        agent = get_organization_by_id(agent_id, "agent")
 
         if not agent:
             return jsonify({

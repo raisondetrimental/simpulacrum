@@ -10,11 +10,12 @@ from ..utils.json_store import read_json_list
 class User(UserMixin):
     """User model for Flask-Login"""
 
-    def __init__(self, user_id: str, username: str, full_name: str = None, role: str = 'user'):
+    def __init__(self, user_id: str, username: str, full_name: str = None, role: str = 'user', is_super_admin: bool = False):
         self.id = user_id
         self.username = username
         self.full_name = full_name or username
         self.role = role
+        self.is_super_admin = is_super_admin
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -22,6 +23,10 @@ class User(UserMixin):
     def is_admin(self):
         """Check if user has admin role"""
         return self.role == 'admin'
+
+    def is_super_admin_user(self):
+        """Check if user has super admin privileges"""
+        return self.is_super_admin
 
 
 def load_users(users_json_path: Path) -> list:
@@ -71,7 +76,13 @@ def get_user_by_id(user_id: str, users_json_path: Path):
     users = load_users(users_json_path)
     for user in users:
         if user.get('id') == user_id:
-            return User(user['id'], user['username'], user.get('full_name'), user.get('role', 'user'))
+            return User(
+                user['id'],
+                user['username'],
+                user.get('full_name'),
+                user.get('role', 'user'),
+                user.get('is_super_admin', False)
+            )
     return None
 
 

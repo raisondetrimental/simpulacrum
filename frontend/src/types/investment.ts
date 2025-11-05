@@ -1,64 +1,67 @@
-﻿export interface InvestmentProfile {
+/**
+ * Investment Strategies Types - Simplified Version
+ */
+
+export interface InvestmentProfile {
   profile_id: string;
-  category: 'capital_partner' | 'capital_partner_team' | 'sponsor';
   entity_id: string;
   name: string;
   organization_name: string;
+  category: 'capital_partner' | 'sponsor' | 'agent' | 'counsel';
   relationship?: string | null;
-  currency?: string | null;
   ticket_min?: number | null;
   ticket_max?: number | null;
+  currency?: string | null;
   preferences: Record<string, string>;
-  capital_partner_id?: string | null;
-  capital_partner_name?: string | null;
   metadata?: Record<string, unknown>;
 }
 
-export interface MatchEntrySummary {
-  profile_id: string;
-  entity_id: string;
+export interface Contact {
+  id: string;
   name: string;
-  organization_name: string;
-  capital_partner_id?: string | null;
-  capital_partner_name?: string | null;
-  overlap_preferences: string[];
-  overlap_size: number;
-  ticket_overlap: {
-    min: number | null;
-    max: number | null;
-  };
-  ticket_min?: number | null;
-  ticket_max?: number | null;
+  role: string;
+  email?: string;
+  phone?: string;
+  team_name?: string;
+  parent_org_id: string;
+  parent_org_name: string;
+  parent_org_type: 'capital_partner' | 'sponsor' | 'agent' | 'counsel';
   relationship?: string | null;
-}
-
-export interface SponsorMatchEntry {
-  sponsor_profile: InvestmentProfile;
-  capital_partners: MatchEntrySummary[];
-  capital_partner_teams: MatchEntrySummary[];
+  last_contact_date?: string | null;
+  next_contact_reminder?: string | null;
+  meeting_history_count: number;
 }
 
 export interface InvestmentMatchesResponse {
   success: boolean;
-  generated_at?: string;
-  preference_keys: string[];
-  filters_applied: {
-    preferenceFilters: Record<string, string>;
-    ticketRange: Record<string, unknown>;
-    includeCategories: string[];
-  };
   counts: {
     capital_partners: number;
-    capital_partner_teams: number;
     sponsors: number;
+    agents: number;
+    counsel: number;
   };
   results: {
     capital_partners: InvestmentProfile[];
-    capital_partner_teams: InvestmentProfile[];
     sponsors: InvestmentProfile[];
+    agents: InvestmentProfile[];
+    counsel: InvestmentProfile[];
   };
-  pairings: {
-    by_sponsor: SponsorMatchEntry[];
+  all_contacts: Contact[];
+  contact_stats: {
+    total: number;
+    overdue_reminders: number;
+    upcoming_reminders: number;
   };
   message?: string;
+}
+
+export interface SavedStrategy {
+  id: string;
+  name: string;
+  preferenceFilters: Record<string, 'any' | 'Y' | 'N'>;
+  sizeFilter: {
+    minInvestment: number;
+    maxInvestment: number;
+  };
+  createdAt: string;
 }

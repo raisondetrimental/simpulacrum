@@ -17,8 +17,9 @@ import CapitalMarketsSection from './CapitalMarketsSection';
 import StrategySection from './StrategySection';
 import InfrastructureSection from './InfrastructureSection';
 import ClimateRiskSection from './ClimateRiskSection';
+import DealsSection from './DealsSection';
 
-type TabId = 'overview' | 'macro' | 'financial' | 'capital-markets' | 'strategy' | 'infrastructure' | 'climate';
+type TabId = 'overview' | 'macro' | 'financial' | 'capital-markets' | 'strategy' | 'infrastructure' | 'climate' | 'deals';
 
 interface Tab {
   id: TabId;
@@ -52,6 +53,7 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData })
         { id: 'capital-markets', label: 'Capital Markets' },
         { id: 'strategy', label: 'Development Strategy' },
         { id: 'infrastructure', label: 'Infrastructure' },
+        { id: 'deals', label: 'Deals' },
       ];
     } else {
       // Narrative format tabs (Vietnam)
@@ -60,6 +62,7 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData })
         { id: 'strategy', label: 'Development Strategy' },
         { id: 'infrastructure', label: 'Infrastructure' },
         { id: 'climate', label: 'Climate & Risk' },
+        { id: 'deals', label: 'Deals' },
       ];
     }
   };
@@ -217,6 +220,9 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData })
 
       case 'climate':
         return <ClimateRiskSection data={completeData} />;
+
+      case 'deals':
+        return <DealsSection countrySlug={fundamentals.slug} countryName={fundamentals.name} />;
 
       default:
         return <CountryFundamentalsComponent data={fundamentals} />;

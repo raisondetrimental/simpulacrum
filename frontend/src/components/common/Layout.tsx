@@ -45,7 +45,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   const isCountryReportsRoute = () => location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
   const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
   const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
-  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies' || location.pathname.startsWith('/strategies');
+  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies';
   const isToolsroute = () => location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
   const isCalendarRoute = () => location.pathname === '/liquidity/calendar';
 
@@ -117,6 +117,17 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   ];
 
   const desCategories = [
+    {
+      name: 'All',
+      path: '/crm/all',
+      pages: [
+        {name: 'Overview', path: '/crm/all'},
+        {name: 'Organisations', path: '/crm/all/organizations'},
+        {name: 'Contacts', path: '/crm/all/contacts'},
+        {name: 'Table View', path: '/crm/all/table'},
+        {name: 'Meeting History', path: '/crm/all/meeting-notes'}
+      ]
+    },
     {
       name: 'Liquidity',
       path: '/liquidity',

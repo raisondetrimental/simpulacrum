@@ -16,6 +16,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
   const [isStrategiesOpen, setIsStrategiesOpen] = useState(false);
   const [isAboutMeridianOpen, setIsAboutMeridianOpen] = useState(false);
   const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [isAllCRMOpen, setIsAllCRMOpen] = useState(false);
   const [isLiquidityOpen, setIsLiquidityOpen] = useState(false);
   const [isSponsorsOpen, setIsSponsorsOpen] = useState(false);
   const [isCounselOpen, setIsCounselOpen] = useState(false);
@@ -28,9 +29,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
   const isMarketsRoute = () => location.pathname.startsWith('/dashboard/markets') || location.pathname === '/dashboard/sovereign' || location.pathname === '/dashboard/corporate' || location.pathname === '/dashboard/fx' || location.pathname === '/dashboard/central-banks' || location.pathname === '/dashboard/ratings' || location.pathname === '/dashboard/usa-historical-yields';
   const isCountryReportsRoute = () => location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
   const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
-  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies' || location.pathname.startsWith('/strategies');
+  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies';
   const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
-  const isToolsRoute = () => location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
+  const isToolsRoute = () => location.pathname.startsWith('/crm/all') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
 
   const whiteboardPages = [
     { name: 'Overview', path: '/whiteboard' },
@@ -72,6 +73,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
     { name: 'Meridian', path: '/meridian' },
     { name: 'Firm Philosophy', path: '/the-firm' },
     { name: 'This Website', path: '/this-website' },
+  ];
+
+  const allCRMPages = [
+    { name: 'Overview', path: '/crm/all' },
+    { name: 'Organisations', path: '/crm/all/organizations' },
+    { name: 'Contacts', path: '/crm/all/contacts' },
+    { name: 'Table View', path: '/crm/all/table' },
+    { name: 'Meeting History', path: '/crm/all/meeting-notes' }
   ];
 
   const liquidityPages = [
@@ -319,6 +328,43 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             {/* CRM Main Dropdown */}
             {isToolsOpen && (
               <div className="ml-8 mt-2 space-y-1">
+                {/* All Subcategory */}
+                <div>
+                  <button
+                    onClick={() => setIsAllCRMOpen(!isAllCRMOpen)}
+                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
+                  >
+                    <span>All</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${isAllCRMOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* All CRM Pages */}
+                  {isAllCRMOpen && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {allCRMPages.map((page) => (
+                        <Link
+                          key={page.path}
+                          to={page.path}
+                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                            isActiveRoute(page.path)
+                              ? 'text-white opacity-100'
+                              : 'text-white opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          {page.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 {/* Liquidity Subcategory */}
                 <div>
                   <button
@@ -576,6 +622,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                     </div>
                   )}
                 </div>
+
               </div>
             )}
           </div>

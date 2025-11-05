@@ -1,0 +1,369 @@
+[
+  {
+    "id": "contact_003",
+    "organization_id": "cp_108",
+    "organization_type": "capital_partner",
+    "name": "Jay Lam",
+    "role": "",
+    "email": "",
+    "phone": "",
+    "team_name": "DCM Team",
+    "meeting_history": [
+      {
+        "date": "2025-10-20",
+        "notes": "Introductory call linking TME (Mongolian sponsor) with Guotai Haitong. GH expressed strong interest in participating as arranger for TME’s project bond, contingent on mandate execution. They have recent Mongolia issuance experience and a defined investor base. GH will run internal credit work (2–3 weeks) post-mandate and can introduce 2–3 investors per Hong Kong session. Appetite confirmed for unrated EM infra debt (energy/coal), provided standard listing, ISIN, and Euroclear are in place.",
+        "participants": "Joss Fisher, CT, AB, NA, AS, TME",
+        "next_follow_up": "2025-10-21",
+        "id": "meeting_1760914800000"
+      }
+    ],
+    "last_contact_date": "2025-10-28T19:12:31.036817",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-20T12:14:24.816864",
+    "last_updated": "2025-10-28T19:12:58.380948",
+    "capital_partner_id": "cp_108"
+  },
+  {
+    "id": "contact_004",
+    "organization_id": "cp_021",
+    "organization_type": "capital_partner",
+    "name": "Saab Dash",
+    "role": "Managing Director, Portfolio Manager",
+    "email": "enquiries@eightstone.com",
+    "phone": "",
+    "team_name": "Asia Team",
+    "meeting_history": [
+      {
+        "date": "2025-10-21",
+        "notes": "TME + Eightstone Introduction \n\nEightstone signalled cautious interest: they’re broadly comfortable with the credit but want structural issues resolved and clearer investor protections (security, covenants, step-in) before committing. They indicated a **max ~USD 15m** ticket, prefer **club-style** participation, and could introduce larger institutions (~USD 100m each) if the structure stacks up. They asked for **Singapore meetings** despite the HK track, and a focused **Investor Q&A** once materials are tightened. Commercially, **payments are timely**, effectively **power-for-cash daily** via NDC. Legally, this will be **Reg S (not 144A)** with documents expected to take **~4 weeks**, **counsel TBD**, and **closing timing still uncertain** pending documentation and scheduling.\n",
+        "participants": "AS, CT, NA, AB, TME Team",
+        "next_follow_up": "",
+        "id": "meeting_1761001200001"
+      }
+    ],
+    "last_contact_date": "2025-10-28T11:11:08.875691",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-21T16:20:03.857353",
+    "last_updated": "2025-10-28T19:31:05.952183",
+    "capital_partner_id": "cp_021"
+  },
+  {
+    "id": "contact_005",
+    "organization_id": "cp_035",
+    "organization_type": "capital_partner",
+    "name": "Mustafa Ulukan",
+    "role": "",
+    "email": "mustafa.ulukan@gmo.com",
+    "phone": "",
+    "team_name": "Debt, Emerging Markets",
+    "meeting_history": [
+      {
+        "date": "2025-10-23",
+        "notes": "The meeting focused on early structuring discussions for a coal-fired power plant project in Mongolia, involving the sponsor (TME), prospective anchor investor (GMO), and Meridian. GMO, represented by Mustafa Ulukan, positioned itself as a long-term holder and flagged the call feature as a critical issue, stating that a standard high-yield call structure is non-negotiable and that they would likely be the largest investor. TME’s Ganjoloo Ochirpurev provided initial project context, while Meridian committed to updating the financial model to reflect semi-annual Yield to Call scenarios from Year 2 onwards, with callable prices at 104% and 102% in Years 2 and 3 respectively. Aijan requested Kush to implement these changes post-call. The meeting confirmed alignment on long-term investor expectations and flagged the need for further sponsor-side detail.\n",
+        "participants": "AS, CT, NA, MJ, Ganjoloo Ochirpurev (TME), Adamant",
+        "next_follow_up": "",
+        "id": "meeting_1761174000003"
+      }
+    ],
+    "last_contact_date": "2025-10-23",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-23T14:41:49.554071",
+    "last_updated": "2025-10-23T14:44:46.253700",
+    "capital_partner_id": "cp_035"
+  },
+  {
+    "id": "contact_006",
+    "organization_id": "cp_022",
+    "organization_type": "capital_partner",
+    "name": "Matti Piiparinen ",
+    "role": "Investment fund",
+    "email": "m.piiparinen@finance-in-motion.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:46:35.760876",
+    "last_updated": "2025-10-27T17:46:35.760876",
+    "capital_partner_id": "cp_022"
+  },
+  {
+    "id": "contact_007",
+    "organization_id": "cp_022",
+    "organization_type": "capital_partner",
+    "name": "Hector Gomez Ang",
+    "role": "Investment fund",
+    "email": "h.gomezang@finance-in-motion.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:49:15.468138",
+    "last_updated": "2025-10-27T17:49:15.468138",
+    "capital_partner_id": "cp_022"
+  },
+  {
+    "id": "contact_008",
+    "organization_id": "cp_022",
+    "organization_type": "capital_partner",
+    "name": "Elvira Lefting",
+    "role": "Investment fund",
+    "email": "e.lefting@finance-in-motion.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:51:11.834081",
+    "last_updated": "2025-10-27T17:51:11.834602",
+    "capital_partner_id": "cp_022"
+  },
+  {
+    "id": "contact_009",
+    "organization_id": "cp_022",
+    "organization_type": "capital_partner",
+    "name": "Tim van der Werf",
+    "role": "Investment fund",
+    "email": "t.vanderwerf@finance-in-motion.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:52:25.480421",
+    "last_updated": "2025-10-27T17:52:25.480421",
+    "capital_partner_id": "cp_022"
+  },
+  {
+    "id": "contact_010",
+    "organization_id": "cp_039",
+    "organization_type": "capital_partner",
+    "name": "Jonathan Tian",
+    "role": "Fixed Income S&T",
+    "email": "jonathan.tian@miraeassetsg.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": "2025-10-29T18:47:49.808653",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-28T10:01:32.750964",
+    "last_updated": "2025-10-29T18:48:08.275684",
+    "capital_partner_id": "cp_039"
+  },
+  {
+    "id": "contact_011",
+    "organization_id": "cp_039",
+    "organization_type": "capital_partner",
+    "name": "Alok Rathore",
+    "role": "Head of Credit",
+    "email": "alok.rathore@miraeassetsg.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-28T10:02:42.469648",
+    "last_updated": "2025-10-28T10:02:42.469648",
+    "capital_partner_id": "cp_039"
+  },
+  {
+    "id": "scontact_1761059635948",
+    "organization_id": "corp_1761059535544",
+    "organization_type": "sponsor",
+    "name": "John Choi",
+    "role": "Vice President of Strategic Partnerships & Inorganic Growth",
+    "email": "jchoi@ocienergy.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [
+      {
+        "date": "2025-10-21T16:14:44.766762",
+        "notes": "The meeting centered on strategic opportunities in data centres, solar, and battery energy storage systems (BESS), with a strong emphasis on renewable energy rather than AI infrastructure. John Choi expressed interest in developed markets such as Europe and Australia, citing political risk as a key concern in emerging regions. He was open to platform investment structures and discussed potential earn-out mechanisms, preferring percentage-based partnerships over fixed sums. Nav highlighted the importance of understanding cost of equity across different markets and stressed the need for strong sponsors and technical expertise, particularly in wind energy, which John viewed as too complex for OCI’s current capabilities. The conversation also touched on Meridian’s experience in Central and Eastern Europe, where John showed interest in reviewing case studies. A literature review was proposed to assess solar/BESS viability in target regions, including tariff structures. The meeting concluded with John planning to reflect over the coming weeks, keeping the scope focused and exploratory.",
+        "participants": "CT, NA",
+        "next_follow_up": null,
+        "id": "meeting_1761059684766"
+      }
+    ],
+    "last_contact_date": "2025-10-21T16:14:44.766762",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-21T16:13:55.948567",
+    "last_updated": "2025-10-21T16:14:44.766762",
+    "corporate_id": "corp_1761059535544"
+  },
+  {
+    "id": "scontact_1761587709715",
+    "organization_id": "corp_1761587664535",
+    "organization_type": "sponsor",
+    "name": "Stepan Ruzicka",
+    "role": "Energy Lender DD",
+    "email": "stepan.ruzicka@ramboll.co.uk",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:55:09.715687",
+    "last_updated": "2025-10-27T17:55:09.715687",
+    "corporate_id": "corp_1761587664535"
+  },
+  {
+    "id": "scontact_1761587772846",
+    "organization_id": "corp_1761587664535",
+    "organization_type": "sponsor",
+    "name": "David Schofield ",
+    "role": "Energy Lender DD",
+    "email": "DSchofield@ramboll.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:56:12.846255",
+    "last_updated": "2025-10-27T17:56:12.846255",
+    "corporate_id": "corp_1761587664535"
+  },
+  {
+    "id": "scontact_1761588071273",
+    "organization_id": "corp_1761587956368",
+    "organization_type": "sponsor",
+    "name": "Daniel Goldberg",
+    "role": "Invetsment manager",
+    "email": "Dan.Goldberg@orix.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [
+      {
+        "date": "2025-10-27T18:32:52.208346",
+        "notes": "Meridian is currently advising a South Korean sponsor on an AI data centre project and is exploring JV equity options. ORIX has been engaged since late 2022 via its IPF team and is now considering broader digital infrastructure exposure. ORIX’s platform spans IG to junior capital, with $250m committed and capacity for further trades.\nORIX expressed interest in a warehouse SPV structure, allowing co-investment and management control. They avoid greenfield risk and prefer sites with existing energy infrastructure. The Korean sponsor seeks direct risk access for underwriting, with a preference for IG tenants.\nSizing remains open. ORIX may have appetite for equity above $70m, which could support a larger securitisation. Meridian and ORIX discussed preparing bullet points to share with UK pension funds and other capital partners to facilitate quick feedback. ORIX offered to assist in drafting these.",
+        "participants": "CT, NA",
+        "next_follow_up": null,
+        "id": "meeting_1761589972209"
+      }
+    ],
+    "last_contact_date": "2025-10-29T18:43:10.660246",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T18:01:11.273778",
+    "last_updated": "2025-10-29T18:43:21.833155",
+    "corporate_id": "corp_1761587956368"
+  },
+  {
+    "id": "cc_1761059233546",
+    "organization_id": "la_1761059214204",
+    "organization_type": "counsel",
+    "name": "Thomas Kollar",
+    "role": "Office Practice Leader Hong Kong, Corporate & Securities",
+    "email": "thomas.kollar @mayerbrown.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [
+      {
+        "date": "2025-10-21T16:09:56.382986",
+        "notes": "The meeting focused on structuring the debt issuance for Phase 1 (Block 2) of a Mongolia-based power plant, with potential implications for Phase 2 (Blocks 3 and 4). Key topics included the treatment of seniority within the cash waterfall, the role of existing debt and liens under Mongolian regulations, and the feasibility of implementing partial paydowns. Discussions explored whether a pari passu structure would necessitate an inter-creditor agreement, and whether New York law might be preferable to English law. The team also debated the sufficiency of including terms in new bond documentation without existing lender consent, and the possibility of separating the new issuance from legacy debt. A critical point was the need to review original documentation to clarify prior agreements, waterfall mechanics, and security arrangements. Legal counsel from Mayer Brown participated in exploratory discussions, with local counsel confirmed on Meridian’s side.",
+        "participants": "AB, CT, NA",
+        "next_follow_up": null,
+        "id": "meeting_1761059396382"
+      },
+      {
+        "id": "meeting_1762350887801",
+        "date": "2025-11-05T13:54:47.801978",
+        "notes": "/QLE J",
+        "participants": "",
+        "next_follow_up": null,
+        "created_by": {
+          "user_id": "user_001",
+          "username": "cameron.thomas@mu-llc.com",
+          "full_name": "Cameron Thomas"
+        }
+      }
+    ],
+    "last_contact_date": "2025-11-05T13:54:47.801978",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-21T16:07:13.546546",
+    "last_updated": "2025-11-05T13:54:47.807224",
+    "legal_advisor_id": "la_1761059214204"
+  },
+  {
+    "id": "cc_1761129837384",
+    "organization_id": "la_1761129737443",
+    "organization_type": "counsel",
+    "name": "Zoljargal Dashnyam (Zola)",
+    "role": "Founder",
+    "email": "zola.dashnyam@dplaw.mn",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": "2025-10-28T16:33:31.100240",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-22T11:43:57.384934",
+    "last_updated": "2025-10-28T19:31:30.295077",
+    "legal_advisor_id": "la_1761129737443"
+  },
+  {
+    "id": "cc_1761587834825",
+    "organization_id": "la_1761587808090",
+    "organization_type": "counsel",
+    "name": "Ayesha K. Waheed",
+    "role": "Sponsor Counsel Turkey",
+    "email": "awaheed@hunton.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:57:14.825549",
+    "last_updated": "2025-10-27T17:57:14.825549",
+    "legal_advisor_id": "la_1761587808090"
+  },
+  {
+    "id": "cc_1761587875750",
+    "organization_id": "la_1761587846993",
+    "organization_type": "counsel",
+    "name": "Adam Smith",
+    "role": "Sponsor Counsel Turkey",
+    "email": "adam.smith@orrick.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [],
+    "last_contact_date": null,
+    "next_contact_reminder": null,
+    "created_at": "2025-10-27T17:57:55.750868",
+    "last_updated": "2025-10-27T17:57:55.750868",
+    "legal_advisor_id": "la_1761587846993"
+  },
+  {
+    "id": "acontact_1761693400829",
+    "organization_id": "agent_1761693245321",
+    "organization_type": "agent",
+    "name": "Armin Fallahi",
+    "role": "Managing Director",
+    "email": "armin.fallahi@bondcapitalhouse.com",
+    "phone": "",
+    "team_name": "",
+    "meeting_history": [
+      {
+        "id": "meeting_1761693444771",
+        "date": "2025-10-28T23:17:24.771647",
+        "notes": "yes.",
+        "participants": "",
+        "next_follow_up": "",
+        "created_by": {
+          "user_id": "user_001",
+          "username": "Cam",
+          "full_name": "Cameron Thomas"
+        },
+        "updated_at": "2025-10-29T10:05:27.985394",
+        "updated_by": {
+          "user_id": "user_001",
+          "username": "Cam",
+          "full_name": "Cameron Thomas"
+        }
+      }
+    ],
+    "last_contact_date": "2025-10-29T18:34:43.507776",
+    "next_contact_reminder": null,
+    "created_at": "2025-10-28T23:16:40.829886",
+    "last_updated": "2025-10-29T18:34:50.059971",
+    "agent_id": "agent_1761693245321"
+  }
+]

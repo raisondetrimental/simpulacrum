@@ -15,7 +15,20 @@
       "Bash(nul)",
       "Bash(timeout /t 2)",
       "Bash(npx tsc:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(rm:*)",
+      "Bash(if [ -f \"C:\\Users\\Cameron Thomas\\OneDrive - Meridian Universal\\Documents\\Dashboard Website\\backend\\tests\\test_services\\test_investment_profiles.py\" ])",
+      "Bash(then rm \"C:\\Users\\Cameron Thomas\\OneDrive - Meridian Universal\\Documents\\Dashboard Website\\backend\\tests\\test_services\\test_investment_profiles.py\")",
+      "Bash(else echo \"Test file does not exist\")",
+      "Bash(fi)",
+      "Bash(if [ -f \"investment_strategies.json\" ])",
+      "Bash(then mv \"investment_strategies.json\" \"investment_strategies.json.old\")",
+      "Bash(if [ -f \"investment_profiles.json\" ])",
+      "Bash(then mv \"investment_profiles.json\" \"investment_profiles.json.old\")",
+      "Bash(\"C:\\Users\\Cameron Thomas\\OneDrive - Meridian Universal\\Documents\\Dashboard Website\\backend\\data\\json\\investment_strategies.json\")",
+      "Bash(python migrations/consolidate_organizations.py:*)",
+      "Bash(curl:*)",
+      "Bash(python -m json.tool:*)"
     ],
     "deny": [],
     "ask": []

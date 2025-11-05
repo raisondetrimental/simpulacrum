@@ -42,8 +42,6 @@ class Config:
     JSON_COUNSEL_CONTACTS = 'counsel_contacts.json'
     JSON_AGENTS = 'agents.json'
     JSON_AGENT_CONTACTS = 'agent_contacts.json'
-    JSON_INVESTMENT_STRATEGIES = 'investment_strategies.json'
-    JSON_INVESTMENT_PROFILES = 'investment_profiles.json'
     JSON_USERS = 'users.json'
     JSON_FX_RATES = 'fx_rates.json'
     JSON_FX_HISTORY = 'fx_rates_history.json'

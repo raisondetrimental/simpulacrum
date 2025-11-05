@@ -1,210 +1,397 @@
-﻿"""Filtering and matching utilities for unified investment profile queries."""
-from __future__ import annotations
+"""
+Investment Matching Service - Simplified Version
+Simple filtering logic to find matching organizations
+"""
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+import json
+from datetime import datetime
 
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
-from .investment_profiles import SHARED_PREFERENCE_KEYS
+def _load_json(file_path: Path) -> List[Dict[str, Any]]:
+    """
+    Load JSON file and return list
 
-DEFAULT_FLAG_VALUE = "any"
-MILLION = 1_000_000.0
-
-
-def _to_float(value: Any) -> Optional[float]:
-    if value is None:
-        return None
+    DEPRECATED: This function is kept for backward compatibility but is no longer used.
+    The service now uses the unified DAL to access organization and contact data.
+    """
+    if not file_path.exists():
+        return []
     try:
-        return float(value)
-    except (TypeError, ValueError):
-        return None
+        with open(file_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return []
 
 
-def _normalize_ticket_range(ticket_range: Optional[Mapping[str, Any]]) -> Tuple[Optional[float], Optional[float]]:
+def _normalize_ticket_range(ticket_range: Optional[Dict[str, Any]]) -> tuple:
+    """Normalize ticket range to (min, max) in absolute dollars"""
     if not ticket_range:
         return (None, None)
 
-    unit = str(ticket_range.get("unit") or ticket_range.get("units") or "million").lower()
-    raw_min = ticket_range.get("min")
-    raw_max = ticket_range.get("max")
-    if raw_min is None:
-        raw_min = ticket_range.get("minInvestment")
-    if raw_max is None:
-        raw_max = ticket_range.get("maxInvestment")
+    unit = str(ticket_range.get("unit", "million")).lower()
+    min_val = ticket_range.get("minInvestment", 0)
+    max_val = ticket_range.get("maxInvestment", 0)
 
-    min_value = _to_float(raw_min)
-    max_value = _to_float(raw_max)
-
+    # Convert to absolute dollars
     if unit in {"million", "millions", "mm"}:
-        if min_value is not None:
-            min_value *= MILLION
-        if max_value is not None:
-            max_value *= MILLION
+        min_val = min_val * 1_000_000 if min_val else None
+        max_val = max_val * 1_000_000 if max_val else None
+    else:
+        min_val = min_val if min_val else None
+        max_val = max_val if max_val else None
 
-    return (min_value, max_value)
+    return (min_val, max_val)
 
 
-def _range_satisfies_filter(
-    profile_min: Optional[float], profile_max: Optional[float],
-    filter_min: Optional[float], filter_max: Optional[float]
-) -> bool:
-    if filter_min is not None:
-        if profile_max is not None and profile_max < filter_min:
+def _matches_preferences(entity_prefs: Dict[str, str], filters: Dict[str, str]) -> bool:
+    """
+    Check if entity preferences match the filters.
+    "any" values in entity pass all filters.
+    """
+    for key, filter_value in filters.items():
+        entity_value = str(entity_prefs.get(key, "any")).upper()
+
+        # "any" is a wildcard - always matches
+        if entity_value == "ANY":
+            continue
+
+        # Filter requires Y, entity must have Y
+        if filter_value.upper() == "Y" and entity_value != "Y":
             return False
-    if filter_max is not None:
-        if profile_min is not None and profile_min > filter_max:
+
+        # Filter requires N, entity must have N (not Y)
+        if filter_value.upper() == "N" and entity_value == "Y":
             return False
+
     return True
 
 
-def _normalize_preference_filters(preference_filters: Optional[Mapping[str, Any]]) -> Dict[str, str]:
-    normalized: Dict[str, str] = {}
-    if not preference_filters:
-        return normalized
-    for key, value in preference_filters.items():
-        if key not in SHARED_PREFERENCE_KEYS:
+def _matches_ticket_range(entity_min: Optional[float], entity_max: Optional[float],
+                          filter_min: Optional[float], filter_max: Optional[float]) -> bool:
+    """Check if entity ticket range overlaps with filter range"""
+    # If no filter constraints, pass
+    if filter_min is None and filter_max is None:
+        return True
+
+    # If filter has constraints but entity has no range, reject
+    if (filter_min or filter_max) and entity_min is None and entity_max is None:
+        # Allow entities with no specified range if they're service providers (agents/counsel)
+        return True
+
+    # Check overlap
+    if filter_min is not None:
+        if entity_max is not None and entity_max < filter_min:
+            return False
+
+    if filter_max is not None:
+        if entity_min is not None and entity_min > filter_max:
+            return False
+
+    return True
+
+
+def find_matching_organizations(
+    json_dir: Path,
+    preference_filters: Dict[str, str],
+    ticket_range: Optional[Dict[str, Any]]
+) -> Dict[str, List[Dict[str, Any]]]:
+    """
+    Find organizations matching the strategy filters.
+    Returns dict with keys: capital_partners, sponsors, agents, counsel
+
+    Note: Uses unified DAL to access organization data from organizations.json
+    """
+    # Import unified DAL functions
+    from ..utils.unified_dal import get_all_organizations
+
+    # Load all CRM data from unified database
+    # The DAL returns data in legacy format, so existing logic continues to work
+    capital_partners = get_all_organizations("capital_partner")
+    corporates = get_all_organizations("sponsor")
+    agents = get_all_organizations("agent")
+    legal_advisors = get_all_organizations("counsel")
+
+    # Normalize ticket range
+    filter_min, filter_max = _normalize_ticket_range(ticket_range)
+
+    # Filter capital partners
+    matching_partners = []
+    for partner in capital_partners:
+        prefs = partner.get("preferences", {})
+        if not _matches_preferences(prefs, preference_filters):
             continue
-        str_value = str(value).strip().upper()
-        if str_value in {"", DEFAULT_FLAG_VALUE.upper()}:
-            continue
-        if str_value not in {"Y", "N"}:
-            continue
-        normalized[key] = str_value
-    return normalized
 
-
-def filter_profiles(
-    profiles: Sequence[Mapping[str, Any]],
-    *,
-    preference_filters: Optional[Mapping[str, Any]] = None,
-    ticket_range: Optional[Mapping[str, Any]] = None,
-) -> List[Mapping[str, Any]]:
-    """Filter a list of normalized profiles by shared preferences and ticket range."""
-    pref_filters = _normalize_preference_filters(preference_filters)
-    ticket_min, ticket_max = _normalize_ticket_range(ticket_range)
-
-    filtered: List[Mapping[str, Any]] = []
-    for profile in profiles:
-        prefs = profile.get("preferences", {})
-        matches = True
-        for key, expected in pref_filters.items():
-            value = str(prefs.get(key, DEFAULT_FLAG_VALUE)).upper()
-            if expected == "Y" and value != "Y":
-                matches = False
-                break
-            if expected == "N" and value == "Y":
-                matches = False
-                break
-        if not matches:
+        entity_min = partner.get("investment_min")
+        entity_max = partner.get("investment_max")
+        if not _matches_ticket_range(entity_min, entity_max, filter_min, filter_max):
             continue
 
-        if ticket_min is not None or ticket_max is not None:
-            if not _range_satisfies_filter(
-                _to_float(profile.get("ticket_min")),
-                _to_float(profile.get("ticket_max")),
-                ticket_min,
-                ticket_max,
-            ):
-                continue
+        matching_partners.append({
+            "profile_id": partner.get("id"),
+            "entity_id": partner.get("id"),
+            "name": partner.get("name"),
+            "organization_name": partner.get("name"),
+            "category": "capital_partner",
+            "relationship": partner.get("relationship"),
+            "ticket_min": entity_min,
+            "ticket_max": entity_max,
+            "currency": partner.get("currency"),
+            "preferences": prefs,
+            "metadata": {
+                "type": partner.get("type"),
+                "country": partner.get("country"),
+                "headquarters": partner.get("headquarters")
+            }
+        })
 
-        filtered.append(profile)
-    return filtered
+    # Filter sponsors (corporates)
+    matching_sponsors = []
+    for corp in corporates:
+        # Sponsors have infrastructure_types and regions
+        infra_types = corp.get("infrastructure_types", {})
+        regions = corp.get("regions", {})
 
+        # Combine both for preference matching
+        combined_prefs = {**infra_types, **regions}
 
-def _extract_positive_preferences(preferences: Mapping[str, Any]) -> set[str]:
-    return {key for key, value in preferences.items() if str(value).upper() == "Y"}
+        if not _matches_preferences(combined_prefs, preference_filters):
+            continue
 
+        entity_min = corp.get("investment_need_min")
+        entity_max = corp.get("investment_need_max")
+        if not _matches_ticket_range(entity_min, entity_max, filter_min, filter_max):
+            continue
 
-def _ticket_overlap_range(
-    a_min: Optional[float], a_max: Optional[float], b_min: Optional[float], b_max: Optional[float]
-) -> Optional[Tuple[Optional[float], Optional[float]]]:
-    lower_candidates = [v for v in (a_min, b_min) if v is not None]
-    upper_candidates = [v for v in (a_max, b_max) if v is not None]
+        matching_sponsors.append({
+            "profile_id": corp.get("id"),
+            "entity_id": corp.get("id"),
+            "name": corp.get("name"),
+            "organization_name": corp.get("name"),
+            "category": "sponsor",
+            "relationship": corp.get("relationship"),
+            "ticket_min": entity_min,
+            "ticket_max": entity_max,
+            "currency": corp.get("currency"),
+            "preferences": combined_prefs,
+            "metadata": {
+                "country": corp.get("country"),
+                "headquarters_location": corp.get("headquarters_location")
+            }
+        })
 
-    lower = max(lower_candidates) if lower_candidates else None
-    upper = min(upper_candidates) if upper_candidates else None
+    # Filter agents
+    matching_agents = []
+    for agent in agents:
+        agent_prefs = agent.get("agent_preferences", {})
 
-    if lower is not None and upper is not None and lower > upper:
-        return None
-    return (lower, upper)
+        if not _matches_preferences(agent_prefs, preference_filters):
+            continue
 
+        # Agents don't have ticket sizes, so skip ticket range check
+        matching_agents.append({
+            "profile_id": agent.get("id"),
+            "entity_id": agent.get("id"),
+            "name": agent.get("name"),
+            "organization_name": agent.get("name"),
+            "category": "agent",
+            "relationship": agent.get("relationship"),
+            "ticket_min": None,
+            "ticket_max": None,
+            "currency": None,
+            "preferences": agent_prefs,
+            "metadata": {
+                "agent_type": agent.get("agent_type"),
+                "country": agent.get("country"),
+                "headquarters_location": agent.get("headquarters_location")
+            }
+        })
 
-def _build_match_entry(
-    profile: Mapping[str, Any], overlap_preferences: Iterable[str], overlap_range: Optional[Tuple[Optional[float], Optional[float]]]
-) -> Optional[Dict[str, Any]]:
-    overlap_list = sorted(overlap_preferences)
-    if not overlap_list:
-        return None
-    # If no ticket overlap, still create entry if there are preference overlaps
-    # This handles cases where ticket ranges aren't set (0.0, 0.0)
-    if overlap_range is None:
-        min_val, max_val = None, None
-    else:
-        min_val, max_val = overlap_range
+    # Filter counsel
+    matching_counsel = []
+    for advisor in legal_advisors:
+        counsel_prefs = advisor.get("counsel_preferences", {})
+
+        if not _matches_preferences(counsel_prefs, preference_filters):
+            continue
+
+        # Counsel don't have ticket sizes
+        matching_counsel.append({
+            "profile_id": advisor.get("id"),
+            "entity_id": advisor.get("id"),
+            "name": advisor.get("name"),
+            "organization_name": advisor.get("name"),
+            "category": "counsel",
+            "relationship": advisor.get("relationship"),
+            "ticket_min": None,
+            "ticket_max": None,
+            "currency": None,
+            "preferences": counsel_prefs,
+            "metadata": {
+                "country": advisor.get("country"),
+                "headquarters_location": advisor.get("headquarters_location")
+            }
+        })
+
     return {
-        "profile_id": profile.get("profile_id"),
-        "entity_id": profile.get("entity_id"),
-        "name": profile.get("name"),
-        "organization_name": profile.get("organization_name"),
-        "capital_partner_id": profile.get("capital_partner_id"),
-        "capital_partner_name": profile.get("capital_partner_name"),
-        "overlap_preferences": overlap_list,
-        "overlap_size": len(overlap_list),
-        "ticket_overlap": {
-            "min": min_val,
-            "max": max_val,
-        },
-        "ticket_min": profile.get("ticket_min"),
-        "ticket_max": profile.get("ticket_max"),
-        "relationship": profile.get("relationship"),
+        "capital_partners": matching_partners,
+        "sponsors": matching_sponsors,
+        "agents": matching_agents,
+        "counsel": matching_counsel
     }
 
 
-def compute_pairings(
-    sponsors: Sequence[Mapping[str, Any]],
-    capital_partners: Sequence[Mapping[str, Any]],
-    capital_partner_teams: Sequence[Mapping[str, Any]],
+def get_contacts_for_matches(
+    json_dir: Path,
+    matching_results: Dict[str, List[Dict[str, Any]]]
 ) -> Dict[str, Any]:
-    """Compute sponsor ↔ partner/team overlaps for display."""
-    sponsor_matches: List[Dict[str, Any]] = []
-    for sponsor in sponsors:
-        sponsor_true = _extract_positive_preferences(sponsor.get("preferences", {}))
-        sponsor_ticket_min = _to_float(sponsor.get("ticket_min"))
-        sponsor_ticket_max = _to_float(sponsor.get("ticket_max"))
+    """
+    Aggregate contacts from all matching organizations.
+    Returns dict with: all_contacts list and contact_stats object
 
-        partner_entries: List[Dict[str, Any]] = []
-        for partner in capital_partners:
-            overlap = sponsor_true & _extract_positive_preferences(partner.get("preferences", {}))
-            ticket_overlap = _ticket_overlap_range(
-                sponsor_ticket_min, sponsor_ticket_max,
-                _to_float(partner.get("ticket_min")), _to_float(partner.get("ticket_max")),
-            )
-            entry = _build_match_entry(partner, overlap, ticket_overlap)
-            if entry:
-                partner_entries.append(entry)
+    Note: Uses unified DAL to access contact data from unified contacts.json
+    """
+    # Import unified DAL functions
+    from ..utils.unified_dal import get_all_contacts
 
-        team_entries: List[Dict[str, Any]] = []
-        for team in capital_partner_teams:
-            overlap = sponsor_true & _extract_positive_preferences(team.get("preferences", {}))
-            ticket_overlap = _ticket_overlap_range(
-                sponsor_ticket_min, sponsor_ticket_max,
-                _to_float(team.get("ticket_min")), _to_float(team.get("ticket_max")),
-            )
-            entry = _build_match_entry(team, overlap, ticket_overlap)
-            if entry:
-                team_entries.append(entry)
+    # Load all contact files from unified database
+    # The DAL returns data in legacy format with parent ID fields preserved
+    capital_contacts = get_all_contacts("capital_partner")
+    sponsor_contacts = get_all_contacts("sponsor")
+    agent_contacts = get_all_contacts("agent")
+    counsel_contacts = get_all_contacts("counsel")
 
-        if partner_entries or team_entries:
-            sponsor_matches.append(
-                {
-                    "sponsor_profile": sponsor,
-                    "capital_partners": partner_entries,
-                    "capital_partner_teams": team_entries,
-                }
-            )
+    all_contacts = []
+    now = datetime.now()
 
-    return {"by_sponsor": sponsor_matches}
+    # Helper to check if reminder is overdue or upcoming
+    def is_overdue(reminder_date_str):
+        if not reminder_date_str:
+            return False
+        try:
+            reminder_date = datetime.fromisoformat(reminder_date_str.replace('Z', '+00:00'))
+            return reminder_date < now
+        except:
+            return False
+
+    def is_upcoming(reminder_date_str):
+        if not reminder_date_str:
+            return False
+        try:
+            reminder_date = datetime.fromisoformat(reminder_date_str.replace('Z', '+00:00'))
+            days_until = (reminder_date - now).days
+            return 0 <= days_until <= 7
+        except:
+            return False
+
+    # Process capital partner contacts
+    capital_partner_ids = {cp["entity_id"] for cp in matching_results.get("capital_partners", [])}
+    capital_partner_map = {cp["entity_id"]: cp for cp in matching_results.get("capital_partners", [])}
+
+    for contact in capital_contacts:
+        parent_id = contact.get("capital_partner_id")
+        if parent_id in capital_partner_ids:
+            parent = capital_partner_map[parent_id]
+            all_contacts.append({
+                "id": contact.get("id"),
+                "name": contact.get("name"),
+                "role": contact.get("role"),
+                "email": contact.get("email"),
+                "phone": contact.get("phone"),
+                "team_name": contact.get("team_name"),
+                "parent_org_id": parent_id,
+                "parent_org_name": parent.get("name"),
+                "parent_org_type": "capital_partner",
+                "relationship": parent.get("relationship"),
+                "last_contact_date": contact.get("last_contact_date"),
+                "next_contact_reminder": contact.get("next_contact_reminder"),
+                "meeting_history_count": len(contact.get("meeting_history", []))
+            })
+
+    # Process sponsor contacts
+    sponsor_ids = {sp["entity_id"] for sp in matching_results.get("sponsors", [])}
+    sponsor_map = {sp["entity_id"]: sp for sp in matching_results.get("sponsors", [])}
+
+    for contact in sponsor_contacts:
+        parent_id = contact.get("corporate_id")
+        if parent_id in sponsor_ids:
+            parent = sponsor_map[parent_id]
+            all_contacts.append({
+                "id": contact.get("id"),
+                "name": contact.get("name"),
+                "role": contact.get("role"),
+                "email": contact.get("email"),
+                "phone": contact.get("phone"),
+                "team_name": contact.get("team_name", ""),
+                "parent_org_id": parent_id,
+                "parent_org_name": parent.get("name"),
+                "parent_org_type": "sponsor",
+                "relationship": parent.get("relationship"),
+                "last_contact_date": contact.get("last_contact_date"),
+                "next_contact_reminder": contact.get("next_contact_reminder"),
+                "meeting_history_count": len(contact.get("meeting_history", []))
+            })
+
+    # Process agent contacts
+    agent_ids = {ag["entity_id"] for ag in matching_results.get("agents", [])}
+    agent_map = {ag["entity_id"]: ag for ag in matching_results.get("agents", [])}
+
+    for contact in agent_contacts:
+        parent_id = contact.get("agent_id")
+        if parent_id in agent_ids:
+            parent = agent_map[parent_id]
+            all_contacts.append({
+                "id": contact.get("id"),
+                "name": contact.get("name"),
+                "role": contact.get("role"),
+                "email": contact.get("email"),
+                "phone": contact.get("phone"),
+                "team_name": contact.get("team_name", ""),
+                "parent_org_id": parent_id,
+                "parent_org_name": parent.get("name"),
+                "parent_org_type": "agent",
+                "relationship": parent.get("relationship"),
+                "last_contact_date": contact.get("last_contact_date"),
+                "next_contact_reminder": contact.get("next_contact_reminder"),
+                "meeting_history_count": len(contact.get("meeting_history", []))
+            })
+
+    # Process counsel contacts
+    counsel_ids = {co["entity_id"] for co in matching_results.get("counsel", [])}
+    counsel_map = {co["entity_id"]: co for co in matching_results.get("counsel", [])}
+
+    for contact in counsel_contacts:
+        parent_id = contact.get("legal_advisor_id")
+        if parent_id in counsel_ids:
+            parent = counsel_map[parent_id]
+            all_contacts.append({
+                "id": contact.get("id"),
+                "name": contact.get("name"),
+                "role": contact.get("role"),
+                "email": contact.get("email"),
+                "phone": contact.get("phone"),
+                "team_name": contact.get("team_name", ""),
+                "parent_org_id": parent_id,
+                "parent_org_name": parent.get("name"),
+                "parent_org_type": "counsel",
+                "relationship": parent.get("relationship"),
+                "last_contact_date": contact.get("last_contact_date"),
+                "next_contact_reminder": contact.get("next_contact_reminder"),
+                "meeting_history_count": len(contact.get("meeting_history", []))
+            })
+
+    # Calculate statistics
+    overdue_count = sum(1 for c in all_contacts if is_overdue(c.get("next_contact_reminder")))
+    upcoming_count = sum(1 for c in all_contacts if is_upcoming(c.get("next_contact_reminder")))
+
+    return {
+        "all_contacts": all_contacts,
+        "contact_stats": {
+            "total_count": len(all_contacts),
+            "overdue_reminders": overdue_count,
+            "upcoming_reminders": upcoming_count
+        }
+    }
 
 
-__all__ = [
-    "filter_profiles",
-    "compute_pairings",
-]
+__all__ = ['find_matching_organizations', 'get_contacts_for_matches']

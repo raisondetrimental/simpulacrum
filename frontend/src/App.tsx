@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/common/Layout';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import SuperAdminRoute from './components/common/SuperAdminRoute';
+import SuperAdminLayout from './components/common/SuperAdminLayout';
 import { AuthProvider } from './contexts/AuthContext';
 import { useDashboardData } from './hooks/useDashboardData';
 
@@ -39,8 +41,15 @@ import TheFirmPage from './pages/company/TheFirmPage';
 import ThisWebsitePage from './pages/company/ThisWebsitePage';
 import MeridianPage from './pages/company/MeridianPage';
 
-// Investment Strategies page
+// Investment Strategies
 import InvestmentStrategiesPage from './pages/deals/InvestmentStrategiesPage';
+
+// CRM All module pages
+import AllOverviewPage from './pages/crm/AllOverviewPage';
+import AllOrganizationsPage from './pages/crm/AllOrganizationsPage';
+import AllContactsPage from './pages/crm/AllContactsPage';
+import AllTableViewPage from './pages/crm/AllTableViewPage';
+import AllMeetingHistoryPage from './pages/crm/AllMeetingNotesPage';
 
 // Capital Partners module pages
 import OverviewPage from './pages/capital-partners/OverviewPage';
@@ -86,6 +95,8 @@ import DealDetail from './pages/deals/DealDetail';
 
 // Admin pages
 import UserManagement from './pages/admin/UserManagement';
+import SuperAdminHome from './pages/admin/SuperAdminHome';
+import SuperAdminSettings from './pages/admin/SuperAdminSettings';
 
 // Account pages
 import ProfilePage from './pages/account/ProfilePage';
@@ -141,6 +152,18 @@ const App: React.FC = () => {
           {/* Public route */}
           <Route path="/login" element={<LoginPage />} />
 
+          {/* Super Admin Portal - separate layout */}
+          <Route path="/admin/super" element={
+            <ProtectedRoute>
+              <SuperAdminRoute>
+                <SuperAdminLayout />
+              </SuperAdminRoute>
+            </ProtectedRoute>
+          }>
+            <Route index element={<SuperAdminHome />} />
+            <Route path="settings" element={<SuperAdminSettings />} />
+          </Route>
+
           {/* Protected routes */}
           <Route path="/*" element={
             <ProtectedRoute>
@@ -181,6 +204,14 @@ const App: React.FC = () => {
                   <Route path="/the-firm" element={<TheFirmPage />} />
                   <Route path="/this-website" element={<ThisWebsitePage />} />
                   <Route path="/meridian" element={<MeridianPage />} />
+
+                  {/* CRM All module routes */}
+                  <Route path="/crm/all" element={<AllOverviewPage />} />
+                  <Route path="/crm/all/organizations" element={<AllOrganizationsPage />} />
+                  <Route path="/crm/all/contacts" element={<AllContactsPage />} />
+                  <Route path="/crm/all/table" element={<AllTableViewPage />} />
+                  <Route path="/crm/all/meeting-notes" element={<AllMeetingHistoryPage />} />
+
                   <Route path="/liquidity" element={<OverviewPage />} />
 
                   {/* Capital Partners module routes */}
@@ -230,9 +261,8 @@ const App: React.FC = () => {
                   <Route path="/deals/:id" element={<DealDetail />} />
                   <Route path="/deals/:id/edit" element={<DealDetail />} />
 
-                  {/* Strategies & Deal Pipeline */}
+                  {/* Investment Strategies */}
                   <Route path="/investment-strategies" element={<InvestmentStrategiesPage />} />
-                  <Route path="/strategies/investment" element={<InvestmentStrategiesPage />} />
 
                   {/* Admin routes */}
                   <Route path="/admin/users" element={<UserManagement />} />

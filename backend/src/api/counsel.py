@@ -13,6 +13,13 @@ from ..utils.json_store import (
     read_json_list, write_json_file, find_by_id, filter_by_field,
     remove_by_id, generate_timestamp_id
 )
+from ..utils.unified_dal import (
+    get_all_organizations, get_organization_by_id,
+    create_organization, update_organization, delete_organization,
+    get_all_contacts, get_contact_by_id,
+    create_contact, update_contact, delete_contact,
+    delete_contacts_by_organization
+)
 
 counsel_bp = Blueprint('counsel', __name__, url_prefix='/api')
 
@@ -25,8 +32,7 @@ counsel_bp = Blueprint('counsel', __name__, url_prefix='/api')
 def get_legal_advisors():
     """Get all legal advisors"""
     try:
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
+        advisors = get_all_organizations("counsel")
 
         return jsonify({
             "success": True,
@@ -45,9 +51,7 @@ def get_legal_advisors():
 def get_legal_advisor(advisor_id):
     """Get a specific legal advisor by ID"""
     try:
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
-        advisor = find_by_id(advisors, 'id', advisor_id)
+        advisor = get_organization_by_id(advisor_id, "counsel")
 
         if not advisor:
             return jsonify({
@@ -88,15 +92,11 @@ def create_legal_advisor():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing advisors
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
-
         # Generate new ID (timestamp-based)
         new_id = f"la_{int(time.time() * 1000)}"
 
-        # Create new advisor
-        new_advisor = {
+        # Create new advisor with ID
+        new_advisor_data = {
             "id": new_id,
             "name": data['name'],
             "country": data['country'],
@@ -108,10 +108,10 @@ def create_legal_advisor():
             "last_updated": datetime.now().isoformat()
         }
 
-        advisors.append(new_advisor)
+        # Create via unified DAL
+        new_advisor = create_organization(new_advisor_data, "counsel")
 
-        # Save to file
-        if write_json_file(advisors_path, advisors):
+        if new_advisor:
             return jsonify({
                 "success": True,
                 "data": new_advisor,
@@ -142,38 +142,20 @@ def update_legal_advisor(advisor_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing advisors
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
-        advisor = find_by_id(advisors, 'id', advisor_id)
+        # Update via unified DAL
+        updated_advisor = update_organization(advisor_id, data, "counsel")
 
-        if not advisor:
+        if not updated_advisor:
             return jsonify({
                 "success": False,
                 "message": "Legal advisor not found"
             }), 404
 
-        # Update fields
-        advisor['name'] = data.get('name', advisor['name'])
-        advisor['country'] = data.get('country', advisor['country'])
-        advisor['headquarters_location'] = data.get('headquarters_location', advisor.get('headquarters_location', ''))
-        advisor['counsel_preferences'] = data.get('counsel_preferences', advisor.get('counsel_preferences', {}))
-        advisor['relationship'] = data.get('relationship', advisor['relationship'])
-        advisor['notes'] = data.get('notes', advisor.get('notes', ''))
-        advisor['last_updated'] = datetime.now().isoformat()
-
-        # Save to file
-        if write_json_file(advisors_path, advisors):
-            return jsonify({
-                "success": True,
-                "data": advisor,
-                "message": "Legal advisor updated successfully"
-            })
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Failed to save legal advisor"
-            }), 500
+        return jsonify({
+            "success": True,
+            "data": updated_advisor,
+            "message": "Legal advisor updated successfully"
+        })
 
     except Exception as e:
         return jsonify({
@@ -186,14 +168,8 @@ def update_legal_advisor(advisor_id):
 def delete_legal_advisor(advisor_id):
     """Delete a legal advisor and cascade delete all counsel contacts"""
     try:
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-
-        advisors = read_json_list(advisors_path)
-        contacts = read_json_list(contacts_path)
-
-        # Find advisor
-        advisor = find_by_id(advisors, 'id', advisor_id)
+        # Check if advisor exists
+        advisor = get_organization_by_id(advisor_id, "counsel")
         if not advisor:
             return jsonify({
                 "success": False,
@@ -201,19 +177,19 @@ def delete_legal_advisor(advisor_id):
             }), 404
 
         # CASCADE DELETE: Remove all contacts for this advisor
-        contacts = [c for c in contacts if c.get('legal_advisor_id') != advisor_id]
+        delete_contacts_by_organization(advisor_id, "counsel")
 
         # Remove the advisor
-        advisors = remove_by_id(advisors, 'id', advisor_id)
-
-        # Save all changes
-        write_json_file(advisors_path, advisors)
-        write_json_file(contacts_path, contacts)
-
-        return jsonify({
-            "success": True,
-            "message": "Legal advisor and associated contacts deleted successfully"
-        })
+        if delete_organization(advisor_id, "counsel"):
+            return jsonify({
+                "success": True,
+                "message": "Legal advisor and associated contacts deleted successfully"
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to delete legal advisor"
+            }), 500
 
     except Exception as e:
         return jsonify({
@@ -226,9 +202,8 @@ def delete_legal_advisor(advisor_id):
 def toggle_legal_advisor_star(advisor_id):
     """Toggle starred status for a legal advisor"""
     try:
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
-        advisor = find_by_id(advisors, 'id', advisor_id)
+        # Get current advisor
+        advisor = get_organization_by_id(advisor_id, "counsel")
 
         if not advisor:
             return jsonify({
@@ -237,15 +212,18 @@ def toggle_legal_advisor_star(advisor_id):
             }), 404
 
         # Toggle starred status
-        advisor['starred'] = not advisor.get('starred', False)
-        advisor['last_updated'] = datetime.now().isoformat()
+        update_data = {
+            "starred": not advisor.get('starred', False)
+        }
 
-        # Save to file
-        if write_json_file(advisors_path, advisors):
+        # Update via unified DAL
+        updated_advisor = update_organization(advisor_id, update_data, "counsel")
+
+        if updated_advisor:
             return jsonify({
                 "success": True,
-                "data": advisor,
-                "message": f"Legal advisor {'starred' if advisor['starred'] else 'unstarred'} successfully"
+                "data": updated_advisor,
+                "message": f"Legal advisor {'starred' if updated_advisor['starred'] else 'unstarred'} successfully"
             })
         else:
             return jsonify({
@@ -268,13 +246,9 @@ def toggle_legal_advisor_star(advisor_id):
 def get_counsel_contacts():
     """Get all counsel contacts or filter by legal_advisor_id"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Filter by legal_advisor_id if provided
         advisor_id = request.args.get('legal_advisor_id')
-        if advisor_id:
-            contacts = filter_by_field(contacts, 'legal_advisor_id', advisor_id)
+        contacts = get_all_contacts("counsel", advisor_id)
 
         return jsonify({
             "success": True,
@@ -293,9 +267,7 @@ def get_counsel_contacts():
 def get_counsel_contact(contact_id):
     """Get a specific counsel contact by ID"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        contact = get_contact_by_id(contact_id, "counsel")
 
         if not contact:
             return jsonify({
@@ -336,15 +308,11 @@ def create_counsel_contact():
                     "message": f"Missing required field: {field}"
                 }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Generate new ID (timestamp-based)
         new_id = f"cc_{int(time.time() * 1000)}"
 
         # Create new contact
-        new_contact = {
+        new_contact_data = {
             "id": new_id,
             "legal_advisor_id": data['legal_advisor_id'],
             "name": data['name'],
@@ -362,10 +330,10 @@ def create_counsel_contact():
             "last_updated": datetime.now().isoformat()
         }
 
-        contacts.append(new_contact)
+        # Create via unified DAL
+        new_contact = create_contact(new_contact_data, "counsel")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if new_contact:
             return jsonify({
                 "success": True,
                 "data": new_contact,
@@ -396,40 +364,20 @@ def update_counsel_contact(contact_id):
                 "message": "No data provided"
             }), 400
 
-        # Load existing contacts
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Update via unified DAL
+        updated_contact = update_contact(contact_id, data, "counsel")
 
-        if not contact:
+        if not updated_contact:
             return jsonify({
                 "success": False,
                 "message": "Contact not found"
             }), 404
 
-        # Update fields
-        contact['name'] = data.get('name', contact['name'])
-        contact['role'] = data.get('role', contact['role'])
-        contact['email'] = data.get('email', contact['email'])
-        contact['phone'] = data.get('phone', contact.get('phone', ''))
-        contact['linkedin'] = data.get('linkedin', contact.get('linkedin', ''))
-        contact['relationship'] = data.get('relationship', contact['relationship'])
-        contact['disc_profile'] = data.get('disc_profile', contact.get('disc_profile', ''))
-        contact['contact_notes'] = data.get('contact_notes', contact.get('contact_notes', ''))
-        contact['last_updated'] = datetime.now().isoformat()
-
-        # Save to file
-        if write_json_file(contacts_path, contacts):
-            return jsonify({
-                "success": True,
-                "data": contact,
-                "message": "Counsel contact updated successfully"
-            })
-        else:
-            return jsonify({
-                "success": False,
-                "message": "Failed to save counsel contact"
-            }), 500
+        return jsonify({
+            "success": True,
+            "data": updated_contact,
+            "message": "Counsel contact updated successfully"
+        })
 
     except Exception as e:
         return jsonify({
@@ -442,22 +390,16 @@ def update_counsel_contact(contact_id):
 def delete_counsel_contact(contact_id):
     """Delete a counsel contact"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Check if contact exists
+        contact = get_contact_by_id(contact_id, "counsel")
         if not contact:
             return jsonify({
                 "success": False,
                 "message": "Contact not found"
             }), 404
 
-        # Remove the contact
-        contacts = remove_by_id(contacts, 'id', contact_id)
-
-        # Save changes
-        if write_json_file(contacts_path, contacts):
+        # Delete via unified DAL
+        if delete_contact(contact_id, "counsel"):
             return jsonify({
                 "success": True,
                 "message": "Counsel contact deleted successfully"
@@ -503,11 +445,8 @@ def save_counsel_meeting():
                 "message": "contact_id is required"
             }), 400
 
-        # Update contact with meeting note
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Get contact via unified DAL
+        contact = get_contact_by_id(contact_id, "counsel")
 
         if not contact:
             return jsonify({
@@ -546,30 +485,17 @@ def save_counsel_meeting():
             if key in contact:
                 contact[key] = value
 
-        contact['last_updated'] = datetime.now().isoformat()
-
-        # Save contacts
-        write_json_file(contacts_path, contacts)
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "counsel")
 
         # Update legal advisor if needed
         if advisor_updates:
-            advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-            advisors = read_json_list(advisors_path)
-
             advisor_id = contact.get('legal_advisor_id')
-            advisor = find_by_id(advisors, 'id', advisor_id)
-
-            if advisor:
-                for key, value in advisor_updates.items():
-                    if key in advisor:
-                        advisor[key] = value
-
-                advisor['last_updated'] = datetime.now().isoformat()
-                write_json_file(advisors_path, advisors)
+            update_organization(advisor_id, advisor_updates, "counsel")
 
         return jsonify({
             "success": True,
-            "data": contact,
+            "data": updated_contact,
             "message": "Meeting notes saved successfully"
         })
 
@@ -586,8 +512,7 @@ def get_counsel_reminders():
     try:
         from datetime import datetime
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
+        contacts = get_all_contacts("counsel")
 
         # Filter contacts with reminders
         reminders = []
@@ -637,11 +562,8 @@ def update_counsel_meeting_note(contact_id, meeting_id):
                 "message": "No data provided"
             }), 400
 
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Find contact via unified DAL
+        contact = get_contact_by_id(contact_id, "counsel")
         if not contact:
             return jsonify({
                 "success": False,
@@ -677,13 +599,13 @@ def update_counsel_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "counsel")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
-                "data": contact,
+                "data": updated_contact,
                 "message": "Meeting note updated successfully"
             })
         else:
@@ -704,11 +626,8 @@ def update_counsel_meeting_note(contact_id, meeting_id):
 def delete_counsel_meeting_note(contact_id, meeting_id):
     """Delete a specific counsel meeting note"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
-        # Find contact
-        contact = find_by_id(contacts, 'id', contact_id)
+        # Find contact via unified DAL
+        contact = get_contact_by_id(contact_id, "counsel")
         if not contact:
             return jsonify({
                 "success": False,
@@ -731,10 +650,10 @@ def delete_counsel_meeting_note(contact_id, meeting_id):
                 "message": f"Meeting {meeting_id} not found"
             }), 404
 
-        contact['last_updated'] = datetime.now().isoformat()
+        # Update contact via unified DAL
+        updated_contact = update_contact(contact_id, contact, "counsel")
 
-        # Save to file
-        if write_json_file(contacts_path, contacts):
+        if updated_contact:
             return jsonify({
                 "success": True,
                 "message": "Meeting note deleted successfully"
@@ -765,10 +684,8 @@ def get_legal_advisor_deals(advisor_id):
     Returns deals with participation details (role, commitment, etc.)
     """
     try:
-        # Check if legal advisor exists
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
-        advisor = find_by_id(advisors, 'id', advisor_id)
+        # Check if legal advisor exists via unified DAL
+        advisor = get_organization_by_id(advisor_id, "counsel")
 
         if not advisor:
             return jsonify({
@@ -848,8 +765,7 @@ def get_legal_advisor_deals(advisor_id):
 def export_legal_advisors_xlsx():
     """Export all legal advisors to XLSX format"""
     try:
-        advisors_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_LEGAL_ADVISORS']
-        advisors = read_json_list(advisors_path)
+        advisors = get_all_organizations("counsel")
 
         # Create workbook and worksheet
         wb = Workbook()
@@ -905,13 +821,9 @@ def export_legal_advisors_xlsx():
 def export_counsel_contacts_xlsx():
     """Export all counsel contacts to XLSX format (optionally filtered by legal_advisor_id)"""
     try:
-        contacts_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_COUNSEL_CONTACTS']
-        contacts = read_json_list(contacts_path)
-
         # Filter by legal_advisor_id if provided
         advisor_id = request.args.get('legal_advisor_id')
-        if advisor_id:
-            contacts = filter_by_field(contacts, 'legal_advisor_id', advisor_id)
+        contacts = get_all_contacts("counsel", advisor_id)
 
         # Create workbook and worksheet
         wb = Workbook()
