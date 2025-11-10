@@ -119,6 +119,18 @@ const SponsorMeetingNotes: React.FC = () => {
     fetchAllData();
   }, []);
 
+  // Auto-select corporate if org query parameter is provided
+  useEffect(() => {
+    const orgId = searchParams.get('org');
+    if (orgId && allCorporates.length > 0 && !selectedCorporate) {
+      const corporate = allCorporates.find(corp => corp.id === orgId);
+      if (corporate) {
+        setSelectedCorporate(corporate);
+        setCurrentStep('select-contact');
+      }
+    }
+  }, [searchParams, allCorporates, selectedCorporate]);
+
   // Auto-select contact and corporate if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');

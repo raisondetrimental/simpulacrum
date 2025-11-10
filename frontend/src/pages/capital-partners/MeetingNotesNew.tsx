@@ -81,6 +81,18 @@ const MeetingNotesNew: React.FC = () => {
     fetchAllData();
   }, []);
 
+  // Auto-select partner if org query parameter is provided
+  useEffect(() => {
+    const orgId = searchParams.get('org');
+    if (orgId && allPartners.length > 0 && !selectedPartner) {
+      const partner = allPartners.find(p => p.id === orgId);
+      if (partner) {
+        setSelectedPartner(partner);
+        setCurrentStep('select-contact');
+      }
+    }
+  }, [searchParams, allPartners, selectedPartner]);
+
   // Auto-select contact and partner if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');
