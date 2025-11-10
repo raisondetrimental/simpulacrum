@@ -8,14 +8,17 @@ import {
   getPlaybookCalendar,
   createPlaybookCalendarEntry,
   updatePlaybookCalendarEntry,
-  deletePlaybookCalendarEntry
+  deletePlaybookCalendarEntry,
+  getPlaybookWorkstreams
 } from '../../../../services/playbookService';
-import { PlaybookCalendarEntry, FormStatus } from '../../../../types/playbook';
+import { PlaybookCalendarEntry, PlaybookWorkstream, FormStatus } from '../../../../types/playbook';
+import WorkstreamMultiSelect from '../../../ui/WorkstreamMultiSelect';
 
 type SortKey = 'date' | 'tasks' | 'where' | 'internal_ents' | 'external_ents' | 'other_external' | 'other_notes';
 
 const PlaybookCalendarTab: React.FC = () => {
   const [entries, setEntries] = useState<PlaybookCalendarEntry[]>([]);
+  const [workstreams, setWorkstreams] = useState<PlaybookWorkstream[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingEntry, setEditingEntry] = useState<PlaybookCalendarEntry | null>(null);
@@ -23,6 +26,7 @@ const PlaybookCalendarTab: React.FC = () => {
   const [statusMessage, setStatusMessage] = useState('');
   const [sortKey, setSortKey] = useState<SortKey>('date');
   const [sortAsc, setSortAsc] = useState(true);
+  const [selectedWorkstreamCodes, setSelectedWorkstreamCodes] = useState<string[]>([]);
 
   const [formData, setFormData] = useState<Omit<PlaybookCalendarEntry, 'id'>>({
     date: null,
@@ -36,6 +40,7 @@ const PlaybookCalendarTab: React.FC = () => {
 
   useEffect(() => {
     fetchEntries();
+    fetchWorkstreams();
   }, []);
 
   const fetchEntries = async () => {
@@ -49,6 +54,17 @@ const PlaybookCalendarTab: React.FC = () => {
       console.error('Error fetching calendar:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchWorkstreams = async () => {
+    try {
+      const response = await getPlaybookWorkstreams();
+      if (response.success && response.data) {
+        setWorkstreams(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching workstreams:', error);
     }
   };
 
@@ -96,6 +112,25 @@ const PlaybookCalendarTab: React.FC = () => {
     return day === 0 || day === 6; // Sunday = 0, Saturday = 6
   };
 
+  const isFutureOrToday = (dateStr: string | null): boolean => {
+    if (!dateStr) return true; // If no date, default to using dropdown
+    const date = new Date(dateStr);
+    const today = new Date();
+    // Set time to start of day for comparison
+    date.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return date >= today;
+  };
+
+  const parseTasksToArray = (tasksStr: string): string[] => {
+    if (!tasksStr || tasksStr.trim() === '') return [];
+    return tasksStr.split(',').map(t => t.trim()).filter(t => t !== '');
+  };
+
+  const arrayToTasksString = (codes: string[]): string => {
+    return codes.join(', ');
+  };
+
   const getRowClassName = (entry: PlaybookCalendarEntry): string => {
     const classes = ['border-b border-gray-200 hover:bg-gray-50'];
 
@@ -121,6 +156,8 @@ const PlaybookCalendarTab: React.FC = () => {
         other_notes: entry.other_notes,
         other_external: entry.other_external
       });
+      // Parse tasks for workstream selection
+      setSelectedWorkstreamCodes(parseTasksToArray(entry.tasks));
     } else {
       setEditingEntry(null);
       // Pre-populate with today's date
@@ -134,6 +171,7 @@ const PlaybookCalendarTab: React.FC = () => {
         other_notes: '',
         other_external: ''
       });
+      setSelectedWorkstreamCodes([]);
     }
     setShowModal(true);
     setFormStatus('idle');
@@ -145,8 +183,16 @@ const PlaybookCalendarTab: React.FC = () => {
     setFormStatus('saving');
 
     try {
+      // If date is future/today, use workstream codes; otherwise keep as text
+      const dataToSave = {
+        ...formData,
+        tasks: isFutureOrToday(formData.date)
+          ? arrayToTasksString(selectedWorkstreamCodes)
+          : formData.tasks
+      };
+
       if (editingEntry) {
-        const response = await updatePlaybookCalendarEntry(editingEntry.id, formData);
+        const response = await updatePlaybookCalendarEntry(editingEntry.id, dataToSave);
         if (response.success) {
           setFormStatus('success');
           setStatusMessage('Entry updated successfully!');
@@ -154,7 +200,7 @@ const PlaybookCalendarTab: React.FC = () => {
           setTimeout(() => setShowModal(false), 1500);
         }
       } else {
-        const response = await createPlaybookCalendarEntry(formData);
+        const response = await createPlaybookCalendarEntry(dataToSave);
         if (response.success) {
           setFormStatus('success');
           setStatusMessage('Entry created successfully!');
@@ -335,13 +381,32 @@ const PlaybookCalendarTab: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tasks</label>
-                  <textarea
-                    rows={2}
-                    value={formData.tasks}
-                    onChange={(e) => setFormData({ ...formData, tasks: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tasks
+                    {formData.date && !isFutureOrToday(formData.date) && (
+                      <span className="ml-2 text-xs text-gray-500">(Past date - text only)</span>
+                    )}
+                    {formData.date && isFutureOrToday(formData.date) && (
+                      <span className="ml-2 text-xs text-gray-500">(Select from workstreams)</span>
+                    )}
+                  </label>
+                  {formData.date && !isFutureOrToday(formData.date) ? (
+                    // Past dates: Show text input
+                    <textarea
+                      rows={2}
+                      value={formData.tasks}
+                      onChange={(e) => setFormData({ ...formData, tasks: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      placeholder="Enter tasks as text (e.g., O1, C3, D1)"
+                    />
+                  ) : (
+                    // Future/Today dates: Show workstream dropdown
+                    <WorkstreamMultiSelect
+                      workstreams={workstreams}
+                      selectedCodes={selectedWorkstreamCodes}
+                      onChange={setSelectedWorkstreamCodes}
+                    />
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
