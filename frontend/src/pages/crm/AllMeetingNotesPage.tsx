@@ -164,12 +164,18 @@ const AllMeetingNotesPage: React.FC = () => {
 
     try {
       // Fetch all organizations in parallel
-      const [capitalPartners, corporates, legalAdvisors, agents] = await Promise.all([
+      const [capitalPartnersRes, corporatesRes, legalAdvisorsRes, agentsRes] = await Promise.all([
         getCapitalPartners(),
         getCorporates(),
         getLegalAdvisors(),
         getAgents()
       ]);
+
+      // Extract data arrays from API responses
+      const capitalPartners = capitalPartnersRes.data || [];
+      const corporates = corporatesRes.data || [];
+      const legalAdvisors = legalAdvisorsRes.data || [];
+      const agents = agentsRes.data || [];
 
       // Map to unified search results
       const allOrgs: OrganizationSearchResult[] = [
@@ -181,14 +187,14 @@ const AllMeetingNotesPage: React.FC = () => {
           country: cp.country
         })),
         ...corporates.map(corp => ({
-          id: corp.id,
+          id: corp.corporate_id,
           name: corp.name,
           type: 'sponsor' as const,
           headquarters_location: corp.headquarters_location,
           country: corp.country
         })),
         ...legalAdvisors.map(legal => ({
-          id: legal.id,
+          id: legal.legal_advisor_id,
           name: legal.name,
           type: 'counsel' as const,
           headquarters_location: legal.headquarters_location,
