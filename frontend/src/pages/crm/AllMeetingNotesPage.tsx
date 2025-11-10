@@ -189,14 +189,14 @@ const AllMeetingNotesPage: React.FC = () => {
           country: cp.country
         })),
         ...corporates.map(corp => ({
-          id: corp.corporate_id,
+          id: corp.id,
           name: corp.name,
           type: 'sponsor' as const,
           headquarters_location: corp.headquarters_location,
           country: corp.country
         })),
         ...legalAdvisors.map(legal => ({
-          id: legal.legal_advisor_id,
+          id: legal.id,
           name: legal.name,
           type: 'counsel' as const,
           headquarters_location: legal.headquarters_location,
