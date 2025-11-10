@@ -20,6 +20,6 @@ if __name__ == '__main__':
     print(f"[*] Debug Mode: {app.config.get('DEBUG', False)}")
     print(f"[*] Data Directory: {app.config.get('DATA_DIR')}")
     print(f"[*] CORS Origins: {app.config.get('CORS_ORIGINS')}")
-    print(f"\n[OK] Server starting on http://127.0.0.1:5000\n")
+    print(f"\n[OK] Server starting on http://localhost:5000\n")
 
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    app.run(host='localhost', port=5000, debug=True)

@@ -43,7 +43,9 @@ ACTION_TYPES = [
 # Investment Preference Keys (Shared)
 # ============================================================================
 # Canonical definition: shared/constants/preferences.md
-# These 10 keys are used for cross-CRM matching
+# These 7 keys are used for cross-CRM matching
+# Note: Individual country preferences (vietnam, mongolia, turkey) have been
+# replaced with a dynamic 'countries' array field
 
 SHARED_PREFERENCE_KEYS = (
     "transport_infra",
@@ -53,9 +55,6 @@ SHARED_PREFERENCE_KEYS = (
     "asia_em",
     "africa_em",
     "emea_em",
-    "vietnam",
-    "mongolia",
-    "turkey",
 )
 
 # ============================================================================

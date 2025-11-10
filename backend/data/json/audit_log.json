@@ -1,0 +1,29 @@
+{
+  "entries": [
+    {
+      "id": "audit_1762630769873",
+      "timestamp": "2025-11-08T19:39:29.873082",
+      "user_id": "user_001",
+      "username": "cameron.thomas@mu-llc.com",
+      "action": "toggle_feature_flag",
+      "entity_type": "feature_flags",
+      "affected_ids": [
+        "experimental_ui_enabled"
+      ],
+      "affected_count": 1,
+      "old_values": {
+        "enabled": false
+      },
+      "new_values": {
+        "enabled": true
+      },
+      "metadata": {
+        "flag_name": "experimental_ui_enabled"
+      },
+      "success": true,
+      "error_message": null
+    }
+  ],
+  "last_updated": "2025-11-08T19:39:29.873082",
+  "total_entries": 1
+}

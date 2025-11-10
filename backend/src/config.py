@@ -28,8 +28,6 @@ class Config:
 
     # Excel files
     EXCEL_DASHBOARD = 'Markets Dashboard (Macro Enabled) (version 3).xlsm'
-    EXCEL_PDF = 'PDF.xlsx'
-    EXCEL_INSTITUTIONS = 'Institutions.xlsx'
 
     # JSON files
     JSON_INSTITUTIONS = 'institutions_LEGACY.json'

@@ -10,9 +10,18 @@ from ..models.user import User, get_user_by_username, verify_password
 auth_bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     """Login endpoint"""
+    # Handle GET requests (from Flask-Login redirects)
+    if request.method == 'GET':
+        return jsonify({
+            "success": False,
+            "message": "Authentication required. Please log in.",
+            "authenticated": False
+        }), 401
+
+    # Handle POST requests (actual login)
     try:
         data = request.get_json()
         username = data.get('username')

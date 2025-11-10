@@ -13,6 +13,7 @@ import {
 } from '../../../types/sponsors';
 import SponsorPreferencesGrid from './SponsorPreferencesGrid';
 import DealPrecedentsEditor from '../../shared/DealPrecedentsEditor';
+import CountryMultiSelect from '../../ui/CountryMultiSelect';
 
 interface CorporateFormProps {
   initialData?: Corporate | null;
@@ -36,6 +37,7 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
     notes: initialData?.notes || '',
     company_description: initialData?.company_description || '',
     deal_precedents: initialData?.deal_precedents || [],
+    countries: initialData?.countries || [],
     infrastructure_types: initialData?.infrastructure_types || {
       transport_infra: 'N',
       energy_infra: 'N'
@@ -45,10 +47,7 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
       emerging_markets: 'N',
       asia_em: 'N',
       africa_em: 'N',
-      emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N'
+      emea_em: 'N'
     }
   });
 
@@ -105,6 +104,13 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
     setFormData((prev) => ({
       ...prev,
       deal_precedents: deals
+    }));
+  };
+
+  const handleCountriesChange = (countries: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      countries
     }));
   };
 
@@ -275,6 +281,19 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
           readonly={false}
           collapsible={true}
         />
+      </div>
+
+      {/* Country Investment Preferences */}
+      <div>
+        <CountryMultiSelect
+          selectedCountries={formData.countries || []}
+          onChange={handleCountriesChange}
+          label="Investment Focus Countries"
+          placeholder="Select countries of investment interest..."
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          Select specific countries where this organization has investment focus
+        </p>
       </div>
 
       {/* Notes */}

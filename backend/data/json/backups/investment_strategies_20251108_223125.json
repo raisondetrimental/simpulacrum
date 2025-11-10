@@ -1,0 +1,101 @@
+[
+  {
+    "createdAt": "2025-11-05T10:38:54.332Z",
+    "id": "1762339134331",
+    "name": "BPT",
+    "preferenceFilters": {
+      "africa_em": "any",
+      "asia_em": "any",
+      "bonds": "any",
+      "coal": "Y",
+      "emea_em": "any",
+      "emerging_markets": "any",
+      "energy_infra": "any",
+      "high_yield": "Y",
+      "infra_debt": "Y",
+      "investment_grade": "any",
+      "loan_agreement": "any",
+      "mongolia": "Y",
+      "more_expensive_than_usual": "any",
+      "public_bond_high_yield": "any",
+      "quasi_sovereign_only": "any",
+      "require_bank_guarantee": "any",
+      "senior_secured": "any",
+      "subordinated": "any",
+      "transport_infra": "any",
+      "turkey": "any",
+      "us_market": "any",
+      "vietnam": "any"
+    },
+    "sizeFilter": {
+      "maxInvestment": 350,
+      "minInvestment": 0
+    }
+  },
+  {
+    "id": "1762368606656",
+    "name": "YSB",
+    "preferenceFilters": {
+      "investment_grade": "any",
+      "high_yield": "Y",
+      "infra_debt": "Y",
+      "senior_secured": "any",
+      "subordinated": "any",
+      "bonds": "any",
+      "loan_agreement": "any",
+      "quasi_sovereign_only": "any",
+      "public_bond_high_yield": "any",
+      "us_market": "any",
+      "emerging_markets": "any",
+      "asia_em": "any",
+      "africa_em": "any",
+      "emea_em": "any",
+      "vietnam": "any",
+      "mongolia": "any",
+      "turkey": "Y",
+      "coal": "any",
+      "energy_infra": "Y",
+      "transport_infra": "any",
+      "more_expensive_than_usual": "any",
+      "require_bank_guarantee": "any"
+    },
+    "sizeFilter": {
+      "minInvestment": 0,
+      "maxInvestment": 0
+    },
+    "createdAt": "2025-11-05T18:50:06.656Z"
+  },
+  {
+    "id": "1762368665150",
+    "name": "DCF",
+    "preferenceFilters": {
+      "investment_grade": "any",
+      "high_yield": "Y",
+      "infra_debt": "Y",
+      "senior_secured": "any",
+      "subordinated": "any",
+      "bonds": "any",
+      "loan_agreement": "any",
+      "quasi_sovereign_only": "any",
+      "public_bond_high_yield": "any",
+      "us_market": "any",
+      "emerging_markets": "any",
+      "asia_em": "any",
+      "africa_em": "any",
+      "emea_em": "any",
+      "vietnam": "Y",
+      "mongolia": "any",
+      "turkey": "any",
+      "coal": "any",
+      "energy_infra": "any",
+      "transport_infra": "Y",
+      "more_expensive_than_usual": "any",
+      "require_bank_guarantee": "any"
+    },
+    "sizeFilter": {
+      "minInvestment": 0,
+      "maxInvestment": 0
+    },
+    "createdAt": "2025-11-05T18:51:05.150Z"
+  }
+]

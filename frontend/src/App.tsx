@@ -97,6 +97,9 @@ import DealDetail from './pages/deals/DealDetail';
 import UserManagement from './pages/admin/UserManagement';
 import SuperAdminHome from './pages/admin/SuperAdminHome';
 import SuperAdminSettings from './pages/admin/SuperAdminSettings';
+import MyNotes from './pages/admin/MyNotes';
+import PlaybookManager from './pages/admin/PlaybookManager';
+import CountriesMasterManager from './pages/admin/CountriesMasterManager';
 
 // Account pages
 import ProfilePage from './pages/account/ProfilePage';
@@ -161,6 +164,9 @@ const App: React.FC = () => {
             </ProtectedRoute>
           }>
             <Route index element={<SuperAdminHome />} />
+            <Route path="notes" element={<MyNotes />} />
+            <Route path="playbook" element={<PlaybookManager />} />
+            <Route path="countries" element={<CountriesMasterManager />} />
             <Route path="settings" element={<SuperAdminSettings />} />
           </Route>
 

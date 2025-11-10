@@ -14,6 +14,7 @@ import {
 } from '../../../types/liquidity';
 import DealPrecedentsEditor from '../../shared/DealPrecedentsEditor';
 import PreferencesGrid from './PreferencesGrid';
+import CountryMultiSelect from '../../ui/CountryMultiSelect';
 
 interface CapitalPartnerFormProps {
   initialData?: CapitalPartner | null;
@@ -38,6 +39,7 @@ const CapitalPartnerForm: React.FC<CapitalPartnerFormProps> = ({
     notes: initialData?.notes || '',
     company_description: initialData?.company_description || '',
     deal_precedents: initialData?.deal_precedents || [],
+    countries: initialData?.countries || [],
     preferences: initialData?.preferences || {
       investment_grade: 'N',
       high_yield: 'N',
@@ -53,9 +55,6 @@ const CapitalPartnerForm: React.FC<CapitalPartnerFormProps> = ({
       asia_em: 'N',
       africa_em: 'N',
       emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N',
       coal: 'N',
       energy_infra: 'N',
       transport_infra: 'N',
@@ -104,6 +103,13 @@ const CapitalPartnerForm: React.FC<CapitalPartnerFormProps> = ({
     setFormData((prev) => ({
       ...prev,
       deal_precedents: deals
+    }));
+  };
+
+  const handleCountriesChange = (countries: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      countries
     }));
   };
 
@@ -299,6 +305,19 @@ const CapitalPartnerForm: React.FC<CapitalPartnerFormProps> = ({
           readonly={false}
           collapsible={true}
         />
+      </div>
+
+      {/* Country Investment Preferences */}
+      <div>
+        <CountryMultiSelect
+          selectedCountries={formData.countries || []}
+          onChange={handleCountriesChange}
+          label="Investment Focus Countries"
+          placeholder="Select countries of investment interest..."
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          Select specific countries where this organization has investment focus
+        </p>
       </div>
 
       {/* Notes */}

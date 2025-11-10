@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCountryFundamentals, getCountryCompleteData } from '../../services/countriesService';
+import { fxService } from '../../services/fxService';
 import CountryTabs from '../../components/features/countries/CountryTabs';
 import type { CountryFundamentals as CountryFundamentalsType, CountryCompleteData } from '../../types/country';
 import { getCountryImages } from '../../utils/countryImages';
+import { getCurrencyCode } from '../../utils/currencyMappings';
 
 const MongoliaPage: React.FC = () => {
   const navigate = useNavigate();
   const [fundamentals, setFundamentals] = useState<CountryFundamentalsType | null>(null);
   const [completeData, setCompleteData] = useState<CountryCompleteData | null>(null);
+  const [fxData, setFxData] = useState<{
+    rate: number;
+    name: string;
+    changes: {
+      '1D': number | null;
+      '1W': number | null;
+      '1M': number | null;
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = getCountryImages('mongolia');
+  const currencyCode = getCurrencyCode('mongolia');
 
   const countries = [
     { name: 'Armenia', slug: 'armenia', path: '/dashboard/armenia' },
@@ -27,9 +39,10 @@ const MongoliaPage: React.FC = () => {
       try {
         setLoading(true);
 
-        const [fundamentalsResponse, completeDataResponse] = await Promise.all([
+        const [fundamentalsResponse, completeDataResponse, fxRatesResponse] = await Promise.all([
           getCountryFundamentals('mongolia'),
-          getCountryCompleteData('mongolia')
+          getCountryCompleteData('mongolia'),
+          fxService.getLatest()
         ]);
 
         if (fundamentalsResponse.success && fundamentalsResponse.data) {
@@ -45,6 +58,10 @@ const MongoliaPage: React.FC = () => {
           setError(completeDataResponse.message || 'Failed to load complete country data');
           return;
         }
+
+        if (currencyCode && fxRatesResponse.rates[currencyCode]) {
+          setFxData(fxRatesResponse.rates[currencyCode]);
+        }
       } catch (err) {
         setError('An error occurred while loading country data');
         console.error('Error fetching Mongolia data:', err);
@@ -54,7 +71,7 @@ const MongoliaPage: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [currencyCode]);
 
   return (
     <div className="space-y-6">
@@ -128,7 +145,12 @@ const MongoliaPage: React.FC = () => {
 
       {/* Country Tabs with Complete Data */}
       {fundamentals && completeData && !loading && (
-        <CountryTabs fundamentals={fundamentals} completeData={completeData} />
+        <CountryTabs
+          fundamentals={fundamentals}
+          completeData={completeData}
+          fxData={fxData}
+          currencyCode={currencyCode || undefined}
+        />
       )}
     </div>
   );

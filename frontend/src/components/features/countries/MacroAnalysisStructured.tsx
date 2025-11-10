@@ -9,6 +9,7 @@ import type { CountryCompleteData, CountryFundamentals } from '../../../types/co
 import AdaptiveStatCard from './shared/AdaptiveStatCard';
 import ExpandableTextBlock from './shared/ExpandableTextBlock';
 import { GRID_CONFIGS } from '../../../constants/typography';
+import { useScrollReveal } from '../../../hooks/useScrollReveal';
 
 interface MacroAnalysisStructuredProps {
   data: CountryCompleteData;
@@ -81,10 +82,23 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
     ...projectedData.slice(0, 2)
   ].slice(0, 4); // Ensure max 4 cards
 
+  // Scroll reveal hooks for each section
+  const { ref: ref1, isVisible: isVisible1 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref2, isVisible: isVisible2 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref3, isVisible: isVisible3 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref4, isVisible: isVisible4 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref5, isVisible: isVisible5 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref6, isVisible: isVisible6 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref7, isVisible: isVisible7 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref8, isVisible: isVisible8 } = useScrollReveal({ threshold: 0.1 });
+
   return (
     <div className="space-y-6">
       {/* GDP Growth */}
-      <div>
+      <div
+        ref={ref1}
+        className={`transition-all duration-700 ${isVisible1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+      >
         <h3 className="text-xl font-semibold mb-4">GDP Growth</h3>
         <div className={`grid grid-cols-1 md:grid-cols-${Math.min(displayData.length, 4)} gap-4`}>
           {displayData.map((item, index) => {
@@ -127,7 +141,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
       </div>
 
       {/* Inflation & Nominal GDP */}
-      <div>
+      <div
+        ref={ref2}
+        className={`transition-all duration-700 ${isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+      >
         <h3 className="text-xl font-semibold mb-4">Inflation & Nominal GDP</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {imf.cpi_eop_latest !== undefined && (
@@ -159,7 +176,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
       </div>
 
       {/* Fiscal Position */}
-      <div>
+      <div
+        ref={ref3}
+        className={`transition-all duration-700 ${isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+      >
         <h3 className="text-xl font-semibold mb-4">Fiscal Position</h3>
         <div className={GRID_CONFIGS.metrics}>
           {imf.overall_balance_gdp !== undefined && (
@@ -223,7 +243,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
       </div>
 
       {/* External Sector */}
-      <div>
+      <div
+        ref={ref4}
+        className={`transition-all duration-700 ${isVisible4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+      >
         <h3 className="text-xl font-semibold mb-4">External Sector</h3>
         <div className={GRID_CONFIGS.metrics}>
           {imf.current_account_gdp !== undefined && (
@@ -265,7 +288,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
 
       {/* Macro Overview */}
       {imf.macro_overview && (
-        <div>
+        <div
+          ref={ref5}
+          className={`transition-all duration-700 ${isVisible5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-xl font-semibold mb-4">Macroeconomic Overview</h3>
           <ExpandableTextBlock
             text={imf.macro_overview}
@@ -276,7 +302,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
 
       {/* Policy Stance */}
       {imf.policy_stance && (
-        <div>
+        <div
+          ref={ref6}
+          className={`transition-all duration-700 ${isVisible6 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-xl font-semibold mb-4">Policy Stance</h3>
           <ExpandableTextBlock
             text={imf.policy_stance}
@@ -287,7 +316,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
 
       {/* Risk Assessment */}
       {(imf.risk_1_label || imf.risk_2_label || imf.risk_3_label) && (
-        <div>
+        <div
+          ref={ref7}
+          className={`transition-all duration-700 ${isVisible7 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-xl font-semibold mb-4">Key Risks</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <RiskItem
@@ -311,7 +343,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
 
       {/* General Key Risks Text */}
       {imf.key_risks && (
-        <div>
+        <div
+          ref={ref7}
+          className={`transition-all duration-700 ${isVisible7 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-xl font-semibold mb-4">Risk Assessment</h3>
           <ExpandableTextBlock
             text={imf.key_risks}
@@ -322,7 +357,10 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
 
       {/* Policy Recommendations */}
       {imf.policy_recommendations && (
-        <div>
+        <div
+          ref={ref8}
+          className={`transition-all duration-700 ${isVisible8 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-xl font-semibold mb-4">Policy Recommendations</h3>
           <ExpandableTextBlock
             text={imf.policy_recommendations}

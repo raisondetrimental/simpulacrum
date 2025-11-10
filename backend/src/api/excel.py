@@ -53,7 +53,6 @@ def health_check():
             },
             "features": {
                 "excel_com": False,  # Disabled for cloud compatibility
-                "pdf_generation": False,  # Will be enabled when implemented
                 "crm": True,
                 "investment_matching": True
             }

@@ -47,7 +47,9 @@ export type DealActionType = typeof ACTION_TYPES[number];
 // Investment Preference Keys (Shared)
 // ============================================================================
 // Canonical definition: shared/constants/preferences.md
-// These 10 keys are used for cross-CRM matching
+// These 7 keys are used for cross-CRM matching
+// Note: Individual country preferences (vietnam, mongolia, turkey) have been
+// replaced with a dynamic 'countries' array field
 
 export const SHARED_PREFERENCE_KEYS = [
   'transport_infra',
@@ -56,10 +58,7 @@ export const SHARED_PREFERENCE_KEYS = [
   'emerging_markets',
   'asia_em',
   'africa_em',
-  'emea_em',
-  'vietnam',
-  'mongolia',
-  'turkey'
+  'emea_em'
 ] as const;
 
 export type SharedPreferenceKey = typeof SHARED_PREFERENCE_KEYS[number];

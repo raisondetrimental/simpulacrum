@@ -757,3 +757,70 @@ export async function downloadAllContactsXLSX(filter?: ContactFilter): Promise<v
   // Generate Excel file and trigger download
   XLSX.writeFile(wb, `all_contacts_${new Date().toISOString().split('T')[0]}.xlsx`);
 }
+
+// ============================================================================
+// Meeting Notes Management
+// ============================================================================
+
+/**
+ * Update a meeting note across any CRM module
+ */
+export async function updateMeetingNote(
+  organizationType: OrganizationType,
+  contactId: string,
+  meetingId: string,
+  data: {
+    notes?: string;
+    participants?: string;
+    next_follow_up?: string;
+  }
+): Promise<any> {
+  const endpointMap: Record<OrganizationType, string> = {
+    capital_partner: `/api/contacts-new/${contactId}/meetings/${meetingId}`,
+    sponsor: `/api/sponsor-contacts/${contactId}/meetings/${meetingId}`,
+    counsel: `/api/counsel-contacts/${contactId}/meetings/${meetingId}`,
+    agent: `/api/agent-contacts/${contactId}/meetings/${meetingId}`
+  };
+
+  const endpoint = endpointMap[organizationType];
+  if (!endpoint) {
+    throw new Error(`Unknown organization type: ${organizationType}`);
+  }
+
+  const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}${endpoint}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(data)
+  });
+
+  return response.json();
+}
+
+/**
+ * Delete a meeting note across any CRM module
+ */
+export async function deleteMeetingNote(
+  organizationType: OrganizationType,
+  contactId: string,
+  meetingId: string
+): Promise<any> {
+  const endpointMap: Record<OrganizationType, string> = {
+    capital_partner: `/api/contacts-new/${contactId}/meetings/${meetingId}`,
+    sponsor: `/api/sponsor-contacts/${contactId}/meetings/${meetingId}`,
+    counsel: `/api/counsel-contacts/${contactId}/meetings/${meetingId}`,
+    agent: `/api/agent-contacts/${contactId}/meetings/${meetingId}`
+  };
+
+  const endpoint = endpointMap[organizationType];
+  if (!endpoint) {
+    throw new Error(`Unknown organization type: ${organizationType}`);
+  }
+
+  const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}${endpoint}`, {
+    method: 'DELETE',
+    credentials: 'include'
+  });
+
+  return response.json();
+}

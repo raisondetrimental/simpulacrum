@@ -121,6 +121,7 @@ export interface LegalAdvisorFormData {
   counsel_preferences?: Partial<CounselPreferences>;
   relationship?: 'Strong' | 'Medium' | 'Developing' | 'Cold';
   notes?: string;
+  countries?: string[];
 }
 
 export interface CounselContactFormData {

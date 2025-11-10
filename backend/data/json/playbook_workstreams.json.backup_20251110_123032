@@ -1,0 +1,322 @@
+[
+  {
+    "id": "playbook_workstream_002",
+    "mission_goal": "O1 Onboarding",
+    "process": "Collect laptop and all items",
+    "category": "-",
+    "deliverable": "Full integration into team",
+    "done": false,
+    "key": "B",
+    "description": "Deal Financing",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_002_sub_1",
+        "process": "Meet team at Coleman Street, meet Aijan and provide basis for solid relationships.",
+        "category": "-",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_003",
+    "mission_goal": "A1 Personal Goals/Mission",
+    "process": "Develop and formalise professional and personal goals for the next 3–6 months, ensuring alignment with broader business and personal objectives.",
+    "category": "-",
+    "deliverable": "Written document outlining clear, structured goals.",
+    "done": false,
+    "key": "D",
+    "description": "Research/Deal Crossover",
+    "completed": false,
+    "subtasks": []
+  },
+  {
+    "id": "playbook_workstream_004",
+    "mission_goal": "A2 Personal Theory of Firm Research",
+    "process": "Conduct independent research into firm theory and develop a personal mission statement that integrates learnings.",
+    "category": "Organisation",
+    "deliverable": "A document or set of structured notes summarising research findings and mission definition.",
+    "done": false,
+    "key": "E",
+    "description": "External",
+    "completed": false,
+    "subtasks": []
+  },
+  {
+    "id": "playbook_workstream_005",
+    "mission_goal": "C1 Global Infra Deep Dive Preparation",
+    "process": "Scope and design a deep-dive research project on global infrastructure. Begin with preliminary analysis and define focus areas.",
+    "category": "Intelligence and Research",
+    "deliverable": "End of week 1: Knowledge of direction of research and better understanding of what this research piece looks like. Produce a proposal.",
+    "done": false,
+    "key": "O",
+    "description": "Other",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_005_sub_1",
+        "process": "Wide research can help narrow theme, as well as EBRD discussions",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_005_sub_2",
+        "process": "Make contacts with people who sit at these bottlenecks to build an intelligence base",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_006",
+    "mission_goal": "C2 Collating Firm Research",
+    "process": "Collect, consolidate, and organise firm theory research materials, possibly integrating with personal workstreams.",
+    "category": "Intelligence and Research",
+    "deliverable": "Comprehensive research document or organised reference materials.",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": []
+  },
+  {
+    "id": "playbook_workstream_007",
+    "mission_goal": "D1 Consolidate Existing Liquidity Base (DES)",
+    "process": "Collect information about our capital pool that is currently distributed across multiple docs. Confirm where individual interests are to define DES.",
+    "category": "Intelligence and Research",
+    "deliverable": "A new spreadsheet or workbook equivalent to what is currently Meridian Investors - All.xlsx , as well as some qualitative summary/analysis).",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_007_sub_1",
+        "process": "Explore deal financing structures, conduct supporting analysis, and benchmark potential opportunities. Work closely with Lavinia",
+        "category": "",
+        "deliverable": "Finalise with Amgalan",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_007_sub_2",
+        "process": "Coal specific research to help Aijan",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_007_sub_3",
+        "process": "Speak to Amgalan",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_007_sub_4",
+        "process": "Structures for",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_008",
+    "mission_goal": "O2 Set Yourself Up",
+    "process": "Creation of master excel spreadsheet to support full understanding and integration",
+    "category": "-",
+    "deliverable": "Create Spreadsheet",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_008_sub_1",
+        "process": "Creation of information packets to gather a holistic understanding of Meridian and be able to converse",
+        "category": "-",
+        "deliverable": "Create documents",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_009",
+    "mission_goal": "C3 Eurasia Research Piece",
+    "process": "Finish report conducting in-depth research on Eurasia/Central Asia bottlenecks and opportunities. Prioritise key developments and implications.",
+    "category": "Intelligence and Research",
+    "deliverable": "A finalised research report (or two shorter papers: UK leverge and Eurasia infra gaps).",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": []
+  },
+  {
+    "id": "playbook_workstream_010",
+    "mission_goal": "A3 Basic Financial Modelling and Terminology Knowledge",
+    "process": "Wall Street Mojo Course",
+    "category": "-",
+    "deliverable": "Completion of course",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": []
+  },
+  {
+    "id": "playbook_workstream_011",
+    "mission_goal": "O3 Knowledge Sharing Tasks",
+    "process": "Complete First Friday Morning Research",
+    "category": "-",
+    "deliverable": "Present 18/09/2025 (or to Nav)",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_011_sub_1",
+        "process": "Continue Friday Research",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_012",
+    "mission_goal": "D2 New Transaction Research: Uzbekistan",
+    "process": "",
+    "category": "Uzbekistan Intelligence",
+    "deliverable": "Contacts for research",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_012_sub_1",
+        "process": "",
+        "category": "",
+        "deliverable": "Assist on IMI Side",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_013",
+    "mission_goal": "D3 Market Intelligence Provider",
+    "process": "Reach out to multiple companies",
+    "category": "Organisation",
+    "deliverable": "",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_013_sub_1",
+        "process": "",
+        "category": "",
+        "deliverable": "IJGlobal",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_013_sub_2",
+        "process": "",
+        "category": "",
+        "deliverable": "Peakload",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_013_sub_3",
+        "process": "",
+        "category": "",
+        "deliverable": "II",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_013_sub_4",
+        "process": "",
+        "category": "",
+        "deliverable": "LSEG Workspace",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_013_sub_5",
+        "process": "",
+        "category": "",
+        "deliverable": "Capital IQ",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_013_sub_6",
+        "process": "",
+        "category": "",
+        "deliverable": "Bloomberg",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_014",
+    "mission_goal": "D4 Internal Dashboard Prep",
+    "process": "Sketch out draft of internal dashboard",
+    "category": "Intelligence and Research",
+    "deliverable": "A plan for the dashboard",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": [
+      {
+        "id": "playbook_workstream_014_sub_1",
+        "process": "Reach out to SW engineer week beginning 29/09",
+        "category": "",
+        "deliverable": "Someone to do it",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_014_sub_2",
+        "process": "Possible integration with market updates",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
+  },
+  {
+    "id": "playbook_workstream_015",
+    "mission_goal": "C4 Ratings Research Piece",
+    "process": "Hire Someone to assist with the research",
+    "category": "Intelligence and Research",
+    "deliverable": "Hire Jess",
+    "done": false,
+    "key": "",
+    "description": "",
+    "completed": false,
+    "subtasks": []
+  }
+]

@@ -82,14 +82,14 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
 
   const dashboardCategories = [
     {
-      name: 'Markets',
-      path: '/dashboard/markets',
-      pages: marketPages
-    },
-    {
       name: 'Country Reports',
       path: null, // No overview page for country reports
       pages: countryReportsPages
+    },
+    {
+      name: 'Markets',
+      path: '/dashboard/markets',
+      pages: marketPages
     },
     {
       name: 'Dashboards',

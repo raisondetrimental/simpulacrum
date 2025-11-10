@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { Agent, AgentContact, ApiResponse, AgentFormData, INFRASTRUCTURE_TYPES, REGION_OPTIONS } from '../../types/agents';
 import AgentForm from '../../components/features/agents/AgentForm';
 import { API_BASE_URL } from '../../config';
+import { useTableSort } from '../../hooks/useTableSort';
+import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
 interface AgentWithContacts extends Agent {
   contacts: AgentContact[];
@@ -161,7 +163,10 @@ const AgentsTableView: React.FC = () => {
       matchesMongolia &&
       matchesTurkey
     );
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  });
+
+  // Apply sorting to filtered agents
+  const { sortedData: sortedAgents, sortConfig, requestSort } = useTableSort(filteredAgents, 'name');
 
   // Get unique countries
   const uniqueCountries = Array.from(new Set(agents.map(c => c.country))).sort();
@@ -429,12 +434,12 @@ const AgentsTableView: React.FC = () => {
 
       {/* Results Count */}
       <div className="text-sm text-gray-600">
-        Showing {filteredAgents.length} of {agents.length} agents
+        Showing {sortedAgents.length} of {agents.length} agents
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        {filteredAgents.length === 0 ? (
+        {sortedAgents.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No agents found</p>
           </div>
@@ -443,28 +448,31 @@ const AgentsTableView: React.FC = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Agent
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Investment Need
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Infrastructure
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Regions
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacts
-                  </th>
+                  <SortableTableHeader
+                    label="Agent"
+                    sortKey="name"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Country"
+                    sortKey="country"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Investment Need"
+                    sortKey="investment_need_min"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <TableHeader label="Infrastructure" />
+                  <TableHeader label="Regions" />
+                  <TableHeader label="Contacts" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredAgents.map((agent) => {
+                {sortedAgents.map((agent) => {
                   // Get preferences with fallback
                   const prefs = agent.agent_preferences || {};
 
@@ -487,7 +495,7 @@ const AgentsTableView: React.FC = () => {
                   return (
                     <React.Fragment key={agent.id}>
                       {/* Agent Row */}
-                      <tr className="bg-gray-50">
+                      <tr className="bg-gray-50 table-row-stagger">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`/agents/${agent.id}`}

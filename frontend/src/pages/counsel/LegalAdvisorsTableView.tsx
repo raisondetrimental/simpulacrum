@@ -7,6 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LegalAdvisor, CounselContact, ApiResponse } from '../../types/counsel';
 import { API_BASE_URL } from '../../config';
+import { useTableSort } from '../../hooks/useTableSort';
+import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
 interface LegalAdvisorWithContacts extends LegalAdvisor {
   contacts: CounselContact[];
@@ -150,7 +152,10 @@ const LegalAdvisorsTableView: React.FC = () => {
       matchesMainFilters &&
       matchesAdvancedFilters
     );
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  });
+
+  // Apply sorting to filtered advisors
+  const { sortedData: sortedAdvisors, sortConfig, requestSort } = useTableSort(filteredAdvisors, 'name');
 
   // Get unique countries
   const uniqueCountries = Array.from(new Set(advisors.map(a => a.country))).sort();
@@ -317,12 +322,12 @@ const LegalAdvisorsTableView: React.FC = () => {
 
       {/* Results Count */}
       <div className="text-sm text-gray-600">
-        Showing {filteredAdvisors.length} of {advisors.length} legal advisors
+        Showing {sortedAdvisors.length} of {advisors.length} legal advisors
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        {filteredAdvisors.length === 0 ? (
+        {sortedAdvisors.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No legal advisors found</p>
           </div>
@@ -331,25 +336,30 @@ const LegalAdvisorsTableView: React.FC = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Legal Advisor
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Headquarters
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Preferences
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacts
-                  </th>
+                  <SortableTableHeader
+                    label="Legal Advisor"
+                    sortKey="name"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Country"
+                    sortKey="country"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Headquarters"
+                    sortKey="headquarters_location"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <TableHeader label="Preferences" />
+                  <TableHeader label="Contacts" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredAdvisors.map((advisor) => {
+                {sortedAdvisors.map((advisor) => {
                   // Get active preferences for display
                   const activePrefs = [];
 
@@ -370,7 +380,7 @@ const LegalAdvisorsTableView: React.FC = () => {
                   return (
                     <React.Fragment key={advisor.id}>
                       {/* Advisor Row */}
-                      <tr className="bg-gray-50">
+                      <tr className="bg-gray-50 table-row-stagger">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`/counsel/legal-advisors/${advisor.id}`}

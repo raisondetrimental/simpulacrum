@@ -64,6 +64,10 @@ def create_app(config_name=None):
     from .api.profile import profile_bp
     from .api.whiteboard import whiteboard_bp
     from .api.countries import bp as countries_bp
+    from .api.admin import admin_bp
+    from .api.playbook import playbook_bp
+    from .api.countries_master import countries_master_bp, countries_public_bp
+    from .api.reports import reports_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(capital_partners_bp)
@@ -80,6 +84,11 @@ def create_app(config_name=None):
     app.register_blueprint(profile_bp)
     app.register_blueprint(whiteboard_bp)
     app.register_blueprint(countries_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(playbook_bp)
+    app.register_blueprint(countries_master_bp)
+    app.register_blueprint(countries_public_bp)
+    app.register_blueprint(reports_bp)
 
     # Log registered routes (development only)
     if app.config['DEBUG']:

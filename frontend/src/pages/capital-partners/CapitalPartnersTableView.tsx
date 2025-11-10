@@ -7,6 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CapitalPartner, Contact, ApiResponse } from '../../types/liquidity';
 import { API_BASE_URL } from '../../config';
+import { useTableSort } from '../../hooks/useTableSort';
+import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
 interface CapitalPartnerWithContacts extends CapitalPartner {
   contacts: Contact[];
@@ -148,7 +150,10 @@ const CapitalPartnersTableView: React.FC = () => {
       matchesMainFilters &&
       matchesAdvancedFilters
     );
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  });
+
+  // Apply sorting to filtered partners
+  const { sortedData: sortedPartners, sortConfig, requestSort } = useTableSort(filteredPartners, 'name');
 
   // Get unique countries
   const uniqueCountries = Array.from(new Set(partners.map(p => p.country))).sort();
@@ -315,12 +320,12 @@ const CapitalPartnersTableView: React.FC = () => {
 
       {/* Results Count */}
       <div className="text-sm text-gray-600">
-        Showing {filteredPartners.length} of {partners.length} capital partners
+        Showing {sortedPartners.length} of {partners.length} capital partners
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        {filteredPartners.length === 0 ? (
+        {sortedPartners.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No capital partners found</p>
           </div>
@@ -329,25 +334,30 @@ const CapitalPartnersTableView: React.FC = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Capital Partner
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Investment Range
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Preferences
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacts
-                  </th>
+                  <SortableTableHeader
+                    label="Capital Partner"
+                    sortKey="name"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Country"
+                    sortKey="country"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Investment Range"
+                    sortKey="investment_min"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <TableHeader label="Preferences" />
+                  <TableHeader label="Contacts" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredPartners.map((partner) => {
+                {sortedPartners.map((partner, partnerIndex) => {
                   // Get active preferences for display
                   const activePrefs = [];
 
@@ -368,7 +378,7 @@ const CapitalPartnersTableView: React.FC = () => {
                   return (
                     <React.Fragment key={partner.id}>
                       {/* Partner Row */}
-                      <tr className="bg-gray-50">
+                      <tr className="bg-gray-50 table-row-stagger">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`/liquidity/capital-partners/${partner.id}`}

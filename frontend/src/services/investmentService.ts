@@ -25,14 +25,16 @@ export const saveInvestmentStrategies = async (strategies: SavedStrategy[]): Pro
 
 export const getInvestmentMatches = async (
   preferenceFilters: Record<string, string>,
-  ticketRange: { minInvestment: number; maxInvestment: number; unit: string }
+  ticketRange: { minInvestment: number; maxInvestment: number; unit: string },
+  countryFilters?: string[]
 ): Promise<InvestmentMatchesResponse> => {
   const response = await fetch(`${API_BASE_URL}/api/investment-matches`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       preferenceFilters,
-      ticketRange
+      ticketRange,
+      countryFilters: countryFilters || null
     }),
     credentials: 'include'
   });

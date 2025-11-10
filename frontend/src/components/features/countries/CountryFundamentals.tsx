@@ -7,15 +7,39 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
 import type { CountryFundamentals } from '../../../types/country';
 import { getCountryImages, getCapitalName } from '../../../utils/countryImages';
+import type { FXRatesData } from '../../../types/dashboard';
+import { useScrollReveal } from '../../../hooks/useScrollReveal';
 
 interface CountryFundamentalsProps {
   data: CountryFundamentals;
+  fxData?: {
+    rate: number;
+    name: string;
+    changes: {
+      '1D': number | null;
+      '1W': number | null;
+      '1M': number | null;
+    };
+  } | null;
+  currencyCode?: string;
 }
 
-const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data }) => {
+const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data, fxData, currencyCode }) => {
   const tradeBalance = data.exports.value - data.imports.value;
   const images = getCountryImages(data.slug);
   const capitalName = getCapitalName(data.slug);
+
+  // Scroll reveal hooks for chart animations
+  const { ref: ref1, isVisible: isVisible1 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref2, isVisible: isVisible2 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref3, isVisible: isVisible3 } = useScrollReveal({ threshold: 0.1 });
+
+  // Format FX rate for display
+  const formatFXRate = (rate: number): string => {
+    // For currencies with large rates (like VND), show fewer decimal places
+    const decimals = rate > 1000 ? 2 : rate > 10 ? 4 : 6;
+    return rate.toFixed(decimals);
+  };
 
   // Prepare chart data - split into historical and projected
   const historicalData = data.gdp_growth_history.filter(d => !d.is_projection);
@@ -128,10 +152,69 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data }) => {
         </div>
       </div>
 
+      {/* FX Rate Section */}
+      {fxData && currencyCode && (
+        <div className="border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+          <div className="px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                  <span className="font-semibold">💱 Exchange Rate</span>
+                  <span className="text-xs text-gray-500 bg-white px-2 py-0.5 rounded border border-gray-200">Live Data</span>
+                </div>
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-bold text-gray-900">{formatFXRate(fxData.rate)}</span>
+                  <span className="text-lg text-gray-600">{currencyCode}/USD</span>
+                </div>
+                <div className="text-sm text-gray-500 mt-1">{fxData.name}</div>
+              </div>
+              <div className="flex gap-6">
+                {fxData.changes['1D'] !== null && (
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">1D Change</div>
+                    <div className={`text-base font-semibold ${
+                      fxData.changes['1D']! > 0 ? 'text-green-600' :
+                      fxData.changes['1D']! < 0 ? 'text-red-600' : 'text-gray-600'
+                    }`}>
+                      {fxData.changes['1D']! > 0 ? '+' : ''}{fxData.changes['1D']!.toFixed(2)}%
+                    </div>
+                  </div>
+                )}
+                {fxData.changes['1W'] !== null && (
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">1W Change</div>
+                    <div className={`text-base font-semibold ${
+                      fxData.changes['1W']! > 0 ? 'text-green-600' :
+                      fxData.changes['1W']! < 0 ? 'text-red-600' : 'text-gray-600'
+                    }`}>
+                      {fxData.changes['1W']! > 0 ? '+' : ''}{fxData.changes['1W']!.toFixed(2)}%
+                    </div>
+                  </div>
+                )}
+                {fxData.changes['1M'] !== null && (
+                  <div className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">1M Change</div>
+                    <div className={`text-base font-semibold ${
+                      fxData.changes['1M']! > 0 ? 'text-green-600' :
+                      fxData.changes['1M']! < 0 ? 'text-red-600' : 'text-gray-600'
+                    }`}>
+                      {fxData.changes['1M']! > 0 ? '+' : ''}{fxData.changes['1M']!.toFixed(2)}%
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content Grid */}
       <div className="grid grid-cols-3 gap-0 border-b border-gray-200">
         {/* GDP Growth Chart - 2 columns */}
-        <div className="col-span-2 p-6 border-r border-gray-200">
+        <div
+          ref={ref1}
+          className={`col-span-2 p-6 border-r border-gray-200 transition-all duration-700 ${isVisible1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-4">GDP Growth Rate (2021-2027)</h3>
           <ResponsiveContainer width="100%" height={260}>
             <LineChart margin={{ top: 5, right: 10, left: -15, bottom: 5 }}>
@@ -210,7 +293,10 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data }) => {
       {/* Bottom Section: Trade & Industries */}
       <div className="grid grid-cols-2 gap-0">
         {/* Trade & Economy */}
-        <div className="p-6 border-r border-gray-200">
+        <div
+          ref={ref2}
+          className={`p-6 border-r border-gray-200 transition-all duration-700 ${isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-4">Trade & Economy ({data.exports.year})</h3>
 
           {/* Trade Balance Summary */}
@@ -241,7 +327,10 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data }) => {
         </div>
 
         {/* Top Industries */}
-        <div className="p-6">
+        <div
+          ref={ref3}
+          className={`p-6 transition-all duration-700 ${isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+        >
           <h3 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-4">Top Industries by GDP</h3>
 
           <ResponsiveContainer width="100%" height={260}>

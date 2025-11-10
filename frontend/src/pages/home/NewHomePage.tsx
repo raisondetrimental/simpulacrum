@@ -4,6 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { DashboardData } from '../../types/dashboard';
 import ModuleCard from '../../components/ui/ModuleCard';
 import { API_BASE_URL } from '../../config';
+import { AnimatedStat } from '../../components/ui/AnimatedStat';
 
 interface NewHomePageProps {
   data: DashboardData;
@@ -177,40 +178,70 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
 
         {/* Quick Stats */}
         <div className="grid grid-cols-2 md:grid-cols-6 gap-4 max-w-6xl mx-auto">
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.capitalPartnersCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.capitalPartnersCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Capital Partners</p>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.corporatesCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.corporatesCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Corporates</p>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.legalAdvisorsCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.legalAdvisorsCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Legal Advisors</p>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.contactsCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.contactsCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Total Contacts</p>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.dealsCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.dealsCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Active Deals</p>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-2xl font-bold text-slate-700">
-              {loading ? '...' : crmStats.upcomingMeetingsCount}
-            </p>
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-card hover:shadow-card-hover transition-all duration-250">
+            <div className="text-2xl font-bold text-slate-700">
+              <AnimatedStat
+                value={crmStats.upcomingMeetingsCount}
+                loading={loading}
+                format="formatted"
+                duration={1200}
+              />
+            </div>
             <p className="text-sm text-gray-600 mt-1">Upcoming Meetings</p>
           </div>
         </div>

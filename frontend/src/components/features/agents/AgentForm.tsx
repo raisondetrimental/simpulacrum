@@ -14,6 +14,7 @@ import {
 } from '../../../types/agents';
 import AgentPreferencesGrid from './AgentPreferencesGrid';
 import DealPrecedentsEditor from '../../shared/DealPrecedentsEditor';
+import CountryMultiSelect from '../../ui/CountryMultiSelect';
 
 interface AgentFormProps {
   initialData?: Agent | null;
@@ -34,6 +35,7 @@ const AgentForm: React.FC<AgentFormProps> = ({
     relationship: initialData?.relationship || 'Developing',
     notes: initialData?.notes || '',
     deal_precedents: initialData?.deal_precedents || [],
+    countries: initialData?.countries || [],
     agent_preferences: initialData?.agent_preferences || {
       transport_infra: 'N',
       energy_infra: 'N',
@@ -41,10 +43,7 @@ const AgentForm: React.FC<AgentFormProps> = ({
       emerging_markets: 'N',
       asia_em: 'N',
       africa_em: 'N',
-      emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N'
+      emea_em: 'N'
     }
   });
 
@@ -79,10 +78,7 @@ const AgentForm: React.FC<AgentFormProps> = ({
         emerging_markets: preferences.emerging_markets || 'N',
         asia_em: preferences.asia_em || 'N',
         africa_em: preferences.africa_em || 'N',
-        emea_em: preferences.emea_em || 'N',
-        vietnam: preferences.vietnam || 'N',
-        mongolia: preferences.mongolia || 'N',
-        turkey: preferences.turkey || 'N'
+        emea_em: preferences.emea_em || 'N'
       }
     }));
   };
@@ -91,6 +87,13 @@ const AgentForm: React.FC<AgentFormProps> = ({
     setFormData((prev) => ({
       ...prev,
       deal_precedents: deals
+    }));
+  };
+
+  const handleCountriesChange = (countries: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      countries
     }));
   };
 
@@ -226,6 +229,19 @@ const AgentForm: React.FC<AgentFormProps> = ({
           readonly={false}
           collapsible={true}
         />
+      </div>
+
+      {/* Country Investment Preferences */}
+      <div>
+        <CountryMultiSelect
+          selectedCountries={formData.countries || []}
+          onChange={handleCountriesChange}
+          label="Investment Focus Countries"
+          placeholder="Select countries of investment interest..."
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          Select specific countries where this organization has investment focus
+        </p>
       </div>
 
       {/* Notes */}

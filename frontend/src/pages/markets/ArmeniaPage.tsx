@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCountryFundamentals, getCountryCompleteData } from '../../services/countriesService';
+import { fxService } from '../../services/fxService';
 import CountryTabs from '../../components/features/countries/CountryTabs';
 import type { CountryFundamentals as CountryFundamentalsType, CountryCompleteData } from '../../types/country';
 import { getCountryImages } from '../../utils/countryImages';
+import { getCurrencyCode } from '../../utils/currencyMappings';
 
 const ArmeniaPage: React.FC = () => {
   const navigate = useNavigate();
   const [fundamentals, setFundamentals] = useState<CountryFundamentalsType | null>(null);
   const [completeData, setCompleteData] = useState<CountryCompleteData | null>(null);
+  const [fxData, setFxData] = useState<{
+    rate: number;
+    name: string;
+    changes: {
+      '1D': number | null;
+      '1W': number | null;
+      '1M': number | null;
+    };
+  } | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const images = getCountryImages('armenia');
+  const currencyCode = getCurrencyCode('armenia');
 
   const countries = [
     { name: 'Armenia', slug: 'armenia', path: '/dashboard/armenia' },
@@ -27,10 +39,11 @@ const ArmeniaPage: React.FC = () => {
       try {
         setLoading(true);
 
-        // Fetch both fundamentals and complete data in parallel
-        const [fundamentalsResponse, completeDataResponse] = await Promise.all([
+        // Fetch fundamentals, complete data, and FX rates in parallel
+        const [fundamentalsResponse, completeDataResponse, fxRatesResponse] = await Promise.all([
           getCountryFundamentals('armenia'),
-          getCountryCompleteData('armenia')
+          getCountryCompleteData('armenia'),
+          fxService.getLatest()
         ]);
 
         if (fundamentalsResponse.success && fundamentalsResponse.data) {
@@ -46,6 +59,11 @@ const ArmeniaPage: React.FC = () => {
           setError(completeDataResponse.message || 'Failed to load complete country data');
           return;
         }
+
+        // Extract FX data for Armenia's currency
+        if (currencyCode && fxRatesResponse.rates[currencyCode]) {
+          setFxData(fxRatesResponse.rates[currencyCode]);
+        }
       } catch (err) {
         setError('An error occurred while loading country data');
         console.error('Error fetching Armenia data:', err);
@@ -55,7 +73,7 @@ const ArmeniaPage: React.FC = () => {
     };
 
     fetchData();
-  }, []);
+  }, [currencyCode]);
 
   return (
     <div className="space-y-6">
@@ -129,7 +147,12 @@ const ArmeniaPage: React.FC = () => {
 
       {/* Country Tabs with Complete Data */}
       {fundamentals && completeData && !loading && (
-        <CountryTabs fundamentals={fundamentals} completeData={completeData} />
+        <CountryTabs
+          fundamentals={fundamentals}
+          completeData={completeData}
+          fxData={fxData}
+          currencyCode={currencyCode || undefined}
+        />
       )}
     </div>
   );

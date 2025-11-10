@@ -29,9 +29,19 @@ interface Tab {
 interface CountryTabsProps {
   fundamentals: CountryFundamentals;
   completeData: CountryCompleteData;
+  fxData?: {
+    rate: number;
+    name: string;
+    changes: {
+      '1D': number | null;
+      '1W': number | null;
+      '1M': number | null;
+    };
+  } | null;
+  currencyCode?: string;
 }
 
-const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData }) => {
+const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData, fxData, currencyCode }) => {
   // Detect data format by checking for field names unique to structured format
   // Armenia, Mongolia, Turkey, Uzbekistan use: real_gdp_growth_t, fsi_car, etc.
   // Vietnam uses: gdp_growth_current, inflation_current, etc.
@@ -199,7 +209,7 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData })
   const renderTabContent = () => {
     switch (activeTab) {
       case 'overview':
-        return <CountryFundamentalsComponent data={fundamentals} />;
+        return <CountryFundamentalsComponent data={fundamentals} fxData={fxData} currencyCode={currencyCode} />;
 
       case 'macro':
         return hasStructuredData ?

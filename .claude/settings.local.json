@@ -28,7 +28,11 @@
       "Bash(\"C:\\Users\\Cameron Thomas\\OneDrive - Meridian Universal\\Documents\\Dashboard Website\\backend\\data\\json\\investment_strategies.json\")",
       "Bash(python migrations/consolidate_organizations.py:*)",
       "Bash(curl:*)",
-      "Bash(python -m json.tool:*)"
+      "Bash(python -m json.tool:*)",
+      "Bash(python:*)",
+      "Bash(taskkill:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []

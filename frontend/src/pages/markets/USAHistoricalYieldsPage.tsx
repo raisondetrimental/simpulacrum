@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { API_BASE_URL } from '../../config';
+import { useScrollReveal } from '../../hooks/useScrollReveal';
 
 interface HistoricalData {
   metadata: {
@@ -47,6 +48,11 @@ const USAHistoricalYieldsPage: React.FC = () => {
   const [visibleMaturities, setVisibleMaturities] = useState<Set<string>>(
     new Set(['3M', '2Y', '10Y', '30Y']) // Default to showing key maturities
   );
+
+  // Scroll reveal hooks
+  const { ref: ref1, isVisible: isVisible1 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref2, isVisible: isVisible2 } = useScrollReveal({ threshold: 0.1 });
+  const { ref: ref3, isVisible: isVisible3 } = useScrollReveal({ threshold: 0.1 });
 
   useEffect(() => {
     fetchData();
@@ -215,7 +221,12 @@ const USAHistoricalYieldsPage: React.FC = () => {
         </div>
 
         {/* Chart */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+        <div
+          ref={ref1}
+          className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6 transition-all duration-700 ${
+            isVisible1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <ResponsiveContainer width="100%" height={500}>
             <LineChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -280,7 +291,12 @@ const USAHistoricalYieldsPage: React.FC = () => {
         </div>
 
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div
+          ref={ref2}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6 transition-all duration-700 ${
+            isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
             <div className="text-sm text-gray-600 mb-1">Data Points</div>
             <div className="text-2xl font-bold text-gray-900">{data.dates.length} days</div>
@@ -304,7 +320,12 @@ const USAHistoricalYieldsPage: React.FC = () => {
         </div>
 
         {/* Current Yields Table */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div
+          ref={ref3}
+          className={`bg-white rounded-lg shadow-sm border border-gray-200 p-6 transition-all duration-700 ${
+            isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          }`}
+        >
           <h2 className="text-lg font-semibold text-gray-900 mb-4">Latest Yields (Most Recent Data)</h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

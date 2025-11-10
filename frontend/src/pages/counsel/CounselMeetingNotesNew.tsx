@@ -144,6 +144,18 @@ const CounselMeetingNotesNew: React.FC = () => {
     fetchAllData();
   }, []);
 
+  // Auto-select advisor if org query parameter is provided
+  useEffect(() => {
+    const orgId = searchParams.get('org');
+    if (orgId && allAdvisors.length > 0 && !selectedAdvisor) {
+      const advisor = allAdvisors.find(adv => adv.id === orgId);
+      if (advisor) {
+        setSelectedAdvisor(advisor);
+        setCurrentStep('select-contact');
+      }
+    }
+  }, [searchParams, allAdvisors, selectedAdvisor]);
+
   // Auto-select contact and advisor if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');

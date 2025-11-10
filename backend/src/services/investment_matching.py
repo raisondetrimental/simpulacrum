@@ -67,6 +67,32 @@ def _matches_preferences(entity_prefs: Dict[str, str], filters: Dict[str, str]) 
     return True
 
 
+def _matches_countries(entity_countries: List[str], filter_countries: Optional[List[str]]) -> bool:
+    """
+    Check if entity countries match the filter countries.
+
+    Args:
+        entity_countries: List of country IDs the entity is interested in
+        filter_countries: List of country IDs to filter by (None = no filter)
+
+    Returns:
+        True if there's overlap or no filter specified, False otherwise
+    """
+    # No country filter specified - match all
+    if not filter_countries:
+        return True
+
+    # No entity countries - only match if filter is also empty
+    if not entity_countries:
+        return False
+
+    # Check for any overlap between entity countries and filter countries
+    entity_set = set(entity_countries)
+    filter_set = set(filter_countries)
+
+    return bool(entity_set & filter_set)  # True if intersection is non-empty
+
+
 def _matches_ticket_range(entity_min: Optional[float], entity_max: Optional[float],
                           filter_min: Optional[float], filter_max: Optional[float]) -> bool:
     """Check if entity ticket range overlaps with filter range"""
@@ -94,11 +120,18 @@ def _matches_ticket_range(entity_min: Optional[float], entity_max: Optional[floa
 def find_matching_organizations(
     json_dir: Path,
     preference_filters: Dict[str, str],
-    ticket_range: Optional[Dict[str, Any]]
+    ticket_range: Optional[Dict[str, Any]],
+    country_filters: Optional[List[str]] = None
 ) -> Dict[str, List[Dict[str, Any]]]:
     """
     Find organizations matching the strategy filters.
     Returns dict with keys: capital_partners, sponsors, agents, counsel
+
+    Args:
+        json_dir: Path to JSON data directory
+        preference_filters: Dict of preference key-value pairs (Y/N)
+        ticket_range: Optional dict with minInvestment, maxInvestment, unit
+        country_filters: Optional list of country IDs to filter by
 
     Note: Uses unified DAL to access organization data from organizations.json
     """
@@ -120,6 +153,11 @@ def find_matching_organizations(
     for partner in capital_partners:
         prefs = partner.get("preferences", {})
         if not _matches_preferences(prefs, preference_filters):
+            continue
+
+        # Check country matching
+        entity_countries = partner.get("countries", [])
+        if not _matches_countries(entity_countries, country_filters):
             continue
 
         entity_min = partner.get("investment_min")
@@ -158,6 +196,11 @@ def find_matching_organizations(
         if not _matches_preferences(combined_prefs, preference_filters):
             continue
 
+        # Check country matching
+        entity_countries = corp.get("countries", [])
+        if not _matches_countries(entity_countries, country_filters):
+            continue
+
         entity_min = corp.get("investment_need_min")
         entity_max = corp.get("investment_need_max")
         if not _matches_ticket_range(entity_min, entity_max, filter_min, filter_max):
@@ -188,6 +231,11 @@ def find_matching_organizations(
         if not _matches_preferences(agent_prefs, preference_filters):
             continue
 
+        # Check country matching
+        entity_countries = agent.get("countries", [])
+        if not _matches_countries(entity_countries, country_filters):
+            continue
+
         # Agents don't have ticket sizes, so skip ticket range check
         matching_agents.append({
             "profile_id": agent.get("id"),
@@ -213,6 +261,11 @@ def find_matching_organizations(
         counsel_prefs = advisor.get("counsel_preferences", {})
 
         if not _matches_preferences(counsel_prefs, preference_filters):
+            continue
+
+        # Check country matching
+        entity_countries = advisor.get("countries", [])
+        if not _matches_countries(entity_countries, country_filters):
             continue
 
         # Counsel don't have ticket sizes

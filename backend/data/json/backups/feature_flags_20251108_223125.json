@@ -1,0 +1,32 @@
+{
+  "excel_com_enabled": {
+    "enabled": false,
+    "name": "Excel COM Operations",
+    "description": "Windows-only Excel macro execution via COM interface",
+    "category": "integration",
+    "requires_restart": false,
+    "impact": "Enables /api/excel/refresh endpoint for macro execution",
+    "last_modified": null,
+    "modified_by": null
+  },
+  "auto_archive_enabled": {
+    "enabled": false,
+    "name": "Auto-Archive Old Records",
+    "description": "Automatically archive deals/contacts older than configured threshold",
+    "category": "data_management",
+    "requires_restart": false,
+    "impact": "Records older than 365 days will be moved to archive files",
+    "last_modified": null,
+    "modified_by": null
+  },
+  "experimental_ui_enabled": {
+    "enabled": true,
+    "name": "Experimental UI Features",
+    "description": "Beta frontend features (new charts, layouts, components)",
+    "category": "ui",
+    "requires_restart": false,
+    "impact": "Unlocks experimental UI components and features",
+    "last_modified": "2025-11-08T19:39:29.873082",
+    "modified_by": "cameron.thomas@mu-llc.com"
+  }
+}

@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { Corporate, SponsorContact, ApiResponse, CorporateFormData, INFRASTRUCTURE_TYPES, REGION_OPTIONS } from '../../types/sponsors';
 import CorporateForm from '../../components/features/sponsors/CorporateForm';
 import { API_BASE_URL } from '../../config';
+import { useTableSort } from '../../hooks/useTableSort';
+import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
 interface CorporateWithContacts extends Corporate {
   contacts: SponsorContact[];
@@ -157,7 +159,10 @@ const CorporatesTableView: React.FC = () => {
       matchesMongolia &&
       matchesTurkey
     );
-  }).sort((a, b) => a.name.localeCompare(b.name));
+  });
+
+  // Apply sorting to filtered corporates
+  const { sortedData: sortedCorporates, sortConfig, requestSort } = useTableSort(filteredCorporates, 'name');
 
   // Get unique countries
   const uniqueCountries = Array.from(new Set(corporates.map(c => c.country))).sort();
@@ -425,12 +430,12 @@ const CorporatesTableView: React.FC = () => {
 
       {/* Results Count */}
       <div className="text-sm text-gray-600">
-        Showing {filteredCorporates.length} of {corporates.length} corporates
+        Showing {sortedCorporates.length} of {corporates.length} corporates
       </div>
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        {filteredCorporates.length === 0 ? (
+        {sortedCorporates.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-600">No corporates found</p>
           </div>
@@ -439,28 +444,31 @@ const CorporatesTableView: React.FC = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Corporate
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Investment Need
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Infrastructure
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Regions
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Contacts
-                  </th>
+                  <SortableTableHeader
+                    label="Corporate"
+                    sortKey="name"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Country"
+                    sortKey="country"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <SortableTableHeader
+                    label="Investment Need"
+                    sortKey="investment_need_min"
+                    sortConfig={sortConfig}
+                    onSort={requestSort}
+                  />
+                  <TableHeader label="Infrastructure" />
+                  <TableHeader label="Regions" />
+                  <TableHeader label="Contacts" />
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredCorporates.map((corporate) => {
+                {sortedCorporates.map((corporate) => {
                   // Get active infrastructure types
                   const activeInfra = [];
                   if (corporate.infrastructure_types.transport_infra === 'Y') activeInfra.push('Transport');
@@ -480,7 +488,7 @@ const CorporatesTableView: React.FC = () => {
                   return (
                     <React.Fragment key={corporate.id}>
                       {/* Corporate Row */}
-                      <tr className="bg-gray-50">
+                      <tr className="bg-gray-50 table-row-stagger">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link
                             to={`/sponsors/corporates/${corporate.id}`}

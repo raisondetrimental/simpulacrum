@@ -15,9 +15,6 @@ export interface AgentPreferences {
   asia_em: string;
   africa_em: string;
   emea_em: string;
-  vietnam: string;
-  mongolia: string;
-  turkey: string;
 }
 
 // ============================================================================
@@ -150,6 +147,7 @@ export interface AgentFormData {
   agent_preferences?: Partial<AgentPreferences>;
   relationship?: 'Strong' | 'Medium' | 'Developing' | 'Cold';
   notes?: string;
+  countries?: string[];
 }
 
 export interface AgentContactFormData {
@@ -213,10 +211,7 @@ export const AGENT_PREFERENCE_LABELS: Record<keyof AgentPreferences, string> = {
   emerging_markets: 'Emerging Markets (General)',
   asia_em: 'Asia EM',
   africa_em: 'Africa EM',
-  emea_em: 'EMEA EM',
-  vietnam: 'Vietnam',
-  mongolia: 'Mongolia',
-  turkey: 'Turkey'
+  emea_em: 'EMEA EM'
 };
 
 export const AGENT_PREFERENCE_GROUPS = [
@@ -231,10 +226,7 @@ export const AGENT_PREFERENCE_GROUPS = [
       'emerging_markets',
       'asia_em',
       'africa_em',
-      'emea_em',
-      'vietnam',
-      'mongolia',
-      'turkey'
+      'emea_em'
     ] as Array<keyof AgentPreferences>
   }
 ];

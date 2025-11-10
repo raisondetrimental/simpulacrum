@@ -11,6 +11,7 @@ import {
   CounselPreferences
 } from '../../../types/counsel';
 import CounselPreferencesGrid from './CounselPreferencesGrid';
+import CountryMultiSelect from '../../ui/CountryMultiSelect';
 
 interface LegalAdvisorFormProps {
   initialData?: LegalAdvisor | null;
@@ -55,7 +56,8 @@ const LegalAdvisorForm: React.FC<LegalAdvisorFormProps> = ({
     headquarters_location: initialData?.headquarters_location || '',
     relationship: initialData?.relationship || 'Developing',
     notes: initialData?.notes || '',
-    counsel_preferences: initialData?.counsel_preferences || defaultPreferences
+    counsel_preferences: initialData?.counsel_preferences || defaultPreferences,
+    countries: initialData?.countries || []
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -83,6 +85,13 @@ const LegalAdvisorForm: React.FC<LegalAdvisorFormProps> = ({
     setFormData((prev) => ({
       ...prev,
       counsel_preferences: preferences
+    }));
+  };
+
+  const handleCountriesChange = (countries: string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      countries
     }));
   };
 
@@ -198,6 +207,19 @@ const LegalAdvisorForm: React.FC<LegalAdvisorFormProps> = ({
           readonly={false}
           collapsible={true}
         />
+      </div>
+
+      {/* Country Investment Preferences */}
+      <div>
+        <CountryMultiSelect
+          selectedCountries={formData.countries || []}
+          onChange={handleCountriesChange}
+          label="Investment Focus Countries"
+          placeholder="Select countries of investment interest..."
+        />
+        <p className="mt-1 text-xs text-gray-500">
+          Select specific countries where this organization has investment focus
+        </p>
       </div>
 
       {/* Notes */}

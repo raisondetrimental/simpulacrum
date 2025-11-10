@@ -28,9 +28,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -41,7 +38,8 @@
     "investment_max": 1000000000000,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_002",
@@ -72,9 +70,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -85,7 +80,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_003",
@@ -116,9 +112,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -129,7 +122,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_004",
@@ -160,9 +154,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -173,7 +164,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_005",
@@ -204,9 +196,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -217,7 +206,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_006",
@@ -248,9 +240,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -261,7 +250,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_007",
@@ -292,9 +282,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "Y",
-      "turkey": "Y",
       "coal": "Y",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -305,7 +292,12 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "mongolia",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_008",
@@ -336,9 +328,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -349,7 +338,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_009",
@@ -380,9 +373,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -393,7 +383,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_010",
@@ -424,9 +415,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -437,7 +425,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_011",
@@ -468,9 +459,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -481,7 +469,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_012",
@@ -512,9 +503,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -525,7 +513,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_013",
@@ -556,9 +547,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -569,7 +557,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_014",
@@ -600,9 +591,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -613,7 +601,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_015",
@@ -644,9 +636,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -657,7 +646,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "mongolia"
+    ]
   },
   {
     "id": "cp_016",
@@ -688,9 +681,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -701,7 +691,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_017",
@@ -732,9 +725,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -745,7 +735,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_018",
@@ -776,9 +769,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -789,7 +779,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_019",
@@ -820,9 +813,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -833,7 +823,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_020",
@@ -864,9 +855,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -877,7 +865,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_021",
@@ -908,9 +897,6 @@
       "asia_em": "Y",
       "africa_em": "any",
       "emea_em": "N",
-      "vietnam": "any",
-      "mongolia": "Y",
-      "turkey": "any",
       "coal": "Y",
       "energy_infra": "Y",
       "transport_infra": "any",
@@ -921,7 +907,10 @@
     "investment_max": 15000000,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_022",
@@ -952,9 +941,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -965,7 +951,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_023",
@@ -996,9 +985,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1009,7 +995,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_024",
@@ -1040,9 +1029,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1053,7 +1039,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_025",
@@ -1084,9 +1073,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1097,7 +1083,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_026",
@@ -1128,9 +1117,6 @@
       "asia_em": "N",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1141,7 +1127,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_027",
@@ -1172,9 +1162,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1185,7 +1172,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_028",
@@ -1216,9 +1204,6 @@
       "asia_em": "Y",
       "africa_em": "Y",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1229,7 +1214,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_029",
@@ -1260,9 +1249,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1273,7 +1259,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_030",
@@ -1304,9 +1293,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1317,7 +1303,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_031",
@@ -1348,9 +1335,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1361,7 +1345,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "cp_032",
@@ -1392,9 +1379,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1405,7 +1389,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_033",
@@ -1436,9 +1421,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -1449,7 +1431,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_034",
@@ -1480,9 +1465,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "Y",
       "energy_infra": "",
       "transport_infra": "",
@@ -1493,7 +1475,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_035",
@@ -1524,9 +1509,6 @@
       "asia_em": "Y",
       "africa_em": "any",
       "emea_em": "any",
-      "vietnam": "any",
-      "mongolia": "Y",
-      "turkey": "any",
       "coal": "any",
       "energy_infra": "Y",
       "transport_infra": "any",
@@ -1537,7 +1519,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_036",
@@ -1568,9 +1553,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "Y",
       "energy_infra": "",
       "transport_infra": "",
@@ -1581,7 +1563,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_037",
@@ -1612,9 +1597,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "Y",
-      "turkey": "Y",
       "coal": "Y",
       "energy_infra": "",
       "transport_infra": "",
@@ -1625,7 +1607,12 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "mongolia",
+      "turkiye"
+    ]
   },
   {
     "id": "cp_038",
@@ -1656,9 +1643,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "Y",
       "coal": "Y",
       "energy_infra": "",
       "transport_infra": "",
@@ -1669,7 +1653,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "turkiye"
+    ]
   },
   {
     "id": "cp_039",
@@ -1700,9 +1687,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "Y",
       "energy_infra": "",
       "transport_infra": "",
@@ -1713,7 +1697,11 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam",
+      "mongolia"
+    ]
   },
   {
     "id": "cp_040",
@@ -1744,9 +1732,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -1757,7 +1742,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_041",
@@ -1788,9 +1774,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -1801,7 +1784,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_042",
@@ -1832,9 +1816,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -1845,7 +1826,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_043",
@@ -1876,9 +1858,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -1889,7 +1868,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_044",
@@ -1920,9 +1900,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -1933,7 +1910,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_045",
@@ -1964,9 +1942,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "N",
       "transport_infra": "Y",
@@ -1977,7 +1952,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_046",
@@ -2008,9 +1984,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "N",
       "transport_infra": "Y",
@@ -2021,7 +1994,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_047",
@@ -2052,9 +2026,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -2065,7 +2036,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_048",
@@ -2096,9 +2068,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -2109,7 +2078,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_049",
@@ -2140,9 +2110,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -2153,7 +2120,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_050",
@@ -2184,9 +2152,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -2197,7 +2162,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_051",
@@ -2228,9 +2194,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "Y",
       "transport_infra": "Y",
@@ -2241,7 +2204,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_052",
@@ -2272,9 +2236,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "N",
       "transport_infra": "Y",
@@ -2285,7 +2246,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_053",
@@ -2316,9 +2278,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2329,7 +2288,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_054",
@@ -2360,9 +2320,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2373,7 +2330,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_055",
@@ -2404,9 +2362,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2417,7 +2372,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_056",
@@ -2448,9 +2404,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2461,7 +2414,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_057",
@@ -2492,9 +2446,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2505,7 +2456,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_058",
@@ -2536,9 +2488,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2549,7 +2498,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_059",
@@ -2580,9 +2530,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2593,7 +2540,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_060",
@@ -2624,9 +2572,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2637,7 +2582,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_061",
@@ -2668,9 +2614,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2681,7 +2624,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_062",
@@ -2712,9 +2656,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2725,7 +2666,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_063",
@@ -2756,9 +2698,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2769,7 +2708,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_064",
@@ -2800,9 +2740,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2813,7 +2750,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_065",
@@ -2844,9 +2782,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2857,7 +2792,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_066",
@@ -2888,9 +2824,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2901,7 +2834,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_067",
@@ -2932,9 +2866,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -2945,7 +2876,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_068",
@@ -2976,9 +2908,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "-",
       "energy_infra": "",
       "transport_infra": "",
@@ -2989,7 +2918,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_069",
@@ -3020,9 +2950,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "-",
       "energy_infra": "",
       "transport_infra": "",
@@ -3033,7 +2960,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_070",
@@ -3064,9 +2992,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3077,7 +3002,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_071",
@@ -3108,9 +3034,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3121,7 +3044,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_072",
@@ -3152,9 +3076,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3165,7 +3086,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_073",
@@ -3196,9 +3118,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3209,7 +3128,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_074",
@@ -3240,9 +3160,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3253,7 +3170,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_075",
@@ -3284,9 +3202,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3297,7 +3212,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_076",
@@ -3328,9 +3244,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "N",
       "energy_infra": "",
       "transport_infra": "",
@@ -3341,7 +3254,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_077",
@@ -3372,9 +3286,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3385,7 +3296,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_078",
@@ -3416,9 +3328,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3429,7 +3338,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_079",
@@ -3460,9 +3370,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3473,7 +3380,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_080",
@@ -3504,9 +3412,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3517,7 +3422,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_081",
@@ -3548,9 +3454,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3561,7 +3464,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_082",
@@ -3592,9 +3496,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3605,7 +3506,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_083",
@@ -3636,9 +3538,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3649,7 +3548,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_084",
@@ -3680,9 +3580,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3693,7 +3590,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_085",
@@ -3724,9 +3622,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3737,7 +3632,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_086",
@@ -3768,9 +3664,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3781,7 +3674,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_087",
@@ -3812,9 +3706,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3825,7 +3716,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_088",
@@ -3856,9 +3748,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3869,7 +3758,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_089",
@@ -3900,9 +3790,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -3913,7 +3800,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_090",
@@ -3944,9 +3832,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "-",
       "energy_infra": "",
       "transport_infra": "",
@@ -3957,7 +3842,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_091",
@@ -3988,9 +3874,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4001,7 +3884,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_092",
@@ -4032,9 +3916,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4045,7 +3926,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_093",
@@ -4076,9 +3958,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4089,7 +3968,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_094",
@@ -4120,9 +4000,6 @@
       "asia_em": "",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "",
-      "turkey": "",
       "coal": "-",
       "energy_infra": "",
       "transport_infra": "",
@@ -4133,7 +4010,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_095",
@@ -4164,9 +4042,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4177,7 +4052,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_096",
@@ -4208,9 +4086,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4221,7 +4096,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_097",
@@ -4252,9 +4130,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4265,7 +4140,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_098",
@@ -4296,9 +4174,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4309,7 +4184,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_099",
@@ -4340,9 +4218,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4353,7 +4228,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_100",
@@ -4384,9 +4262,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4397,7 +4272,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_101",
@@ -4428,9 +4306,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4441,7 +4316,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_102",
@@ -4472,9 +4350,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4485,7 +4360,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_103",
@@ -4516,9 +4394,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4529,7 +4404,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_104",
@@ -4560,9 +4438,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4573,7 +4448,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_105",
@@ -4604,9 +4482,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4617,7 +4492,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_106",
@@ -4648,9 +4526,6 @@
       "asia_em": "Y",
       "africa_em": "",
       "emea_em": "",
-      "vietnam": "",
-      "mongolia": "Y",
-      "turkey": "",
       "coal": "",
       "energy_infra": "",
       "transport_infra": "",
@@ -4661,7 +4536,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_107",
@@ -4692,9 +4570,6 @@
       "asia_em": "any",
       "africa_em": "any",
       "emea_em": "any",
-      "vietnam": "any",
-      "mongolia": "any",
-      "turkey": "any",
       "coal": "any",
       "energy_infra": "any",
       "transport_infra": "any",
@@ -4705,7 +4580,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "cp_108",
@@ -4736,9 +4612,6 @@
       "asia_em": "Y",
       "africa_em": "any",
       "emea_em": "Y",
-      "vietnam": "any",
-      "mongolia": "Y",
-      "turkey": "any",
       "coal": "Y",
       "energy_infra": "Y",
       "transport_infra": "any",
@@ -4749,7 +4622,10 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "cp_110",
@@ -4780,9 +4656,6 @@
       "asia_em": "any",
       "africa_em": "any",
       "emea_em": "any",
-      "vietnam": "any",
-      "mongolia": "any",
-      "turkey": "any",
       "coal": "any",
       "energy_infra": "any",
       "transport_infra": "any",
@@ -4793,7 +4666,8 @@
     "investment_max": 0,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "corp_1759411576409",
@@ -4824,9 +4698,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "Y",
       "transport_infra": "N",
@@ -4837,7 +4708,10 @@
     "investment_max": null,
     "investment_need_min": 20000000,
     "investment_need_max": 350000000,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "corp_1761059535544",
@@ -4868,9 +4742,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "Y",
       "transport_infra": "N",
@@ -4881,7 +4752,8 @@
     "investment_max": null,
     "investment_need_min": 0,
     "investment_need_max": 0,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "corp_1761587664535",
@@ -4912,9 +4784,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -4925,7 +4794,8 @@
     "investment_max": null,
     "investment_need_min": 0,
     "investment_need_max": 0,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "corp_1761587956368",
@@ -4956,9 +4826,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -4969,7 +4836,8 @@
     "investment_max": null,
     "investment_need_min": 0,
     "investment_need_max": 0,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": []
   },
   {
     "id": "corp_1761816402985",
@@ -5000,9 +4868,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "Y",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "N",
       "transport_infra": "Y",
@@ -5013,7 +4878,10 @@
     "investment_max": null,
     "investment_need_min": 0,
     "investment_need_max": 0,
-    "currency": "USD"
+    "currency": "USD",
+    "countries": [
+      "vietnam"
+    ]
   },
   {
     "id": "la_1761059214204",
@@ -5044,9 +4912,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -5057,7 +4922,8 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": []
   },
   {
     "id": "la_1761059447985",
@@ -5088,9 +4954,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "Y",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "Y",
       "energy_infra": "Y",
       "transport_infra": "N",
@@ -5101,7 +4964,10 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "la_1761129737443",
@@ -5132,9 +4998,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -5145,7 +5008,8 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": []
   },
   {
     "id": "la_1761587808090",
@@ -5176,9 +5040,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -5189,7 +5050,8 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": []
   },
   {
     "id": "la_1761587846993",
@@ -5220,9 +5082,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "N",
-      "turkey": "N",
       "coal": "N",
       "energy_infra": "N",
       "transport_infra": "N",
@@ -5233,7 +5092,8 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": []
   },
   {
     "id": "agent_1761693151890",
@@ -5264,9 +5124,6 @@
       "asia_em": "N",
       "africa_em": "N",
       "emea_em": "N",
-      "vietnam": "N",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "Y",
       "transport_infra": "N",
@@ -5277,7 +5134,10 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": [
+      "mongolia"
+    ]
   },
   {
     "id": "agent_1761693245321",
@@ -5308,9 +5168,6 @@
       "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "Y",
-      "vietnam": "Y",
-      "mongolia": "Y",
-      "turkey": "N",
       "coal": "any",
       "energy_infra": "Y",
       "transport_infra": "N",
@@ -5321,6 +5178,10 @@
     "investment_max": null,
     "investment_need_min": null,
     "investment_need_max": null,
-    "currency": null
+    "currency": null,
+    "countries": [
+      "vietnam",
+      "mongolia"
+    ]
   }
 ]

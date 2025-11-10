@@ -47,15 +47,14 @@ CANONICAL_SHARED_PREFERENCES = (
     "asia_em",
     "africa_em",
     "emea_em",
-    "vietnam",
-    "mongolia",
-    "turkey",
 )
 
 CANONICAL_PROFILE_CATEGORIES = [
     "capital_partner",
     "capital_partner_team",
-    "sponsor"
+    "sponsor",
+    "agent",
+    "counsel"
 ]
 
 CANONICAL_RELATIONSHIP_STATUSES = [

@@ -6,8 +6,9 @@
 import React, { useState, useEffect } from 'react';
 import { InvestmentMatchesResponse, InvestmentProfile, SavedStrategy, Contact } from '../../types/investment';
 import { getInvestmentStrategies, saveInvestmentStrategies, getInvestmentMatches } from '../../services/investmentService';
+import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
 
-// ALL 22 preference columns
+// ALL 19 preference columns (countries now handled separately via multi-select)
 const PREFERENCE_COLUMNS = [
   { key: 'investment_grade', label: 'Investment Grade' },
   { key: 'high_yield', label: 'High Yield' },
@@ -23,9 +24,6 @@ const PREFERENCE_COLUMNS = [
   { key: 'asia_em', label: 'Asia EM' },
   { key: 'africa_em', label: 'Africa EM' },
   { key: 'emea_em', label: 'EMEA EM' },
-  { key: 'vietnam', label: 'Vietnam' },
-  { key: 'mongolia', label: 'Mongolia' },
-  { key: 'turkey', label: 'Turkey' },
   { key: 'coal', label: 'Coal' },
   { key: 'energy_infra', label: 'Energy Infra' },
   { key: 'transport_infra', label: 'Transport Infra' },
@@ -113,6 +111,7 @@ const InvestmentStrategiesPage: React.FC = () => {
     return initial;
   });
   const [newSizeFilter, setNewSizeFilter] = useState({ minInvestment: 0, maxInvestment: 0 });
+  const [newCountries, setNewCountries] = useState<string[]>([]);
 
   const formatMillions = (value: number | null | undefined) => {
     if (value === null || value === undefined) return '—';
@@ -325,7 +324,8 @@ const InvestmentStrategiesPage: React.FC = () => {
           minInvestment: strategy.sizeFilter.minInvestment,
           maxInvestment: strategy.sizeFilter.maxInvestment,
           unit: 'million'
-        }
+        },
+        strategy.countries && strategy.countries.length > 0 ? strategy.countries : undefined
       );
 
       if (result.success) {
@@ -352,6 +352,7 @@ const InvestmentStrategiesPage: React.FC = () => {
       name: newStrategyName.trim(),
       preferenceFilters: { ...newPreferenceFilters },
       sizeFilter: { ...newSizeFilter },
+      countries: newCountries.length > 0 ? [...newCountries] : undefined,
       createdAt: new Date().toISOString(),
     };
 
@@ -371,6 +372,7 @@ const InvestmentStrategiesPage: React.FC = () => {
         });
         setNewPreferenceFilters(resetFilters);
         setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
+        setNewCountries([]);
         setShowCreateModal(false);
       } else {
         alert('Failed to save strategy: ' + result.message);
@@ -443,6 +445,7 @@ const InvestmentStrategiesPage: React.FC = () => {
             {savedStrategies.map((strategy) => {
               const activePrefs = Object.values(strategy.preferenceFilters).filter(v => v !== 'any').length;
               const hasSizeFilter = strategy.sizeFilter.minInvestment > 0 || strategy.sizeFilter.maxInvestment > 0;
+              const hasCountries = strategy.countries && strategy.countries.length > 0;
 
               return (
                 <div
@@ -477,6 +480,11 @@ const InvestmentStrategiesPage: React.FC = () => {
                     {hasSizeFilter && (
                       <div>
                         Size: ${strategy.sizeFilter.minInvestment}M - ${strategy.sizeFilter.maxInvestment}M
+                      </div>
+                    )}
+                    {hasCountries && (
+                      <div>
+                        {strategy.countries!.length} countr{strategy.countries!.length !== 1 ? 'ies' : 'y'}
                       </div>
                     )}
                   </div>
@@ -971,6 +979,17 @@ const InvestmentStrategiesPage: React.FC = () => {
                 </div>
               </div>
 
+              {/* Country Filters */}
+              <div className="mb-6">
+                <CountryMultiSelect
+                  selectedCountries={newCountries}
+                  onChange={setNewCountries}
+                  label="Investment Focus Countries"
+                  placeholder="Select countries to filter by..."
+                />
+                <p className="text-xs text-gray-500 mt-1">Leave empty to match all countries</p>
+              </div>
+
               {/* Preference Filters */}
               <div className="mb-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Investment Preferences</h3>
@@ -1001,6 +1020,7 @@ const InvestmentStrategiesPage: React.FC = () => {
                     });
                     setNewPreferenceFilters(resetFilters);
                     setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
+                    setNewCountries([]);
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >

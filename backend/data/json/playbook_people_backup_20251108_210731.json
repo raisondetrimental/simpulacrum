@@ -1,0 +1,83 @@
+[
+  {
+    "id": "playbook_person_001",
+    "team_member": "Naveen Anandakumar",
+    "location": "UK/ US",
+    "role": "Managing Director",
+    "tasks": "",
+    "disc_profile": "",
+    "facts_interests": "Pilot/aircraft license"
+  },
+  {
+    "id": "playbook_person_006",
+    "team_member": "Lavinia Geraldo",
+    "location": "UK",
+    "role": "Administration Officer",
+    "tasks": "Business development",
+    "disc_profile": "",
+    "facts_interests": ""
+  },
+  {
+    "id": "playbook_person_010",
+    "team_member": "Aijan Sadyrova",
+    "location": "UK",
+    "role": "Senior Advisor",
+    "tasks": "",
+    "disc_profile": "",
+    "facts_interests": ""
+  },
+  {
+    "id": "playbook_person_014",
+    "team_member": "Kush Ganatra",
+    "location": "UK",
+    "role": "Analyst",
+    "tasks": "Daily Market Dashboard",
+    "disc_profile": "",
+    "facts_interests": "Lives by Wembley"
+  },
+  {
+    "id": "playbook_person_021",
+    "team_member": "Max Johnson",
+    "location": "Portugal",
+    "role": "Asia Lead",
+    "tasks": "Sponsor Communication + Model",
+    "disc_profile": "",
+    "facts_interests": "Swam Bosphorus Straight"
+  },
+  {
+    "id": "playbook_person_025",
+    "team_member": "Amgalan Battulga",
+    "location": "Mongolia",
+    "role": "Mongolia Country Lead",
+    "tasks": "Communication with TME, UBC, etc…",
+    "disc_profile": "",
+    "facts_interests": ""
+  },
+  {
+    "id": "playbook_person_030",
+    "team_member": "Cameron Thomas",
+    "location": "UK",
+    "role": "Economist",
+    "tasks": "Research",
+    "disc_profile": "",
+    "facts_interests": ""
+  },
+  {
+    "id": "playbook_person_034",
+    "team_member": "Anand Darambazar",
+    "location": "Mongolia",
+    "role": "Analyst",
+    "tasks": "Partially out of action due to health",
+    "disc_profile": "",
+    "facts_interests": ""
+  },
+  {
+    "id": "playbook_person_035",
+    "team_member": "Christopher Nixon",
+    "location": "UK",
+    "role": "Project Finance Expert",
+    "tasks": "Indonesia atm? Hope to return 6 month",
+    "disc_profile": "",
+    "facts_interests": ""
+  }
+]

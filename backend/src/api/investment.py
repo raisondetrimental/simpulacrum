@@ -82,6 +82,7 @@ def get_investment_matches():
         payload = request.get_json(silent=True) or {}
         preference_filters = payload.get("preferenceFilters", {})
         ticket_range = payload.get("ticketRange", {})
+        country_filters = payload.get("countryFilters", None)
 
         # Load CRM data files
         json_dir = Path(current_app.config['JSON_DIR'])
@@ -90,7 +91,8 @@ def get_investment_matches():
         results = find_matching_organizations(
             json_dir=json_dir,
             preference_filters=preference_filters,
-            ticket_range=ticket_range
+            ticket_range=ticket_range,
+            country_filters=country_filters
         )
 
         # Get contacts for all matching organizations

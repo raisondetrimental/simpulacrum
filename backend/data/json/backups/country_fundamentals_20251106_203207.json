@@ -1,0 +1,377 @@
+{
+  "armenia": {
+    "name": "Armenia",
+    "slug": "armenia",
+    "capital": "Yerevan",
+    "region": "Western Asia / ECA",
+    "government_type": "Parliamentary Republic",
+    "international_organizations": ["UN", "WTO", "EAEU", "CSTO"],
+    "population": {
+      "value": 3.075,
+      "unit": "million",
+      "date": "2025-01-01"
+    },
+    "gdp": {
+      "value": 27.86,
+      "unit": "USD billion",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_rate": {
+      "value": 4.8,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_history": [
+      {"year": 2021, "value": 5.8, "is_projection": false},
+      {"year": 2022, "value": 12.6, "is_projection": false},
+      {"year": 2023, "value": 8.3, "is_projection": false},
+      {"year": 2024, "value": 5.9, "is_projection": false},
+      {"year": 2025, "value": 4.8, "is_projection": false},
+      {"year": 2026, "value": 4.9, "is_projection": true},
+      {"year": 2027, "value": 5.5, "is_projection": true}
+    ],
+    "gdp_per_capita": {
+      "value": 8970,
+      "unit": "USD",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "inflation_cpi": {
+      "value": 3.3,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "exports": {
+      "value": 13.0,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "imports": {
+      "value": 17.1,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "top_industries": [
+      {
+        "name": "Wholesale and retail trade; repair of motor vehicles and motorcycles",
+        "isic_code": "G",
+        "gdp_percentage": 14.0
+      },
+      {
+        "name": "Manufacturing",
+        "isic_code": "C",
+        "gdp_percentage": 10.0
+      },
+      {
+        "name": "Real estate activities",
+        "isic_code": "L",
+        "gdp_percentage": 10.0
+      }
+    ],
+    "data_year": 2024,
+    "sources": ["CIA Factbook", "UN"]
+  },
+  "mongolia": {
+    "name": "Mongolia",
+    "slug": "mongolia",
+    "capital": "Ulaanbaatar",
+    "region": "East Asia",
+    "government_type": "Semi-Presidential Republic",
+    "international_organizations": ["UN", "WTO"],
+    "population": {
+      "value": 3.546,
+      "unit": "million",
+      "date": "2024-12-31"
+    },
+    "gdp": {
+      "value": 25.12,
+      "unit": "USD billion",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_rate": {
+      "value": 5.5,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_history": [
+      {"year": 2021, "value": 1.6, "is_projection": false},
+      {"year": 2022, "value": 5.0, "is_projection": false},
+      {"year": 2023, "value": 7.4, "is_projection": false},
+      {"year": 2024, "value": 5.1, "is_projection": false},
+      {"year": 2025, "value": 5.5, "is_projection": false},
+      {"year": 2026, "value": 5.5, "is_projection": true},
+      {"year": 2027, "value": 5.5, "is_projection": true}
+    ],
+    "gdp_per_capita": {
+      "value": 7010,
+      "unit": "USD",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "inflation_cpi": {
+      "value": 8.3,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "exports": {
+      "value": 15.8,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "imports": {
+      "value": 11.6,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "top_industries": [
+      {
+        "name": "Mining and quarrying",
+        "isic_code": "B",
+        "gdp_percentage": 27.0
+      },
+      {
+        "name": "Wholesale and retail trade; repair of motor vehicles and motorcycles",
+        "isic_code": "G",
+        "gdp_percentage": 10.0
+      },
+      {
+        "name": "Agriculture, forestry and fishing",
+        "isic_code": "A",
+        "gdp_percentage": 7.0
+      }
+    ],
+    "data_year": 2024,
+    "sources": ["CIA Factbook", "UN"]
+  },
+  "turkiye": {
+    "name": "Türkiye",
+    "slug": "turkiye",
+    "capital": "Ankara",
+    "region": "Middle East / ECA",
+    "government_type": "Presidential Republic",
+    "international_organizations": ["UN", "NATO", "G20", "OECD"],
+    "population": {
+      "value": 85.665,
+      "unit": "million",
+      "date": "2024-12-31"
+    },
+    "gdp": {
+      "value": 1565.67,
+      "unit": "USD billion",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_rate": {
+      "value": 3.5,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_history": [
+      {"year": 2021, "value": 11.8, "is_projection": false},
+      {"year": 2022, "value": 5.4, "is_projection": false},
+      {"year": 2023, "value": 5.0, "is_projection": false},
+      {"year": 2024, "value": 3.3, "is_projection": false},
+      {"year": 2025, "value": 3.5, "is_projection": false},
+      {"year": 2026, "value": 3.7, "is_projection": true},
+      {"year": 2027, "value": 3.7, "is_projection": true}
+    ],
+    "gdp_per_capita": {
+      "value": 18200,
+      "unit": "USD",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "inflation_cpi": {
+      "value": 34.9,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "exports": {
+      "value": 261.9,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "imports": {
+      "value": 344.0,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "top_industries": [
+      {
+        "name": "Manufacturing",
+        "isic_code": "C",
+        "gdp_percentage": 17.0
+      },
+      {
+        "name": "Construction",
+        "isic_code": "F",
+        "gdp_percentage": 6.0
+      },
+      {
+        "name": "Agriculture, forestry and fishing",
+        "isic_code": "A",
+        "gdp_percentage": 6.0
+      }
+    ],
+    "data_year": 2024,
+    "sources": ["CIA Factbook", "NATO"]
+  },
+  "uzbekistan": {
+    "name": "Uzbekistan",
+    "slug": "uzbekistan",
+    "capital": "Tashkent",
+    "region": "Central Asia",
+    "government_type": "Presidential Republic",
+    "international_organizations": ["UN", "CIS", "ECO", "OIC"],
+    "population": {
+      "value": 37.543,
+      "unit": "million",
+      "date": "2025-01-01"
+    },
+    "gdp": {
+      "value": 131.46,
+      "unit": "USD billion",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_rate": {
+      "value": 6.8,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_history": [
+      {"year": 2021, "value": 8.0, "is_projection": false},
+      {"year": 2022, "value": 6.0, "is_projection": false},
+      {"year": 2023, "value": 6.3, "is_projection": false},
+      {"year": 2024, "value": 6.5, "is_projection": false},
+      {"year": 2025, "value": 6.8, "is_projection": false},
+      {"year": 2026, "value": 6.0, "is_projection": true},
+      {"year": 2027, "value": 5.7, "is_projection": true}
+    ],
+    "gdp_per_capita": {
+      "value": 3487,
+      "unit": "USD",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "inflation_cpi": {
+      "value": 9.1,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "exports": {
+      "value": 26.9,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "imports": {
+      "value": 39.0,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "top_industries": [
+      {
+        "name": "Manufacturing",
+        "isic_code": "C",
+        "gdp_percentage": 20.0
+      },
+      {
+        "name": "Agriculture, forestry and fishing",
+        "isic_code": "A",
+        "gdp_percentage": 18.0
+      },
+      {
+        "name": "Construction",
+        "isic_code": "F",
+        "gdp_percentage": 7.0
+      }
+    ],
+    "data_year": 2024,
+    "sources": ["CIA Factbook"]
+  },
+  "vietnam": {
+    "name": "Viet Nam",
+    "slug": "vietnam",
+    "capital": "Hanoi",
+    "region": "East & Southeast Asia",
+    "government_type": "One-Party State",
+    "international_organizations": ["UN", "WTO", "ASEAN", "APEC"],
+    "population": {
+      "value": 101.113,
+      "unit": "million",
+      "date": "2024-04-01"
+    },
+    "gdp": {
+      "value": 484.24,
+      "unit": "USD billion",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_rate": {
+      "value": 6.5,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "gdp_growth_history": [
+      {"year": 2021, "value": 2.6, "is_projection": false},
+      {"year": 2022, "value": 8.5, "is_projection": false},
+      {"year": 2023, "value": 5.1, "is_projection": false},
+      {"year": 2024, "value": 7.1, "is_projection": false},
+      {"year": 2025, "value": 6.5, "is_projection": false},
+      {"year": 2026, "value": 5.6, "is_projection": true},
+      {"year": 2027, "value": 5.8, "is_projection": true}
+    ],
+    "gdp_per_capita": {
+      "value": 4740,
+      "unit": "USD",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "inflation_cpi": {
+      "value": 3.4,
+      "unit": "percent",
+      "year": 2025,
+      "projection_source": "IMF"
+    },
+    "exports": {
+      "value": 405.53,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "imports": {
+      "value": 380.76,
+      "unit": "USD billion",
+      "year": 2024
+    },
+    "top_industries": [
+      {
+        "name": "Manufacturing",
+        "isic_code": "C",
+        "gdp_percentage": 24.0
+      },
+      {
+        "name": "Agriculture, forestry and fishing",
+        "isic_code": "A",
+        "gdp_percentage": 12.0
+      },
+      {
+        "name": "Wholesale and retail trade; repair of motor vehicles and motorcycles",
+        "isic_code": "G",
+        "gdp_percentage": 10.0
+      }
+    ],
+    "data_year": 2024,
+    "sources": ["CIA Factbook"]
+  }
+}

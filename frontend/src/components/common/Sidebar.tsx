@@ -185,43 +185,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             {/* Market Intelligence Main Dropdown */}
             {isDashboardOpen && (
               <div className="ml-8 mt-2 space-y-1">
-                {/* Markets Subcategory */}
-                <div>
-                  <button
-                    onClick={() => setIsMarketsOpen(!isMarketsOpen)}
-                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
-                  >
-                    <span>Markets</span>
-                    <svg
-                      className={`w-4 h-4 transition-transform ${isMarketsOpen ? 'rotate-180' : ''}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* Markets Pages */}
-                  {isMarketsOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {marketPages.map((page) => (
-                        <Link
-                          key={page.path}
-                          to={page.path}
-                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                            isActiveRoute(page.path)
-                              ? 'text-white opacity-100'
-                              : 'text-white opacity-70 hover:opacity-100'
-                          }`}
-                        >
-                          {page.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
                 {/* Country Reports Subcategory */}
                 <div>
                   <button
@@ -243,6 +206,43 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                   {isCountryReportsOpen && (
                     <div className="ml-4 mt-1 space-y-1">
                       {countryReportsPages.map((page) => (
+                        <Link
+                          key={page.path}
+                          to={page.path}
+                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                            isActiveRoute(page.path)
+                              ? 'text-white opacity-100'
+                              : 'text-white opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          {page.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Markets Subcategory */}
+                <div>
+                  <button
+                    onClick={() => setIsMarketsOpen(!isMarketsOpen)}
+                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
+                  >
+                    <span>Markets</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${isMarketsOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Markets Pages */}
+                  {isMarketsOpen && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {marketPages.map((page) => (
                         <Link
                           key={page.path}
                           to={page.path}

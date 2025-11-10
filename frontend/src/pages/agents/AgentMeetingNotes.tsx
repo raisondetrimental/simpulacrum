@@ -110,6 +110,18 @@ const AgentMeetingNotes: React.FC = () => {
     fetchAllData();
   }, []);
 
+  // Auto-select agent if org query parameter is provided
+  useEffect(() => {
+    const orgId = searchParams.get('org');
+    if (orgId && allAgents.length > 0 && !selectedAgent) {
+      const agent = allAgents.find(agt => agt.id === orgId);
+      if (agent) {
+        setSelectedAgent(agent);
+        setCurrentStep('select-contact');
+      }
+    }
+  }, [searchParams, allAgents, selectedAgent]);
+
   // Auto-select contact and agent if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');

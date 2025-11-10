@@ -5,9 +5,11 @@
 
 ## Overview
 
-Investment preferences are Y/N/any toggles that describe investment criteria for capital partners and sponsors. There are **24 total preference keys**, of which **10 are "shared"** (used for cross-CRM matching).
+Investment preferences are Y/N/any toggles that describe investment criteria for capital partners and sponsors. There are **21 total preference keys**, of which **7 are "shared"** (used for cross-CRM matching).
 
-## All Preference Keys (24 Total)
+**Note**: Individual country preferences (vietnam, mongolia, turkey) have been replaced with a dynamic `countries` array field that supports multiple country selections from a user-configurable master list.
+
+## All Preference Keys (21 Total)
 
 ### Asset Classes & Instruments (7 keys)
 1. **`investment_grade`** - Investment grade debt
@@ -18,15 +20,12 @@ Investment preferences are Y/N/any toggles that describe investment criteria for
 6. **`bonds`** - Bonds
 7. **`loan_agreement`** - Loan agreements
 
-### Geographic Focus (10 keys) - **SHARED**
+### Geographic Focus (5 keys) - **SHARED**
 8. **`us_market`** - United States market ⭐
 9. **`emerging_markets`** - Emerging markets ⭐
 10. **`asia_em`** - Asia emerging markets ⭐
 11. **`africa_em`** - Africa emerging markets ⭐
 12. **`emea_em`** - EMEA emerging markets ⭐
-13. **`vietnam`** - Vietnam ⭐
-14. **`mongolia`** - Mongolia ⭐
-15. **`turkey`** - Turkey ⭐
 
 ### Sector Focus (2 keys) - **SHARED**
 16. **`transport_infra`** - Transport infrastructure ⭐
@@ -39,7 +38,7 @@ Investment preferences are Y/N/any toggles that describe investment criteria for
 21. **`more_expensive_than_usual`** - More expensive than usual
 22. **`require_bank_guarantee`** - Requires bank guarantee
 
-## Shared Preference Keys (10 Total)
+## Shared Preference Keys (7 Total)
 
 These keys are used for cross-CRM matching between capital partners and sponsors:
 
@@ -51,10 +50,9 @@ emerging_markets
 asia_em
 africa_em
 emea_em
-vietnam
-mongolia
-turkey
 ```
+
+**Note**: Specific country preferences are now handled via the `countries` array field (e.g., `["armenia", "mongolia", "turkiye"]`) which references the user-configurable countries master list.
 
 ## Value Definitions
 
@@ -73,7 +71,7 @@ turkey
 ### TypeScript (Frontend)
 
 ```typescript
-// frontend/src/types/liquidity.ts (all 24 keys)
+// frontend/src/types/liquidity.ts (all 21 keys)
 export interface InvestmentPreferences {
   investment_grade: string;
   high_yield: string;
@@ -89,9 +87,6 @@ export interface InvestmentPreferences {
   asia_em: string;
   africa_em: string;
   emea_em: string;
-  vietnam: string;
-  mongolia: string;
-  turkey: string;
   coal: string;
   energy_infra: string;
   transport_infra: string;
@@ -99,7 +94,7 @@ export interface InvestmentPreferences {
   require_bank_guarantee: string;
 }
 
-// frontend/src/constants/shared.ts (shared 10 keys)
+// frontend/src/constants/shared.ts (shared 7 keys)
 export const SHARED_PREFERENCE_KEYS = [
   'transport_infra',
   'energy_infra',
@@ -107,17 +102,14 @@ export const SHARED_PREFERENCE_KEYS = [
   'emerging_markets',
   'asia_em',
   'africa_em',
-  'emea_em',
-  'vietnam',
-  'mongolia',
-  'turkey'
+  'emea_em'
 ] as const;
 ```
 
 ### Python (Backend)
 
 ```python
-# backend/src/constants/shared.py (shared 10 keys)
+# backend/src/constants/shared.py (shared 7 keys)
 SHARED_PREFERENCE_KEYS = (
     "transport_infra",
     "energy_infra",
@@ -126,9 +118,6 @@ SHARED_PREFERENCE_KEYS = (
     "asia_em",
     "africa_em",
     "emea_em",
-    "vietnam",
-    "mongolia",
-    "turkey",
 )
 ```
 

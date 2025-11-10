@@ -40,9 +40,6 @@ export interface InvestmentPreferences {
   asia_em: string;
   africa_em: string;
   emea_em: string;
-  vietnam: string;
-  mongolia: string;
-  turkey: string;
   coal: string;
   energy_infra: string;
   transport_infra: string;
@@ -163,6 +160,7 @@ export interface CapitalPartnerFormData {
   investment_min?: number;
   investment_max?: number;
   currency?: string;
+  countries?: string[];
 }
 
 export interface ContactFormData {
@@ -225,10 +223,7 @@ export const PREFERENCE_GROUPS: PreferenceGroup[] = [
       'emerging_markets',
       'asia_em',
       'africa_em',
-      'emea_em',
-      'vietnam',
-      'mongolia',
-      'turkey'
+      'emea_em'
     ]
   },
   {
@@ -264,9 +259,6 @@ export const PREFERENCE_LABELS: Record<keyof InvestmentPreferences, string> = {
   asia_em: 'Asia EM',
   africa_em: 'Africa EM',
   emea_em: 'EMEA EM',
-  vietnam: 'Vietnam',
-  mongolia: 'Mongolia',
-  turkey: 'Turkey',
   coal: 'Coal',
   energy_infra: 'Energy Infra',
   transport_infra: 'Transport Infra',

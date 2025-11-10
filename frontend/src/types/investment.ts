@@ -63,5 +63,6 @@ export interface SavedStrategy {
     minInvestment: number;
     maxInvestment: number;
   };
+  countries?: string[];
   createdAt: string;
 }

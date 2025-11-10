@@ -25,6 +25,7 @@ import {
 } from '../../services/dealsService';
 import DealCard from '../../components/features/deals/DealCard';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
+import { useTableSort } from '../../hooks/useTableSort';
 
 const DealsList: React.FC = () => {
   const navigate = useNavigate();
@@ -149,6 +150,9 @@ const DealsList: React.FC = () => {
     return true;
   });
 
+  // Apply sorting to filtered deals
+  const { sortedData: sortedDeals, sortConfig, requestSort } = useTableSort(filteredDeals, 'deal_name');
+
   // Get unique values for dropdowns
   const uniqueCountries = Array.from(new Set(deals.map(d => d.country).filter(Boolean))).sort();
   const uniqueCurrencies = Array.from(new Set(deals.map(d => d.currency).filter(Boolean))).sort();
@@ -169,7 +173,7 @@ const DealsList: React.FC = () => {
     filterRegion || filterCountry || filterCurrency || minSize || maxSize;
 
   // Calculate totals
-  const totalValue = filteredDeals.reduce((sum, deal) => {
+  const totalValue = sortedDeals.reduce((sum, deal) => {
     // Convert all to USD for summary (simplified)
     return sum + deal.total_size;
   }, 0);
@@ -200,10 +204,23 @@ const DealsList: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Deals</h1>
           <p className="text-gray-600 mt-1">
-            {deals.length} deal{deals.length !== 1 ? 's' : ''} • Total Value: ${(totalValue / 1_000_000).toFixed(0)}M
+            {sortedDeals.length} deal{sortedDeals.length !== 1 ? 's' : ''} • Total Value: ${(totalValue / 1_000_000).toFixed(0)}M
           </p>
         </div>
         <div className="flex gap-3">
+          {/* Sort Dropdown */}
+          <select
+            onChange={(e) => requestSort(e.target.value as keyof Deal)}
+            className="bg-gray-100 text-gray-700 px-3 py-2 rounded-md hover:bg-gray-200 transition-colors border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            value={sortConfig.key || 'deal_name'}
+            title="Sort deals by"
+          >
+            <option value="deal_name">Sort: Name {sortConfig.key === 'deal_name' && (sortConfig.direction === 'asc' ? '↑' : sortConfig.direction === 'desc' ? '↓' : '')}</option>
+            <option value="total_size">Sort: Size {sortConfig.key === 'total_size' && (sortConfig.direction === 'asc' ? '↑' : sortConfig.direction === 'desc' ? '↓' : '')}</option>
+            <option value="status">Sort: Status {sortConfig.key === 'status' && (sortConfig.direction === 'asc' ? '↑' : sortConfig.direction === 'desc' ? '↓' : '')}</option>
+            <option value="country">Sort: Country {sortConfig.key === 'country' && (sortConfig.direction === 'asc' ? '↑' : sortConfig.direction === 'desc' ? '↓' : '')}</option>
+            <option value="created_at">Sort: Date {sortConfig.key === 'created_at' && (sortConfig.direction === 'asc' ? '↑' : sortConfig.direction === 'desc' ? '↓' : '')}</option>
+          </select>
           <button
             onClick={() => setViewMode(viewMode === 'cards' ? 'compact' : 'cards')}
             className="bg-gray-100 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-200 transition-colors flex items-center gap-2"
@@ -386,9 +403,9 @@ const DealsList: React.FC = () => {
       {/* Results Count */}
       <div className="flex items-center justify-between text-sm text-gray-600">
         <div>
-          Showing {filteredDeals.length} of {deals.length} deal{deals.length !== 1 ? 's' : ''}
+          Showing {sortedDeals.length} of {deals.length} deal{deals.length !== 1 ? 's' : ''}
         </div>
-        {filteredDeals.length > 0 && (
+        {sortedDeals.length > 0 && (
           <div>
             Filtered Total: ${(totalValue / 1_000_000).toFixed(0)}M
           </div>
@@ -397,7 +414,7 @@ const DealsList: React.FC = () => {
 
       {/* Deals Grid */}
       <div className={viewMode === 'cards' ? 'grid grid-cols-1 lg:grid-cols-2 gap-6' : 'space-y-4'}>
-        {filteredDeals.length === 0 ? (
+        {sortedDeals.length === 0 ? (
           <div className="col-span-2 text-center py-12 bg-white rounded-lg border border-gray-200">
             <p className="text-gray-600 mb-4">
               {hasActiveFilters ? 'No deals match your filters' : 'No deals yet'}
@@ -412,15 +429,16 @@ const DealsList: React.FC = () => {
             )}
           </div>
         ) : (
-          filteredDeals.map((deal) => (
-            <DealCard
-              key={deal.id}
-              deal={deal}
-              showParticipants={true}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              compact={viewMode === 'compact'}
-            />
+          sortedDeals.map((deal, index) => (
+            <div key={deal.id} className="table-row-stagger">
+              <DealCard
+                deal={deal}
+                showParticipants={true}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                compact={viewMode === 'compact'}
+              />
+            </div>
           ))
         )}
       </div>

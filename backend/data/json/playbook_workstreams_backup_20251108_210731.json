@@ -1,0 +1,77 @@
+[
+  {
+    "id": "playbook_workstream_001",
+    "mission_goals": "Mission Goal",
+    "key": "Process"
+  },
+  {
+    "id": "playbook_workstream_002",
+    "mission_goals": "O1 Onboarding",
+    "key": "Collect laptop and all items"
+  },
+  {
+    "id": "playbook_workstream_004",
+    "mission_goals": "A1 Personal Goals/Mission",
+    "key": "Develop and formalise professional and personal goals for the next 3–6 months, ensuring alignment with broader business and personal objectives."
+  },
+  {
+    "id": "playbook_workstream_005",
+    "mission_goals": "A2 Personal Theory of Firm Research",
+    "key": "Conduct independent research into firm theory and develop a personal mission statement that integrates learnings."
+  },
+  {
+    "id": "playbook_workstream_006",
+    "mission_goals": "C1 Global Infra Deep Dive Preparation",
+    "key": "Scope and design a deep-dive research project on global infrastructure. Begin with preliminary analysis and define focus areas."
+  },
+  {
+    "id": "playbook_workstream_010",
+    "mission_goals": "C2 Collating Firm Research",
+    "key": "Collect, consolidate, and organise firm theory research materials, possibly integrating with personal workstreams."
+  },
+  {
+    "id": "playbook_workstream_011",
+    "mission_goals": "D1 Consolidate Existing Liquidity Base (DES)",
+    "key": "Collect information about our capital pool that is currently distributed across multiple docs. Confirm where individual interests are to define DES."
+  },
+  {
+    "id": "playbook_workstream_016",
+    "mission_goals": "O2 Set Yourself Up",
+    "key": "Creation of master excel spreadsheet to support full understanding and integration"
+  },
+  {
+    "id": "playbook_workstream_018",
+    "mission_goals": "C3 Eurasia Research Piece",
+    "key": "Finish report conducting in-depth research on Eurasia/Central Asia bottlenecks and opportunities. Prioritise key developments and implications."
+  },
+  {
+    "id": "playbook_workstream_019",
+    "mission_goals": "A3 Basic Financial Modelling and Terminology Knowledge",
+    "key": "Wall Street Mojo Course"
+  },
+  {
+    "id": "playbook_workstream_020",
+    "mission_goals": "O3 Knowledge Sharing Tasks",
+    "key": "Complete First Friday Morning Research"
+  },
+  {
+    "id": "playbook_workstream_022",
+    "mission_goals": "D2 New Transaction Research: Uzbekistan",
+    "key": ""
+  },
+  {
+    "id": "playbook_workstream_025",
+    "mission_goals": "D3 Market Intelligence Provider",
+    "key": "Reach out to multiple companies"
+  },
+  {
+    "id": "playbook_workstream_032",
+    "mission_goals": "D4 Internal Dashboard Prep",
+    "key": "Sketch out draft of internal dashboard"
+  },
+  {
+    "id": "playbook_workstream_035",
+    "mission_goals": "C4 Ratings Research Piece",
+    "key": "Hire Someone to assist with the research"
+  }
+]

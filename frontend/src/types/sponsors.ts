@@ -36,9 +36,6 @@ export interface Regions {
   asia_em: string;
   africa_em: string;
   emea_em: string;
-  vietnam: string;
-  mongolia: string;
-  turkey: string;
 }
 
 // ============================================================================
@@ -148,6 +145,7 @@ export interface CorporateFormData {
   notes?: string;
   company_description?: string;
   deal_precedents?: DealPrecedent[];
+  countries?: string[];
 }
 
 export interface SponsorContactFormData {
@@ -197,10 +195,7 @@ export const REGION_OPTIONS: RegionConfig[] = [
   { key: 'emerging_markets', label: 'Emerging Markets' },
   { key: 'asia_em', label: 'Asia EM' },
   { key: 'africa_em', label: 'Africa EM' },
-  { key: 'emea_em', label: 'EMEA EM' },
-  { key: 'vietnam', label: 'Vietnam' },
-  { key: 'mongolia', label: 'Mongolia' },
-  { key: 'turkey', label: 'Turkey' }
+  { key: 'emea_em', label: 'EMEA EM' }
 ];
 
 // Combined preferences type for PreferencesGrid
@@ -224,10 +219,7 @@ export const SPONSOR_PREFERENCE_GROUPS: SponsorPreferenceGroup[] = [
       'emerging_markets',
       'asia_em',
       'africa_em',
-      'emea_em',
-      'vietnam',
-      'mongolia',
-      'turkey'
+      'emea_em'
     ]
   }
 ];
@@ -240,10 +232,7 @@ export const SPONSOR_PREFERENCE_LABELS: Record<keyof SponsorPreferences, string>
   emerging_markets: 'Emerging Markets',
   asia_em: 'Asia EM',
   africa_em: 'Africa EM',
-  emea_em: 'EMEA EM',
-  vietnam: 'Vietnam',
-  mongolia: 'Mongolia',
-  turkey: 'Turkey'
+  emea_em: 'EMEA EM'
 };
 
 // ============================================================================
