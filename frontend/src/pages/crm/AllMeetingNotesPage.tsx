@@ -7,10 +7,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllContacts } from '../../services/crmService';
+import { getAllContacts, updateMeetingNote, deleteMeetingNote } from '../../services/crmService';
 import { UnifiedContact, OrganizationTypeFilter as FilterType, MeetingHistoryEntry } from '../../types/crm';
 import OrganizationTypeBadge from '../../components/features/crm/OrganizationTypeBadge';
 import OrganizationTypeFilter from '../../components/features/crm/OrganizationTypeFilter';
+import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
 import { getCapitalPartners } from '../../services/capitalPartnersService';
 import { getCorporates } from '../../services/sponsorsService';
 import { getLegalAdvisors } from '../../services/counselService';
@@ -40,6 +41,7 @@ const AllMeetingNotesPage: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState<FilterType>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState<'all' | 'recent' | 'older'>('all');
+  const [selectedMeeting, setSelectedMeeting] = useState<MeetingWithContext | null>(null);
 
   // Organization search state
   const [orgSearchTerm, setOrgSearchTerm] = useState('');
@@ -266,6 +268,28 @@ const AllMeetingNotesPage: React.FC = () => {
     navigate(routes[type]);
   };
 
+  const handleMeetingClick = (meeting: MeetingWithContext) => {
+    setSelectedMeeting(meeting);
+  };
+
+  const handleUpdateMeeting = async (meetingId: string, data: { notes: string; participants?: string; next_follow_up?: string }) => {
+    if (!selectedMeeting) return;
+    await updateMeetingNote(selectedMeeting.organization_type, selectedMeeting.contact_id, meetingId, data);
+    await loadMeetings();
+  };
+
+  const handleDeleteMeeting = async (meetingId: string) => {
+    if (!selectedMeeting) return;
+    await deleteMeetingNote(selectedMeeting.organization_type, selectedMeeting.contact_id, meetingId);
+    await loadMeetings();
+    setSelectedMeeting(null);
+  };
+
+  const getModuleType = (orgType: 'capital_partner' | 'sponsor' | 'counsel' | 'agent'): 'liquidity' | 'sponsor' | 'counsel' | 'agent' => {
+    if (orgType === 'capital_partner') return 'liquidity';
+    return orgType;
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -444,89 +468,92 @@ const AllMeetingNotesPage: React.FC = () => {
           <p className="mt-2 text-sm text-gray-500">No meeting notes found</p>
         </div>
       ) : (
-        <div className="space-y-4">
-          {filteredMeetings.map((meeting, index) => (
-            <div key={`${meeting.contact_id}-${meeting.date}-${index}`} className="bg-white shadow rounded-lg overflow-hidden">
-              <div className="p-6">
-                {/* Meeting Header */}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-3 mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {formatDate(meeting.date)}
-                      </h3>
-                      <span className="text-sm text-gray-500">
-                        ({getRelativeTime(meeting.date)})
+        <div className="space-y-3">
+          {filteredMeetings.map((meeting, index) => {
+            const colorClasses = {
+              capital_partner: {
+                hover: 'hover:bg-blue-50',
+                focus: 'focus:ring-blue-500',
+                text: 'text-blue-600'
+              },
+              sponsor: {
+                hover: 'hover:bg-green-50',
+                focus: 'focus:ring-green-500',
+                text: 'text-green-600'
+              },
+              counsel: {
+                hover: 'hover:bg-purple-50',
+                focus: 'focus:ring-purple-500',
+                text: 'text-purple-600'
+              },
+              agent: {
+                hover: 'hover:bg-orange-50',
+                focus: 'focus:ring-orange-500',
+                text: 'text-orange-600'
+              }
+            };
+            const colors = colorClasses[meeting.organization_type];
+
+            return (
+              <button
+                key={`${meeting.contact_id}-${meeting.date}-${index}`}
+                type="button"
+                onClick={() => handleMeetingClick(meeting)}
+                className={`w-full text-left border border-gray-200 rounded-md p-4 ${colors.hover} focus:outline-none focus:ring-2 ${colors.focus} transition-colors`}
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex flex-col gap-1 md:flex-row md:items-center md:gap-3">
+                    <span className="text-sm font-semibold text-gray-900">
+                      {new Date(meeting.date).toLocaleDateString()}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs md:text-sm ${colors.text} font-medium`}>
+                        {meeting.contact_name}
                       </span>
                       <OrganizationTypeBadge type={meeting.organization_type} size="sm" />
                     </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600">
-                      <Link
-                        to={getContactLink(meeting)}
-                        className="flex items-center hover:text-primary-600 font-medium"
-                      >
-                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        {meeting.contact_name}
-                      </Link>
-                      {meeting.organization_name && (
-                        <span className="flex items-center">
-                          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                          </svg>
-                          {meeting.organization_name}
-                        </span>
-                      )}
-                    </div>
                   </div>
-                </div>
-
-                {/* Meeting Notes */}
-                <div className="prose prose-sm max-w-none mb-4">
-                  <div className="text-gray-700 whitespace-pre-wrap">{meeting.notes}</div>
-                </div>
-
-                {/* Participants */}
-                {meeting.participants && (
-                  <div className="flex items-start space-x-2 text-sm text-gray-600 mb-2">
-                    <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <div>
-                      <span className="font-medium">Participants:</span> {meeting.participants}
-                    </div>
-                  </div>
-                )}
-
-                {/* Next Follow-up */}
-                {meeting.next_follow_up && (
-                  <div className="flex items-center space-x-2 text-sm">
-                    <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="text-blue-700">
-                      <span className="font-medium">Next follow-up:</span> {formatDate(meeting.next_follow_up)}
+                  {meeting.next_follow_up && (
+                    <span className={`text-xs ${colors.text}`}>
+                      Follow-up: {new Date(meeting.next_follow_up).toLocaleDateString()}
                     </span>
-                  </div>
+                  )}
+                </div>
+                {meeting.organization_name && (
+                  <p className="text-xs text-gray-600 mb-1">
+                    Organization: {meeting.organization_name}
+                  </p>
                 )}
-              </div>
-
-              {/* Footer - Link to Contact */}
-              <div className="bg-gray-50 px-6 py-3">
-                <Link
-                  to={getContactLink(meeting)}
-                  className="text-sm text-primary-600 hover:text-primary-900 font-medium flex items-center"
-                >
-                  View contact details
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          ))}
+                {meeting.participants && (
+                  <p className="text-xs text-gray-600 mb-1">
+                    Participants: {meeting.participants}
+                  </p>
+                )}
+                <p className="text-sm text-gray-700 whitespace-pre-wrap line-clamp-2">
+                  {meeting.notes}
+                </p>
+                <p className={`mt-2 text-xs font-semibold ${colors.text}`}>Click to view and edit</p>
+              </button>
+            );
+          })}
         </div>
+      )}
+
+      {/* Meeting Details Modal */}
+      {selectedMeeting && (
+        <MeetingDetailsModal
+          isOpen={!!selectedMeeting}
+          onClose={() => setSelectedMeeting(null)}
+          module={getModuleType(selectedMeeting.organization_type)}
+          meeting={selectedMeeting}
+          contactName={selectedMeeting.contact_name}
+          contactId={selectedMeeting.contact_id}
+          onUpdate={handleUpdateMeeting}
+          onDelete={handleDeleteMeeting}
+          context={[
+            selectedMeeting.organization_name && { label: 'Organization', value: selectedMeeting.organization_name },
+          ].filter(Boolean) as Array<{ label: string; value: string }>}
+        />
       )}
     </div>
   );
