@@ -160,7 +160,7 @@
     "done": false,
     "key": "C",
     "description": "Research",
-    "completed": false,
+    "completed": true,
     "subtasks": []
   },
   {
@@ -274,7 +274,7 @@
         "category": "",
         "deliverable": "Bloomberg",
         "done": false,
-        "completed": false
+        "completed": true
       }
     ]
   },
@@ -309,14 +309,31 @@
   },
   {
     "id": "playbook_workstream_015",
-    "mission_goal": "Ratings Research Piece",
-    "process": "Hire Someone to assist with the research",
+    "mission_goal": "Jess Research Assistance and Supervision",
+    "process": "Hire Jess, assist integration into firm etc",
     "category": "",
-    "deliverable": "Hire Jess",
+    "deliverable": "Production of two pieces of work ",
     "done": false,
     "key": "C",
     "description": "Research",
     "completed": false,
-    "subtasks": []
+    "subtasks": [
+      {
+        "id": "playbook_workstream_015_sub_1",
+        "process": "Bring onto firm",
+        "category": "",
+        "deliverable": "Joining 24th officially",
+        "done": false,
+        "completed": false
+      },
+      {
+        "id": "playbook_workstream_015_sub_2",
+        "process": "Vietnam call with Max and Nav",
+        "category": "",
+        "deliverable": "",
+        "done": false,
+        "completed": false
+      }
+    ]
   }
 ]

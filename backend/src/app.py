@@ -57,7 +57,6 @@ def create_app(config_name=None):
     from .api.investment import investment_bp
     from .api.excel import excel_bp
     from .api.data import data_bp
-    from .api.fx_rates import fx_rates_bp
     from .api.deals import deals_bp
     from .api.deal_participants import deal_participants_bp
     from .api.users import users_bp
@@ -77,7 +76,6 @@ def create_app(config_name=None):
     app.register_blueprint(investment_bp)
     app.register_blueprint(excel_bp)
     app.register_blueprint(data_bp)
-    app.register_blueprint(fx_rates_bp)
     app.register_blueprint(deals_bp)
     app.register_blueprint(deal_participants_bp)
     app.register_blueprint(users_bp)

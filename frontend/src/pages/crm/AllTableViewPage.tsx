@@ -267,19 +267,13 @@ const AllTableViewPage: React.FC = () => {
                           <div className="text-xs text-gray-500 mt-1">{org.headquarters_location}</div>
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-900">
-                          {/* Capital Partner: Investment Range */}
-                          {org.organization_type === 'capital_partner' && org.investment_min && org.investment_max && (
+                          {/* Investment Range (all organization types) */}
+                          {org.investment_min && org.investment_max && (
                             <div>
                               ${(org.investment_min / 1000000).toFixed(0)}M - ${(org.investment_max / 1000000).toFixed(0)}M {org.currency}
                             </div>
                           )}
-                          {/* Sponsor: Investment Need */}
-                          {org.organization_type === 'sponsor' && org.investment_need_min && org.investment_need_max && (
-                            <div>
-                              Need: ${(org.investment_need_min / 1000000).toFixed(0)}M - ${(org.investment_need_max / 1000000).toFixed(0)}M
-                            </div>
-                          )}
-                          {(!org.investment_min && !org.investment_need_min) && (
+                          {!org.investment_min && (
                             <span className="text-gray-400">Not specified</span>
                           )}
                         </td>

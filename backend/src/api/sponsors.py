@@ -102,8 +102,8 @@ def create_corporate():
             "name": data['name'],
             "country": data['country'],
             "headquarters_location": data.get('headquarters_location', ''),
-            "investment_need_min": data.get('investment_need_min', 0),
-            "investment_need_max": data.get('investment_need_max', 0),
+            "investment_min": data.get('investment_min', 0),
+            "investment_max": data.get('investment_max', 0),
             "currency": data.get('currency', 'USD'),
             "infrastructure_types": data.get('infrastructure_types', {}),
             "regions": data.get('regions', {}),
@@ -163,8 +163,8 @@ def update_corporate(corporate_id):
             "name": data.get('name', existing_corporate['name']),
             "country": data.get('country', existing_corporate['country']),
             "headquarters_location": data.get('headquarters_location', existing_corporate.get('headquarters_location', '')),
-            "investment_need_min": data.get('investment_need_min', existing_corporate.get('investment_need_min', 0)),
-            "investment_need_max": data.get('investment_need_max', existing_corporate.get('investment_need_max', 0)),
+            "investment_min": data.get('investment_min', existing_corporate.get('investment_min', 0)),
+            "investment_max": data.get('investment_max', existing_corporate.get('investment_max', 0)),
             "currency": data.get('currency', existing_corporate.get('currency', 'USD')),
             "infrastructure_types": data.get('infrastructure_types', existing_corporate.get('infrastructure_types', {})),
             "regions": data.get('regions', existing_corporate.get('regions', {})),
@@ -836,8 +836,8 @@ def export_corporates_xlsx():
 
         # Define headers
         headers = [
-            'ID', 'Name', 'Country', 'Headquarters', 'Investment Need Min',
-            'Investment Need Max', 'Currency', 'Relationship', 'Notes',
+            'ID', 'Name', 'Country', 'Headquarters', 'Investment Min',
+            'Investment Max', 'Currency', 'Countries', 'Relationship', 'Notes',
             'Company Description', 'Created At', 'Last Updated'
         ]
         ws.append(headers)
@@ -849,9 +849,10 @@ def export_corporates_xlsx():
                 corporate.get('name', ''),
                 corporate.get('country', ''),
                 corporate.get('headquarters_location', ''),
-                corporate.get('investment_need_min', 0),
-                corporate.get('investment_need_max', 0),
+                corporate.get('investment_min', 0),
+                corporate.get('investment_max', 0),
                 corporate.get('currency', 'USD'),
+                ', '.join(corporate.get('countries', [])) if isinstance(corporate.get('countries'), list) else '',
                 corporate.get('relationship', ''),
                 corporate.get('notes', ''),
                 corporate.get('company_description', ''),

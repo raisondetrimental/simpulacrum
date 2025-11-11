@@ -48,8 +48,8 @@ export interface Corporate {
   type: string;
   country: string;
   headquarters_location: string;
-  investment_need_min: number;  // Minimum funding needed
-  investment_need_max: number;  // Maximum funding needed
+  investment_min: number;  // Minimum investment amount
+  investment_max: number;  // Maximum investment amount
   currency: string;
   infrastructure_types: InfrastructureTypes;
   regions: Regions;
@@ -136,8 +136,8 @@ export interface CorporateFormData {
   type?: string;
   country: string;
   headquarters_location?: string;
-  investment_need_min?: number;
-  investment_need_max?: number;
+  investment_min?: number;
+  investment_max?: number;
   currency?: string;
   infrastructure_types?: Partial<InfrastructureTypes>;
   regions?: Partial<Regions>;

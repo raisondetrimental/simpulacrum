@@ -1,0 +1,7359 @@
+{
+  "meta": {
+    "source": "BIS",
+    "endpoint": "https://stats.bis.org/api/v2/data/dataflow/BIS/WS_CBPOL/1.0/D.US+GB+KR+AU+TR+XM",
+    "dataset": "CBPOL (Central Bank Policy Rates)",
+    "countries": {
+      "US": "USA",
+      "GB": "UK",
+      "KR": "South Korea",
+      "AU": "Australia",
+      "TR": "Türkiye",
+      "XM": "Euro Area"
+    },
+    "generated_utc": "2025-11-11T19:10:27Z",
+    "notes": "Central bank policy rates (%). Missing days are None, typically weekends or holidays. Data accumulated incrementally.",
+    "total_days": 815,
+    "date_range": {
+      "start": "2023-05-15",
+      "end": "2025-11-04"
+    }
+  },
+  "data": [
+    {
+      "date": "2023-05-15",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-16",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-17",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-18",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-19",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-22",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-23",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-24",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-25",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-26",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-30",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-05-31",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-01",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-02",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-05",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-07",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-08",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-09",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-12",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-13",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-14",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-15",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-16",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-19",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-20",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-21",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-22",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-23",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-26",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-27",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-28",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-29",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-06-30",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-03",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-04",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-05",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-06",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-07",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-10",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-11",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-12",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-13",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-14",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-17",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-18",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-19",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-20",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-21",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-24",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-25",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-26",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-27",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-28",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-07-31",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-01",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-02",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-03",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-09",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-10",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-14",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-16",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-17",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-18",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-21",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-23",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-24",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-25",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-28",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-30",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-08-31",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-01",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-14",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-18",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-19",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-20",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-21",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-25",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-26",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-27",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-28",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-09-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-02",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-03",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-09",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-10",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-16",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-17",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-18",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-19",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-20",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-23",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-24",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-25",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-26",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-27",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-30",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-10-31",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-01",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-02",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-03",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.1,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-09",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-10",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-14",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-16",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-17",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-20",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-21",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-23",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-24",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-27",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-28",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-11-30",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-01",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-14",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-18",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-19",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-20",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-21",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-26",
+      "US": null,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-27",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-28",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2023-12-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-02",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-03",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-09",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-10",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-16",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-17",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-18",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-19",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-23",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-24",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-25",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-26",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-30",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-01-31",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-01",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-02",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-09",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-14",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-15",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-16",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-19",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-20",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-21",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-22",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-23",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-26",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-27",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-28",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-02-29",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-01",
+      "US": null,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-04",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-05",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-06",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-07",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-08",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-03-11",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": null
+    },
+    {
+      "date": "2024-03-12",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": null
+    },
+    {
+      "date": "2024-03-13",
+      "US": null,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": null
+    },
+    {
+      "date": "2024-03-14",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": null
+    },
+    {
+      "date": "2024-03-15",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-16",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-17",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-18",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-19",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-20",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-21",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-22",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-23",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-24",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-25",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-26",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-27",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-28",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-29",
+      "US": 5.375,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-30",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-03-31",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-01",
+      "US": 5.375,
+      "GB": null,
+      "KR": 3.5,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-02",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-03",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-04",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-05",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-06",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-07",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-08",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-09",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-10",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-11",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-12",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-13",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-14",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-15",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-16",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-17",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-18",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-19",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-20",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-21",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-22",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-23",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-24",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-25",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-26",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-27",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-28",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-29",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-04-30",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-01",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-02",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-03",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-04",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-05",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-06",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-07",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-08",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-09",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-10",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-11",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-12",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-13",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-14",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-15",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-16",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-17",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-18",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-19",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-20",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-21",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-22",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-23",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-24",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-25",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-26",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-27",
+      "US": 5.375,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-28",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-29",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-30",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-05-31",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-01",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-02",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-03",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-04",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-05",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-06",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-07",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-08",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-09",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-10",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-11",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.5
+    },
+    {
+      "date": "2024-06-12",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-13",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-14",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-15",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-16",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-17",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-18",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-19",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-20",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-21",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-22",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-23",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-24",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-25",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-26",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-27",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-28",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-29",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-06-30",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-01",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-02",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-03",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-04",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-05",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-06",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-07",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-08",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-09",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-10",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-11",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-12",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-13",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-14",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-15",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-16",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-17",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-18",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-19",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-20",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-21",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-22",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-23",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-24",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-25",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-26",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-27",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-28",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-29",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-30",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-07-31",
+      "US": 5.375,
+      "GB": 5.25,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-01",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-02",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-03",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-04",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-05",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-06",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-07",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-08",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-09",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-10",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-11",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-12",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-13",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-14",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-15",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-16",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-17",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-18",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-19",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-20",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-21",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-22",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-23",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-24",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-25",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-26",
+      "US": 5.375,
+      "GB": null,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-27",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-28",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-29",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-30",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-08-31",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-01",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-02",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-03",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-04",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-05",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-06",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-07",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-08",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-09",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-10",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-11",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-12",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-13",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-14",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-15",
+      "US": 5.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-16",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-17",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 4.25
+    },
+    {
+      "date": "2024-09-18",
+      "US": 5.375,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-19",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-20",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-21",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-09-22",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-09-23",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-24",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-25",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-26",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-27",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-09-28",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-09-29",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-09-30",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-01",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-02",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-03",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-04",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-05",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-06",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-07",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-08",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-09",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-10",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.5,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-11",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-12",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-13",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-14",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-15",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-16",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-17",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-18",
+      "US": null,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-19",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-20",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-21",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-22",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.5
+    },
+    {
+      "date": "2024-10-23",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-24",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-25",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-26",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-27",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-10-28",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-29",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": null,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-30",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-10-31",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-01",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-02",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-03",
+      "US": 4.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-04",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-05",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-06",
+      "US": 4.875,
+      "GB": 5.0,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-07",
+      "US": 4.875,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-08",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-09",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-10",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-11",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-12",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-13",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-14",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-15",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-16",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-17",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-18",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-19",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-20",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-21",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-22",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-23",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-24",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-11-25",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-26",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-27",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.25,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-28",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-29",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-11-30",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-01",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-02",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-03",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-04",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-05",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-06",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-07",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-08",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-09",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-10",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-11",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-12",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-13",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-14",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-15",
+      "US": 4.625,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-16",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-17",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.25
+    },
+    {
+      "date": "2024-12-18",
+      "US": 4.625,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-19",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-20",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-21",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-22",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-23",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-24",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-25",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-26",
+      "US": 4.375,
+      "GB": null,
+      "KR": 3.0,
+      "AU": null,
+      "TR": 50.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-27",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-28",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-29",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2024-12-30",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2024-12-31",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-01",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-02",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-03",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-04",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2025-01-05",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": null
+    },
+    {
+      "date": "2025-01-06",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-07",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-08",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-09",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-10",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-11",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-12",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-13",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-14",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-15",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-16",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-17",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-18",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-19",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-20",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-21",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-22",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-23",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 47.5,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-24",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-25",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-26",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-27",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": null,
+      "AU": null,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-28",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-29",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-30",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": null,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-01-31",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-02-01",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-02-02",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-02-03",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-02-04",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 3.0
+    },
+    {
+      "date": "2025-02-05",
+      "US": 4.375,
+      "GB": 4.75,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-06",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-07",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-08",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-09",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-10",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-11",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-12",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-13",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-14",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-15",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-16",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-17",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-18",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.35,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-19",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-20",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-21",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-22",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-23",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-24",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 3.0,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-25",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-26",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-27",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-02-28",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-01",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-02",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-03",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": null,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-04",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-05",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-06",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 45.0,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-07",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-08",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-09",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-10",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-11",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.75
+    },
+    {
+      "date": "2025-03-12",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-13",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-14",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-15",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-16",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-17",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-18",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-19",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-20",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-21",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-22",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-23",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-24",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-25",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-26",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-27",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-28",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-29",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-30",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-03-31",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-01",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-02",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-03",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-04",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-05",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-06",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-07",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-08",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-09",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-10",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-11",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-12",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-13",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-14",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-15",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-16",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-17",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 42.5,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-18",
+      "US": 4.375,
+      "GB": null,
+      "KR": 2.75,
+      "AU": null,
+      "TR": 46.0,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-19",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-20",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-21",
+      "US": 4.375,
+      "GB": null,
+      "KR": 2.75,
+      "AU": null,
+      "TR": 46.0,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-22",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.5
+    },
+    {
+      "date": "2025-04-23",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-24",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-25",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": null,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-26",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-27",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-28",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-29",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-04-30",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-01",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": null,
+      "AU": 4.1,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-02",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-03",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-04",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-05",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-06",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": null,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-07",
+      "US": 4.375,
+      "GB": 4.5,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-08",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-09",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-10",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-11",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-12",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-13",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-14",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-15",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-16",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-17",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-18",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-19",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-20",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 4.1,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-21",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-22",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-23",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-24",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-25",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-26",
+      "US": 4.375,
+      "GB": null,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-27",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-28",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.75,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-29",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-30",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-05-31",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-01",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-02",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-03",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": null,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-04",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-05",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-06",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": null,
+      "AU": 3.85,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-07",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-08",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-09",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": null,
+      "TR": null,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-10",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.25
+    },
+    {
+      "date": "2025-06-11",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-12",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-13",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-14",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-15",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-16",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-17",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-18",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-19",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-20",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-21",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-22",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-23",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-24",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-25",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-26",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-27",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-28",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-29",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-06-30",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-01",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-02",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-03",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-04",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-05",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-06",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-07",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-08",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-09",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-10",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-11",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-12",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-13",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-14",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-15",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-16",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-17",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-18",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-19",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-20",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-21",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-22",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-23",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-24",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 46.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-25",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-26",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-27",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-28",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-29",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-30",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-07-31",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-01",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-02",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-03",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-04",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-05",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-06",
+      "US": 4.375,
+      "GB": 4.25,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-07",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-08",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-09",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-10",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-11",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-12",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.85,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-13",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-14",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-15",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-16",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-17",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-18",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-19",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-20",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-21",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-22",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-23",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-24",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-25",
+      "US": 4.375,
+      "GB": null,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-26",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-27",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-28",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-29",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-30",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-08-31",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-01",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-02",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-03",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-04",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-05",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-06",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-07",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-08",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-09",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-10",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-11",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 43.0,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-12",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-13",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-14",
+      "US": 4.375,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-15",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-16",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-17",
+      "US": 4.375,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-18",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-19",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-20",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-21",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-22",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-23",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-24",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-25",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-26",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-27",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-28",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-29",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-09-30",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-01",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-02",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-03",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-04",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-05",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-06",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-07",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-08",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-09",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-10",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-11",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-12",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-13",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-14",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-15",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-16",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-17",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-18",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-19",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-20",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-21",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-22",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-23",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 40.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-24",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-25",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-26",
+      "US": 4.125,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-27",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-28",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-29",
+      "US": 4.125,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-30",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-10-31",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": null,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-01",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-02",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-03",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-04",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    }
+  ]
+}

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Corporate, SponsorContact, ApiResponse, CorporateFormData, SponsorContactFormData } from '../../types/sponsors';
 import CorporateForm from '../../components/features/sponsors/CorporateForm';
 import SponsorContactForm from '../../components/features/sponsors/SponsorContactForm';
@@ -17,6 +17,8 @@ interface CorporateWithContacts extends Corporate {
 }
 
 const CorporatesList: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [corporates, setCorporates] = useState<CorporateWithContacts[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +35,16 @@ const CorporatesList: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Check for add query parameter and open modal
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('add') === 'true') {
+      setShowCreateModal(true);
+      // Remove query parameter from URL
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location, navigate]);
 
   const fetchData = async () => {
     setLoading(true);

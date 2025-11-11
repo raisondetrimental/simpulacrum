@@ -1,6 +1,8 @@
 """
 Excel and legacy data routes
 """
+import json
+import subprocess
 from flask import Blueprint, jsonify, request, current_app
 from flask_login import login_required
 from pathlib import Path
@@ -74,30 +76,438 @@ def health_check():
 
 @excel_bp.route('/historical-yields/usa', methods=['GET'])
 def get_usa_historical_yields():
-    """Get USA historical yields data from pre-generated JSON"""
+    """Get USA historical yields data from FRED JSON (90 days) - returns raw FRED format"""
     try:
-        web_dir = Path(current_app.config['WEB_DIR'])
-        usa_historical_path = web_dir / 'usa_historical_yields.json'
+        import json
 
-        if not usa_historical_path.exists():
+        json_dir = Path(current_app.config['JSON_DIR'])
+        fred_yields_path = json_dir / 'Markets' / 'US_Yields.json'
+
+        if not fred_yields_path.exists():
             return jsonify({
                 "success": False,
-                "message": f"USA historical yields data not found. Please run: python etl/extract_usa_historical.py"
+                "message": f"USA historical yields data not found. Please run: python scripts/fetch_us_yields_fred.py"
             }), 404
 
-        import json
-        with open(usa_historical_path, 'r', encoding='utf-8') as f:
+        with open(fred_yields_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        return jsonify({
-            "success": True,
-            "data": data
-        })
+        # Return the raw FRED data structure
+        return jsonify(data)
 
     except Exception as e:
         return jsonify({
             "success": False,
             "message": f"Error loading USA historical yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/historical-yields/usa/refresh', methods=['POST'])
+@login_required
+def refresh_usa_historical_yields():
+    """Trigger FRED API fetch to refresh USA yields data"""
+    try:
+        import subprocess
+        import os
+
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_us_yields_fred.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"FRED fetch script not found at {script_path}"
+            }), 404
+
+        # Get FRED API key from environment
+        api_key = os.getenv('FRED_API_KEY')
+        if not api_key:
+            return jsonify({
+                "success": False,
+                "message": "FRED_API_KEY environment variable not set"
+            }), 500
+
+        # Run the script with environment variable
+        env = os.environ.copy()
+        env['FRED_API_KEY'] = api_key
+
+        result = subprocess.run(
+            ['python', str(script_path)],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "USA yields data refreshed successfully",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 60 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing USA yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-bonds/yields', methods=['GET'])
+def get_corporate_bonds_yields():
+    """Get corporate bonds yields data from FRED JSON (90 days) - returns raw FRED format"""
+    try:
+        import json
+
+        json_dir = Path(current_app.config['JSON_DIR'])
+        fred_bonds_path = json_dir / 'Markets' / 'Corporate_Bonds.json'
+
+        if not fred_bonds_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"Corporate bonds yields data not found. Please run: python scripts/fetch_corporate_bonds_fred.py"
+            }), 404
+
+        with open(fred_bonds_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # Return the raw FRED data structure
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading corporate bonds yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-bonds/yields/refresh', methods=['POST'])
+@login_required
+def refresh_corporate_bonds_yields():
+    """Trigger FRED API fetch to refresh corporate bonds yields data"""
+    try:
+        import subprocess
+        import os
+
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_corporate_bonds_fred.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"FRED fetch script not found at {script_path}"
+            }), 404
+
+        # Get FRED API key from environment
+        api_key = os.getenv('FRED_API_KEY')
+        if not api_key:
+            return jsonify({
+                "success": False,
+                "message": "FRED_API_KEY environment variable not set"
+            }), 500
+
+        # Run the script with environment variable
+        env = os.environ.copy()
+        env['FRED_API_KEY'] = api_key
+
+        result = subprocess.run(
+            ['python', str(script_path)],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "Corporate bonds yields data refreshed successfully",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 60 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing corporate bonds yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-spreads', methods=['GET'])
+def get_corporate_spreads():
+    """Get corporate bond spreads data from FRED JSON (OAS) - returns raw FRED format"""
+    try:
+        import json
+
+        json_dir = Path(current_app.config['JSON_DIR'])
+        fred_spreads_path = json_dir / 'Markets' / 'Corporate_Spreads.json'
+
+        if not fred_spreads_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"Corporate spreads data not found. Please run: python scripts/fetch_corporate_spreads_fred.py"
+            }), 404
+
+        with open(fred_spreads_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # Return the raw FRED data structure
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading corporate spreads: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-spreads/refresh', methods=['POST'])
+@login_required
+def refresh_corporate_spreads():
+    """Trigger FRED API fetch to refresh corporate spreads data"""
+    try:
+        import subprocess
+        import os
+
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_corporate_spreads_fred.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"FRED fetch script not found at {script_path}"
+            }), 404
+
+        # Get FRED API key from environment
+        api_key = os.getenv('FRED_API_KEY')
+        if not api_key:
+            return jsonify({
+                "success": False,
+                "message": "FRED_API_KEY environment variable not set"
+            }), 500
+
+        # Run the script with environment variable
+        env = os.environ.copy()
+        env['FRED_API_KEY'] = api_key
+
+        result = subprocess.run(
+            ['python', str(script_path)],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "Corporate spreads data refreshed successfully",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 60 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing corporate spreads: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-yields', methods=['GET'])
+def get_corporate_yields():
+    """Get corporate bond yields data from FRED JSON (Effective Yields) - returns raw FRED format"""
+    try:
+        import json
+
+        json_dir = Path(current_app.config['JSON_DIR'])
+        fred_yields_path = json_dir / 'Markets' / 'Corporate_Yields.json'
+
+        if not fred_yields_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"Corporate yields data not found. Please run: python scripts/fetch_corporate_yields_fred.py"
+            }), 404
+
+        with open(fred_yields_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # Return the raw FRED data structure
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading corporate yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/corporate-yields/refresh', methods=['POST'])
+@login_required
+def refresh_corporate_yields():
+    """Trigger FRED API fetch to refresh corporate yields data"""
+    try:
+        import subprocess
+        import os
+
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_corporate_yields_fred.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"FRED fetch script not found at {script_path}"
+            }), 404
+
+        # Get FRED API key from environment
+        api_key = os.getenv('FRED_API_KEY')
+        if not api_key:
+            return jsonify({
+                "success": False,
+                "message": "FRED_API_KEY environment variable not set"
+            }), 500
+
+        # Run the script with environment variable
+        env = os.environ.copy()
+        env['FRED_API_KEY'] = api_key
+
+        result = subprocess.run(
+            ['python', str(script_path)],
+            env=env,
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "Corporate yields data refreshed successfully",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 60 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing corporate yields: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/policy-rates', methods=['GET'])
+def get_policy_rates():
+    """Get policy rates data from BIS SDMX JSON - returns raw BIS format"""
+    try:
+        import json
+
+        json_dir = Path(current_app.config['JSON_DIR'])
+        bis_rates_path = json_dir / 'Markets' / 'Policy_Rates.json'
+
+        if not bis_rates_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"Policy rates data not found. Please run: python scripts/fetch_policy_rates_bis.py"
+            }), 404
+
+        with open(bis_rates_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # Return the raw BIS data structure
+        return jsonify(data)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading policy rates: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/policy-rates/refresh', methods=['POST'])
+@login_required
+def refresh_policy_rates():
+    """Trigger BIS SDMX API fetch to refresh policy rates data"""
+    try:
+        import subprocess
+
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_policy_rates_bis.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"BIS fetch script not found at {script_path}"
+            }), 404
+
+        # Run the script (no API key needed for BIS)
+        result = subprocess.run(
+            ['python', str(script_path)],
+            capture_output=True,
+            text=True,
+            timeout=120
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "Policy rates data refreshed successfully",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 120 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing policy rates: {str(e)}"
         }), 500
 
 
@@ -330,4 +740,151 @@ def save_contacts():
         return jsonify({
             "success": False,
             "message": f"Error saving contacts data: {str(e)}"
+        }), 500
+
+
+# ============================================================================
+# FX Rates (Yahoo Finance via yfinance)
+# ============================================================================
+
+def merge_fx_data_sources(yahoo_data, exchangerate_history):
+    """
+    Merge Yahoo Finance data with ExchangeRate API historical snapshots.
+    Fills MNT and AMD values from ExchangeRate history into Yahoo data structure.
+
+    Args:
+        yahoo_data: Dict with 'meta' and 'data' array (Yahoo format)
+        exchangerate_history: List of snapshots with 'timestamp' and 'rates'
+
+    Returns:
+        Modified yahoo_data with MNT and AMD filled from ExchangeRate snapshots
+    """
+    from datetime import datetime
+
+    # Create a dictionary mapping date strings to ExchangeRate snapshots for quick lookup
+    exchangerate_by_date = {}
+    for snapshot in exchangerate_history:
+        # Parse timestamp (ISO format with timezone)
+        timestamp_str = snapshot['timestamp']
+        # Extract just the date part (YYYY-MM-DD)
+        date_str = timestamp_str.split('T')[0]
+
+        # Keep the snapshot closest to this date (if multiple snapshots per day, keep last)
+        exchangerate_by_date[date_str] = snapshot['rates']
+
+    # Iterate through Yahoo data array and fill MNT and AMD
+    for row in yahoo_data['data']:
+        date_str = row['date']
+
+        # Try exact date match first
+        if date_str in exchangerate_by_date:
+            rates = exchangerate_by_date[date_str]
+            if 'MNT' in rates:
+                row['MNT'] = round(rates['MNT'], 6)
+            if 'AMD' in rates:
+                row['AMD'] = round(rates['AMD'], 6)
+        else:
+            # No exact match - try to find closest earlier date within 7 days
+            target_date = datetime.strptime(date_str, '%Y-%m-%d')
+            closest_snapshot = None
+            min_days_diff = 8  # Look back max 7 days
+
+            for snap_date_str, snap_rates in exchangerate_by_date.items():
+                snap_date = datetime.strptime(snap_date_str, '%Y-%m-%d')
+                days_diff = (target_date - snap_date).days
+
+                # Only consider earlier dates within 7 days
+                if 0 <= days_diff < min_days_diff:
+                    min_days_diff = days_diff
+                    closest_snapshot = snap_rates
+
+            # Use closest snapshot if found
+            if closest_snapshot:
+                if 'MNT' in closest_snapshot and row.get('MNT') is None:
+                    row['MNT'] = round(closest_snapshot['MNT'], 6)
+                if 'AMD' in closest_snapshot and row.get('AMD') is None:
+                    row['AMD'] = round(closest_snapshot['AMD'], 6)
+
+    return yahoo_data
+
+
+@excel_bp.route('/fx-rates-yahoo', methods=['GET'])
+def get_fx_rates_yahoo():
+    """Get FX rates from Yahoo Finance (yfinance) merged with ExchangeRate API for MNT/AMD"""
+    try:
+        json_dir = Path(current_app.config['JSON_DIR'])
+        yahoo_fx_path = json_dir / 'Markets' / 'FX_Rates_Yahoo.json'
+        exchangerate_history_path = json_dir / 'fx_rates_history.json'
+
+        if not yahoo_fx_path.exists():
+            return jsonify({
+                "success": False,
+                "message": "No FX rates data available. Please refresh to fetch data."
+            }), 404
+
+        # Load Yahoo Finance data
+        with open(yahoo_fx_path, 'r', encoding='utf-8') as f:
+            yahoo_data = json.load(f)
+
+        # Load ExchangeRate API historical data if available
+        if exchangerate_history_path.exists():
+            with open(exchangerate_history_path, 'r', encoding='utf-8') as f:
+                exchangerate_history = json.load(f)
+
+            # Merge the data sources
+            yahoo_data = merge_fx_data_sources(yahoo_data, exchangerate_history)
+
+        return jsonify(yahoo_data)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading FX rates: {str(e)}"
+        }), 500
+
+
+@excel_bp.route('/fx-rates-yahoo/refresh', methods=['POST'])
+@login_required
+def refresh_fx_rates_yahoo():
+    """Refresh FX rates from both Yahoo Finance and ExchangeRate API"""
+    try:
+        # Get project root directory (BASE_DIR is backend/, so go up one level)
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        script_path = base_dir / 'scripts' / 'fetch_fx_rates_yfinance.py'
+
+        if not script_path.exists():
+            return jsonify({
+                "success": False,
+                "message": f"yfinance fetch script not found at {script_path}"
+            }), 404
+
+        # Run the Yahoo Finance script (will also call ExchangeRate API internally)
+        result = subprocess.run(
+            ['python', str(script_path)],
+            capture_output=True,
+            text=True,
+            timeout=60
+        )
+
+        if result.returncode != 0:
+            return jsonify({
+                "success": False,
+                "message": f"Script failed: {result.stderr}"
+            }), 500
+
+        return jsonify({
+            "success": True,
+            "message": "FX rates data refreshed successfully from Yahoo Finance and ExchangeRate API",
+            "output": result.stdout
+        })
+
+    except subprocess.TimeoutExpired:
+        return jsonify({
+            "success": False,
+            "message": "Script timeout after 60 seconds"
+        }), 500
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error refreshing FX rates: {str(e)}"
         }), 500

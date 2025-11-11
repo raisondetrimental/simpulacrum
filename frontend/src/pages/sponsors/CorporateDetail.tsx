@@ -296,8 +296,8 @@ const CorporateDetail: React.FC = () => {
                   Investment Range
                 </label>
                 <p className="text-gray-900">
-                  ${(corporate.investment_need_min / 1000000).toFixed(0)}M - $
-                  {(corporate.investment_need_max / 1000000).toFixed(0)}M {corporate.currency}
+                  ${(corporate.investment_min / 1000000).toFixed(0)}M - $
+                  {(corporate.investment_max / 1000000).toFixed(0)}M {corporate.currency}
                 </p>
               </div>
 

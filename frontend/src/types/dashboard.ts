@@ -8,8 +8,6 @@ export interface DashboardData {
     sovereign_yields: SovereignYieldsData;
     corporate_yields: CorporateYieldsData;
     fx_rates: FXRatesData;
-    central_bank_rates: CentralBankRatesData;
-    credit_ratings: CreditRatingsData;
     benchmark_yields: BenchmarkYieldsData;
     summary: SummaryData;
   };
@@ -46,20 +44,6 @@ export interface FXRatesData {
       '1D': number | null;
       '1W': number | null;
       '1M': number | null;
-    };
-  };
-}
-
-export interface CentralBankRatesData {
-  [country: string]: {
-    policy_rate: number;
-  };
-}
-
-export interface CreditRatingsData {
-  [rating: string]: {
-    benchmark_yields: {
-      '10Y': number;
     };
   };
 }

@@ -844,7 +844,7 @@ def export_capital_partners_xlsx():
         # Define headers
         headers = [
             'ID', 'Name', 'Type', 'Country', 'Headquarters', 'Relationship',
-            'Investment Min', 'Investment Max', 'Currency', 'Notes',
+            'Investment Min', 'Investment Max', 'Currency', 'Countries', 'Notes',
             'Company Description', 'Created At', 'Updated At'
         ]
         ws.append(headers)
@@ -861,6 +861,7 @@ def export_capital_partners_xlsx():
                 partner.get('investment_min', 0),
                 partner.get('investment_max', 0),
                 partner.get('currency', 'USD'),
+                ', '.join(partner.get('countries', [])) if isinstance(partner.get('countries'), list) else '',
                 partner.get('notes', ''),
                 partner.get('company_description', ''),
                 partner.get('created_at', ''),

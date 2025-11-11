@@ -52,11 +52,9 @@ export interface UnifiedOrganization {
   // Investment preferences (normalized to 23-field schema)
   preferences?: Partial<InvestmentPreferences>;
 
-  // Investment ranges
-  investment_min?: number | null;          // Capital Partners
-  investment_max?: number | null;          // Capital Partners
-  investment_need_min?: number | null;     // Sponsors
-  investment_need_max?: number | null;     // Sponsors
+  // Investment ranges (used by all organization types)
+  investment_min?: number | null;
+  investment_max?: number | null;
   currency?: string | null;
 
   // For sponsors: separate infrastructure/region preferences

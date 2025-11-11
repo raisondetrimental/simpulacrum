@@ -20,10 +20,11 @@ import DashboardHome from './pages/dashboard/DashboardHome';
 import MarketsOverviewPage from './pages/markets/MarketsOverviewPage';
 import SovereignYieldsPage from './pages/markets/SovereignYieldsPage';
 import CorporateBondsPage from './pages/markets/CorporateBondsPage';
-import FXMarketsPage from './pages/markets/FXMarketsPage';
-import CentralBanksPage from './pages/markets/CentralBanksPage';
-import CreditRatingsPage from './pages/markets/CreditRatingsPage';
-import USAHistoricalYieldsPage from './pages/markets/USAHistoricalYieldsPage';
+import CorporateSpreadsPage from './pages/markets/CorporateSpreadsPage';
+import CorporateYieldsPage from './pages/markets/CorporateYieldsPage';
+import FXMarketsYahooPage from './pages/markets/FXMarketsYahooPage';
+import PolicyRatesPage from './pages/markets/PolicyRatesPage';
+import USAHistoricalYieldsPage from './pages/markets/UsaHistoricalYieldsPage';
 import InfraGapsOverviewPage from './pages/markets/InfraGapsPage';
 import TransitFrictionPage from './pages/markets/TransitFrictionPage';
 import InternetCoveragePage from './pages/markets/InternetCoveragePage';
@@ -189,9 +190,10 @@ const App: React.FC = () => {
                   <Route path="/dashboard/markets" element={<MarketsOverviewPage data={data} />} />
                   <Route path="/dashboard/sovereign" element={<SovereignYieldsPage data={data.sections.sovereign_yields} />} />
                   <Route path="/dashboard/corporate" element={<CorporateBondsPage data={data.sections.corporate_yields} />} />
-                  <Route path="/dashboard/fx" element={<FXMarketsPage />} />
-                  <Route path="/dashboard/central-banks" element={<CentralBanksPage data={data.sections.central_bank_rates} />} />
-                  <Route path="/dashboard/ratings" element={<CreditRatingsPage data={data.sections.credit_ratings} />} />
+                  <Route path="/dashboard/corporate-spreads" element={<CorporateSpreadsPage />} />
+                  <Route path="/dashboard/corporate-yields" element={<CorporateYieldsPage />} />
+                  <Route path="/dashboard/fx" element={<FXMarketsYahooPage />} />
+                  <Route path="/dashboard/central-banks" element={<PolicyRatesPage />} />
                   <Route path="/dashboard/usa-historical-yields" element={<USAHistoricalYieldsPage />} />
                   {/* Tools page disabled for cloud deployment - Excel COM not available */}
                   {/* <Route path="/dashboard/tools" element={<ToolsPage />} /> */}

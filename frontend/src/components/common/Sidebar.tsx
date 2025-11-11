@@ -40,13 +40,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
   ];
 
   const marketPages = [
-    { name: 'Overview', path: '/dashboard/markets' },
-    { name: 'Sovereign Yields', path: '/dashboard/sovereign' },
-    { name: 'Corporate Bonds', path: '/dashboard/corporate' },
+    { name: 'Markets', path: '/dashboard/markets' },
     { name: 'FX Markets', path: '/dashboard/fx' },
+    { name: 'US Sovereign Yields', path: '/dashboard/usa-historical-yields' },
+    { name: 'Global Corporate Bonds', path: '/dashboard/corporate-yields' },
+    { name: 'US Corporate Bonds', path: '/dashboard/corporate' },
     { name: 'Policy Rates', path: '/dashboard/central-banks' },
-    { name: 'Credit Ratings', path: '/dashboard/ratings' },
-    { name: 'USA Historical Yields', path: '/dashboard/usa-historical-yields' }
+    { name: 'Sovereign Yields', path: '/dashboard/sovereign' }
     // Tools page removed - Excel COM not available in cloud deployment
   ];
 

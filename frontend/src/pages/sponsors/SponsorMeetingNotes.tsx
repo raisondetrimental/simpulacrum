@@ -48,8 +48,8 @@ const SponsorMeetingNotes: React.FC = () => {
     headquarters_location: '',
     relationship: 'Developing' as const,
     notes: '',
-    investment_need_min: 0,
-    investment_need_max: 0,
+    investment_min: 0,
+    investment_max: 0,
     currency: 'USD',
     infrastructure_types: {
       transport_infra: 'N',
@@ -60,10 +60,7 @@ const SponsorMeetingNotes: React.FC = () => {
       emerging_markets: 'N',
       asia_em: 'N',
       africa_em: 'N',
-      emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N'
+      emea_em: 'N'
     }
   });
 
@@ -91,8 +88,8 @@ const SponsorMeetingNotes: React.FC = () => {
   const [newContactRelationship, setNewContactRelationship] = useState<'Strong' | 'Medium' | 'Developing' | 'Cold'>('Developing');
   const [newDiscProfile, setNewDiscProfile] = useState('');
   const [newCorporateRelationship, setNewCorporateRelationship] = useState<'Strong' | 'Medium' | 'Developing' | 'Cold'>('Developing');
-  const [investmentNeedMin, setInvestmentNeedMin] = useState(0);
-  const [investmentNeedMax, setInvestmentNeedMax] = useState(0);
+  const [investmentMin, setInvestmentMin] = useState(0);
+  const [investmentMax, setInvestmentMax] = useState(0);
   const [currency, setCurrency] = useState('USD');
   const [infrastructureTypes, setInfrastructureTypes] = useState({
     transport_infra: 'N',
@@ -103,10 +100,7 @@ const SponsorMeetingNotes: React.FC = () => {
     emerging_markets: 'N',
     asia_em: 'N',
     africa_em: 'N',
-    emea_em: 'N',
-    vietnam: 'N',
-    mongolia: 'N',
-    turkey: 'N'
+    emea_em: 'N'
   });
 
   // UI states
@@ -153,8 +147,8 @@ const SponsorMeetingNotes: React.FC = () => {
       setNewContactRelationship(selectedContact.relationship);
       setNewDiscProfile(selectedContact.disc_profile);
       setNewCorporateRelationship(selectedCorporate.relationship);
-      setInvestmentNeedMin(selectedCorporate.investment_need_min);
-      setInvestmentNeedMax(selectedCorporate.investment_need_max);
+      setInvestmentNeedMin(selectedCorporate.investment_min);
+      setInvestmentNeedMax(selectedCorporate.investment_max);
       setCurrency(selectedCorporate.currency);
       setInfrastructureTypes(selectedCorporate.infrastructure_types);
       setRegions(selectedCorporate.regions);
@@ -211,8 +205,8 @@ const SponsorMeetingNotes: React.FC = () => {
           headquarters_location: '',
           relationship: 'Developing',
           notes: '',
-          investment_need_min: 0,
-          investment_need_max: 0,
+          investment_min: 0,
+          investment_max: 0,
           currency: 'USD',
           infrastructure_types: {
             transport_infra: 'N',
@@ -223,10 +217,7 @@ const SponsorMeetingNotes: React.FC = () => {
             emerging_markets: 'N',
             asia_em: 'N',
             africa_em: 'N',
-            emea_em: 'N',
-            vietnam: 'N',
-            mongolia: 'N',
-            turkey: 'N'
+            emea_em: 'N'
           }
         });
       } else {
@@ -275,8 +266,8 @@ const SponsorMeetingNotes: React.FC = () => {
         setNewContactRelationship(result.data.relationship);
         setNewDiscProfile(result.data.disc_profile);
         setNewCorporateRelationship(selectedCorporate.relationship);
-        setInvestmentNeedMin(selectedCorporate.investment_need_min);
-        setInvestmentNeedMax(selectedCorporate.investment_need_max);
+        setInvestmentNeedMin(selectedCorporate.investment_min);
+        setInvestmentNeedMax(selectedCorporate.investment_max);
         setCurrency(selectedCorporate.currency);
         setInfrastructureTypes(selectedCorporate.infrastructure_types);
         setRegions(selectedCorporate.regions);
@@ -328,8 +319,8 @@ const SponsorMeetingNotes: React.FC = () => {
         },
         corporate_updates: {
           relationship: newCorporateRelationship,
-          investment_need_min: investmentNeedMin,
-          investment_need_max: investmentNeedMax,
+          investment_min: investmentMin,
+          investment_max: investmentMax,
           currency: currency,
           infrastructure_types: infrastructureTypes,
           regions: regions
@@ -387,10 +378,7 @@ const SponsorMeetingNotes: React.FC = () => {
       emerging_markets: preferences.emerging_markets || 'N',
       asia_em: preferences.asia_em || 'N',
       africa_em: preferences.africa_em || 'N',
-      emea_em: preferences.emea_em || 'N',
-      vietnam: preferences.vietnam || 'N',
-      mongolia: preferences.mongolia || 'N',
-      turkey: preferences.turkey || 'N'
+      emea_em: preferences.emea_em || 'N'
     });
   };
 
@@ -802,7 +790,7 @@ const SponsorMeetingNotes: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Min Investment ($M)</label>
                 <input
                   type="number"
-                  value={investmentNeedMin}
+                  value={investmentMin}
                   onChange={(e) => setInvestmentNeedMin(Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -811,7 +799,7 @@ const SponsorMeetingNotes: React.FC = () => {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Max Investment ($M)</label>
                 <input
                   type="number"
-                  value={investmentNeedMax}
+                  value={investmentMax}
                   onChange={(e) => setInvestmentNeedMax(Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />

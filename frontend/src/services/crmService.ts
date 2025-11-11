@@ -89,8 +89,8 @@ export async function getAllOrganizations(filter?: OrganizationFilter): Promise<
           company_description: corp.company_description,
           infrastructure_types: corp.infrastructure_types,
           regions: corp.regions,
-          investment_need_min: corp.investment_need_min,
-          investment_need_max: corp.investment_need_max,
+          investment_min: corp.investment_min,
+          investment_max: corp.investment_max,
           currency: corp.currency
         });
       });
@@ -427,7 +427,8 @@ export function exportOrganizationsToCSV(organizations: UnifiedOrganization[]): 
     'Investment Need Min',
     'Investment Need Max',
     'Currency',
-    // All 23 Investment Preferences
+    'Countries',
+    // All 20 Investment Preferences
     'Investment Grade',
     'High Yield',
     'Infrastructure Debt',
@@ -442,9 +443,6 @@ export function exportOrganizationsToCSV(organizations: UnifiedOrganization[]): 
     'Asia EM',
     'Africa EM',
     'EMEA EM',
-    'Vietnam',
-    'Mongolia',
-    'Turkey',
     'Coal',
     'Energy Infrastructure',
     'Transport Infrastructure',
@@ -474,10 +472,11 @@ export function exportOrganizationsToCSV(organizations: UnifiedOrganization[]): 
       org.agent_type || '',
       org.investment_min || '',
       org.investment_max || '',
-      org.investment_need_min || '',
-      org.investment_need_max || '',
+      org.investment_min || '',
+      org.investment_max || '',
       org.currency || '',
-      // All 23 Investment Preferences (showing Y/N/any or blank)
+      Array.isArray(org.countries) ? org.countries.join(', ') : '',
+      // All 20 Investment Preferences (showing Y/N/any or blank)
       prefs.investment_grade || '',
       prefs.high_yield || '',
       prefs.infra_debt || '',
@@ -492,9 +491,6 @@ export function exportOrganizationsToCSV(organizations: UnifiedOrganization[]): 
       prefs.asia_em || '',
       prefs.africa_em || '',
       prefs.emea_em || '',
-      prefs.vietnam || '',
-      prefs.mongolia || '',
-      prefs.turkey || '',
       prefs.coal || '',
       prefs.energy_infra || '',
       prefs.transport_infra || '',
@@ -616,7 +612,8 @@ export async function downloadAllOrganizationsXLSX(filter?: OrganizationFilter):
     'Investment Need Min',
     'Investment Need Max',
     'Currency',
-    // All 23 Investment Preferences
+    'Countries',
+    // All 20 Investment Preferences
     'Investment Grade',
     'High Yield',
     'Infrastructure Debt',
@@ -631,9 +628,6 @@ export async function downloadAllOrganizationsXLSX(filter?: OrganizationFilter):
     'Asia EM',
     'Africa EM',
     'EMEA EM',
-    'Vietnam',
-    'Mongolia',
-    'Turkey',
     'Coal',
     'Energy Infrastructure',
     'Transport Infrastructure',
@@ -663,10 +657,11 @@ export async function downloadAllOrganizationsXLSX(filter?: OrganizationFilter):
       org.agent_type || '',
       org.investment_min || '',
       org.investment_max || '',
-      org.investment_need_min || '',
-      org.investment_need_max || '',
+      org.investment_min || '',
+      org.investment_max || '',
       org.currency || '',
-      // All 23 Investment Preferences (showing Y/N/any or blank)
+      Array.isArray(org.countries) ? org.countries.join(', ') : '',
+      // All 20 Investment Preferences (showing Y/N/any or blank)
       prefs.investment_grade || '',
       prefs.high_yield || '',
       prefs.infra_debt || '',
@@ -681,9 +676,6 @@ export async function downloadAllOrganizationsXLSX(filter?: OrganizationFilter):
       prefs.asia_em || '',
       prefs.africa_em || '',
       prefs.emea_em || '',
-      prefs.vietnam || '',
-      prefs.mongolia || '',
-      prefs.turkey || '',
       prefs.coal || '',
       prefs.energy_infra || '',
       prefs.transport_infra || '',

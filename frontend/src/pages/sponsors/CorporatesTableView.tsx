@@ -34,9 +34,6 @@ const CorporatesTableView: React.FC = () => {
   const [asiaEmFilter, setAsiaEmFilter] = useState<FilterState>('any');
   const [africaEmFilter, setAfricaEmFilter] = useState<FilterState>('any');
   const [emeaEmFilter, setEmeaEmFilter] = useState<FilterState>('any');
-  const [vietnamFilter, setVietnamFilter] = useState<FilterState>('any');
-  const [mongoliaFilter, setMongoliaFilter] = useState<FilterState>('any');
-  const [turkeyFilter, setTurkeyFilter] = useState<FilterState>('any');
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createStatus, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
@@ -141,9 +138,6 @@ const CorporatesTableView: React.FC = () => {
     const matchesAsiaEm = matchesFilter(corporate.regions.asia_em, asiaEmFilter);
     const matchesAfricaEm = matchesFilter(corporate.regions.africa_em, africaEmFilter);
     const matchesEmeaEm = matchesFilter(corporate.regions.emea_em, emeaEmFilter);
-    const matchesVietnam = matchesFilter(corporate.regions.vietnam, vietnamFilter);
-    const matchesMongolia = matchesFilter(corporate.regions.mongolia, mongoliaFilter);
-    const matchesTurkey = matchesFilter(corporate.regions.turkey, turkeyFilter);
 
     return (
       matchesSearch &&
@@ -154,10 +148,7 @@ const CorporatesTableView: React.FC = () => {
       matchesEm &&
       matchesAsiaEm &&
       matchesAfricaEm &&
-      matchesEmeaEm &&
-      matchesVietnam &&
-      matchesMongolia &&
-      matchesTurkey
+      matchesEmeaEm
     );
   });
 
@@ -178,9 +169,6 @@ const CorporatesTableView: React.FC = () => {
     setAsiaEmFilter('any');
     setAfricaEmFilter('any');
     setEmeaEmFilter('any');
-    setVietnamFilter('any');
-    setMongoliaFilter('any');
-    setTurkeyFilter('any');
   };
 
   // Check if any filters are active
@@ -193,10 +181,7 @@ const CorporatesTableView: React.FC = () => {
     emFilter !== 'any' ||
     asiaEmFilter !== 'any' ||
     africaEmFilter !== 'any' ||
-    emeaEmFilter !== 'any' ||
-    vietnamFilter !== 'any' ||
-    mongoliaFilter !== 'any' ||
-    turkeyFilter !== 'any';
+    emeaEmFilter !== 'any';
 
   if (loading) {
     return (
@@ -376,45 +361,6 @@ const CorporatesTableView: React.FC = () => {
                 <option value="N">No</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Vietnam</label>
-              <select
-                value={vietnamFilter}
-                onChange={(e) => setVietnamFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mongolia</label>
-              <select
-                value={mongoliaFilter}
-                onChange={(e) => setMongoliaFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Turkey</label>
-              <select
-                value={turkeyFilter}
-                onChange={(e) => setTurkeyFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
           </div>
         </div>
 
@@ -457,8 +403,8 @@ const CorporatesTableView: React.FC = () => {
                     onSort={requestSort}
                   />
                   <SortableTableHeader
-                    label="Investment Need"
-                    sortKey="investment_need_min"
+                    label="Investment Range"
+                    sortKey="investment_min"
                     sortConfig={sortConfig}
                     onSort={requestSort}
                   />
@@ -481,9 +427,6 @@ const CorporatesTableView: React.FC = () => {
                   if (corporate.regions.asia_em === 'Y') activeRegions.push('Asia');
                   if (corporate.regions.africa_em === 'Y') activeRegions.push('Africa');
                   if (corporate.regions.emea_em === 'Y') activeRegions.push('EMEA');
-                  if (corporate.regions.vietnam === 'Y') activeRegions.push('Vietnam');
-                  if (corporate.regions.mongolia === 'Y') activeRegions.push('Mongolia');
-                  if (corporate.regions.turkey === 'Y') activeRegions.push('Turkey');
 
                   return (
                     <React.Fragment key={corporate.id}>
@@ -516,8 +459,8 @@ const CorporatesTableView: React.FC = () => {
                           {corporate.country}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {corporate.investment_need_min > 0 && corporate.investment_need_max > 0 ? (
-                            <>${(corporate.investment_need_min / 1000000).toFixed(0)}M - ${(corporate.investment_need_max / 1000000).toFixed(0)}M {corporate.currency}</>
+                          {corporate.investment_min > 0 && corporate.investment_max > 0 ? (
+                            <>${(corporate.investment_min / 1000000).toFixed(0)}M - ${(corporate.investment_max / 1000000).toFixed(0)}M {corporate.currency}</>
                           ) : (
                             <span className="text-gray-400">Not specified</span>
                           )}

@@ -45,7 +45,7 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ data }) => {
             <div className="flex-1">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Markets</h2>
               <p className="text-gray-600 mb-4">
-                Comprehensive financial market data including sovereign yields, corporate bonds, FX rates, policy rates, and credit ratings
+                Comprehensive financial market data including sovereign yields, corporate bonds, FX rates, and policy rates
               </p>
             </div>
           </div>
@@ -133,12 +133,6 @@ const DashboardHome: React.FC<DashboardHomeProps> = ({ data }) => {
                 className="px-3 py-2 text-sm bg-gray-50 hover:bg-slate-100 border border-gray-200 hover:border-slate-300 rounded-md transition-colors text-center font-medium"
               >
                 Policy Rates
-              </Link>
-              <Link
-                to="/dashboard/ratings"
-                className="px-3 py-2 text-sm bg-gray-50 hover:bg-slate-100 border border-gray-200 hover:border-slate-300 rounded-md transition-colors text-center font-medium"
-              >
-                Credit Ratings
               </Link>
               <Link
                 to="/dashboard/usa-historical-yields"

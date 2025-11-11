@@ -1,0 +1,599 @@
+{
+  "meta": {
+    "source": "FRED",
+    "endpoint": "https://api.stlouisfed.org/fred/series/observations",
+    "series_ids": {
+      "BAMLH0A0HYM2EY": "global_hy",
+      "BAMLC0A4CBBBEY": "global_ig_bbb",
+      "BAMLEMHBHYCRPIEY": "em_corporate",
+      "BAMLEMRACRPIASIAEY": "em_asia",
+      "BAMLEMRECRPIEMEAEY": "em_emea",
+      "BAMLEMRLCRPILAEY": "em_latam"
+    },
+    "generated_utc": "2025-11-11T16:49:16Z",
+    "notes": "ICE BofA Global Corporate Bond Effective Yields (%). Missing days are None, typically weekends or holidays. Data accumulated incrementally.",
+    "total_days": 64,
+    "date_range": {
+      "start": "2025-08-13",
+      "end": "2025-11-07"
+    }
+  },
+  "data": [
+    {
+      "date": "2025-08-13",
+      "global_hy": 6.69,
+      "global_ig_bbb": 5.09,
+      "em_corporate": 7.03,
+      "em_asia": 4.75,
+      "em_emea": 5.1,
+      "em_latam": 6.64
+    },
+    {
+      "date": "2025-08-14",
+      "global_hy": 6.72,
+      "global_ig_bbb": 5.12,
+      "em_corporate": 7.03,
+      "em_asia": 4.75,
+      "em_emea": 5.1,
+      "em_latam": 6.66
+    },
+    {
+      "date": "2025-08-15",
+      "global_hy": 6.72,
+      "global_ig_bbb": 5.14,
+      "em_corporate": 7.05,
+      "em_asia": 4.77,
+      "em_emea": 5.12,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-08-18",
+      "global_hy": 6.73,
+      "global_ig_bbb": 5.15,
+      "em_corporate": 7.05,
+      "em_asia": 4.77,
+      "em_emea": 5.11,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-08-19",
+      "global_hy": 6.72,
+      "global_ig_bbb": 5.13,
+      "em_corporate": 7.03,
+      "em_asia": 4.76,
+      "em_emea": 5.1,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-08-20",
+      "global_hy": 6.74,
+      "global_ig_bbb": 5.13,
+      "em_corporate": 7.07,
+      "em_asia": 4.75,
+      "em_emea": 5.11,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-08-21",
+      "global_hy": 6.79,
+      "global_ig_bbb": 5.17,
+      "em_corporate": 7.1,
+      "em_asia": 4.78,
+      "em_emea": 5.13,
+      "em_latam": 6.72
+    },
+    {
+      "date": "2025-08-22",
+      "global_hy": 6.64,
+      "global_ig_bbb": 5.09,
+      "em_corporate": 7.03,
+      "em_asia": 4.73,
+      "em_emea": 5.1,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-08-25",
+      "global_hy": 6.58,
+      "global_ig_bbb": 5.1,
+      "em_corporate": 7.06,
+      "em_asia": 4.72,
+      "em_emea": 5.11,
+      "em_latam": 6.67
+    },
+    {
+      "date": "2025-08-26",
+      "global_hy": 6.52,
+      "global_ig_bbb": 5.09,
+      "em_corporate": 7.06,
+      "em_asia": 4.71,
+      "em_emea": 5.1,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-08-27",
+      "global_hy": 6.48,
+      "global_ig_bbb": 5.08,
+      "em_corporate": 7.05,
+      "em_asia": 4.69,
+      "em_emea": 5.1,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-08-28",
+      "global_hy": 6.44,
+      "global_ig_bbb": 5.06,
+      "em_corporate": 7.02,
+      "em_asia": 4.68,
+      "em_emea": 5.09,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-08-29",
+      "global_hy": 6.5,
+      "global_ig_bbb": 5.08,
+      "em_corporate": 7.01,
+      "em_asia": 4.67,
+      "em_emea": 5.09,
+      "em_latam": 6.64
+    },
+    {
+      "date": "2025-08-31",
+      "global_hy": 6.58,
+      "global_ig_bbb": 5.1,
+      "em_corporate": 7.07,
+      "em_asia": 4.66,
+      "em_emea": 5.11,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-09-01",
+      "global_hy": 6.58,
+      "global_ig_bbb": 5.1,
+      "em_corporate": 7.07,
+      "em_asia": 4.67,
+      "em_emea": 5.11,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-09-02",
+      "global_hy": 6.7,
+      "global_ig_bbb": 5.15,
+      "em_corporate": 7.06,
+      "em_asia": 4.7,
+      "em_emea": 5.14,
+      "em_latam": 6.67
+    },
+    {
+      "date": "2025-09-03",
+      "global_hy": 6.63,
+      "global_ig_bbb": 5.1,
+      "em_corporate": 7.03,
+      "em_asia": 4.67,
+      "em_emea": 5.12,
+      "em_latam": 6.63
+    },
+    {
+      "date": "2025-09-04",
+      "global_hy": 6.54,
+      "global_ig_bbb": 5.03,
+      "em_corporate": 6.98,
+      "em_asia": 4.64,
+      "em_emea": 5.1,
+      "em_latam": 6.58
+    },
+    {
+      "date": "2025-09-05",
+      "global_hy": 6.48,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 6.85,
+      "em_asia": 4.58,
+      "em_emea": 5.06,
+      "em_latam": 6.44
+    },
+    {
+      "date": "2025-09-08",
+      "global_hy": 6.45,
+      "global_ig_bbb": 4.93,
+      "em_corporate": 6.9,
+      "em_asia": 4.55,
+      "em_emea": 5.02,
+      "em_latam": 6.49
+    },
+    {
+      "date": "2025-09-09",
+      "global_hy": 6.52,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 6.88,
+      "em_asia": 4.59,
+      "em_emea": 5.03,
+      "em_latam": 6.47
+    },
+    {
+      "date": "2025-09-10",
+      "global_hy": 6.48,
+      "global_ig_bbb": 4.94,
+      "em_corporate": 6.82,
+      "em_asia": 4.57,
+      "em_emea": 5.02,
+      "em_latam": 6.41
+    },
+    {
+      "date": "2025-09-11",
+      "global_hy": 6.41,
+      "global_ig_bbb": 4.91,
+      "em_corporate": 6.75,
+      "em_asia": 4.56,
+      "em_emea": 4.99,
+      "em_latam": 6.33
+    },
+    {
+      "date": "2025-09-12",
+      "global_hy": 6.46,
+      "global_ig_bbb": 4.93,
+      "em_corporate": 6.76,
+      "em_asia": 4.58,
+      "em_emea": 5.0,
+      "em_latam": 6.35
+    },
+    {
+      "date": "2025-09-15",
+      "global_hy": 6.39,
+      "global_ig_bbb": 4.89,
+      "em_corporate": 6.75,
+      "em_asia": 4.56,
+      "em_emea": 4.97,
+      "em_latam": 6.35
+    },
+    {
+      "date": "2025-09-16",
+      "global_hy": 6.41,
+      "global_ig_bbb": 4.87,
+      "em_corporate": 6.72,
+      "em_asia": 4.53,
+      "em_emea": 4.96,
+      "em_latam": 6.33
+    },
+    {
+      "date": "2025-09-17",
+      "global_hy": 6.44,
+      "global_ig_bbb": 4.91,
+      "em_corporate": 6.71,
+      "em_asia": 4.55,
+      "em_emea": 4.95,
+      "em_latam": 6.31
+    },
+    {
+      "date": "2025-09-18",
+      "global_hy": 6.4,
+      "global_ig_bbb": 4.93,
+      "em_corporate": 6.68,
+      "em_asia": 4.57,
+      "em_emea": 4.95,
+      "em_latam": 6.3
+    },
+    {
+      "date": "2025-09-19",
+      "global_hy": 6.41,
+      "global_ig_bbb": 4.93,
+      "em_corporate": 6.7,
+      "em_asia": 4.58,
+      "em_emea": 4.96,
+      "em_latam": 6.31
+    },
+    {
+      "date": "2025-09-22",
+      "global_hy": 6.4,
+      "global_ig_bbb": 4.95,
+      "em_corporate": 6.69,
+      "em_asia": 4.59,
+      "em_emea": 4.96,
+      "em_latam": 6.3
+    },
+    {
+      "date": "2025-09-23",
+      "global_hy": 6.4,
+      "global_ig_bbb": 4.92,
+      "em_corporate": 6.68,
+      "em_asia": 4.58,
+      "em_emea": 4.95,
+      "em_latam": 6.28
+    },
+    {
+      "date": "2025-09-24",
+      "global_hy": 6.42,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 6.71,
+      "em_asia": 4.6,
+      "em_emea": 4.97,
+      "em_latam": 6.29
+    },
+    {
+      "date": "2025-09-25",
+      "global_hy": 6.53,
+      "global_ig_bbb": 5.01,
+      "em_corporate": 6.74,
+      "em_asia": 4.63,
+      "em_emea": 4.99,
+      "em_latam": 6.33
+    },
+    {
+      "date": "2025-09-26",
+      "global_hy": 6.53,
+      "global_ig_bbb": 5.0,
+      "em_corporate": 6.77,
+      "em_asia": 4.64,
+      "em_emea": 4.99,
+      "em_latam": 6.36
+    },
+    {
+      "date": "2025-09-29",
+      "global_hy": 6.48,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 6.87,
+      "em_asia": 4.61,
+      "em_emea": 4.98,
+      "em_latam": 6.45
+    },
+    {
+      "date": "2025-09-30",
+      "global_hy": 6.56,
+      "global_ig_bbb": 5.01,
+      "em_corporate": 7.04,
+      "em_asia": 4.62,
+      "em_emea": 5.03,
+      "em_latam": 6.59
+    },
+    {
+      "date": "2025-10-01",
+      "global_hy": 6.52,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 7.05,
+      "em_asia": 4.58,
+      "em_emea": 5.02,
+      "em_latam": 6.58
+    },
+    {
+      "date": "2025-10-02",
+      "global_hy": 6.51,
+      "global_ig_bbb": 4.95,
+      "em_corporate": 7.04,
+      "em_asia": 4.56,
+      "em_emea": 5.02,
+      "em_latam": 6.58
+    },
+    {
+      "date": "2025-10-03",
+      "global_hy": 6.52,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 7.01,
+      "em_asia": 4.57,
+      "em_emea": 5.03,
+      "em_latam": 6.55
+    },
+    {
+      "date": "2025-10-06",
+      "global_hy": 6.51,
+      "global_ig_bbb": 5.0,
+      "em_corporate": 7.02,
+      "em_asia": 4.59,
+      "em_emea": 5.03,
+      "em_latam": 6.57
+    },
+    {
+      "date": "2025-10-07",
+      "global_hy": 6.54,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 7.02,
+      "em_asia": 4.58,
+      "em_emea": 5.03,
+      "em_latam": 6.57
+    },
+    {
+      "date": "2025-10-08",
+      "global_hy": 6.56,
+      "global_ig_bbb": 4.98,
+      "em_corporate": 7.04,
+      "em_asia": 4.58,
+      "em_emea": 5.03,
+      "em_latam": 6.58
+    },
+    {
+      "date": "2025-10-09",
+      "global_hy": 6.69,
+      "global_ig_bbb": 5.01,
+      "em_corporate": 7.07,
+      "em_asia": 4.59,
+      "em_emea": 5.04,
+      "em_latam": 6.63
+    },
+    {
+      "date": "2025-10-10",
+      "global_hy": 6.84,
+      "global_ig_bbb": 4.98,
+      "em_corporate": 7.22,
+      "em_asia": 4.55,
+      "em_emea": 5.04,
+      "em_latam": 6.78
+    },
+    {
+      "date": "2025-10-13",
+      "global_hy": 6.84,
+      "global_ig_bbb": 4.98,
+      "em_corporate": 7.22,
+      "em_asia": 4.55,
+      "em_emea": 5.04,
+      "em_latam": 6.78
+    },
+    {
+      "date": "2025-10-14",
+      "global_hy": 6.7,
+      "global_ig_bbb": 4.93,
+      "em_corporate": 7.25,
+      "em_asia": 4.53,
+      "em_emea": 5.05,
+      "em_latam": 6.76
+    },
+    {
+      "date": "2025-10-15",
+      "global_hy": 6.57,
+      "global_ig_bbb": 4.92,
+      "em_corporate": 7.17,
+      "em_asia": 4.53,
+      "em_emea": 5.02,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-10-16",
+      "global_hy": 6.58,
+      "global_ig_bbb": 4.88,
+      "em_corporate": 7.15,
+      "em_asia": 4.49,
+      "em_emea": 5.0,
+      "em_latam": 6.66
+    },
+    {
+      "date": "2025-10-17",
+      "global_hy": 6.61,
+      "global_ig_bbb": 4.9,
+      "em_corporate": 7.17,
+      "em_asia": 4.5,
+      "em_emea": 5.01,
+      "em_latam": 6.67
+    },
+    {
+      "date": "2025-10-20",
+      "global_hy": 6.55,
+      "global_ig_bbb": 4.88,
+      "em_corporate": 7.14,
+      "em_asia": 4.5,
+      "em_emea": 4.99,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-10-21",
+      "global_hy": 6.52,
+      "global_ig_bbb": 4.87,
+      "em_corporate": 7.1,
+      "em_asia": 4.48,
+      "em_emea": 4.96,
+      "em_latam": 6.61
+    },
+    {
+      "date": "2025-10-22",
+      "global_hy": 6.55,
+      "global_ig_bbb": 4.88,
+      "em_corporate": 7.12,
+      "em_asia": 4.46,
+      "em_emea": 4.95,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-10-23",
+      "global_hy": 6.55,
+      "global_ig_bbb": 4.9,
+      "em_corporate": 7.15,
+      "em_asia": 4.49,
+      "em_emea": 4.97,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-10-24",
+      "global_hy": 6.46,
+      "global_ig_bbb": 4.88,
+      "em_corporate": 7.09,
+      "em_asia": 4.49,
+      "em_emea": 4.94,
+      "em_latam": 6.65
+    },
+    {
+      "date": "2025-10-27",
+      "global_hy": 6.39,
+      "global_ig_bbb": 4.86,
+      "em_corporate": 6.99,
+      "em_asia": 4.48,
+      "em_emea": 4.94,
+      "em_latam": 6.56
+    },
+    {
+      "date": "2025-10-28",
+      "global_hy": 6.4,
+      "global_ig_bbb": 4.86,
+      "em_corporate": 6.98,
+      "em_asia": 4.47,
+      "em_emea": 4.92,
+      "em_latam": 6.54
+    },
+    {
+      "date": "2025-10-29",
+      "global_hy": 6.44,
+      "global_ig_bbb": 4.94,
+      "em_corporate": 6.98,
+      "em_asia": 4.52,
+      "em_emea": 4.93,
+      "em_latam": 6.55
+    },
+    {
+      "date": "2025-10-30",
+      "global_hy": 6.53,
+      "global_ig_bbb": 4.97,
+      "em_corporate": 7.0,
+      "em_asia": 4.55,
+      "em_emea": 4.94,
+      "em_latam": 6.58
+    },
+    {
+      "date": "2025-10-31",
+      "global_hy": 6.67,
+      "global_ig_bbb": 5.02,
+      "em_corporate": 7.11,
+      "em_asia": 4.59,
+      "em_emea": 4.97,
+      "em_latam": 6.62
+    },
+    {
+      "date": "2025-11-03",
+      "global_hy": 6.77,
+      "global_ig_bbb": 5.05,
+      "em_corporate": 7.13,
+      "em_asia": 4.6,
+      "em_emea": 4.98,
+      "em_latam": 6.63
+    },
+    {
+      "date": "2025-11-04",
+      "global_hy": 6.85,
+      "global_ig_bbb": 5.04,
+      "em_corporate": 7.17,
+      "em_asia": 4.6,
+      "em_emea": 4.99,
+      "em_latam": 6.67
+    },
+    {
+      "date": "2025-11-05",
+      "global_hy": 6.83,
+      "global_ig_bbb": 5.08,
+      "em_corporate": 7.19,
+      "em_asia": 4.64,
+      "em_emea": 5.01,
+      "em_latam": 6.7
+    },
+    {
+      "date": "2025-11-06",
+      "global_hy": 6.83,
+      "global_ig_bbb": 5.03,
+      "em_corporate": 7.17,
+      "em_asia": 4.6,
+      "em_emea": 4.99,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-11-07",
+      "global_hy": 6.85,
+      "global_ig_bbb": 5.04,
+      "em_corporate": 7.18,
+      "em_asia": 4.59,
+      "em_emea": 4.99,
+      "em_latam": 6.69
+    }
+  ]
+}

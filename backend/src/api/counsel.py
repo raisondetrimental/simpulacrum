@@ -774,7 +774,7 @@ def export_legal_advisors_xlsx():
 
         # Define headers
         headers = [
-            'ID', 'Name', 'Country', 'Headquarters', 'Relationship',
+            'ID', 'Name', 'Country', 'Headquarters', 'Countries', 'Relationship',
             'Notes', 'Created At', 'Last Updated'
         ]
         ws.append(headers)
@@ -786,6 +786,7 @@ def export_legal_advisors_xlsx():
                 advisor.get('name', ''),
                 advisor.get('country', ''),
                 advisor.get('headquarters_location', ''),
+                ', '.join(advisor.get('countries', [])) if isinstance(advisor.get('countries'), list) else '',
                 advisor.get('relationship', ''),
                 advisor.get('notes', ''),
                 advisor.get('created_at', ''),

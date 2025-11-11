@@ -46,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
   const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
   const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies';
-  const isToolsroute = () => location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
+  const isToolsroute = () => location.pathname.startsWith('/crm/all') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
   const isCalendarRoute = () => location.pathname === '/liquidity/calendar';
 
   const whiteboardPages = [
@@ -56,13 +56,13 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   ];
 
   const marketPages = [
-    { name: 'Overview', path: '/dashboard/markets' },
-    { name: 'Sovereign Yields', path: '/dashboard/sovereign' },
-    { name: 'Corporate Bonds', path: '/dashboard/corporate' },
+    { name: 'Markets', path: '/dashboard/markets' },
     { name: 'FX Markets', path: '/dashboard/fx' },
+    { name: 'US Sovereign Yields', path: '/dashboard/usa-historical-yields' },
+    { name: 'Global Corporate Bonds', path: '/dashboard/corporate-yields' },
+    { name: 'US Corporate Bonds', path: '/dashboard/corporate' },
     { name: 'Policy Rates', path: '/dashboard/central-banks' },
-    { name: 'Credit Ratings', path: '/dashboard/ratings' },
-    { name: 'USA Historical Yields', path: '/dashboard/usa-historical-yields' }
+    { name: 'Sovereign Yields', path: '/dashboard/sovereign' }
     // Tools page removed - Excel COM not available in cloud deployment
   ];
 
@@ -236,8 +236,9 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                   onMouseEnter={() => setActiveDropdown('crm')}
                   className="pb-2"
                 >
-                  <div
-                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                  <Link
+                    to="/crm/all"
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isToolsroute()
                         ? 'text-white opacity-100'
                         : 'text-white opacity-70 hover:opacity-100'
@@ -247,7 +248,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                     <svg className="ml-1 w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ transform: activeDropdown === 'crm' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
+                  </Link>
                 </div>
 
                 {/* Origination */}
@@ -276,8 +277,9 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                   onMouseEnter={() => setActiveDropdown('whiteboard')}
                   className="pb-2"
                 >
-                  <div
-                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                  <Link
+                    to="/whiteboard"
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isWhiteboardRoute()
                         ? 'text-white opacity-100'
                         : 'text-white opacity-70 hover:opacity-100'
@@ -287,7 +289,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                     <svg className="ml-1 w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ transform: activeDropdown === 'whiteboard' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
+                  </Link>
                 </div>
 
                 {/* Calendar - Standalone Link */}

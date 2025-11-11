@@ -15,21 +15,6 @@ const MarketsOverviewPage: React.FC<MarketsOverviewPageProps> = ({ data }) => {
     Vietnam: data.sections.sovereign_yields.domestic_currency[maturity]?.['Vietnam'] || null,
   }));
 
-  // Prepare credit ratings data - sovereign yields by rating
-  const ratingOrder = ['AAA', 'AA+', 'AA', 'AA-', 'A+', 'A', 'A-', 'BBB+', 'BBB', 'BBB-', 'BB+', 'BB', 'BB-', 'B+', 'B', 'B-'];
-  const creditRatingsData = Object.entries(data.sections.credit_ratings)
-    .filter(([, ratingData]) => ratingData.benchmark_yields['10Y'])
-    .map(([rating, ratingData]) => ({
-      rating,
-      yield_10Y: ratingData.benchmark_yields['10Y']
-    }))
-    .sort((a, b) => {
-      const aIndex = ratingOrder.indexOf(a.rating);
-      const bIndex = ratingOrder.indexOf(b.rating);
-      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
-    })
-    .slice(0, 12); // Limit to first 12 ratings for overview
-
   // FX rates data
   const fxRates = data.sections.fx_rates;
 
@@ -46,7 +31,7 @@ const MarketsOverviewPage: React.FC<MarketsOverviewPageProps> = ({ data }) => {
       name: 'Corporate Bonds',
       path: '/corporate',
       icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
-      description: 'USA corporate bond yields by credit rating, from AAA investment grade to high yield debt.',
+      description: 'USA corporate bond yields, from AAA investment grade to high yield debt.',
       color: 'bg-green-50 border-green-200 hover:border-green-400'
     },
     {
@@ -62,13 +47,6 @@ const MarketsOverviewPage: React.FC<MarketsOverviewPageProps> = ({ data }) => {
       icon: 'M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7',
       description: 'Central bank policy rates for major economies, including recent changes and trends.',
       color: 'bg-purple-50 border-purple-200 hover:border-purple-400'
-    },
-    {
-      name: 'Credit Ratings',
-      path: '/ratings',
-      icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z',
-      description: 'Sovereign credit ratings from major agencies (Moody\'s, S&P, Fitch) with outlook and yield data.',
-      color: 'bg-red-50 border-red-200 hover:border-red-400'
     },
     {
       name: 'Tools',
@@ -106,28 +84,6 @@ const MarketsOverviewPage: React.FC<MarketsOverviewPageProps> = ({ data }) => {
               <Legend />
               <Line type="monotone" dataKey="USA" stroke="#1e40af" strokeWidth={2} dot={{ r: 4 }} />
               <Line type="monotone" dataKey="Vietnam" stroke="#059669" strokeWidth={2} dot={{ r: 4 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Sovereign Credit Ratings */}
-        <div className="card">
-          <h2 className="text-2xl font-semibold text-gray-900 mb-4">Sovereign Yields by Credit Rating</h2>
-          <p className="text-sm text-gray-600 mb-6">
-            10Y benchmark yields across the credit rating spectrum
-          </p>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={creditRatingsData} margin={{ bottom: 40 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="rating"
-                angle={-45}
-                textAnchor="end"
-                height={60}
-              />
-              <YAxis label={{ value: 'Yield (%)', angle: -90, position: 'insideLeft' }} />
-              <Tooltip formatter={(value: any) => [`${Number(value).toFixed(3)}%`, '10Y Yield']} />
-              <Line type="monotone" dataKey="yield_10Y" stroke="#8b5cf6" strokeWidth={3} dot={{ r: 4 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>

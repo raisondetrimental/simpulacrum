@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { LegalAdvisor, CounselContact, ApiResponse, LegalAdvisorFormData, CounselContactFormData } from '../../types/counsel';
 import LegalAdvisorForm from '../../components/features/counsel/LegalAdvisorForm';
 import CounselContactForm from '../../components/features/counsel/CounselContactForm';
@@ -17,6 +17,8 @@ interface LegalAdvisorWithContacts extends LegalAdvisor {
 }
 
 const LegalAdvisorsList: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [legalAdvisors, setLegalAdvisors] = useState<LegalAdvisorWithContacts[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,6 +35,16 @@ const LegalAdvisorsList: React.FC = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Check for add query parameter and open modal
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('add') === 'true') {
+      setShowCreateModal(true);
+      // Remove query parameter from URL
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location, navigate]);
 
   const fetchData = async () => {
     setLoading(true);

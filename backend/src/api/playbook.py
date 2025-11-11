@@ -843,7 +843,8 @@ def create_playbook_workstream():
             "subtasks": data.get('subtasks', [])
         }
 
-        workstreams.append(new_workstream)
+        # Insert at beginning so newest items appear first
+        workstreams.insert(0, new_workstream)
         write_json_file(get_playbook_path('playbook_workstreams.json'), workstreams)
 
         return jsonify({

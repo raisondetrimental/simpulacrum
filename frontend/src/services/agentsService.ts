@@ -157,6 +157,7 @@ export function exportAgentsToCSV(agents: Agent[]): string {
     'Country',
     'Headquarters',
     'Relationship',
+    'Countries',
     // Agent Preferences
     'Transport Infra',
     'Energy Infra',
@@ -165,9 +166,6 @@ export function exportAgentsToCSV(agents: Agent[]): string {
     'Asia EM',
     'Africa EM',
     'EMEA EM',
-    'Vietnam',
-    'Mongolia',
-    'Turkey',
     // Other fields
     'Notes',
     'Created At',
@@ -181,6 +179,7 @@ export function exportAgentsToCSV(agents: Agent[]): string {
     agent.country,
     agent.headquarters_location || '',
     agent.relationship || '',
+    Array.isArray(agent.countries) ? agent.countries.join(', ') : '',
     // Agent Preferences
     agent.agent_preferences?.transport_infra || '',
     agent.agent_preferences?.energy_infra || '',
@@ -189,9 +188,6 @@ export function exportAgentsToCSV(agents: Agent[]): string {
     agent.agent_preferences?.asia_em || '',
     agent.agent_preferences?.africa_em || '',
     agent.agent_preferences?.emea_em || '',
-    agent.agent_preferences?.vietnam || '',
-    agent.agent_preferences?.mongolia || '',
-    agent.agent_preferences?.turkey || '',
     // Other fields
     agent.notes || '',
     agent.created_at || '',

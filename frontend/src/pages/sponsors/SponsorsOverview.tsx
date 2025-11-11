@@ -82,7 +82,21 @@ const SponsorsOverview: React.FC = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Add Corporate */}
+        <Link
+          to="/sponsors/corporates?add=true"
+          className="card hover:shadow-lg transition-shadow cursor-pointer bg-blue-50 border-2 border-blue-200"
+        >
+          <div className="flex items-center justify-center flex-col py-6">
+            <svg className="w-12 h-12 text-blue-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <h3 className="text-lg font-semibold text-gray-900">Add Corporate</h3>
+            <p className="text-sm text-gray-600 mt-1">Create new corporate</p>
+          </div>
+        </Link>
+
         {/* Meeting Notes - Quick Access */}
         <Link
           to="/sponsors/meeting"

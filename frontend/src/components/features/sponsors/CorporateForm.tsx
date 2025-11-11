@@ -30,8 +30,8 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
     name: initialData?.name || '',
     country: initialData?.country || '',
     headquarters_location: initialData?.headquarters_location || '',
-    investment_need_min: initialData?.investment_need_min || 0,
-    investment_need_max: initialData?.investment_need_max || 0,
+    investment_min: initialData?.investment_min || 0,
+    investment_max: initialData?.investment_max || 0,
     currency: initialData?.currency || 'USD',
     relationship: initialData?.relationship || 'Developing',
     notes: initialData?.notes || '',
@@ -92,10 +92,7 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
         emerging_markets: preferences.emerging_markets || 'N',
         asia_em: preferences.asia_em || 'N',
         africa_em: preferences.africa_em || 'N',
-        emea_em: preferences.emea_em || 'N',
-        vietnam: preferences.vietnam || 'N',
-        mongolia: preferences.mongolia || 'N',
-        turkey: preferences.turkey || 'N'
+        emea_em: preferences.emea_em || 'N'
       }
     }));
   };
@@ -197,17 +194,17 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
         <p className="mt-1 text-xs text-gray-500">Optional - Specific city or region</p>
       </div>
 
-      {/* Investment Need Range */}
+      {/* Investment Range */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="investment_need_min" className="block text-sm font-medium text-gray-700 mb-1">
-            Investment Need (Min)
+          <label htmlFor="investment_min" className="block text-sm font-medium text-gray-700 mb-1">
+            Investment (Min)
           </label>
           <input
             type="number"
-            id="investment_need_min"
-            name="investment_need_min"
-            value={formData.investment_need_min || ''}
+            id="investment_min"
+            name="investment_min"
+            value={formData.investment_min || ''}
             onChange={handleNumberChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="0"
@@ -217,14 +214,14 @@ const CorporateForm: React.FC<CorporateFormProps> = ({
         </div>
 
         <div>
-          <label htmlFor="investment_need_max" className="block text-sm font-medium text-gray-700 mb-1">
-            Investment Need (Max)
+          <label htmlFor="investment_max" className="block text-sm font-medium text-gray-700 mb-1">
+            Investment (Max)
           </label>
           <input
             type="number"
-            id="investment_need_max"
-            name="investment_need_max"
-            value={formData.investment_need_max || ''}
+            id="investment_max"
+            name="investment_max"
+            value={formData.investment_max || ''}
             onChange={handleNumberChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
             placeholder="0"

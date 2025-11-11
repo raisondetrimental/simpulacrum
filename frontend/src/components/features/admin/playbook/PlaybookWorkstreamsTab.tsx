@@ -22,7 +22,7 @@ const PlaybookWorkstreamsTab: React.FC = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const [showClassifierGuide, setShowClassifierGuide] = useState(false);
+  const [activeTab, setActiveTab] = useState<string>('all');
 
   // Subtask creation modal state
   const [showSubtaskModal, setShowSubtaskModal] = useState(false);
@@ -78,12 +78,42 @@ const PlaybookWorkstreamsTab: React.FC = () => {
 
   const handleToggleCompletion = async (workstreamId: string, subtaskId?: string) => {
     try {
+      // Optimistic update: update UI immediately
+      setWorkstreams(prevWorkstreams => {
+        const updated = prevWorkstreams.map(ws => {
+          if (ws.id === workstreamId) {
+            if (subtaskId) {
+              // Toggle subtask completion
+              return {
+                ...ws,
+                subtasks: ws.subtasks.map(st =>
+                  st.id === subtaskId
+                    ? { ...st, completed: !st.completed }
+                    : st
+                )
+              };
+            } else {
+              // Toggle workstream completion
+              return { ...ws, completed: !ws.completed };
+            }
+          }
+          return ws;
+        });
+        return updated;
+      });
+
+      // Save to backend in the background
       const response = await toggleWorkstreamCompletion(workstreamId, subtaskId);
-      if (response.success) {
+
+      // If save failed, revert by fetching fresh data
+      if (!response.success) {
+        console.error('Failed to save completion status');
         fetchWorkstreams();
       }
     } catch (error) {
       console.error('Error toggling completion:', error);
+      // Revert on error by fetching fresh data
+      fetchWorkstreams();
     }
   };
 
@@ -213,6 +243,23 @@ const PlaybookWorkstreamsTab: React.FC = () => {
     return `${category}${index + 1}`;
   };
 
+  // Filter workstreams based on active tab
+  const getFilteredWorkstreams = (): PlaybookWorkstream[] => {
+    let filtered = workstreams;
+
+    if (activeTab !== 'all') {
+      filtered = workstreams.filter(ws => ws.key?.toUpperCase() === activeTab.toUpperCase());
+    }
+
+    // Separate completed and incomplete workstreams
+    const incomplete = filtered.filter(ws => !ws.completed);
+    const completed = filtered.filter(ws => ws.completed);
+
+    // Reverse order so newest items appear first (within each group)
+    // Incomplete tasks first, then completed tasks at the bottom
+    return [...incomplete.reverse(), ...completed.reverse()];
+  };
+
   const getKeyBadgeColor = (key: string): string => {
     if (!key) return 'bg-gray-200 text-gray-700';
     const lower = key.toLowerCase();
@@ -227,48 +274,37 @@ const PlaybookWorkstreamsTab: React.FC = () => {
 
   if (loading) return <div className="text-center py-8">Loading workstreams...</div>;
 
+  const filteredWorkstreams = getFilteredWorkstreams();
+
   return (
     <div>
-      {/* Classifier Reference Guide */}
-      <div className="mb-6 border border-blue-200 rounded-lg bg-blue-50">
-        <button
-          onClick={() => setShowClassifierGuide(!showClassifierGuide)}
-          className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-blue-100 rounded-lg transition-colors"
-        >
-          <div className="flex items-center space-x-2">
-            <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-            </svg>
-            <span className="font-semibold text-blue-900">Workstream Classifiers Reference</span>
-          </div>
-          <svg
-            className={`w-5 h-5 text-blue-600 transition-transform ${showClassifierGuide ? 'transform rotate-180' : ''}`}
-            fill="currentColor"
-            viewBox="0 0 20 20"
+      {/* Category Tabs */}
+      <div className="mb-6 border-b border-gray-200">
+        <div className="flex space-x-1 overflow-x-auto">
+          <button
+            onClick={() => setActiveTab('all')}
+            className={`px-4 py-2 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+              activeTab === 'all'
+                ? 'border-blue-600 text-blue-600'
+                : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+            }`}
           >
-            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg>
-        </button>
-        {showClassifierGuide && (
-          <div className="px-4 pb-4 pt-2">
-            <p className="text-sm text-blue-800 mb-3">
-              Each workstream is categorized using a classifier letter. The number after the letter indicates the sequence within that category (auto-generated).
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {WORKSTREAM_CLASSIFIERS.map(classifier => (
-                <div key={classifier.key} className="flex items-start space-x-2 text-sm">
-                  <span className={`px-2 py-1 font-bold rounded ${getKeyBadgeColor(classifier.key)}`}>
-                    {classifier.key}
-                  </span>
-                  <div>
-                    <div className="font-semibold text-gray-900">{classifier.label}</div>
-                    <div className="text-gray-600 text-xs">{classifier.description}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+            All
+          </button>
+          {WORKSTREAM_CLASSIFIERS.map(classifier => (
+            <button
+              key={classifier.key}
+              onClick={() => setActiveTab(classifier.key)}
+              className={`px-4 py-2 text-sm font-medium border-b-2 whitespace-nowrap transition-colors ${
+                activeTab === classifier.key
+                  ? 'border-blue-600 text-blue-600'
+                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+              }`}
+            >
+              {classifier.key} - {classifier.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="flex justify-between items-center mb-6">
@@ -296,7 +332,7 @@ const PlaybookWorkstreamsTab: React.FC = () => {
       </div>
 
       <div className="space-y-4">
-        {workstreams.map((workstream) => {
+        {filteredWorkstreams.map((workstream) => {
           const isExpanded = expandedIds.has(workstream.id);
           const hasSubtasks = workstream.subtasks && workstream.subtasks.length > 0;
 
@@ -397,11 +433,17 @@ const PlaybookWorkstreamsTab: React.FC = () => {
               {/* Subtasks */}
               {hasSubtasks && isExpanded && (
                 <div className="border-t border-gray-200 bg-gray-50">
-                  {workstream.subtasks.map((subtask) => (
-                    <div
-                      key={subtask.id}
-                      className="px-4 py-3 ml-8 border-b border-gray-200 last:border-b-0 hover:bg-gray-100"
-                    >
+                  {(() => {
+                    // Sort subtasks: incomplete first, then completed
+                    const incompleteSubtasks = workstream.subtasks.filter(st => !st.completed);
+                    const completedSubtasks = workstream.subtasks.filter(st => st.completed);
+                    const sortedSubtasks = [...incompleteSubtasks, ...completedSubtasks];
+
+                    return sortedSubtasks.map((subtask) => (
+                      <div
+                        key={subtask.id}
+                        className="px-4 py-3 ml-8 border-b border-gray-200 last:border-b-0 hover:bg-gray-100"
+                      >
                       <div className="flex items-start space-x-3">
                         {/* Subtask Checkbox */}
                         <input
@@ -434,16 +476,17 @@ const PlaybookWorkstreamsTab: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                    ));
+                  })()}
                 </div>
               )}
             </div>
           );
         })}
 
-        {workstreams.length === 0 && (
+        {filteredWorkstreams.length === 0 && (
           <div className="text-center py-8 text-gray-500">
-            No workstreams yet. Add your first workstream!
+            {activeTab === 'all' ? 'No workstreams yet. Add your first workstream!' : `No workstreams in category ${activeTab}`}
           </div>
         )}
       </div>

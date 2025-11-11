@@ -548,7 +548,7 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900 mb-1">Real-Time Data</h3>
-              <p className="text-sm text-gray-600">Live market data, sovereign yields, FX rates, and credit ratings</p>
+              <p className="text-sm text-gray-600">Live market data, sovereign yields, and FX rates</p>
             </div>
           </div>
         </div>
@@ -570,7 +570,6 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
               { name: 'Corporate Bonds', path: '/dashboard/corporate' },
               { name: 'FX Markets', path: '/dashboard/fx' },
               { name: 'Policy Rates', path: '/dashboard/central-banks' },
-              { name: 'Credit Ratings', path: '/dashboard/ratings' },
               { name: 'USA Historical Yields', path: '/dashboard/usa-historical-yields' }
             ]}
             preview={

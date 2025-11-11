@@ -4678,36 +4678,25 @@
     "relationship": "Strong",
     "notes": "",
     "created_at": "2025-10-02T14:26:16.409785",
-    "last_updated": "2025-10-10T10:09:08.078216",
+    "last_updated": "2025-11-11T09:44:11.971411",
     "starred": false,
     "type": null,
     "agent_type": null,
     "company_description": "",
     "preferences": {
-      "investment_grade": "any",
-      "high_yield": "any",
-      "infra_debt": "any",
-      "senior_secured": "any",
-      "subordinated": "any",
-      "bonds": "any",
-      "loan_agreement": "any",
-      "quasi_sovereign_only": "any",
-      "public_bond_high_yield": "any",
+      "transport_infra": "N",
+      "energy_infra": "Y",
       "us_market": "N",
       "emerging_markets": "N",
-      "asia_em": "N",
+      "asia_em": "Y",
       "africa_em": "N",
       "emea_em": "N",
-      "coal": "any",
-      "energy_infra": "Y",
-      "transport_infra": "N",
-      "more_expensive_than_usual": "any",
-      "require_bank_guarantee": "any"
+      "vietnam": "N",
+      "mongolia": "N",
+      "turkey": "N"
     },
-    "investment_min": null,
-    "investment_max": null,
-    "investment_need_min": 20000000,
-    "investment_need_max": 350000000,
+    "investment_min": 20000000,
+    "investment_max": 350000000,
     "currency": "USD",
     "countries": [
       "mongolia"
@@ -4748,10 +4737,8 @@
       "more_expensive_than_usual": "any",
       "require_bank_guarantee": "any"
     },
-    "investment_min": null,
-    "investment_max": null,
-    "investment_need_min": 0,
-    "investment_need_max": 0,
+    "investment_min": 0,
+    "investment_max": 0,
     "currency": "USD",
     "countries": []
   },
@@ -4790,10 +4777,8 @@
       "more_expensive_than_usual": "any",
       "require_bank_guarantee": "any"
     },
-    "investment_min": null,
-    "investment_max": null,
-    "investment_need_min": 0,
-    "investment_need_max": 0,
+    "investment_min": 0,
+    "investment_max": 0,
     "currency": "USD",
     "countries": []
   },
@@ -4832,10 +4817,8 @@
       "more_expensive_than_usual": "any",
       "require_bank_guarantee": "any"
     },
-    "investment_min": null,
-    "investment_max": null,
-    "investment_need_min": 0,
-    "investment_need_max": 0,
+    "investment_min": 0,
+    "investment_max": 0,
     "currency": "USD",
     "countries": []
   },
@@ -4874,10 +4857,8 @@
       "more_expensive_than_usual": "any",
       "require_bank_guarantee": "any"
     },
-    "investment_min": null,
-    "investment_max": null,
-    "investment_need_min": 0,
-    "investment_need_max": 0,
+    "investment_min": 0,
+    "investment_max": 0,
     "currency": "USD",
     "countries": [
       "vietnam"

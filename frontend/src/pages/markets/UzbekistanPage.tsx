@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCountryFundamentals, getCountryCompleteData } from '../../services/countriesService';
-import { fxService } from '../../services/fxService';
+import { fxYahooService } from '../../services/fxYahooService';
 import CountryTabs from '../../components/features/countries/CountryTabs';
 import type { CountryFundamentals as CountryFundamentalsType, CountryCompleteData } from '../../types/country';
 import { getCountryImages } from '../../utils/countryImages';
@@ -42,7 +42,7 @@ const UzbekistanPage: React.FC = () => {
         const [fundamentalsResponse, completeDataResponse, fxRatesResponse] = await Promise.all([
           getCountryFundamentals('uzbekistan'),
           getCountryCompleteData('uzbekistan'),
-          fxService.getLatest()
+          fxYahooService.getLatest()
         ]);
 
         if (fundamentalsResponse.success && fundamentalsResponse.data) {

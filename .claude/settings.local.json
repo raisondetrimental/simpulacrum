@@ -32,7 +32,20 @@
       "Bash(python:*)",
       "Bash(taskkill:*)",
       "Bash(netstat:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(if [ -d \"scripts\" ])",
+      "Bash(then echo \"scripts exists\")",
+      "Bash(else echo \"scripts does not exist\")",
+      "Bash(set FRED_API_KEY=e73cdb010cb8bde84ce97e608a2b8d60)",
+      "Bash($env:FRED_API_KEY=\"e73cdb010cb8bde84ce97e608a2b8d60\")",
+      "Bash(FRED_API_KEY=\"e73cdb010cb8bde84ce97e608a2b8d60\" python:*)",
+      "Bash(cat:*)",
+      "Bash(FRED_API_KEY=\"e73cdb010cb8bde84ce97e608a2b8d60\" python scripts/fetch_corporate_yields_fred.py:*)",
+      "WebSearch",
+      "WebFetch(domain:data.bis.org)",
+      "WebFetch(domain:stats.bis.org)",
+      "WebFetch(domain:www.exchangerate-api.com)",
+      "Bash(pip install:*)"
     ],
     "deny": [],
     "ask": []
