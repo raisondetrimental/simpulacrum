@@ -205,6 +205,37 @@ export async function refreshCorporateYields(): Promise<{ success: boolean; mess
 }
 
 // ============================================================================
+// Markets Overview (Aggregated Data)
+// ============================================================================
+
+export interface MarketsOverviewData {
+  timestamp: string;
+  us_yields: HistoricalYield | null;
+  corporate_bonds: CorporateBondsYield | null;
+  corporate_yields: CorporateYieldsData | null;
+  corporate_spreads: CorporateSpreadsData | null;
+  policy_rates: PolicyRatesData | null;
+  fx_rates: any | null; // FX Yahoo data structure
+  countries: any[]; // Country fundamentals array
+}
+
+/**
+ * Get aggregated markets overview data
+ */
+export async function getMarketsOverview(): Promise<MarketsOverviewData> {
+  const response = await fetch(`${API_BASE_URL}/api/markets/overview`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to fetch markets overview');
+  }
+
+  return response.json();
+}
+
+// ============================================================================
 // Policy Rates (BIS SDMX)
 // ============================================================================
 

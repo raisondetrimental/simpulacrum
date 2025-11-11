@@ -71,6 +71,95 @@ def health_check():
 
 
 # ============================================================================
+# MARKETS OVERVIEW AGGREGATION
+# ============================================================================
+
+@excel_bp.route('/markets/overview', methods=['GET'])
+def get_markets_overview():
+    """Get aggregated markets data for overview page"""
+    try:
+        json_dir = Path(current_app.config['JSON_DIR'])
+        markets_dir = json_dir / 'Markets'
+
+        # Initialize response object
+        overview = {
+            "timestamp": datetime.now().isoformat(),
+            "us_yields": None,
+            "corporate_bonds": None,
+            "corporate_yields": None,
+            "corporate_spreads": None,
+            "policy_rates": None,
+            "fx_rates": None,
+            "countries": []
+        }
+
+        # Load US Yields
+        us_yields_path = markets_dir / 'US_Yields.json'
+        if us_yields_path.exists():
+            with open(us_yields_path, 'r', encoding='utf-8') as f:
+                overview['us_yields'] = json.load(f)
+
+        # Load Corporate Bonds (AAA to High Yield)
+        corporate_bonds_path = markets_dir / 'Corporate_Bonds.json'
+        if corporate_bonds_path.exists():
+            with open(corporate_bonds_path, 'r', encoding='utf-8') as f:
+                overview['corporate_bonds'] = json.load(f)
+
+        # Load Corporate Yields (Effective Yields)
+        corporate_yields_path = markets_dir / 'Corporate_Yields.json'
+        if corporate_yields_path.exists():
+            with open(corporate_yields_path, 'r', encoding='utf-8') as f:
+                overview['corporate_yields'] = json.load(f)
+
+        # Load Corporate Spreads (OAS)
+        corporate_spreads_path = markets_dir / 'Corporate_Spreads.json'
+        if corporate_spreads_path.exists():
+            with open(corporate_spreads_path, 'r', encoding='utf-8') as f:
+                overview['corporate_spreads'] = json.load(f)
+
+        # Load Policy Rates
+        policy_rates_path = markets_dir / 'Policy_Rates.json'
+        if policy_rates_path.exists():
+            with open(policy_rates_path, 'r', encoding='utf-8') as f:
+                overview['policy_rates'] = json.load(f)
+
+        # Load FX Rates (Yahoo)
+        fx_rates_path = markets_dir / 'FX_Rates_Yahoo.json'
+        if fx_rates_path.exists():
+            with open(fx_rates_path, 'r', encoding='utf-8') as f:
+                fx_data = json.load(f)
+
+            # Merge with ExchangeRate API history for MNT/AMD
+            exchangerate_history_path = json_dir / 'fx_rates_history.json'
+            if exchangerate_history_path.exists():
+                with open(exchangerate_history_path, 'r', encoding='utf-8') as f:
+                    exchangerate_history = json.load(f)
+                fx_data = merge_fx_data_sources(fx_data, exchangerate_history)
+
+            overview['fx_rates'] = fx_data
+
+        # Load Country Fundamentals (basic info)
+        country_fundamentals_path = json_dir / 'country_fundamentals.json'
+        if country_fundamentals_path.exists():
+            with open(country_fundamentals_path, 'r', encoding='utf-8') as f:
+                countries_data = json.load(f)
+                # Only include the 5 focus countries
+                focus_countries = ['armenia', 'mongolia', 'turkiye', 'uzbekistan', 'vietnam']
+                overview['countries'] = [
+                    c for c in countries_data
+                    if c.get('slug') in focus_countries
+                ]
+
+        return jsonify(overview)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading markets overview: {str(e)}"
+        }), 500
+
+
+# ============================================================================
 # HISTORICAL DATA
 # ============================================================================
 
