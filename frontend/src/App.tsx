@@ -25,7 +25,7 @@ import CorporateSpreadsPage from './pages/markets/CorporateSpreadsPage';
 import CorporateYieldsPage from './pages/markets/CorporateYieldsPage';
 import FXMarketsYahooPage from './pages/markets/FXMarketsYahooPage';
 import PolicyRatesPage from './pages/markets/PolicyRatesPage';
-import USAHistoricalYieldsPage from './pages/markets/UsaHistoricalYieldsPage';
+import USAHistoricalYieldsPage from './pages/markets/USAHistoricalYieldsPage';
 import InfraGapsOverviewPage from './pages/markets/InfraGapsPage';
 import TransitFrictionPage from './pages/markets/TransitFrictionPage';
 import InternetCoveragePage from './pages/markets/InternetCoveragePage';
