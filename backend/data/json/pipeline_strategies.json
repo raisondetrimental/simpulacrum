@@ -1,0 +1,95 @@
+[
+  {
+    "id": "pipeline_1763120733337",
+    "name": "MU76- OSI MUDS",
+    "lead_initial": "NA, KG",
+    "stage": "negotiation",
+    "created_at": "2025-11-14T11:45:33.336019Z",
+    "last_updated": "2025-11-17T17:12:47.326253Z",
+    "sponsor": {
+      "organization_id": "corp_1761587956368",
+      "commitment_level": "committed"
+    },
+    "lenders": [
+      {
+        "commitment_level": "interested",
+        "organization_id": "cp_049",
+        "participation_percentage": 0,
+        "role": "participant"
+      },
+      {
+        "commitment_level": "exploring",
+        "organization_id": "cp_032",
+        "participation_percentage": 0,
+        "role": "participant"
+      },
+      {
+        "commitment_level": "exploring",
+        "organization_id": "cp_007",
+        "participation_percentage": 0,
+        "role": "participant"
+      }
+    ],
+    "advisors": [],
+    "deal_type": "",
+    "financing_scenarios": [
+      {
+        "all_in_rate": 8.5,
+        "currency": "USD",
+        "financing_type": "debt",
+        "is_preferred": true,
+        "maturity": "3-7 Years",
+        "name": "Base Case",
+        "pricing": "Fixed rate, sector-specific coupons",
+        "security_package": "Senior secured position backed by:\n• First-lien receivables (MUD/TIRZ/PID) with tax-lien super-priority\n• Fee-simple mortgage liens (Affordable Housing)\n• Assignment of rents, leases, GP interests, and FF&E\n• Charter school 1st-lien on physical assets plus pledged state per-pupil funding streams\n• Dedicated revenue control accounts and full lender step-in rights\n• Developer guarantees, DSCR guarantees, and construction guarantees where applicable.",
+        "structure": "Senior Secured",
+        "total_value": 500000000
+      }
+    ],
+    "target_country": "United States",
+    "sector": "Social Infrastructure",
+    "risk_score": null,
+    "feasibility_flags": [],
+    "deal_quality_rating": null,
+    "target_close_date": "2026-07-01",
+    "milestones": [],
+    "activity_log": [
+      {
+        "timestamp": "2025-11-14T11:45:33.336019Z",
+        "user": "Cameron Thomas",
+        "action": "created",
+        "details": "Pipeline strategy created"
+      },
+      {
+        "timestamp": "2025-11-14T11:48:37.744271Z",
+        "user": "Cameron Thomas",
+        "action": "updated",
+        "details": "Pipeline updated"
+      },
+      {
+        "timestamp": "2025-11-14T11:51:23.285999Z",
+        "user": "Cameron Thomas",
+        "action": "updated",
+        "details": "Pipeline updated"
+      },
+      {
+        "timestamp": "2025-11-17T14:35:12.946192Z",
+        "user": "Cameron Thomas",
+        "action": "updated",
+        "details": "Stage changed to 'negotiation'"
+      },
+      {
+        "timestamp": "2025-11-17T17:12:47.326253Z",
+        "user": "Cameron Thomas",
+        "action": "updated",
+        "details": "Pipeline updated"
+      }
+    ],
+    "notes": [],
+    "documents": [],
+    "promoted_to_deal_id": null,
+    "archived": false,
+    "archive_reason": "",
+    "related_deals": []
+  }
+]

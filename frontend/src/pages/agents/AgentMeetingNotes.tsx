@@ -17,6 +17,7 @@ import {
 } from '../../types/agents';
 import AgentPreferencesGrid from '../../components/features/agents/AgentPreferencesGrid';
 import { API_BASE_URL } from '../../config';
+import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-agent' | 'select-contact' | 'edit-details';
 
@@ -34,6 +35,7 @@ const AgentMeetingNotes: React.FC = () => {
   // Selected entities
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
   const [selectedContact, setSelectedContact] = useState<AgentContact | null>(null);
+  const [editingMeetingId, setEditingMeetingId] = useState<string | null>(null);
 
   // Loading states
   const [loading, setLoading] = useState(false);
@@ -80,7 +82,8 @@ const AgentMeetingNotes: React.FC = () => {
     date: new Date().toISOString().split('T')[0],
     notes: '',
     participants: '',
-    next_follow_up: ''
+    next_follow_up: '',
+    assigned_user_ids: [] as string[]
   });
 
   // Step 3: Editable contact/agent data
@@ -125,6 +128,8 @@ const AgentMeetingNotes: React.FC = () => {
   // Auto-select contact and agent if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');
+    const meetingId = searchParams.get('meeting');
+
     if (contactId && allContacts.length > 0 && allAgents.length > 0) {
       const contact = allContacts.find(c => c.id === contactId);
       if (contact) {
@@ -132,6 +137,22 @@ const AgentMeetingNotes: React.FC = () => {
         const agent = allAgents.find(agt => agt.id === contact.agent_id);
         if (agent) {
           setSelectedAgent(agent);
+
+          // If meeting ID is provided, pre-fill the meeting form for editing
+          if (meetingId && contact.meeting_history) {
+            const existingMeeting = contact.meeting_history.find(m => m.id === meetingId);
+            if (existingMeeting) {
+              setEditingMeetingId(meetingId);
+              setMeetingNote({
+                date: existingMeeting.date.split('T')[0],
+                notes: existingMeeting.notes || '',
+                participants: existingMeeting.participants || '',
+                next_follow_up: existingMeeting.next_follow_up || '',
+                assigned_user_ids: existingMeeting.assigned_to?.map(u => u.user_id) || []
+              });
+            }
+          }
+
           setCurrentStep('edit-details');
         }
       }
@@ -301,34 +322,93 @@ const AgentMeetingNotes: React.FC = () => {
 
     setSaving(true);
     try {
-      const payload = {
-        contact_id: selectedContact.id,
-        contact_updates: {
-          relationship: newContactRelationship,
-          disc_profile: newDiscProfile
-        },
-        agent_updates: {
-          relationship: newAgentRelationship,
-          agent_preferences: agentPreferences
-        },
-        meeting_note: {
+      let result: ApiResponse<any>;
+
+      if (editingMeetingId) {
+        // Update existing meeting
+        const updatePayload = {
           notes: meetingNote.notes,
           participants: meetingNote.participants,
-          next_follow_up: meetingNote.next_follow_up || null
+          next_follow_up: meetingNote.next_follow_up || null,
+          assigned_user_ids: meetingNote.assigned_user_ids
+        };
+
+        const meetingResponse = await fetch(
+          `${API_BASE_URL}/api/agent-contacts/${selectedContact.id}/meetings/${editingMeetingId}`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(updatePayload)
+          }
+        );
+
+        result = await meetingResponse.json();
+
+        // Also update contact/agent details if they were changed
+        if (result.success) {
+          const contactUpdateResponse = await fetch(
+            `${API_BASE_URL}/api/agent-contacts/${selectedContact.id}`,
+            {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                relationship: newContactRelationship,
+                disc_profile: newDiscProfile
+              })
+            }
+          );
+          await contactUpdateResponse.json();
+
+          if (selectedAgent) {
+            const agentUpdateResponse = await fetch(
+              `${API_BASE_URL}/api/agents/${selectedAgent.id}`,
+              {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                  relationship: newAgentRelationship,
+                  agent_preferences: agentPreferences
+                })
+              }
+            );
+            await agentUpdateResponse.json();
+          }
         }
-      };
+      } else {
+        // Create new meeting (original behavior)
+        const payload = {
+          contact_id: selectedContact.id,
+          contact_updates: {
+            relationship: newContactRelationship,
+            disc_profile: newDiscProfile
+          },
+          agent_updates: {
+            relationship: newAgentRelationship,
+            agent_preferences: agentPreferences
+          },
+          meeting_note: {
+            notes: meetingNote.notes,
+            participants: meetingNote.participants,
+            next_follow_up: meetingNote.next_follow_up || null,
+            assigned_user_ids: meetingNote.assigned_user_ids
+          }
+        };
 
-      const response = await fetch(`${API_BASE_URL}/api/agent-meetings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        credentials: 'include'
-      });
+        const response = await fetch(`${API_BASE_URL}/api/agent-meetings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        });
 
-      const result = await response.json();
+        result = await response.json();
+      }
 
       if (result.success) {
-        setSuccessMessage('Meeting saved successfully!');
+        setSuccessMessage(editingMeetingId ? 'Meeting updated successfully!' : 'Meeting saved successfully!');
         setTimeout(() => {
           navigate(`/agents/contacts/${selectedContact.id}`);
         }, 1500);
@@ -350,7 +430,8 @@ const AgentMeetingNotes: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       notes: '',
       participants: '',
-      next_follow_up: ''
+      next_follow_up: '',
+      assigned_user_ids: []
     });
   };
 
@@ -862,6 +943,17 @@ const AgentMeetingNotes: React.FC = () => {
                   onChange={(e) => setMeetingNote({ ...meetingNote, next_follow_up: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
+              </div>
+              <div>
+                <UserMultiSelect
+                  selectedUserIds={meetingNote.assigned_user_ids}
+                  onChange={(userIds) => setMeetingNote({ ...meetingNote, assigned_user_ids: userIds })}
+                  label="Assign Follow-up To"
+                  placeholder="Select users for follow-up..."
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Optional: Assign this meeting to specific users for tracking
+                </p>
               </div>
             </div>
           </div>

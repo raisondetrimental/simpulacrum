@@ -45,7 +45,13 @@
       "WebFetch(domain:data.bis.org)",
       "WebFetch(domain:stats.bis.org)",
       "WebFetch(domain:www.exchangerate-api.com)",
-      "Bash(pip install:*)"
+      "Bash(pip install:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:www.worldgovernmentbonds.com)",
+      "Bash(playwright install:*)",
+      "Bash(if [ -f \"Turkey_Yield_Curve_Manual.json\" ])",
+      "Bash(then rm \"Turkey_Yield_Curve_Manual.json\")",
+      "Bash(else echo \"Manual override file not found\")"
     ],
     "deny": [],
     "ask": []

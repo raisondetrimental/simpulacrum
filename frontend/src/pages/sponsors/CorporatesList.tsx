@@ -439,7 +439,7 @@ const CorporatesList: React.FC = () => {
                               to={`/sponsors/meeting-notes/${contact.id}`}
                               className="ml-4 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-sm"
                             >
-                              Start Meeting
+                              Meeting Notes
                             </Link>
                           </div>
                         </div>

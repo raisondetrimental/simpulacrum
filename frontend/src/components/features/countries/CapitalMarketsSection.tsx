@@ -50,11 +50,13 @@ const CapitalMarketsSection: React.FC<CapitalMarketsSectionProps> = ({ data }) =
           {imf.dsa_risk_rating && (
             <div className={`${riskColors.bg} border-2 ${riskColors.border} rounded-lg p-6 mb-4`}>
               <div className="flex items-center justify-between">
-                <div>
+                <div className="flex-1">
                   <h4 className="text-sm font-medium text-gray-600 uppercase mb-1">DSA Risk Rating</h4>
-                  <p className={`text-3xl font-bold ${riskColors.text}`}>{imf.dsa_risk_rating}</p>
+                  <p className={`${typeof imf.dsa_risk_rating === 'string' && imf.dsa_risk_rating.length > 30 ? 'text-lg' : 'text-3xl'} font-bold ${riskColors.text}`}>
+                    {imf.dsa_risk_rating}
+                  </p>
                 </div>
-                <svg className={`w-16 h-16 ${riskColors.text}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className={`w-16 h-16 ${riskColors.text} flex-shrink-0 ml-4`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
@@ -75,8 +77,8 @@ const CapitalMarketsSection: React.FC<CapitalMarketsSectionProps> = ({ data }) =
           {imf.gross_financing_needs_gdp !== undefined && (
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-5">
               <h4 className="text-sm font-medium text-gray-600 uppercase mb-2">Gross Financing Needs</h4>
-              <p className="text-2xl font-bold text-purple-800">
-                {typeof imf.gross_financing_needs_gdp === 'number' ? imf.gross_financing_needs_gdp.toFixed(1) : imf.gross_financing_needs_gdp}% of GDP
+              <p className={`${typeof imf.gross_financing_needs_gdp === 'number' || (typeof imf.gross_financing_needs_gdp === 'string' && imf.gross_financing_needs_gdp.length < 20) ? 'text-2xl' : 'text-base'} font-bold text-purple-800`}>
+                {typeof imf.gross_financing_needs_gdp === 'number' ? imf.gross_financing_needs_gdp.toFixed(1) + '% of GDP' : imf.gross_financing_needs_gdp}
               </p>
             </div>
           )}

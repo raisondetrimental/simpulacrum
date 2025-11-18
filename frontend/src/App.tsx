@@ -18,6 +18,7 @@ import DashboardHome from './pages/dashboard/DashboardHome';
 
 // Markets pages
 import MarketsOverviewPage from './pages/markets/MarketsOverviewPage';
+import MarketsWeeklyReportPage from './pages/markets/MarketsWeeklyReportPage';
 import SovereignYieldsPage from './pages/markets/SovereignYieldsPage';
 import CorporateBondsPage from './pages/markets/CorporateBondsPage';
 import CorporateSpreadsPage from './pages/markets/CorporateSpreadsPage';
@@ -31,19 +32,26 @@ import InternetCoveragePage from './pages/markets/InternetCoveragePage';
 // import ToolsPage from './pages/markets/ToolsPage'; // Disabled for cloud deployment
 
 // Country Reports pages
+import CountryReportsOverview from './pages/markets/CountryReportsOverview';
 import ArmeniaPage from './pages/markets/ArmeniaPage';
 import MongoliaPage from './pages/markets/MongoliaPage';
 import TurkiyePage from './pages/markets/TurkiyePage';
+import TurkeyYieldCurvePage from './pages/markets/TurkeyYieldCurvePage';
 import UzbekistanPage from './pages/markets/UzbekistanPage';
 import VietnamPage from './pages/markets/VietnamPage';
+import VietnamYieldCurvePage from './pages/markets/VietnamYieldCurvePage';
+import UKYieldCurvePage from './pages/markets/UKYieldCurvePage';
 
 // Company pages
 import TheFirmPage from './pages/company/TheFirmPage';
 import ThisWebsitePage from './pages/company/ThisWebsitePage';
 import MeridianPage from './pages/company/MeridianPage';
 
-// Investment Strategies
+// Investment Strategies & Pipeline
 import InvestmentStrategiesPage from './pages/deals/InvestmentStrategiesPage';
+import PipelinePage from './pages/deals/PipelinePage';
+import PipelineDetailPage from './pages/deals/PipelineDetailPage';
+import DamnEffectStrategyPage from './pages/deals/DamnEffectStrategyPage';
 
 // CRM All module pages
 import AllOverviewPage from './pages/crm/AllOverviewPage';
@@ -187,8 +195,9 @@ const App: React.FC = () => {
                   <Route path="/dashboard" element={<DashboardHome data={data} />} />
 
                   {/* Market Intelligence routes */}
-                  <Route path="/dashboard/markets" element={<MarketsOverviewPage data={data} />} />
-                  <Route path="/dashboard/sovereign" element={<SovereignYieldsPage data={data.sections.sovereign_yields} />} />
+                  <Route path="/dashboard/markets" element={<MarketsOverviewPage />} />
+                  <Route path="/dashboard/markets/weekly-report" element={<MarketsWeeklyReportPage />} />
+                  <Route path="/dashboard/sovereign" element={<SovereignYieldsPage />} />
                   <Route path="/dashboard/corporate" element={<CorporateBondsPage data={data.sections.corporate_yields} />} />
                   <Route path="/dashboard/corporate-spreads" element={<CorporateSpreadsPage />} />
                   <Route path="/dashboard/corporate-yields" element={<CorporateYieldsPage />} />
@@ -199,11 +208,15 @@ const App: React.FC = () => {
                   {/* <Route path="/dashboard/tools" element={<ToolsPage />} /> */}
 
                   {/* Country Reports routes */}
+                  <Route path="/dashboard/country-reports" element={<CountryReportsOverview />} />
                   <Route path="/dashboard/armenia" element={<ArmeniaPage />} />
                   <Route path="/dashboard/mongolia" element={<MongoliaPage />} />
                   <Route path="/dashboard/turkiye" element={<TurkiyePage />} />
+                  <Route path="/dashboard/turkiye/yield-curve" element={<TurkeyYieldCurvePage />} />
                   <Route path="/dashboard/uzbekistan" element={<UzbekistanPage />} />
                   <Route path="/dashboard/vietnam" element={<VietnamPage />} />
+                  <Route path="/dashboard/vietnam/yield-curve" element={<VietnamYieldCurvePage />} />
+                  <Route path="/dashboard/uk/yield-curve" element={<UKYieldCurvePage />} />
 
                   {/* Infrastructure routes */}
                   <Route path="/dashboard/infra-gaps" element={<InfraGapsOverviewPage />} />
@@ -263,14 +276,20 @@ const App: React.FC = () => {
                   <Route path="/agents/meeting-notes/:contactId" element={<AgentMeetingNotes />} />
                   <Route path="/agents/meeting" element={<AgentMeetingNotes />} />
 
+                  {/* Damn Effect Strategy */}
+                  <Route path="/damn-effect-strategy" element={<DamnEffectStrategyPage />} />
+
+                  {/* Pipeline & Strategies */}
+                  <Route path="/pipeline" element={<PipelinePage />} />
+                  <Route path="/pipeline/new" element={<PipelineDetailPage />} />
+                  <Route path="/pipeline/:id" element={<PipelineDetailPage />} />
+                  <Route path="/investment-strategies" element={<InvestmentStrategiesPage />} />
+
                   {/* Deals module routes */}
                   <Route path="/deals" element={<DealsList />} />
                   <Route path="/deals/new" element={<DealDetail />} />
                   <Route path="/deals/:id" element={<DealDetail />} />
                   <Route path="/deals/:id/edit" element={<DealDetail />} />
-
-                  {/* Investment Strategies */}
-                  <Route path="/investment-strategies" element={<InvestmentStrategiesPage />} />
 
                   {/* Admin routes */}
                   <Route path="/admin/users" element={<UserManagement />} />

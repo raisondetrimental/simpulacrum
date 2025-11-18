@@ -26,9 +26,19 @@ const StructuredNarrativeCard: React.FC<StructuredNarrativeCardProps> = ({
   // Decompose the narrative into structured components
   const structure = decomposeNarrative(rawText);
 
-  // If no structured data found, return null (fallback to other components)
+  // If no structured data found, render as plain text instead of returning null
   if (!structure.hasStructuredData) {
-    return null;
+    return (
+      <div className="bg-white p-5 rounded-lg shadow border border-gray-200">
+        <h4 className={TYPOGRAPHY.CARD.title}>{title}</h4>
+        <div className="mt-2">
+          <p className={`${TYPOGRAPHY.CARD.body} text-gray-700 leading-relaxed whitespace-pre-wrap`}>
+            {rawText}
+          </p>
+        </div>
+        {subtitle && <p className={TYPOGRAPHY.CARD.subtitle}>{subtitle}</p>}
+      </div>
+    );
   }
 
   return (

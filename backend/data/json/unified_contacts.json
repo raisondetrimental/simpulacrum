@@ -15,12 +15,50 @@
         "participants": "Joss Fisher, CT, AB, NA, AS, TME",
         "next_follow_up": "2025-10-21",
         "id": "meeting_1760914800000"
+      },
+      {
+        "id": "meeting_1763462562661",
+        "date": "2025-11-02T09:00:00.000Z",
+        "notes": "qo;j",
+        "participants": "",
+        "next_follow_up": null,
+        "assigned_to": [
+          {
+            "user_id": "user_001",
+            "username": "cameron.thomas@mu-llc.com",
+            "full_name": "Cameron Thomas"
+          }
+        ],
+        "created_by": {
+          "user_id": "user_001",
+          "username": "cameron.thomas@mu-llc.com",
+          "full_name": "Cameron Thomas"
+        }
+      },
+      {
+        "id": "meeting_1763462571996",
+        "date": "2025-11-19T09:00:00.000Z",
+        "notes": "a;j",
+        "participants": "",
+        "next_follow_up": null,
+        "assigned_to": [
+          {
+            "user_id": "user_001",
+            "username": "cameron.thomas@mu-llc.com",
+            "full_name": "Cameron Thomas"
+          }
+        ],
+        "created_by": {
+          "user_id": "user_001",
+          "username": "cameron.thomas@mu-llc.com",
+          "full_name": "Cameron Thomas"
+        }
       }
     ],
-    "last_contact_date": "2025-10-28T19:12:31.036817",
+    "last_contact_date": "2025-11-02T09:00:00.000Z",
     "next_contact_reminder": null,
     "created_at": "2025-10-20T12:14:24.816864",
-    "last_updated": "2025-10-28T19:12:58.380948",
+    "last_updated": "2025-11-18T10:42:51.999909",
     "capital_partner_id": "cp_108"
   },
   {
@@ -266,11 +304,17 @@
       },
       {
         "id": "meeting_1762350887801",
-        "date": "2025-11-05T13:54:47.801978",
+        "date": "2025-11-05T13:54:47.801Z",
         "notes": "/QLE J",
         "participants": "",
         "next_follow_up": null,
         "created_by": {
+          "user_id": "user_001",
+          "username": "cameron.thomas@mu-llc.com",
+          "full_name": "Cameron Thomas"
+        },
+        "updated_at": "2025-11-18T10:13:02.445908",
+        "updated_by": {
           "user_id": "user_001",
           "username": "cameron.thomas@mu-llc.com",
           "full_name": "Cameron Thomas"
@@ -280,7 +324,7 @@
     "last_contact_date": "2025-11-05T13:54:47.801978",
     "next_contact_reminder": null,
     "created_at": "2025-10-21T16:07:13.546546",
-    "last_updated": "2025-11-05T13:54:47.807224",
+    "last_updated": "2025-11-18T10:13:02.445908",
     "legal_advisor_id": "la_1761059214204"
   },
   {

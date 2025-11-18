@@ -100,7 +100,7 @@ const MacroAnalysisStructured: React.FC<MacroAnalysisStructuredProps> = ({ data,
         className={`transition-all duration-700 ${isVisible1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
       >
         <h3 className="text-xl font-semibold mb-4">GDP Growth</h3>
-        <div className={`grid grid-cols-1 md:grid-cols-${Math.min(displayData.length, 4)} gap-4`}>
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${Math.min(displayData.length, 3)} gap-4`}>
           {displayData.map((item, index) => {
             const isLastHistorical = !item.is_projection &&
                                       index === historicalData.slice(-2).length - 1;

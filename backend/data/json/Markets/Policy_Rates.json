@@ -11,12 +11,12 @@
       "TR": "Türkiye",
       "XM": "Euro Area"
     },
-    "generated_utc": "2025-11-11T19:10:27Z",
+    "generated_utc": "2025-11-14T11:12:56Z",
     "notes": "Central bank policy rates (%). Missing days are None, typically weekends or holidays. Data accumulated incrementally.",
-    "total_days": 815,
+    "total_days": 822,
     "date_range": {
       "start": "2023-05-15",
-      "end": "2025-11-04"
+      "end": "2025-11-11"
     }
   },
   "data": [
@@ -7348,6 +7348,69 @@
     },
     {
       "date": "2025-11-04",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-05",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": 2.5,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-06",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": 3.6,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-07",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": null,
+      "TR": 39.5,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-08",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-09",
+      "US": 3.875,
+      "GB": null,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-10",
+      "US": 3.875,
+      "GB": 4.0,
+      "KR": null,
+      "AU": null,
+      "TR": null,
+      "XM": 2.0
+    },
+    {
+      "date": "2025-11-11",
       "US": 3.875,
       "GB": null,
       "KR": null,

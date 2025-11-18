@@ -114,7 +114,7 @@ const TheFirmPage: React.FC = () => {
       <section aria-labelledby="firm-research">
         <div className="border-b border-gray-200 pb-4 mb-6">
           <h2 id="firm-research" className="text-2xl font-bold text-gray-900">
-            Firm Research
+            Fundamental Theory Series
           </h2>
           <p className="mt-2 text-gray-600">
             Academic and analytical research conducted by Meridian Universal

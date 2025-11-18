@@ -1,256 +1,255 @@
-# Meridian Dashboard - Backend API
+# Backend API
 
-Flask-based REST API for the Meridian Universal Dashboard, providing endpoints for market data, CRM management, investment matching, and deal pipeline tracking.
+Flask-based REST API for Meridian Universal Dashboard.
 
-## 🏗️ Architecture
-
-```
-backend/
-├── src/
-│   ├── api/              # Route blueprints
-│   │   ├── auth.py       # Authentication routes
-│   │   ├── capital_partners.py  # Liquidity module (partners, teams, contacts)
-│   │   ├── counsel.py    # Counsel module (legal advisors, counsel contacts)
-│   │   ├── deals.py      # Deal pipeline routes
-│   │   ├── excel.py      # Excel data & legacy routes
-│   │   ├── investment.py # Investment strategies & matching
-│   │   └── sponsors.py   # Sponsors module (corporates, sponsor contacts)
-│   ├── models/           # Data models
-│   │   └── user.py       # User authentication model
-│   ├── services/         # Business logic
-│   │   ├── deal_pipeline.py       # Deal management
-│   │   ├── investment_matching.py # Investment matching engine
-│   │   └── investment_profiles.py # Profile building
-│   ├── utils/            # Utilities
-│   │   └── json_store.py # JSON file operations
-│   ├── config.py         # Configuration management
-│   └── app.py            # Flask app factory
-├── requirements/         # Split requirements
-│   ├── base.txt         # Core dependencies
-│   ├── dev.txt          # Development tools
-│   ├── prod.txt         # Production (gunicorn)
-│   └── test.txt         # Testing dependencies
-├── tests/               # Test suite (to be added)
-├── .env.example         # Environment variables template
-├── startup.py           # Azure App Service entry point
-└── README.md            # This file
-```
-
-## 🚀 Quick Start
-
-### Local Development
+## Quick Start
 
 ```bash
 # Install dependencies
 pip install -r requirements/dev.txt
 
-# Copy environment template
-cp .env.example .env
-
-# Edit .env with your settings
-# FLASK_ENV=development
-# SECRET_KEY=your-secret-key
-
 # Run development server
-python -m src.app
-
-# Alternative: Use Flask CLI
-export FLASK_APP=src.app:app
-export FLASK_ENV=development
-flask run --port 5000
+python run.py
+# Runs on http://127.0.0.1:5000
 ```
 
-### Production Deployment
+## Essential Commands
 
 ```bash
-# Install production dependencies
-pip install -r requirements/prod.txt
+# Development
+python run.py                         # Start dev server (port 5000)
 
-# Set environment variables
-export FLASK_ENV=production
-export SECRET_KEY=your-production-secret-key
-export PORT=8000
+# Testing
+pytest                                # Run all tests
+pytest tests/test_api/                # Test specific module
+pytest --cov=src --cov-report=html    # Coverage report
 
-# Run with Gunicorn
+# Code quality
+black src/                            # Format code
+flake8 src/                           # Lint code
+mypy src/                             # Type checking
+
+# Production
 gunicorn --bind 0.0.0.0:8000 --timeout 600 src.app:app
 ```
 
-### Azure App Service
+## Project Structure
 
-```bash
-# Uses startup.py as entry point
-# Configure startup command in Azure:
-gunicorn --bind=0.0.0.0:8000 --timeout 600 startup:app
+```
+backend/
+├── src/
+│   ├── api/              # 19 Flask blueprints (auth, CRM modules, admin, etc.)
+│   ├── services/         # Business logic layer
+│   ├── utils/            # Utilities (json_store, audit_logger, unified_dal)
+│   ├── constants/        # Shared constants
+│   ├── config.py         # Flask configuration (dev/prod/test)
+│   └── app.py            # Flask application factory
+│
+├── data/
+│   ├── json/             # JSON database files
+│   │   ├── organizations.json        # ALL CRM organizations (unified)
+│   │   ├── unified_contacts.json     # ALL contacts (unified)
+│   │   ├── deals.json                # Deal pipeline
+│   │   ├── users.json                # User accounts
+│   │   ├── countries_master.json     # 90+ countries (investment prefs)
+│   │   └── [18 other JSON files]
+│   │
+│   └── excel/            # Excel source files (legacy)
+│
+├── storage/              # Generated files (served to frontend)
+├── tests/                # Test suite
+├── migrations/           # Migration documentation
+├── run.py                # Development entry point
+├── startup.py            # Production entry point (Azure)
+└── requirements/
+    ├── dev.txt           # Development dependencies
+    └── prod.txt          # Production dependencies
 ```
 
-## 📋 API Modules
+## Key Technologies
 
-### Authentication
-- `POST /api/auth/login` - Login with credentials
-- `POST /api/auth/logout` - Logout
-- `GET /api/auth/status` - Check authentication status
+- **Flask 3.0.0** - Web framework with application factory pattern
+- **Flask-Login 0.6.3** - Session-based authentication (NOT JWT)
+- **Flask-CORS 4.0.0** - Cross-origin resource sharing
+- **bcrypt 4.1.2** - Password hashing
+- **pandas 2.1.4** - Data manipulation
+- **Gunicorn 21.2.0** - Production WSGI server
 
-### Capital Partners (Liquidity Module)
-- Capital Partners: `/api/capital-partners` (GET, POST, PUT, DELETE)
-- Teams: `/api/teams` (GET, POST, PUT, DELETE)
-- Contacts: `/api/contacts-new` (GET, POST, PUT, DELETE)
-- Meeting Notes: `/api/meeting-notes` (POST)
-- Reminders: `/api/meeting-notes/reminders` (GET)
+## Architecture Overview
 
-### Sponsors Module
-- Corporates: `/api/corporates` (GET, POST, PUT, DELETE)
-- Sponsor Contacts: `/api/sponsor-contacts` (GET, POST, PUT, DELETE)
-- Sponsor Meetings: `/api/sponsor-meetings` (POST)
-- Sponsor Reminders: `/api/sponsor-meetings/reminders` (GET)
+### Application Factory Pattern
 
-### Counsel Module
-- Legal Advisors: `/api/legal-advisors` (GET, POST, PUT, DELETE)
-- Counsel Contacts: `/api/counsel-contacts` (GET, POST, PUT, DELETE)
-- Counsel Meetings: `/api/counsel-meetings` (POST)
-- Counsel Reminders: `/api/counsel-meetings/reminders` (GET)
+```python
+# src/app.py
+def create_app(config_name='development'):
+    app = Flask(__name__)
 
-### Investment & Deals
-- Investment Strategies: `/api/investment-strategies` (GET, POST)
-- Investment Profiles: `/api/investment-profiles` (GET)
-- Investment Matches: `/api/investment-matches` (POST)
-- Deal Pipeline: `/api/deals` (GET)
-- Deal Generation: `/api/deals/generate` (POST)
-- Deal Actions: `/api/deals/<id>/action` (POST)
-- Deal Stage Updates: `/api/deals/<id>/stage` (PUT)
+    # Load configuration
+    config = get_config(config_name)
+    app.config.from_object(config)
 
-### Excel & Legacy
-- Health Check: `/api/health` (GET)
-- USA Historical Yields: `/api/historical-yields/usa` (GET)
-- Institutions (Legacy): `/api/institutions` (GET, POST)
-- Contacts (Legacy): `/api/contacts` (GET, POST)
+    # Initialize extensions
+    login_manager.init_app(app)
+    CORS(app, supports_credentials=True)
 
-## 🛠️ Development
+    # Register 19 blueprints
+    from .api import auth_bp, capital_partners_bp, ...
+    app.register_blueprint(auth_bp)
+    # ... more blueprints
 
-### Running Tests
+    return app
+```
+
+### Unified Data Architecture
+
+**CRITICAL**: All CRM data uses unified architecture:
+
+- **`organizations.json`** - Single file for ALL organizations (capital partners, sponsors, counsel, agents)
+- **`unified_contacts.json`** - Single file for ALL contacts across all modules
+- **Discriminator field**: `organization_type` determines module type
+
+```python
+# Filter by organization type
+from ..utils.unified_dal import get_all_organizations
+
+partners = get_all_organizations("capital_partner")
+sponsors = get_all_organizations("sponsor")
+advisors = get_all_organizations("counsel")
+agents = get_all_organizations("agent")
+```
+
+### JSON Storage with Automatic Backups
+
+```python
+from pathlib import Path
+from ..utils.json_store import read_json_list, write_json_file
+
+# Read
+data = read_json_list(Path(json_dir) / 'organizations.json')
+
+# Write (creates .bak file automatically)
+write_json_file(Path(json_dir) / 'organizations.json', data)
+```
+
+## API Blueprints (19 total)
+
+**Core CRM:**
+- `auth.py` - Login, logout, auth status
+- `capital_partners.py` - Liquidity module
+- `sponsors.py` - Sponsors module
+- `counsel.py` - Counsel module
+- `agents.py` - Agents module
+
+**Investment & Deals:**
+- `investment.py` - Investment matching
+- `deals.py` - Deal pipeline
+- `deal_participants.py` - Deal participants
+
+**Market Data:**
+- `countries.py` - Country fundamentals (5 markets)
+- `countries_master.py` - Countries master list (90+)
+- `fx_rates.py` - FX rates
+- `excel.py` - Legacy Excel data
+- `data.py` - Serve static JSON files
+
+**Administration:**
+- `users.py` - User management (admin only)
+- `profile.py` - User profile
+- `admin.py` - Super admin portal (13+ features)
+- `playbook.py` - Playbook manager
+- `reports.py` - CSV exports
+
+**Collaboration:**
+- `whiteboard.py` - Team posts with threading
+
+## Configuration
+
+Three environments in `src/config.py`:
+
+```python
+# Development (default)
+DevelopmentConfig:
+    DEBUG = True
+    PORT = 5000
+    CORS_ORIGINS = ["http://localhost:5173", ...]
+
+# Production
+ProductionConfig:
+    DEBUG = False
+    PORT = 8000
+    CORS_ORIGINS = [Azure Static Web App URL]
+
+# Testing
+TestConfig:
+    TESTING = True
+```
+
+## Authentication
+
+- **Session-based** with Flask-Login (NOT JWT)
+- **Password hashing** with bcrypt
+- **Three access levels**: Standard, Admin, Super Admin
+- **Protected routes** use `@login_required` decorator
+
+```python
+from flask_login import login_required, current_user
+
+@bp.route('/protected', methods=['GET'])
+@login_required
+def protected_endpoint():
+    if not current_user.is_super_admin:
+        return jsonify({"success": False}), 403
+    # Logic here
+```
+
+## Important Notes
+
+1. **Unified CRM**: Don't look for separate `capital_partners.json` or `corporates.json` - all in `organizations.json`
+2. **Organization Types**: Use `"capital_partner"`, `"sponsor"`, `"counsel"`, `"agent"` (exact strings)
+3. **Countries Systems**: Two separate systems - master (90+ for prefs) vs fundamentals (5 with market data)
+4. **Automatic Backups**: Every write creates `.bak` file
+5. **Relative Imports**: Use relative imports (`from ..utils import`)
+
+## Testing
 
 ```bash
-# Install test dependencies
-pip install -r requirements/test.txt
-
-# Run tests with pytest
+# Run all tests
 pytest
 
-# Run with coverage
+# Test specific module
+pytest tests/test_api/test_capital_partners.py
+
+# With coverage
 pytest --cov=src --cov-report=html
+
+# View coverage report
+open htmlcov/index.html
 ```
 
-### Code Quality
+## Deployment
 
-```bash
-# Format code with Black
-black src/
+**Azure App Service (Linux):**
+- Entry point: `startup.py`
+- Command: `gunicorn --bind=0.0.0.0:8000 --timeout 600 startup:app`
+- Environment variables: `FLASK_ENV=production`, `SECRET_KEY`, `PORT=8000`
 
-# Lint with Flake8
-flake8 src/
+## Common Patterns
 
-# Type checking with MyPy
-mypy src/
-```
+See [CLAUDE.md](../CLAUDE.md) for:
+- Adding new API endpoints
+- CSV export pattern
+- Form handling
+- Meeting notes pattern
+- Investment matching
+- And much more...
 
-## 🔧 Configuration
+## Documentation
 
-Configuration is managed through environment variables and the `src/config.py` file.
+- **[CLAUDE.md](../CLAUDE.md)** - Complete project guide (START HERE)
+- **[API Reference](../docs/reference/API_ENDPOINTS_REFERENCE.md)** - All endpoints
+- **[Data Model](../docs/reference/DATA_MODEL_DIAGRAM.md)** - Database schema
+- **[Migrations](migrations/README.md)** - Migration history
 
-### Environment Variables
+---
 
-```bash
-FLASK_ENV=development          # Environment (development, production, test)
-SECRET_KEY=your-secret-key     # Flask secret key (CHANGE IN PRODUCTION!)
-PORT=5000                      # Server port
-
-# Data directories
-DATA_DIR=./data
-EXCEL_DIR=./data/excel
-JSON_DIR=./data/json
-WEB_DIR=./web/public
-```
-
-### Configuration Classes
-
-- `DevelopmentConfig` - Debug enabled, local paths
-- `ProductionConfig` - Debug disabled, Azure paths, secure cookies
-- `TestConfig` - Testing mode, temporary paths
-
-## 📁 Data Storage
-
-The API uses JSON files for data storage:
-
-```
-../data/json/
-├── capital_partners.json     # Liquidity: Capital partners
-├── teams.json                # Liquidity: Investment teams
-├── contacts.json             # Liquidity: Contacts
-├── corporates.json           # Sponsors: Corporate sponsors
-├── sponsor_contacts.json     # Sponsors: Sponsor contacts
-├── legal_advisors.json       # Counsel: Legal advisory firms
-├── counsel_contacts.json     # Counsel: Lawyer contacts
-├── investment_strategies.json # Saved investment strategies
-├── investment_profiles.json  # Generated matching profiles
-├── deal_pipeline.json        # Deal pipeline tracking
-└── users.json                # User accounts
-```
-
-All JSON operations include automatic `.bak` backup file creation.
-
-## 🔐 Authentication
-
-- Session-based authentication using Flask-Login
-- Password hashing with bcrypt
-- Secure cookie configuration (production)
-- Protected routes use `@login_required` decorator
-
-## 🌐 CORS Configuration
-
-CORS is enabled for local development:
-- `http://localhost:5173` (Vite dev server)
-- `http://localhost:3000`
-- `http://localhost:3001`
-
-Update `src/config.py` to add Azure URLs for production deployment.
-
-## 📦 Dependencies
-
-### Core (base.txt)
-- Flask 3.0.0 - Web framework
-- Flask-CORS 4.0.0 - CORS handling
-- Flask-Login 0.6.3 - Authentication
-- bcrypt 4.1.2 - Password hashing
-- pandas 2.1.4 - Data manipulation
-- openpyxl 3.1.2 - Excel reading
-- numpy 1.26.2 - Numerical operations
-
-### Production (prod.txt)
-- gunicorn 21.2.0 - WSGI server
-
-### Development (dev.txt)
-- pytest - Testing framework
-- black - Code formatting
-- flake8 - Linting
-- mypy - Type checking
-- ipython - Interactive shell
-
-## 🚨 Important Notes
-
-### Excel COM Automation
-Excel COM automation (Windows only) is **not available** in this restructured backend. COM operations require Windows environment and are not supported on Azure Linux. For production:
-- Keep COM operations on local Windows machine
-- Generate JSON data locally and upload to cloud storage
-- Backend API serves pre-generated JSON data
-
-### Data File Paths
-All file paths use configuration variables. Ensure environment variables are set correctly for your deployment environment.
-
-### Migration from Old Structure
-This backend replaces the monolithic `api/excel_api.py`. The old file is preserved for reference but should not be used in production.
-
-## 📚 Additional Resources
-
-- [API Endpoints Reference](../docs/API_ENDPOINTS_REFERENCE.md)
-- [Azure Deployment Guide](../docs/Azure_Deployment_Guide.md)
-- [Deal Pipeline Documentation](../docs/deal_pipeline_implementation.md)
-- [Main Project README](../README.md)
+**For complete architecture, patterns, and development workflows, see [CLAUDE.md](../CLAUDE.md)**

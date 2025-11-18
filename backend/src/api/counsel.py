@@ -462,12 +462,31 @@ def save_counsel_meeting():
             # Generate unique ID for meeting note using timestamp
             meeting_id = f"meeting_{int(datetime.now().timestamp() * 1000)}"
 
+            # Handle user assignment
+            from ..utils.user_helpers import validate_user_ids, get_user_details
+
+            assigned_user_ids = meeting_note.get('assigned_user_ids', [])
+            assigned_to = []
+
+            if assigned_user_ids:
+                # Validate user IDs
+                is_valid, error_msg = validate_user_ids(assigned_user_ids)
+                if not is_valid:
+                    return jsonify({
+                        "success": False,
+                        "message": error_msg
+                    }), 400
+
+                # Get full user details
+                assigned_to = get_user_details(assigned_user_ids)
+
             contact['meeting_history'].append({
                 "id": meeting_id,
                 "date": datetime.now().isoformat(),
                 "notes": meeting_note.get('notes', ''),
                 "participants": meeting_note.get('participants', ''),
                 "next_follow_up": meeting_note.get('next_follow_up'),
+                "assigned_to": assigned_to,
                 "created_by": {
                     "user_id": current_user.id,
                     "username": current_user.username,
@@ -584,6 +603,28 @@ def update_counsel_meeting_note(contact_id, meeting_id):
                 meeting['notes'] = data.get('notes', meeting.get('notes', ''))
                 meeting['participants'] = data.get('participants', meeting.get('participants', ''))
                 meeting['next_follow_up'] = data.get('next_follow_up', meeting.get('next_follow_up'))
+
+                # Handle user assignment update (reassignment)
+                if 'assigned_user_ids' in data:
+                    from ..utils.user_helpers import validate_user_ids, get_user_details
+
+                    assigned_user_ids = data.get('assigned_user_ids', [])
+                    assigned_to = []
+
+                    if assigned_user_ids:
+                        # Validate user IDs
+                        is_valid, error_msg = validate_user_ids(assigned_user_ids)
+                        if not is_valid:
+                            return jsonify({
+                                "success": False,
+                                "message": error_msg
+                            }), 400
+
+                        # Get full user details
+                        assigned_to = get_user_details(assigned_user_ids)
+
+                    meeting['assigned_to'] = assigned_to
+
                 meeting['updated_at'] = datetime.now().isoformat()
                 meeting['updated_by'] = {
                     'user_id': current_user.id,

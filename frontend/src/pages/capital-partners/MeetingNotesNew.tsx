@@ -16,6 +16,7 @@ import {
   DISC_PROFILES
 } from '../../types/liquidity';
 import { API_BASE_URL } from '../../config';
+import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-partner' | 'select-contact' | 'edit-details';
 
@@ -33,6 +34,7 @@ const MeetingNotesNew: React.FC = () => {
   // Selected/Created entities
   const [selectedPartner, setSelectedPartner] = useState<CapitalPartner | null>(null);
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [editingMeetingId, setEditingMeetingId] = useState<string | null>(null);
 
   // Loading states
   const [loading, setLoading] = useState(false);
@@ -68,7 +70,8 @@ const MeetingNotesNew: React.FC = () => {
     date: new Date().toISOString().split('T')[0],
     notes: '',
     participants: '',
-    next_follow_up: ''
+    next_follow_up: '',
+    assigned_user_ids: [] as string[]
   });
 
   // UI states
@@ -96,6 +99,8 @@ const MeetingNotesNew: React.FC = () => {
   // Auto-select contact and partner if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');
+    const meetingId = searchParams.get('meeting');
+
     if (contactId && allContacts.length > 0 && allPartners.length > 0) {
       const contact = allContacts.find(c => c.id === contactId);
       if (contact) {
@@ -115,6 +120,22 @@ const MeetingNotesNew: React.FC = () => {
             contact_notes: contact.contact_notes || '',
             team_name: contact.team_name || ''
           });
+
+          // If meeting ID is provided, pre-fill the meeting form for editing
+          if (meetingId && contact.meeting_history) {
+            const existingMeeting = contact.meeting_history.find(m => m.id === meetingId);
+            if (existingMeeting) {
+              setEditingMeetingId(meetingId);
+              setMeetingNote({
+                date: existingMeeting.date.split('T')[0], // Extract date part from ISO string
+                notes: existingMeeting.notes || '',
+                participants: existingMeeting.participants || '',
+                next_follow_up: existingMeeting.next_follow_up || '',
+                assigned_user_ids: existingMeeting.assigned_to?.map(u => u.user_id) || []
+              });
+            }
+          }
+
           setCurrentStep('edit-details');
         }
       }
@@ -257,24 +278,62 @@ const MeetingNotesNew: React.FC = () => {
 
     setSaving(true);
     try {
-      // Add meeting note (this also updates contact)
-      const meetingPayload = {
-        contact_id: selectedContact.id,
-        contact_updates: newContact,
-        meeting_note: meetingNote
-      };
+      let meetingResult: ApiResponse<Contact>;
 
-      const meetingResponse = await fetch(`${API_BASE_URL}/api/meeting-notes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // REQUIRED: Send session cookie for authentication
-        body: JSON.stringify(meetingPayload)
-      });
+      if (editingMeetingId) {
+        // Update existing meeting
+        const updatePayload = {
+          notes: meetingNote.notes,
+          participants: meetingNote.participants,
+          next_follow_up: meetingNote.next_follow_up || null,
+          assigned_user_ids: meetingNote.assigned_user_ids
+        };
 
-      const meetingResult: ApiResponse<Contact> = await meetingResponse.json();
+        const meetingResponse = await fetch(
+          `${API_BASE_URL}/api/contacts-new/${selectedContact.id}/meetings/${editingMeetingId}`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(updatePayload)
+          }
+        );
+
+        meetingResult = await meetingResponse.json();
+
+        // Also update contact details if they were changed
+        if (meetingResult.success) {
+          const contactUpdateResponse = await fetch(
+            `${API_BASE_URL}/api/contacts-new/${selectedContact.id}`,
+            {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify(newContact)
+            }
+          );
+          await contactUpdateResponse.json();
+        }
+      } else {
+        // Create new meeting note (original behavior)
+        const meetingPayload = {
+          contact_id: selectedContact.id,
+          contact_updates: newContact,
+          meeting_note: meetingNote
+        };
+
+        const meetingResponse = await fetch(`${API_BASE_URL}/api/meeting-notes`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(meetingPayload)
+        });
+
+        meetingResult = await meetingResponse.json();
+      }
 
       if (meetingResult.success) {
-        setSuccessMessage('Meeting saved successfully!');
+        setSuccessMessage(editingMeetingId ? 'Meeting updated successfully!' : 'Meeting saved successfully!');
         setTimeout(() => {
           navigate(`/liquidity/contacts/${selectedContact.id}`);
         }, 2000);
@@ -298,7 +357,8 @@ const MeetingNotesNew: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       notes: '',
       participants: '',
-      next_follow_up: ''
+      next_follow_up: '',
+      assigned_user_ids: []
     });
   };
 
@@ -776,6 +836,17 @@ const MeetingNotesNew: React.FC = () => {
                   onChange={(e) => setMeetingNote({ ...meetingNote, next_follow_up: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md"
                 />
+              </div>
+              <div>
+                <UserMultiSelect
+                  selectedUserIds={meetingNote.assigned_user_ids}
+                  onChange={(userIds) => setMeetingNote({ ...meetingNote, assigned_user_ids: userIds })}
+                  label="Assign Follow-up To"
+                  placeholder="Select users for follow-up..."
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Optional: Assign this meeting to specific users for tracking
+                </p>
               </div>
             </div>
           </div>

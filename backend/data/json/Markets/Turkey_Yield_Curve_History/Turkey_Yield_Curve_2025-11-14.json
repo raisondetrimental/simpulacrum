@@ -1,0 +1,143 @@
+{
+  "last_updated": "2025-11-14T15:15:14.940502",
+  "country": "Turkey",
+  "currency": "TRY",
+  "data_source": "worldgovernmentbonds.com (automated - complete table)",
+  "url": "https://www.worldgovernmentbonds.com/country/turkey/",
+  "yields": [
+    {
+      "maturity": "3M",
+      "maturity_text": "3 months",
+      "maturity_years": 0.25,
+      "yield": {
+        "last": 35.107,
+        "chg_1m": -316.4,
+        "chg_6m": -828.2,
+        "chg_12m": -697.3
+      },
+      "price": {
+        "last": 92.75,
+        "chg_1m": 0.57,
+        "chg_6m": 1.5,
+        "chg_12m": 1.27
+      },
+      "capital_growth": 1.078,
+      "last_update": "14 Nov"
+    },
+    {
+      "maturity": "6M",
+      "maturity_text": "6 months",
+      "maturity_years": 0.5,
+      "yield": {
+        "last": 36.098,
+        "chg_1m": -50.9,
+        "chg_6m": -899.5,
+        "chg_12m": -769.0
+      },
+      "price": {
+        "last": 85.72,
+        "chg_1m": 0.19,
+        "chg_6m": 3.25,
+        "chg_12m": 2.79
+      },
+      "capital_growth": 1.166,
+      "last_update": "14 Nov"
+    },
+    {
+      "maturity": "9M",
+      "maturity_text": "9 months",
+      "maturity_years": 0.75,
+      "yield": {
+        "last": 37.854,
+        "chg_1m": -51.1,
+        "chg_6m": -703.1,
+        "chg_12m": -590.4
+      },
+      "price": {
+        "last": 78.6,
+        "chg_1m": 0.28,
+        "chg_6m": 3.8,
+        "chg_12m": 3.19
+      },
+      "capital_growth": 1.272,
+      "last_update": "14 Nov"
+    },
+    {
+      "maturity": "2Y",
+      "maturity_text": "2 years",
+      "maturity_years": 2.0,
+      "yield": {
+        "last": 40.11,
+        "chg_1m": 283.0,
+        "chg_6m": -371.0,
+        "chg_12m": 116.0
+      },
+      "price": {
+        "last": 50.94,
+        "chg_1m": -4.0,
+        "chg_6m": 5.36,
+        "chg_12m": -1.64
+      },
+      "capital_growth": 1.963,
+      "last_update": "14 Nov"
+    },
+    {
+      "maturity": "3Y",
+      "maturity_text": "3 years",
+      "maturity_years": 3.0,
+      "yield": {
+        "last": 37.715,
+        "chg_1m": 250.5,
+        "chg_6m": 198.5,
+        "chg_12m": 384.5
+      },
+      "price": {
+        "last": 38.29,
+        "chg_1m": -5.36,
+        "chg_6m": -4.25,
+        "chg_12m": -8.13
+      },
+      "capital_growth": 2.611,
+      "last_update": "14 Nov"
+    },
+    {
+      "maturity": "5Y",
+      "maturity_text": "5 years",
+      "maturity_years": 5.0,
+      "yield": {
+        "last": 33.96,
+        "chg_1m": -31.0,
+        "chg_6m": -238.0,
+        "chg_12m": 131.0
+      },
+      "price": {
+        "last": 23.18,
+        "chg_1m": 1.18,
+        "chg_6m": 9.19,
+        "chg_12m": -4.8
+      },
+      "capital_growth": 4.313,
+      "last_update": "13 Nov"
+    },
+    {
+      "maturity": "10Y",
+      "maturity_text": "10 years",
+      "maturity_years": 10.0,
+      "yield": {
+        "last": 30.51,
+        "chg_1m": -108.0,
+        "chg_6m": -146.0,
+        "chg_12m": 243.0
+      },
+      "price": {
+        "last": 6.98,
+        "chg_1m": 8.72,
+        "chg_6m": 11.86,
+        "chg_12m": -17.1
+      },
+      "capital_growth": 14.336,
+      "last_update": "13 Nov"
+    }
+  ],
+  "notes": "Automatically fetched complete Residual Maturity table from https://www.worldgovernmentbonds.com/country/turkey/"
+}

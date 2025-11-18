@@ -136,7 +136,7 @@ const CounselContactDetail: React.FC = () => {
             to={`/counsel/meeting?contact=${contact.id}`}
             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
           >
-            Start Meeting
+            Meeting Notes
           </Link>
           <button
             onClick={handleDelete}
@@ -240,6 +240,9 @@ const CounselContactDetail: React.FC = () => {
                       </p>
                       {meeting.participants && (
                         <p className="text-xs text-gray-600">Participants: {meeting.participants}</p>
+                      )}
+                      {meeting.assigned_to && meeting.assigned_to.length > 0 && (
+                        <p className="text-xs text-blue-600">Assigned: {meeting.assigned_to.map(u => u.full_name).join(', ')}</p>
                       )}
                     </div>
                     {meeting.next_follow_up && (

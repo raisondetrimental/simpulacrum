@@ -7,8 +7,8 @@ export const TYPOGRAPHY = {
   // Metric display styles based on content type
   METRIC_DISPLAY: {
     numeric: 'text-4xl font-bold',
-    shortText: 'text-xl font-semibold',
-    longText: 'text-base font-normal',
+    shortText: 'text-lg font-semibold',  // Reduced from text-xl
+    longText: 'text-sm font-normal',      // Reduced from text-base
   },
 
   // Card component styles
@@ -52,7 +52,7 @@ export const CONTENT_THRESHOLDS = {
 
 // Responsive grid configurations
 export const GRID_CONFIGS = {
-  metrics: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4',
+  metrics: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4',  // Changed from 4 to 3 columns max
   metricsCompact: 'grid grid-cols-1 md:grid-cols-2 gap-4',
   textCards: 'grid grid-cols-1 lg:grid-cols-2 gap-4',
   fullWidth: 'grid grid-cols-1 gap-4',

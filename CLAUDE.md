@@ -4,1159 +4,1555 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Quick Reference
 
-**Most Common Development Commands:**
+### Essential Development Commands
+
 ```bash
-# Start full development stack
-cd backend && python run.py          # Terminal 1: Backend API on http://127.0.0.1:5000
-cd frontend && npm run dev           # Terminal 2: Frontend on http://localhost:5173
+# Start development servers (run in separate terminals)
+cd backend && python run.py              # Backend API → http://127.0.0.1:5000
+cd frontend && npm run dev               # Frontend → http://localhost:5173
 
-# Run tests
-cd backend && pytest                 # Backend tests
-cd frontend && npm test              # Frontend tests
+# Code quality
+cd backend && black src/                 # Format Python code
+cd backend && pytest                     # Run backend tests
+cd frontend && npm run lint              # Lint TypeScript
+cd frontend && npm test                  # Run frontend tests
 
-# Check code quality
-cd backend && black src/             # Format Python code
-cd frontend && npm run lint          # Lint TypeScript
+# Build for production
+cd frontend && npm run build             # TypeScript + Vite → dist/
+cd backend && gunicorn --bind 0.0.0.0:8000 --timeout 600 src.app:app
 ```
 
 ## Project Overview
 
-**Meridian Universal Dashboard** is a financial markets intelligence platform providing an interactive web dashboard for market data and CRM management. The system consists of two main components:
+**Meridian Universal Dashboard** is a financial intelligence platform for emerging markets infrastructure finance. The system combines market data analysis with a sophisticated CRM for managing relationships across capital partners, sponsors, legal advisors, and transaction agents.
 
-1. **Backend API** (Flask): Provides market data endpoints, CRM management, and investment matching
-2. **Frontend Dashboard** (React + TypeScript): Interactive multi-page web application with integrated CRM
+**Key Features:**
+- Four-module unified CRM with investment matching engine
+- Interactive calendar with drag-and-drop meeting scheduling and editing across all modules
+- Market intelligence for 5 emerging markets (Armenia, Mongolia, Türkiye, Uzbekistan, Vietnam)
+- Pipeline strategies management with 6-stage workflow and related deals linking
+- Deals database (precedent transactions for reference)
+- Super admin portal with data quality tools and bulk operations
+- Team collaboration via threaded whiteboard system
+- Damn Effect Strategy hub with integrated origination workflow
 
-**Note on ETL Pipeline**: The ETL scripts that previously extracted data from Excel workbooks have been deprecated and removed (November 2024). Market data is now managed through direct JSON file management or backend API operations.
+**Tech Stack:**
+- Backend: Flask 3.0 + Flask-Login + bcrypt (Python 3.11+)
+- Frontend: React 18 + TypeScript 5 + Vite 4.4 + Tailwind CSS
+- Data: JSON file-based with automatic backups
+- Deployment: Azure App Service (backend) + Azure Static Web Apps (frontend)
 
-**Current Deployment Status**:
-- **Local Development Only**: Both frontend and backend run locally
-- **CORS Configuration**: Configured for localhost only (`http://localhost:5173`, `http://localhost:3000`, `http://localhost:3001`)
+## Critical Architecture Patterns
 
-## Project Structure
+### 1. Unified CRM Data Model (MOST IMPORTANT)
 
-```
-.
-├── backend/              # Flask REST API
-│   ├── src/
-│   │   ├── api/         # Route blueprints
-│   │   ├── models/      # Data models
-│   │   ├── services/    # Business logic
-│   │   ├── utils/       # Utilities
-│   │   ├── constants/   # Shared constants
-│   │   ├── config.py    # Configuration
-│   │   └── app.py       # Flask app factory
-│   ├── tests/           # Test suite
-│   ├── data/            # Data files (Excel sources + JSON databases)
-│   │   ├── excel/       # Excel source files
-│   │   └── json/        # JSON databases (CRM data)
-│   ├── storage/         # Generated files (JSON, reports, logs)
-│   ├── migrations/      # Migration documentation
-│   ├── run.py           # Development server runner
-│   └── startup.py       # Azure entry point
-├── frontend/            # React + TypeScript dashboard
-│   ├── src/
-│   │   ├── components/  # React components (common/features/shared/ui)
-│   │   ├── pages/       # Page components (feature-based)
-│   │   ├── services/    # API clients
-│   │   ├── contexts/    # React contexts
-│   │   ├── hooks/       # Custom React hooks
-│   │   ├── types/       # TypeScript types
-│   │   ├── constants/   # Frontend constants
-│   │   ├── utils/       # Utility functions (NEW)
-│   │   └── lib/         # Third-party library configs (NEW)
-│   └── public/
-│       ├── assets/      # Images and logos (NEW)
-│       └── documents/   # Static documents
-├── etl/                 # ETL scripts (deprecated - see README.md)
-│   └── README.md                   # Historical ETL documentation
-├── docs/                # Documentation (organized by category)
-│   ├── quickstart/      # Getting started guides
-│   ├── architecture/    # System architecture
-│   ├── deployment/      # Deployment guides
-│   ├── development/     # Development practices
-│   ├── implementation/  # Implementation plans
-│   ├── reference/       # API reference & specs
-│   └── README.md        # Documentation navigation
-├── scripts/             # Utility scripts
-├── shared/              # Cross-language shared code
-└── infrastructure/      # Docker and Azure configs
-```
+**This is the most important architectural pattern to understand.**
 
-## Essential Commands
+Unlike traditional multi-module systems, ALL CRM data uses a **unified architecture** with just two files:
 
-### Full System Startup
+#### organizations.json - Single Source for ALL Organizations
 
-**Start Backend API:**
-```bash
-cd backend
-python run.py
-# Server runs on http://127.0.0.1:5000
-```
+Contains capital partners, sponsors (corporates), counsel (legal advisors), and agents in ONE file.
 
-**Start Frontend Development Server:**
-```bash
-cd frontend
-npm run dev
-# Dev server runs on http://localhost:5173
-```
-
-### Frontend Commands
-
-```bash
-cd frontend
-npm install              # Install dependencies
-npm run dev             # Start dev server (Vite)
-npm run build           # Build for production (TypeScript + Vite)
-npm run lint            # Run ESLint
-npm run preview         # Preview production build
-```
-
-### Backend Commands
-
-```bash
-cd backend
-
-# Install dependencies
-pip install -r requirements/dev.txt   # Development
-pip install -r requirements/prod.txt  # Production
-
-# Run development server
-python run.py
-
-# Run with Gunicorn (production)
-gunicorn --bind 0.0.0.0:8000 --timeout 600 src.app:app
-
-# Run tests
-pytest
-pytest --cov=src --cov-report=html
-
-# Code quality
-black src/
-flake8 src/
-mypy src/
-```
-
-## Backend Architecture
-
-### Module Organization
-
-The backend uses Flask application factory pattern with blueprints:
-
-**Blueprints (`backend/src/api/`):**
-- `auth.py` - Authentication (login, logout, status)
-- `capital_partners.py` - Liquidity module (partners, contacts)
-- `sponsors.py` - Sponsors module (corporates, contacts)
-- `counsel.py` - Counsel module (legal advisors, contacts)
-- `agents.py` - Agents module (transaction agents, contacts)
-- `investment.py` - Investment strategies and matching
-- `deals.py` - Deals management (CRUD operations)
-- `deal_participants.py` - Deal participants management
-- `fx_rates.py` - FX rates API and historical data
-- `countries.py` - Country fundamentals and macroeconomic data
-- `countries_master.py` - Countries master list management (super admin)
-- `excel.py` - Excel data and legacy endpoints
-- `data.py` - Serve generated JSON files
-- `whiteboard.py` - Whiteboard posts with threading
-- `users.py` - User management (admin only)
-- `profile.py` - User profile management
-- `admin.py` - Super admin portal (system stats, database, archives, bulk ops, feature flags, audit log)
-- `playbook.py` - Playbook manager (contacts, calendar, deals, people, workstreams, filing)
-- `reports.py` - Report generation and CSV exports
-
-**Services (`backend/src/services/`):**
-- `investment_profiles.py` - Profile building for cross-CRM matching
-- `investment_matching.py` - Investment matching engine
-- `deals_aggregator.py` - Deal data aggregation
-- `archive_manager.py` - Archive and restore records (super admin)
-- `bulk_operations.py` - Bulk update, export, import operations (super admin)
-- `data_cleanup.py` - Data quality scanning and fixing (super admin)
-- `database_explorer.py` - Read-only database file explorer (super admin)
-- `endpoint_discovery.py` - API endpoint discovery for playground (super admin)
-- `feature_flags.py` - Feature flag management (super admin)
-
-**Utilities (`backend/src/utils/`):**
-- `json_store.py` - JSON file read/write utilities with backup support
-- `audit_logger.py` - Audit logging for super admin actions
-
-**Configuration (`backend/src/config.py`):**
-Three environment configurations:
-- `DevelopmentConfig` - Local development (port 5000)
-- `ProductionConfig` - Azure deployment (port 8000)
-- `TestConfig` - Testing environment
-
-**Important**: Configuration paths use `Path` objects. The base directory is calculated as `backend/src/../../` which points to project root.
-
-### Data Flow
-
-```
-Static Market Data (storage/)
-    ↓
-[Flask API] serves JSON → [React Frontend]
-    ↓
-[CRM Operations] → JSON databases (data/json/)
-```
-
-**Directory Paths:**
-- `DATA_DIR`: `data/` (project root)
-- `EXCEL_DIR`: `data/excel/` (legacy Excel sources)
-- `JSON_DIR`: `data/json/` (CRM databases)
-- `STORAGE_DIR`: `storage/` (static market data files)
-- `WEB_DIR`: `storage/` (for serving to frontend)
-
-### API Endpoints
-
-**Authentication:**
-```
-POST /api/auth/login              # Login with username/password
-POST /api/auth/logout             # Logout and clear session
-GET  /api/auth/status             # Check authentication status
-```
-
-**User Management:**
-```
-GET         /api/users                      # List users (admin only)
-POST        /api/users                      # Create user (admin only)
-PUT         /api/users/:id                  # Update user (admin only)
-DELETE      /api/users/:id                  # Delete user (admin only)
-GET         /api/profile                    # Get current user profile
-PUT         /api/profile                    # Update profile
-POST        /api/profile/change-password    # Change password
-```
-
-**Capital Partners (Liquidity Module):**
-```
-GET/POST/PUT/DELETE /api/capital-partners
-GET/POST/PUT/DELETE /api/contacts-new
-POST /api/meeting-notes
-GET  /api/meeting-notes/reminders
-```
-
-**Sponsors Module:**
-```
-GET/POST/PUT/DELETE /api/corporates
-GET/POST/PUT/DELETE /api/sponsor-contacts
-POST /api/sponsor-meetings
-GET  /api/sponsor-meetings/reminders
-```
-
-**Counsel Module:**
-```
-GET/POST/PUT/DELETE /api/legal-advisors
-GET/POST/PUT/DELETE /api/counsel-contacts
-POST /api/counsel-meetings
-GET  /api/counsel-meetings/reminders
-POST /api/counsel-contacts/:id/complete-reminder
-```
-
-**Agents Module:**
-```
-GET/POST/PUT/DELETE /api/agents
-GET/POST/PUT/DELETE /api/agent-contacts
-POST /api/agent-meetings
-GET  /api/agent-meetings/reminders
-```
-
-**Whiteboard:**
-```
-GET         /api/whiteboards                # Get posts (weekly or all)
-POST        /api/whiteboards                # Create new post
-GET         /api/whiteboards/:id            # Get specific post
-PUT         /api/whiteboards/:id            # Update post
-DELETE      /api/whiteboards/:id            # Delete post
-GET         /api/whiteboards/:id/replies    # Get replies to post
-POST        /api/whiteboards/:id/replies    # Add reply to post
-```
-
-**Investment Strategies:**
-```
-GET  /api/investment-strategies       # Get saved strategies
-POST /api/investment-strategies/save  # Save strategies
-POST /api/investment-matches          # Get cross-CRM matches
-GET  /api/investment-profiles         # Get normalized profiles
-```
-
-**Market Data:**
-```
-GET  /api/health                      # Health check
-GET  /api/historical-yields/usa       # USA historical yields
-GET  /api/dashboard-data              # Serve dashboard.json
-GET  /api/usa-historical-yields       # Serve usa_historical_yields.json
-```
-
-**FX Rates:**
-```
-GET  /api/fx-rates                    # Get current FX rates
-POST /api/fx-rates/refresh            # Refresh rates from API
-GET  /api/fx-rates/history            # Get historical data
-```
-
-**Countries (Fundamentals):**
-```
-GET  /api/countries                   # List all countries with basic info
-GET  /api/countries/:slug             # Get country fundamentals (armenia, mongolia, turkiye, uzbekistan, vietnam)
-GET  /api/countries/:slug/complete    # Get comprehensive country data (IMF, EBRD/ADB, IMI)
-GET  /api/countries/:slug/export/csv  # Export key macroeconomic metrics to CSV
-```
-
-**Deals Module:**
-```
-GET/POST         /api/deals                  # List all deals / Create new deal
-GET/PUT/DELETE   /api/deals/:id              # Get / Update / Delete specific deal
-GET              /api/deals/statistics       # Get deal analytics
-POST             /api/deals/search           # Advanced deal search
-GET/POST/DELETE  /api/deal-participants      # Manage deal participants
-GET              /api/deal-participants/deal/:deal_id  # Get participants for deal
-```
-
-**Countries Master Management (Admin):**
-```
-GET         /api/admin/countries-master             # List all countries in master list
-POST        /api/admin/countries-master             # Create new country
-PUT         /api/admin/countries-master/:id         # Update country
-DELETE      /api/admin/countries-master/:id         # Deactivate country
-GET         /api/admin/countries-master/usage       # Get usage statistics
-```
-
-**Reports & CSV Exports:**
-```
-GET  /api/reports/country-preferences/csv        # Export country preferences (list format)
-GET  /api/reports/country-preferences/matrix/csv # Export country preferences (matrix format)
-GET  /api/reports/country-preferences/stats      # Get country preference statistics
-```
-
-## Frontend Architecture
-
-### Navigation System
-
-Two-level navigation:
-1. **Header Dropdowns** - Main sections (Markets, Infrastructure, CRM modules, About)
-2. **Sliding Sidebar** - Hover-activated submenu (translates from -256px)
-
-### Route Structure
-
-**CRM Modules:**
-- Liquidity: `/liquidity/*` - Capital partners, contacts
-- Sponsors: `/sponsors/*` - Corporates, sponsor contacts
-- Counsel: `/counsel/*` - Legal advisors, counsel contacts
-- Agents: `/agents/*` - Transaction agents, agent contacts
-
-**Markets:** `/markets`, `/sovereign`, `/corporate`, `/fx`, `/central-banks`, `/ratings`, `/usa-historical-yields`, `/infra-gaps`, `/deals-outlook`, `/news`, `/energy-metrics`, `/transit-friction`, `/internet-coverage`, `/armenia`, `/mongolia`, `/turkiye`, `/uzbekistan`, `/vietnam`
-
-**Deals:** `/deals`, `/deals/:id` - Deal pipeline management
-
-**Strategies:** `/investment-strategies` - Cross-CRM matching
-
-**Calendar:** `/liquidity/calendar` - Unified calendar for all CRM modules
-
-**Collaboration:** `/whiteboard` - Team posts and discussions
-
-**Administration:**
-- `/admin/users` - User management (admin only)
-- `/admin/super` - Super admin portal home (Cameron only)
-- `/admin/super/notes` - Personal notes manager
-- `/admin/super/settings` - Super admin settings and configuration
-- `/admin/super/playbook` - The Playbook manager (6 sheets)
-- `/admin/super/countries` - Countries master list manager
-
-**Account:** `/account/*` - User profile and settings
-
-### Key Components
-
-**Shared Components (`frontend/src/components/`):**
-- `Layout.tsx` - Main wrapper with header and sidebar
-- `Sidebar.tsx` - Hover-activated sliding sidebar
-- `Footer.tsx` - Footer component
-- `ProtectedRoute.tsx` - Route wrapper requiring authentication
-- `SuperAdminLayout.tsx` - Super admin portal layout with permanent sidebar
-
-**UI Components (`frontend/src/components/ui/`):**
-- `CountryMultiSelect.tsx` - Multi-select dropdown for country preferences
-
-**CRM Components (`frontend/src/components/features/`):**
-- `capital-partners/` - Liquidity module forms and grids
-- `sponsors/` - Sponsors module forms and grids
-- `counsel/` - Counsel module forms and grids
-- `agents/` - Agents module forms and grids
-- `deals/` - Deals module components
-
-**Services (`frontend/src/services/`):**
-- `api.ts` - Base API client configuration
-- `authService.ts` - Authentication operations
-- `capitalPartnersService.ts` - Liquidity API calls
-- `sponsorsService.ts` - Sponsors API calls
-- `counselService.ts` - Counsel API calls
-- `agentsService.ts` - Agents API calls
-- `investmentService.ts` - Investment matching API calls
-- `marketsService.ts` - Market data API calls
-- `dealsService.ts` - Deals and deal participants API calls
-- `fxService.ts` - FX rates API calls
-- `countriesService.ts` - Country fundamentals and macroeconomic data
-- `countriesMasterService.ts` - Countries master list management (admin)
-- `whiteboardService.ts` - Whiteboard posts and replies
-- `usersService.ts` - User management (admin)
-- `profileService.ts` - User profile operations
-- `adminService.ts` - Super admin operations (stats, database, archives, bulk ops, feature flags, audit log, notes)
-- `playbookService.ts` - Playbook management (contacts, calendar, deals, people, workstreams, filing)
-
-### Configuration
-
-**API Base URL** (`frontend/src/config.ts`):
-```typescript
-const API_BASE_URL = import.meta.env.MODE === 'production'
-  ? import.meta.env.VITE_API_URL || ''
-  : 'http://127.0.0.1:5000';
-```
-
-### Shared Constants
-
-**CRITICAL**: Investment preference keys are shared between frontend and backend and must be kept in sync.
-
-**Files to update when changing preferences:**
-- `shared/constants/preferences.md` - Canonical definition
-- `backend/src/constants/shared.py` - `SHARED_PREFERENCE_KEYS`
-- `frontend/src/constants/shared.ts` - `SHARED_PREFERENCE_KEYS`
-- `shared/scripts/validate-sync.py` - Validation script
-- Run: `python shared/scripts/validate-sync.py` to verify sync
-
-**Current shared keys (7 total):** `transport_infra`, `energy_infra`, `us_market`, `emerging_markets`, `asia_em`, `africa_em`, `emea_em`
-
-**Countries as Investment Preferences:**
-Organizations use a dynamic `countries` array field to select investment target countries:
-- Countries stored as arrays: `["armenia", "mongolia", "turkiye"]`
-- Source: `countries_master.json` (90+ countries, managed by super admin)
-- Admin interface: `/admin/super/countries`
-- Investment matching engine: Filters by overlapping countries array
-- CSV exports: Available in list and matrix formats
-- See "Countries System Architecture" section for full details on countries master vs country fundamentals
-
-## CRM Data Management
-
-### Unified Organizations Architecture
-
-**IMPORTANT**: The CRM system uses a **unified data structure** rather than separate files per module.
-
-**Organizations** (`data/json/organizations.json`):
-- Single JSON file containing ALL organizations across all four CRM modules
-- Each organization has an `organization_type` field: `"capital_partner"`, `"corporate"`, `"legal_advisor"`, or `"agent"`
-- Organizations share common fields:
-  - `id`: Module-specific prefix (cp_001, corp_xxx, legal_xxx, agent_xxx)
-  - `organization_type`: Discriminator field for module type
-  - `name`, `country`, `headquarters_location`, `relationship`, `notes`
-  - `starred`: Boolean flag for favorites
-  - `type`: Organization subtype (varies by module)
-  - `preferences`: Investment preferences object (for capital_partner, legal_advisor)
-  - `investment_min`, `investment_max`, `currency`: Investment ranges
-  - `countries`: Array of country IDs for investment preferences
-  - `created_at`, `last_updated`: Timestamps
-
-**Contacts** (`data/json/unified_contacts.json`):
-- Single JSON file containing ALL contacts across all four CRM modules
-- Each contact has:
-  - `id`: Contact ID (contact_001, contact_002, etc.)
-  - `organization_id`: Links to parent organization in organizations.json
-  - `organization_type`: Matches parent organization type
-  - `name`, `role`, `email`, `phone`, `team_name`
-  - `meeting_history`: Array of meeting records
-  - `last_contact_date`, `next_contact_reminder`
-  - `created_at`, `last_updated`: Timestamps
-  - Legacy ID field: `capital_partner_id`, `corporate_id`, `legal_advisor_id`, or `agent_id` (for backwards compatibility)
-
-### Four CRM Modules (Unified Backend)
-
-**1. Liquidity Module (Capital Partners)**
-- Organization type: `"capital_partner"`
-- ID prefix: `cp_001`, `cp_002`, etc.
-- Features: Investment preferences, investment ranges, starred organizations
-- Contacts have optional `team_name` field
-
-**2. Sponsors Module (Corporates)**
-- Organization type: `"corporate"`
-- ID prefix: `corp_xxx` (timestamp-based)
-- Features: Company descriptions, relationship tracking
-- Contacts linked via `organization_id`
-
-**3. Counsel Module (Legal Advisors)**
-- Organization type: `"legal_advisor"`
-- ID prefix: `legal_xxx` (timestamp-based)
-- Features: Investment preferences (same as capital partners), starred organizations
-- Contacts linked via `organization_id`
-
-**4. Agents Module (Transaction Agents)**
-- Organization type: `"agent"`
-- ID prefix: `agent_xxx` (timestamp-based)
-- Features: Agent type classification, relationship tracking
-- Contacts linked via `organization_id`
-
-### Meeting Notes System
-
-**Atomic Updates**: Single transaction updates contact (and parent entity for Sponsors/Counsel/Agents modules)
-
-**Meeting History**: Stored as array in contact record with:
-- Date, notes, participants
-- Next follow-up date (`next_contact_reminder`)
-- Automatic `last_contact_date` tracking
-
-**Calendar Integration**:
-- Unified calendar at `/liquidity/calendar`
-- Color-coded by module: Green (Liquidity), Purple (Sponsors), Violet (Counsel), Blue (Agents)
-- Urgency indicators: Red (overdue), Orange (due within 7 days)
-
-### Data Files
-
-All stored in `data/json/`:
-```
-# CRM Data (UNIFIED ARCHITECTURE)
-organizations.json         # ALL organizations (capital partners, corporates, legal advisors, agents)
-unified_contacts.json      # ALL contacts across all four CRM modules
-deals.json                 # Deals: Deal pipeline
-deal_participants.json     # Deals: Deal participants
-
-# Investment Data
-investment_strategies.json # Saved investment strategies
-investment_profiles.json   # Generated matching profiles
-countries_master.json      # Countries master list for investment preferences
-
-# Market Data
-fx_rates.json              # Current FX rates
-fx_rates_history.json      # Historical FX data
-country_fundamentals.json  # Country fundamentals (basic info)
-Country Json/              # Subfolder: Complete country data files (*_complete.json)
-
-# Collaboration
-weekly_whiteboards.json    # Whiteboard: Weekly posts and replies
-general_posts.json         # Whiteboard: General posts
-
-# User Management
-users.json                 # User accounts (bcrypt hashed)
-
-# Super Admin Portal
-super_admin_notes.json     # Personal notes (super admin only)
-playbook_contacts.json     # Playbook: External contacts sheet
-playbook_calendar.json     # Playbook: Calendar sheet
-playbook_deals.json        # Playbook: Deal flow sheet
-playbook_people.json       # Playbook: People/team sheet
-playbook_workstreams.json  # Playbook: Workstreams sheet
-playbook_filing.json       # Playbook: Filing instructions sheet
-feature_flags.json         # System feature flags
-audit_log.json             # Audit trail for super admin actions
-
-# Backups
-backups/                   # Timestamped backup files
-```
-
-**Backup System**: All write operations create `.bak` files before overwriting.
-
-## Countries System Architecture
-
-**CRITICAL**: The system has **TWO SEPARATE** countries systems serving different purposes. Do not confuse them.
-
-### 1. Countries Master (Investment Preferences)
-
-**Purpose**: Dynamic, user-configurable list of countries for investment targeting
-
-**Data File**: `data/json/countries_master.json`
-- Contains 90+ countries (Afghanistan to Yemen)
-- Each country has: `id`, `name`, `active`, `display_order`
-- Managed by super admin at `/admin/super/countries`
-
-**Usage**:
-- Organizations select multiple countries from this list via the `countries` array field
-- Example: `"countries": ["armenia", "mongolia", "turkiye"]`
-- Used in investment matching engine to find organizations with overlapping country interests
-- Supports dynamic addition/removal of countries without code changes
-
-**API Endpoints**:
-```
-GET         /api/admin/countries-master             # List all countries
-POST        /api/admin/countries-master             # Create new country
-PUT         /api/admin/countries-master/:id         # Update country
-DELETE      /api/admin/countries-master/:id         # Deactivate country
-GET         /api/admin/countries-master/usage       # Usage statistics
-```
-
-**Frontend Component**: `CountryMultiSelect.tsx` - Multi-select dropdown for organization forms
-
-### 2. Country Fundamentals (Market Data)
-
-**Purpose**: Macroeconomic data and market intelligence for specific emerging markets
-
-**Data Files**:
-- `data/json/country_fundamentals.json` - Basic info (name, slug, capital, region)
-- `data/json/Country Json/*_complete.json` - Comprehensive data (IMF Article IV, EBRD/ADB, IMI)
-
-**Supported Countries**: 5 countries with full market data
-- Armenia
-- Mongolia
-- Türkiye
-- Uzbekistan
-- Vietnam
-
-**Usage**:
-- Dedicated market pages: `/armenia`, `/mongolia`, `/turkiye`, `/uzbekistan`, `/vietnam`
-- Country-specific tabs: Fundamentals, Macro Analysis, IMF Article IV data
-- CSV export of macroeconomic metrics
-- NOT used for investment preferences matching
-
-**API Endpoints**:
-```
-GET  /api/countries                   # List all countries with basic info
-GET  /api/countries/:slug             # Get country fundamentals
-GET  /api/countries/:slug/complete    # Get comprehensive country data
-GET  /api/countries/:slug/export/csv  # Export macroeconomic metrics
-```
-
-**Frontend Pages**: `ArmeniaPage.tsx`, `MongoliaPage.tsx`, `TurkiyePage.tsx`, `UzbekistanPage.tsx`, `VietnamPage.tsx`
-
-### Coordination Between Systems
-
-**Key Distinction**:
-- **Countries Master**: User-selectable investment preferences (90+ countries, dynamic list)
-- **Country Fundamentals**: Fixed market intelligence data (5 countries, requires data files)
-
-**Country ID Matching**:
-- Countries master uses lowercase IDs with underscores: `"mongolia"`, `"turkiye"`, `"saudi_arabia"`
-- Country fundamentals uses slugs: `"mongolia"`, `"turkiye"` (matching subset)
-- The 5 supported fundamentals countries are ALSO in the countries master list
-- Organizations can select any of 90+ countries as preferences, but only 5 have detailed market data
-
-**Example Flow**:
-1. Super admin adds "Pakistan" to countries master → Organizations can now select Pakistan as investment preference
-2. But Pakistan has NO country fundamentals data → No `/pakistan` market page available
-3. To add Pakistan market data → Requires creating `country_fundamentals.json` entry AND `Pakistan_complete.json` file
-
-**Investment Matching**:
-- Uses `countries` array from organizations.json (references countries_master.json)
-- Matches organizations with overlapping country preferences
-- Does NOT use country fundamentals data (market data is separate concern)
-
-## Investment Matching Engine
-
-### Profile Building
-
-**Service**: `backend/src/services/investment_profiles.py`
-
-Normalizes investment preferences across CRM modules:
-- Converts Y/N/any flags to consistent format
-- Combines data from Capital Partners and Sponsors (corporates)
-- Generates unified profiles in `data/json/investment_profiles.json`
-
-### Matching Logic
-
-**Service**: `backend/src/services/investment_matching.py`
-
-```python
-# Filter profiles by investment strategy criteria
-filter_profiles(profiles, preference_filters, ticket_range)
-
-# Match capital partners with compatible sponsors
-compute_pairings(sponsors, capital_partners)
-```
-
-**Compatibility Rules**:
-- Preference alignment (shared keys: 7 keys)
-- Ticket size overlap (min/max ranges)
-- Geographic/sector fit
-- Country array matching (organizations with overlapping country preferences)
-
-**Endpoint**: `POST /api/investment-matches`
-
-## Whiteboard System
-
-**Purpose**: Team collaboration with weekly posts and threaded replies
-
-**Key Features**:
-- Weekly posts organized by Monday-Sunday boundaries
-- Nested replies (threading)
-- Fixed user order for sorting: Naveen, Aijan, Lavinia, Kush, Maximilian, Amgalan, Cameron
-- Week boundaries calculated from Monday 00:00 to Sunday 23:59:59
-- Posts organized by week with ISO date ranges
-
-**Data Structure**:
+**Discriminator Pattern:**
 ```json
 {
-  "id": "post_001",
-  "user": "Full Name",
-  "content": "Post content",
-  "timestamp": "ISO datetime",
-  "week_start": "ISO datetime (Monday)",
-  "week_end": "ISO datetime (Sunday)",
-  "replies": [
-    {
-      "id": "reply_001",
-      "user": "Full Name",
-      "content": "Reply content",
-      "timestamp": "ISO datetime"
-    }
-  ]
+  "id": "cp_001",
+  "organization_type": "capital_partner",  // Discriminator field
+  "name": "Scottish Widows",
+  "country": "UK",
+  "preferences": { /* investment prefs */ },
+  "countries": ["mongolia", "turkiye"],    // Investment target countries
+  "starred": false
 }
 ```
 
-## Super Admin Portal
+**Valid organization_type values:**
+- `"capital_partner"` - Liquidity module entities
+- `"sponsor"` - Sponsors module entities (corporates)
+- `"counsel"` - Counsel module entities (legal advisors)
+- `"agent"` - Agents module entities
 
-**Access Level**: Super Admin only (Cameron) - requires `is_super_admin` flag on user model
+#### unified_contacts.json - Single Source for ALL Contacts
 
-**Purpose**: Comprehensive system administration portal with advanced features for system management, data quality, and operational tools.
+All contacts across all four CRM modules in ONE file, linked to parent organizations.
 
-### Portal Structure
-
-**Home Dashboard** (`/admin/super`):
-- System statistics overview (users, organizations, contacts, deals)
-- Database size and file count
-- Upcoming reminders summary
-- Recent notes preview
-- Quick access cards to all portal sections
-
-### Core Features
-
-**1. My Notes** (`/admin/super/notes`):
-- Personal notes manager for super admin
-- Rich text support with TipTap editor
-- CRUD operations: Create, read, update, delete notes
-- Automatic timestamp tracking (created_at, updated_at)
-- Backend endpoints: `/api/admin/notes`
-
-**2. The Playbook Manager** (`/admin/super/playbook`):
-Manages six operational sheets from The Playbook Excel workbook:
-- **External Contacts**: Network contacts with contact level tracking
-- **Calendar**: Important dates and milestones
-- **Deal Flow**: Pipeline and deal stages
-- **People/Team**: Team structure and roles
-- **Workstreams**: Project tracking and task management
-- **Filing Instructions**: Document organization procedures
-
-Backend endpoints: `/api/playbook/*` (contacts, calendar, deals, people, workstreams, filing)
-
-**3. Countries Master Manager** (`/admin/super/countries`):
-- Manage dynamic countries list for investment preferences
-- CRUD operations on countries
-- View usage statistics across organizations
-- Backend endpoints: `/api/admin/countries-master`
-
-**4. Super Admin Settings** (`/admin/super/settings`):
-Comprehensive system configuration interface:
-
-**System Statistics**:
-- Real-time system health monitoring
-- User statistics (total, active, admin, super admin)
-- CRM statistics by organization type
-- Deal statistics and total value
-- Database size breakdown (JSON + storage)
-- Whiteboard post counts
-- Backup status and last backup timestamp
-
-**Database Management**:
-- List all database files with metadata
-- View database size by type (JSON database vs generated storage)
-- Manual backup triggering
-- Database Explorer: Read-only view of all JSON files with:
-  - Record pagination and search
-  - Schema analysis and field types
-  - Grouped views by category
-
-**Archive Management**:
-- Archive old records (deals, organizations, contacts)
-- List archived records with pagination
-- Restore archived records
-- Auto-archive based on age criteria and status filters
-- Archive statistics across entity types
-
-**Data Quality Tools**:
-- Scan for data issues:
-  - Orphaned contacts (contacts referencing non-existent organizations)
-  - Invalid deal participants (participants referencing non-existent entities)
-- Fix detected issues:
-  - Delete orphaned contacts
-  - Remove invalid participants
-- Data quality reports
-
-**Bulk Operations**:
-- Bulk update records with filters (dry-run preview available)
-- Bulk export to CSV or JSON with custom filters
-- Bulk import with validation:
-  - Validate records before import
-  - Preview validation results
-  - Commit import with append or replace mode
-
-**Feature Flags**:
-- Toggle feature flags on/off
-- View flags by category (integration, data_management, ui)
-- View flag metadata (description, last modified, modified by)
-- Reset all flags to default values
-- Backend: `/api/admin/feature-flags`
-
-**API Playground**:
-- List all API endpoints (grouped by blueprint)
-- Search endpoints by name or path
-- Execute API requests with custom:
-  - HTTP method
-  - Headers
-  - Query parameters
-  - Request body
-- View response with status code, headers, body
-- Execution time tracking
-
-**Security Configuration** (read-only):
-- CORS settings and allowed origins
-- Session configuration (lifetime, cookie settings)
-- Authentication settings (bcrypt rounds, remember me)
-- Environment info (Flask env, debug mode, testing mode)
-
-**API Keys Management**:
-- View configured API keys (masked for security)
-- Update API keys (writes to `.env` file)
-- Test API key validity (live verification)
-- Currently supports: ExchangeRate API
-
-**Audit Log**:
-- View comprehensive audit log with filters:
-  - Filter by user, action, entity type, date range
-  - Pagination support
-  - Success/failure tracking
-- Audit statistics:
-  - Total entries
-  - Actions breakdown (create, update, delete, archive, etc.)
-  - Operations by user
-  - Operations by entity type
-  - Success rate percentage
-
-**System Health**:
-- Health check for critical services:
-  - Database accessibility
-  - Storage accessibility
-  - Users file existence
-- Overall system status (online, degraded, error)
-
-**Logs Management**:
-- List available log files with metadata
-- Download specific log files
-- Sort by modification date
-
-### Super Admin API Endpoints
-
-```
-# System Statistics
-GET  /api/admin/stats                           # Comprehensive system statistics
-
-# Database Management
-GET  /api/admin/database/files                  # List all database files
-GET  /api/admin/database/size                   # Get database size breakdown
-POST /api/admin/database/backup                 # Trigger manual backup
-
-# Archive Management
-GET  /api/admin/archive/stats                   # Archive statistics
-POST /api/admin/archive/:entityType             # Archive records
-GET  /api/admin/archive/:entityType/list        # List archived records
-POST /api/admin/archive/:entityType/restore     # Restore archived records
-POST /api/admin/archive/:entityType/auto-archive # Auto-archive old records
-
-# Data Quality
-GET  /api/admin/cleanup/scan                    # Scan for data quality issues
-POST /api/admin/cleanup/fix                     # Fix detected issues
-
-# Bulk Operations
-POST /api/admin/bulk/update                     # Bulk update with filters
-POST /api/admin/bulk/export                     # Bulk export to CSV/JSON
-POST /api/admin/bulk/import/validate            # Validate import data
-POST /api/admin/bulk/import/commit              # Commit import
-
-# Feature Flags
-GET  /api/admin/feature-flags                   # Get all feature flags
-PUT  /api/admin/feature-flags/:flagName         # Toggle feature flag
-GET  /api/admin/feature-flags/:flagName/metadata # Get flag metadata
-POST /api/admin/feature-flags/reset             # Reset all flags to defaults
-
-# API Playground
-GET  /api/admin/api-playground/endpoints        # List all endpoints
-GET  /api/admin/api-playground/endpoints/search # Search endpoints
-POST /api/admin/api-playground/execute          # Execute API request
-
-# Database Explorer (Read-Only)
-GET  /api/admin/database-explorer/files         # List database files
-GET  /api/admin/database-explorer/files/:filename # Read file records
-GET  /api/admin/database-explorer/files/:filename/schema # Get file schema
-
-# Audit Log
-GET  /api/admin/audit-log                       # Get audit log entries
-GET  /api/admin/audit-log/stats                 # Get audit statistics
-
-# Security & Configuration
-GET  /api/admin/config/security                 # Get security config (read-only)
-GET  /api/admin/config/api-keys                 # Get API keys (masked)
-PUT  /api/admin/config/api-keys/:keyName        # Update API key
-POST /api/admin/config/api-keys/test            # Test API key
-
-# System Health & Logs
-GET  /api/admin/system/health                   # System health check
-GET  /api/admin/logs                            # List log files
-GET  /api/admin/logs/:filename                  # Download log file
-
-# My Notes
-GET    /api/admin/notes                         # Get all notes
-GET    /api/admin/notes/:noteId                 # Get specific note
-POST   /api/admin/notes                         # Create note
-PUT    /api/admin/notes/:noteId                 # Update note
-DELETE /api/admin/notes/:noteId                 # Delete note
-
-# Playbook Management
-GET    /api/playbook/contacts                   # Get playbook contacts
-POST   /api/playbook/contacts                   # Create contact
-PUT    /api/playbook/contacts/:id               # Update contact
-DELETE /api/playbook/contacts/:id               # Delete contact
-# Similar endpoints for: calendar, deals, people, workstreams, filing
+```json
+{
+  "id": "contact_001",
+  "organization_id": "cp_001",              // Links to parent in organizations.json
+  "organization_type": "capital_partner",   // Matches parent type
+  "name": "John Doe",
+  "role": "Portfolio Manager",
+  "meeting_history": [ /* array of meetings */ ],
+  "next_contact_reminder": "2025-02-15"
+}
 ```
 
-### Data Files
+#### Unified DAL (Data Access Layer)
 
-Super admin portal uses these JSON files in `data/json/`:
-```
-super_admin_notes.json         # Personal notes
-playbook_contacts.json         # External contacts sheet
-playbook_calendar.json         # Calendar sheet
-playbook_deals.json            # Deal flow sheet
-playbook_people.json           # People/team sheet
-playbook_workstreams.json      # Workstreams sheet
-playbook_filing.json           # Filing instructions sheet
-feature_flags.json             # System feature flags
-audit_log.json                 # Audit trail
-```
+**File:** `backend/src/utils/unified_dal.py`
 
-### Important Notes
+Centralized data access layer that:
+- Filters by `organization_type` discriminator
+- Maintains backward compatibility with legacy blueprints
+- Handles CRUD operations with automatic backups
+- Transforms between unified schema and module-specific API formats
 
-- **Access Control**: Super admin endpoints check for `is_super_admin` flag, separate from regular admin role
-- **Audit Logging**: All super admin actions are logged to audit trail
-- **Security**: API keys are masked when displayed and stored in `.env` file
-- **Backups**: Manual backup creates timestamped copies in `data/json/backups/`
-- **Dry Run**: Bulk operations support dry-run mode to preview changes before applying
-- **Read-Only Views**: Database Explorer and Security Config are read-only for safety
+**Usage Pattern:**
+```python
+from ..utils.unified_dal import (
+    get_all_organizations,
+    get_organization_by_id,
+    create_organization,
+    update_organization,
+    delete_organization
+)
 
-## Authentication System
+# Get all capital partners
+partners = get_all_organizations("capital_partner")
 
-**Technology**: Flask-Login with bcrypt password hashing
+# Get single organization
+org = get_organization_by_id("cp_001")
 
-**Session Management**:
-- Session-based authentication
-- Secure cookies (httpOnly, sameSite)
-- Protected routes use `@login_required` decorator
-
-**User Roles**:
-- Super Admin: Full system access including super admin portal (Cameron only)
-- Admin: Full access including user management, but no super admin portal
-- Standard: Access to CRM and markets features
-
-**Frontend Context**: `AuthContext.tsx` manages global auth state
-
-**User Storage**: `backend/data/json/users.json` with bcrypt hashed passwords
-
-## Common File Locations
-
-**Where to find things:**
-
-| What | Location |
-|------|----------|
-| Backend API routes | `backend/src/api/*.py` |
-| Backend services (business logic) | `backend/src/services/*.py` |
-| Backend utilities | `backend/src/utils/*.py` |
-| Backend configuration | `backend/src/config.py` |
-| Frontend pages | `frontend/src/pages/*/` |
-| Frontend services (API calls) | `frontend/src/services/*.ts` |
-| Frontend types | `frontend/src/types/*.ts` |
-| React components | `frontend/src/components/features/*/` |
-| Shared constants | `backend/src/constants/shared.py` + `frontend/src/constants/shared.ts` |
-| CRM data (JSON) | `backend/data/json/*.json` |
-| Super admin data (JSON) | `backend/data/json/super_admin_notes.json`, `feature_flags.json`, `audit_log.json` |
-| Playbook data (JSON) | `backend/data/json/playbook_*.json` |
-| Generated market data | `backend/storage/dashboard.json`, `backend/storage/usa_historical_yields.json` |
-| Excel source files | `backend/data/excel/` (legacy) |
-| ETL scripts | `etl/` (deprecated - see README.md) |
-| Backend tests | `backend/tests/` |
-| Frontend tests | `frontend/src/__tests__/` |
-| ETL documentation | `etl/README.md` |
-| Component organization guide | `frontend/src/components/README.md` |
-| Migration history | `backend/migrations/README.md` |
-| Utility scripts | `scripts/` (see `scripts/README.md`) |
-| Testing roadmap | `docs/development/testing-roadmap.md` |
-| Logo assets | `frontend/public/assets/logo-*.jpg` |
-| Frontend utils | `frontend/src/utils/` (helper functions) |
-| Frontend lib | `frontend/src/lib/` (third-party configs) |
-| Documentation hub | `docs/README.md` (navigation guide) |
-| Super admin pages | `frontend/src/pages/admin/SuperAdmin*.tsx`, `MyNotes.tsx`, `PlaybookManager.tsx` |
-
-## Common Development Patterns
-
-### Adding a New CRM Module
-
-1. **Create backend blueprint** (`backend/src/api/new_module.py`)
-2. **Register blueprint** in `backend/src/app.py`
-3. **Add TypeScript types** (`frontend/src/types/new_module.ts`)
-4. **Create service** (`frontend/src/services/newModuleService.ts`)
-5. **Create pages** (`frontend/src/pages/new-module/`)
-6. **Add routes** in `frontend/src/App.tsx`
-7. **Update navigation** in BOTH `frontend/src/components/common/Layout.tsx` AND `frontend/src/components/common/Sidebar.tsx`
-
-**Navigation Menu Pattern**: Each CRM module has a consistent navigation order:
-1. Overview
-2. Primary entity list (Capital Partners/Corporates/Legal Advisors/Agents)
-3. Contacts list
-4. Table View
-5. Meeting Notes (always at bottom)
-
-**CRITICAL**: When updating navigation, you MUST update both Layout.tsx (header dropdown) and Sidebar.tsx (sliding sidebar) to keep them in sync.
-
-### Adding Investment Matching Criteria
-
-1. **Update backend constants**: `backend/src/constants/shared.py`
-2. **Update frontend constants**: `frontend/src/constants/shared.ts`
-3. **Update preference grids**: Liquidity, Sponsors, and Counsel modules
-4. **Regenerate profiles**: `POST /api/investment-matches`
-
-### Adding Country Fundamentals Data (Market Intelligence)
-
-**Note**: This is for adding **market data pages**, NOT investment preferences. To add countries for investment preferences, use the super admin Countries Master Manager at `/admin/super/countries`.
-
-**Country fundamentals** provide macroeconomic data and market intelligence:
-
-**Data Storage**:
-1. **Basic Data**: `data/json/country_fundamentals.json` - Contains name, slug, capital, region, basic metrics
-2. **Complete Data**: `data/json/Country Json/*_complete.json` - Contains comprehensive IMF Article IV, EBRD/ADB, and IMI data
-
-**Currently Supported**: Armenia, Mongolia, Türkiye, Uzbekistan, Vietnam (5 countries with full market data)
-
-**To add a new country market page**:
-1. Add country to `country_fundamentals.json` with required fields (name, slug, capital, region)
-2. Create `{CountryName}_complete.json` in `Country Json/` folder with IMF/EBRD/ADB/IMI data
-3. Update `COMPLETE_DATA_FILES` mapping in `backend/src/api/countries.py`
-4. Add route in `frontend/src/App.tsx` (e.g., `/countryname`)
-5. Create page component in `frontend/src/pages/markets/{CountryName}Page.tsx`
-6. Update navigation in Layout.tsx and Sidebar.tsx
-7. **Optional**: If country should also be available as investment preference, add to `countries_master.json` via super admin portal
-
-**Remember**: Countries master (90+ countries) vs Country fundamentals (5 countries) are separate systems. See "Countries System Architecture" section.
-
-### Working with Charts
-
-Uses Recharts library:
-```tsx
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-
-<LineChart data={data}>
-  <XAxis dataKey="maturity" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Line dataKey="yield" stroke="#3b82f6" />
-</LineChart>
+# Create new organization
+new_org = create_organization({
+    "organization_type": "sponsor",
+    "name": "Infrastructure Corp",
+    # ... other fields
+})
 ```
 
-Common pattern: Transform data into array of objects with consistent keys for XAxis/dataKey.
+**Why This Matters:**
+- Don't look for separate files like `capital_partners.json` or `corporates.json` - they're obsolete
+- All CRM queries filter the unified files by `organization_type`
+- Contact lookups require checking `organization_id` and `organization_type`
+- Investment matching works across the unified data structure
 
-### CSV Export Functionality
+### 2. Two Countries Systems (OFTEN CONFUSED)
 
-All CRM modules support CSV export for their primary entities:
+The system has **TWO SEPARATE** countries databases serving different purposes. Mixing them up is a common mistake.
 
-**Liquidity Module:**
-- Capital Partners: `downloadCapitalPartnersCSV()` - Accessible from list page
-- Contacts: `downloadContactsCSV()` - Accessible from list page
+#### System A: Countries Master (Investment Preferences)
 
-**Sponsors Module:**
-- Corporates: `downloadCorporatesCSV()` - Accessible from list page
-- Sponsor Contacts: `downloadSponsorContactsCSV(corporateId?)` - Accessible from list page with optional filtering
+**Purpose:** User-selectable investment target countries
+**File:** `backend/data/json/countries_master.json`
+**Count:** 90+ countries
+**Managed By:** Super admin at `/admin/super/countries`
+**Usage:** Organizations select via `countries` array field
 
-**Counsel Module:**
-- Legal Advisors: `downloadLegalAdvisorsCSV()` - Accessible from list page
-- Counsel Contacts: `downloadCounselContactsCSV(advisorId?)` - Accessible from list page with optional filtering
+```json
+// countries_master.json
+{
+  "id": "mongolia",
+  "name": "Mongolia",
+  "active": true,
+  "display_order": 52
+}
 
-**Agents Module:**
-- Agents: `downloadAgentsCSV()` - Accessible from list page
-- Agent Contacts: `downloadAgentContactsCSV(agentId?)` - Accessible from list page with optional filtering
+// In organization record
+{
+  "id": "cp_001",
+  "countries": ["mongolia", "turkiye", "saudi_arabia"]  // Investment targets
+}
+```
 
-**Deals Module:**
-- Deals: `downloadDealsCSV()` - Accessible from list page
+**Key Properties:**
+- Dynamic - super admin can add/remove countries without code changes
+- Used by investment matching engine to find overlapping interests
+- Available in `CountryMultiSelect` component for organization forms
+- Exported in CSV reports (list and matrix formats)
 
-**Countries Module:**
-- Country Metrics: `exportCountryCSV(slug)` - Exports key macroeconomic metrics (IMF Article IV data) for specific countries
+#### System B: Country Fundamentals (Market Intelligence)
 
-**Pattern**: Each service module has a `download*CSV()` or `export*CSV()` function that:
-1. Fetches data from API endpoint with `/export/csv` suffix
-2. Creates a Blob from the response
-3. Triggers browser download with appropriate filename
+**Purpose:** Macroeconomic data and market analysis pages
+**Files:**
+- `backend/data/json/country_fundamentals.json` (basic info)
+- `backend/data/json/Country Json/*_complete.json` (comprehensive data)
 
-**Example**:
+**Count:** 5 countries (Armenia, Mongolia, Türkiye, Uzbekistan, Vietnam)
+**Usage:** Dedicated market pages at `/armenia`, `/mongolia`, etc.
+
+```json
+// country_fundamentals.json
+{
+  "name": "Mongolia",
+  "slug": "mongolia",
+  "capital": "Ulaanbaatar",
+  "region": "Asia",
+  "gdp_usd_bn": 15.1
+}
+```
+
+**Key Properties:**
+- Static - requires data files and code changes to add countries
+- Contains IMF Article IV data, EBRD/ADB analysis, IMI data
+- NOT used for investment matching (separate concern)
+- Only 5 countries have full market data
+
+#### How They Interact
+
+**Overlap:** The 5 countries with fundamentals are ALSO in the countries master list
+**Independence:** Organizations can select any of 90+ countries as investment preferences, but only 5 have detailed market pages
+
+**Example Flow:**
+1. Super admin adds "Pakistan" to countries master → Organizations can now select Pakistan as investment target
+2. But Pakistan has NO fundamentals data → No `/pakistan` market page exists
+3. Investment matching works fine (uses countries master only)
+4. To add Pakistan market page → Need to create fundamentals JSON + complete data file + update code
+
+### 3. Investment Matching Engine
+
+Cross-CRM matching based on three criteria: preference alignment, country overlap, and ticket size fit.
+
+#### Shared Preference Keys (Must Stay Synchronized)
+
+**CRITICAL:** These 7 keys must match exactly across frontend and backend.
+
+**Files to sync:**
+- `backend/src/constants/shared.py` - `SHARED_PREFERENCE_KEYS` tuple
+- `frontend/src/constants/shared.ts` - `SHARED_PREFERENCE_KEYS` array
+- `shared/constants/preferences.md` - Canonical definition
+
+**Validation:** Run `python shared/scripts/validate-sync.py` after changes
+
+```python
+SHARED_PREFERENCE_KEYS = (
+    "transport_infra",
+    "energy_infra",
+    "us_market",
+    "emerging_markets",
+    "asia_em",
+    "africa_em",
+    "emea_em",
+)
+```
+
+#### Matching Logic
+
+**Preference Alignment:**
+- `"Y"` matches `"Y"` (explicit yes)
+- `"any"` matches all values (flexible)
+- `"N"` only matches `"N"` or `"any"` (explicit no)
+
+**Country Array Matching:**
+```python
+# Find overlapping countries
+partner_countries = set(partner.get('countries', []))
+sponsor_countries = set(sponsor.get('countries', []))
+overlap = partner_countries & sponsor_countries
+has_match = len(overlap) > 0
+```
+
+**Ticket Size Overlap:**
+```python
+# Investment ranges must overlap
+partner_min, partner_max = partner['investment_min'], partner['investment_max']
+sponsor_min, sponsor_max = sponsor['investment_min'], sponsor['investment_max']
+overlaps = partner_min <= sponsor_max and sponsor_min <= partner_max
+```
+
+**Service Files:**
+- `backend/src/services/investment_matching.py` - Matching algorithm
+- `backend/src/services/investment_profiles.py` - Profile normalization (deprecated, uses DAL now)
+
+**API Endpoint:**
+```
+POST /api/investment-matches
+Body: {
+  "preference_filters": { "transport_infra": "Y", "energy_infra": "any" },
+  "ticket_range": { "min": 50000000, "max": 500000000 },
+  "countries": ["mongolia", "turkiye"]
+}
+```
+
+### 4. Pipeline Strategies & Deal Origination
+
+**File:** `backend/data/json/pipeline_strategies.json`
+**API:** `backend/src/api/pipeline.py`
+**Frontend:** `frontend/src/pages/deals/PipelineDetailPage.tsx`
+
+Pipeline strategies track deal opportunities from ideation through to close-ready status.
+
+#### Six-Stage Workflow
+
+Pipelines progress through six stages (British English used throughout UI):
+
+1. **ideation** - Initial concept stage
+2. **outreach** - Contacting potential parties
+3. **negotiation** - Discussing terms
+4. **structuring** - Designing deal structure
+5. **documentation** - Preparing legal documents
+6. **ready_to_close** - Final stage before execution
+
+**Stage Configuration:**
 ```typescript
-export const downloadContactsCSV = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/contacts-new/export/csv`, {
-    credentials: 'include'
+// frontend/src/components/home/PipelineVisualization.tsx
+const stageConfig = {
+  ideation: { label: 'Ideation', color: '#94a3b8', order: 1 },
+  outreach: { label: 'Outreach', color: '#60a5fa', order: 2 },
+  negotiation: { label: 'Negotiation', color: '#3b82f6', order: 3 },
+  structuring: { label: 'Structuring', color: '#8b5cf6', order: 4 },
+  documentation: { label: 'Documentation', color: '#10b981', order: 5 },
+  ready_to_close: { label: 'Ready to Close', color: '#059669', order: 6 }
+};
+```
+
+#### Related Deals Feature
+
+Pipeline strategies can link to precedent transactions from the deals database for reference.
+
+**Data Structure:**
+```json
+{
+  "id": "pipeline_001",
+  "name": "Mongolia Infrastructure Project",
+  "stage": "negotiation",
+  "related_deals": ["deal_001", "deal_002"],  // Array of deal IDs
+  "sponsor": { /* sponsor details */ },
+  "lenders": [ /* array of lenders */ ],
+  "financing_scenarios": [ /* financing options */ ],
+  "target_country": "Mongolia",
+  "sector": "Transport Infrastructure"
+}
+```
+
+**Component:** `frontend/src/components/features/pipeline/RelatedDealsSection.tsx`
+- Displays linked deals with key information (name, country, sector, size, type)
+- Modal interface for searching and adding deals
+- Filter by name, number, country, or sector
+- Click-through links to full deal details
+
+#### Damn Effect Strategy Hub
+
+**Route:** `/damn-effect-strategy`
+**Component:** `frontend/src/pages/deals/DamnEffectStrategyPage.tsx`
+
+Landing page for deal origination workflow, accessible only by clicking "Damn Effect Strategy" in header navigation.
+
+**Three Main Sections:**
+1. **Pipeline Strategies** (`/pipeline`) - Define and track opportunities
+2. **Strategies Sandbox** (`/investment-strategies`) - Test frameworks and match partners
+3. **Deals Database** (`/deals`) - Browse precedent transactions for reference
+
+**Navigation Integration:**
+- Header title "Damn Effect Strategy" is clickable → navigates to hub page
+- Sidebar "Overview" link → navigates to hub page
+- Hub page has three large cards linking to each section
+
+#### Home Page Pipeline Visualisation
+
+**Component:** `frontend/src/components/home/PipelineVisualization.tsx`
+
+Displays pipeline strategies by stage on home page (uses British English "Visualisation").
+
+**Key Features:**
+- Horizontal bar chart showing count by stage
+- Quick stats: Total Pipelines, Active Pipeline, Ready to Close, Total Value
+- Stage breakdown cards with colour-coded borders
+- Pipeline health section with key metrics
+- Links to `/pipeline` page
+
+**Data Source:**
+```typescript
+// frontend/src/pages/home/NewHomePage.tsx
+// Fetches from /api/pipeline (NOT /api/deals)
+const pipelineResponse = await fetch(`${API_BASE_URL}/api/pipeline`);
+const pipelineData = await pipelineResponse.json();
+```
+
+### 5. Authentication & Authorization
+
+#### Flask-Login + Bcrypt Session-Based Auth
+
+**NOT JWT-based** - uses Flask sessions with secure cookies.
+
+**User Model:**
+```python
+{
+  "id": "user_001",
+  "username": "jdoe",
+  "full_name": "John Doe",
+  "password": "$2b$12$...",  // bcrypt hash
+  "role": "admin",            // "admin" or "standard"
+  "is_super_admin": false     // Separate from role
+}
+```
+
+**Three Access Levels:**
+1. **Standard User:** CRM modules + markets + deals
+2. **Admin:** + User management (`/admin/users`)
+3. **Super Admin:** + Super admin portal (`/admin/super/*`)
+
+**Protected Routes:**
+```python
+from flask_login import login_required, current_user
+
+@bp.route('/protected', methods=['GET'])
+@login_required  # Requires authentication
+def protected_endpoint():
+    if not current_user.is_super_admin:
+        return jsonify({"success": False, "message": "Access denied"}), 403
+    # Super admin logic
+```
+
+#### Frontend Authentication (CRITICAL PATTERN)
+
+**ALL authenticated API calls MUST include `credentials: 'include'`**
+
+```typescript
+// ✅ CORRECT
+const response = await fetch(`${API_BASE_URL}/api/deals`, {
+  credentials: 'include'  // Sends session cookie
+});
+
+// ❌ WRONG - Will redirect to login, return HTML instead of JSON
+const response = await fetch(`${API_BASE_URL}/api/deals`);
+```
+
+**Why This Matters:**
+- Without credentials, Flask redirects to `/api/auth/login`
+- Frontend receives HTML login page instead of expected JSON
+- Results in parsing errors and failed operations
+- Dashboard stats show 0 instead of actual counts
+
+**Auth Context:**
+- `frontend/src/contexts/AuthContext.tsx` - Global auth state
+- `ProtectedRoute` component - Wraps authenticated pages
+- `SuperAdminRoute` component - Wraps super admin pages
+
+### 6. Navigation System (Manual Sync Required)
+
+Two-level navigation with **duplicated structure** across two files.
+
+#### Level 1: Header Dropdowns
+**File:** `frontend/src/components/common/Layout.tsx`
+
+Main navigation bar at top with hover-activated dropdowns.
+
+#### Level 2: Sliding Sidebar
+**File:** `frontend/src/components/common/Sidebar.tsx`
+
+Hover-activated sidebar that translates from `-256px` off-screen.
+
+**CRITICAL RULE:** When adding/changing navigation, you MUST update BOTH files manually.
+
+**Navigation Structure Pattern:**
+```tsx
+// Layout.tsx - Header dropdowns
+<div className="dropdown">
+  <button>CRM Platform</button>
+  <div className="dropdown-content">
+    <Link to="/liquidity">Liquidity</Link>
+    <Link to="/sponsors">Sponsors</Link>
+    <Link to="/counsel">Counsel</Link>
+    <Link to="/agents">Agents</Link>
+  </div>
+</div>
+
+// Sidebar.tsx - Sliding sidebar (MUST MATCH)
+<div className={`sidebar ${isOpen ? 'translate-x-0' : '-translate-x-64'}`}>
+  <div className="section">
+    <h3>CRM Platform</h3>
+    <Link to="/liquidity">Liquidity</Link>
+    <Link to="/sponsors">Sponsors</Link>
+    <Link to="/counsel">Counsel</Link>
+    <Link to="/agents">Agents</Link>
+  </div>
+</div>
+```
+
+**Why Duplicated:**
+- Header: Always visible, dropdown on hover
+- Sidebar: Hidden by default, slides in from left edge
+- Different UX patterns require separate implementations
+- No shared component to avoid coupling complexity
+
+#### Clickable Section Headers
+
+Several main navigation sections have clickable titles that navigate to overview/landing pages:
+
+**Market Intelligence:**
+- Header dropdown title is clickable → navigates to `/dashboard/markets` (Markets Overview)
+- Also: "Live Market Intelligence" section title on home page → navigates to `/dashboard/markets`
+
+**Damn Effect Strategy:**
+- Header dropdown title is clickable → navigates to `/damn-effect-strategy` (hub page)
+- Sidebar has "Overview" link → also navigates to hub page
+
+**CRM Platform:**
+- Header dropdown title is clickable → navigates to `/crm/all` (unified CRM overview)
+
+**Whiteboard:**
+- Header dropdown title is clickable → navigates to `/whiteboard` (whiteboard overview)
+
+### 7. JSON Storage with Automatic Backups
+
+All data operations use `backend/src/utils/json_store.py` which provides automatic backup.
+
+**Read Pattern:**
+```python
+from pathlib import Path
+from ..utils.json_store import read_json_list, find_by_id
+
+# Read entire file
+organizations = read_json_list(Path(json_dir) / 'organizations.json')
+
+# Find single record
+org = find_by_id(organizations, 'id', 'cp_001')
+```
+
+**Write Pattern (Automatic Backup):**
+```python
+from ..utils.json_store import write_json_file
+
+# Modifies list in memory
+org['name'] = 'Updated Name'
+
+# Write to file - automatically creates .bak file first
+write_json_file(Path(json_dir) / 'organizations.json', organizations)
+```
+
+**Backup Behavior:**
+- Every write creates `filename.json.bak` before overwriting
+- Timestamped backups in `data/json/backups/` directory
+- Never commit `.bak` files to git
+- Use `scripts/cleanup_old_backups.py` to manage accumulation
+
+## API Blueprint Architecture
+
+### Flask Application Factory Pattern
+
+**File:** `backend/src/app.py`
+
+```python
+def create_app(config_name=None):
+    app = Flask(__name__)
+
+    # Load configuration
+    config = get_config(config_name)
+    app.config.from_object(config)
+
+    # Initialize extensions
+    CORS(app, supports_credentials=True)
+    login_manager.init_app(app)
+
+    # Register 19 blueprints
+    from .api import (
+        auth_bp, capital_partners_bp, sponsors_bp, counsel_bp,
+        agents_bp, deals_bp, deal_participants_bp, investment_bp,
+        users_bp, profile_bp, admin_bp, playbook_bp,
+        countries_bp, countries_master_bp, fx_rates_bp,
+        whiteboard_bp, data_bp, excel_bp, reports_bp
+    )
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(capital_partners_bp)
+    # ... 17 more
+
+    return app
+```
+
+### Blueprint Organization
+
+**Location:** `backend/src/api/`
+
+**Core Blueprints:**
+- `auth.py` - Login, logout, auth status
+- `capital_partners.py` - Liquidity module (capital partners, contacts)
+- `sponsors.py` - Sponsors module (corporates, sponsor contacts)
+- `counsel.py` - Counsel module (legal advisors, counsel contacts)
+- `agents.py` - Agents module (transaction agents, agent contacts)
+
+**Investment & Deals:**
+- `investment.py` - Investment strategies, profiles, matching
+- `pipeline.py` - Pipeline strategies CRUD with 6-stage workflow
+- `deals.py` - Deals database (precedent transactions)
+- `deal_participants.py` - Deal participants management
+
+**Market Data:**
+- `countries.py` - Country fundamentals (5 countries with full data)
+- `countries_master.py` - Countries master list management (super admin)
+- `fx_rates.py` - FX rates (6 currencies vs USD)
+- `excel.py` - Legacy Excel data endpoints
+- `data.py` - Serve generated JSON files
+
+**Collaboration & Admin:**
+- `whiteboard.py` - Team posts with threaded replies
+- `users.py` - User management (admin only)
+- `profile.py` - User profile operations
+- `admin.py` - Super admin portal (13+ features)
+- `playbook.py` - Playbook manager (6 operational sheets)
+- `reports.py` - CSV exports and reports
+
+### Service Layer Pattern
+
+**Location:** `backend/src/services/`
+
+Business logic separated from API routes for reusability and testing.
+
+**Key Services:**
+- `investment_matching.py` - Matching algorithm with preference/country/ticket filters
+- `deals_aggregator.py` - Deal data aggregation and statistics
+- `archive_manager.py` - Archive and restore records (super admin)
+- `bulk_operations.py` - Bulk update, export, import with validation
+- `data_cleanup.py` - Data quality scanning (orphaned contacts, invalid participants)
+- `database_explorer.py` - Read-only JSON file explorer
+- `endpoint_discovery.py` - API endpoint discovery for playground
+- `feature_flags.py` - Feature flag management
+
+## Frontend Architecture
+
+### Component Organization
+
+```
+frontend/src/
+├── pages/                    # Page components (one per route)
+│   ├── home/
+│   ├── markets/              # 5 country pages + markets overview
+│   ├── liquidity/            # Capital partners module
+│   ├── sponsors/             # Sponsors module
+│   ├── counsel/              # Counsel module
+│   ├── agents/               # Agents module
+│   ├── deals/                # Deal pipeline
+│   ├── admin/                # User management + super admin portal
+│   └── auth/                 # Login page
+│
+├── components/
+│   ├── common/               # Layout components
+│   │   ├── Layout.tsx        # Header + sidebar wrapper
+│   │   ├── Sidebar.tsx       # Sliding sidebar
+│   │   ├── ProtectedRoute.tsx
+│   │   └── SuperAdminLayout.tsx
+│   │
+│   ├── features/             # Feature-specific components
+│   │   ├── capital-partners/
+│   │   ├── sponsors/
+│   │   ├── counsel/
+│   │   ├── agents/
+│   │   ├── deals/
+│   │   ├── countries/
+│   │   └── admin/
+│   │
+│   ├── ui/                   # Reusable UI components
+│   │   ├── CountryMultiSelect.tsx
+│   │   ├── SortableTableHeader.tsx
+│   │   └── AnimatedStat.tsx
+│   │
+│   └── shared/               # Shared components
+│       └── InteractiveMermaidChart.tsx
+│
+├── services/                 # API clients (one per blueprint)
+│   ├── api.ts                # Base API config
+│   ├── authService.ts
+│   ├── capitalPartnersService.ts
+│   ├── sponsorsService.ts
+│   ├── counselService.ts
+│   ├── agentsService.ts
+│   ├── dealsService.ts
+│   ├── investmentService.ts
+│   ├── marketsService.ts
+│   ├── fxService.ts
+│   ├── countriesService.ts
+│   ├── countriesMasterService.ts
+│   ├── whiteboardService.ts
+│   ├── usersService.ts
+│   ├── profileService.ts
+│   ├── adminService.ts
+│   ├── playbookService.ts
+│   └── reportsService.ts
+│
+├── types/                    # TypeScript type definitions
+│   ├── auth.ts
+│   ├── liquidity.ts
+│   ├── sponsors.ts
+│   ├── counsel.ts
+│   ├── agents.ts
+│   ├── deals.ts
+│   ├── investment.ts
+│   ├── markets.ts
+│   ├── admin.ts
+│   ├── playbook.ts
+│   └── countriesMaster.ts
+│
+├── contexts/                 # React contexts
+│   └── AuthContext.tsx
+│
+├── hooks/                    # Custom React hooks
+│   ├── useCountUp.ts
+│   ├── useScrollReveal.ts
+│   └── useTableSort.ts
+│
+├── constants/                # Frontend constants
+│   ├── shared.ts             # Synced with backend
+│   └── countries.ts
+│
+├── utils/                    # Utility functions
+└── lib/                      # Third-party configs
+```
+
+### Service Layer Pattern (Frontend)
+
+**All API calls must include `credentials: 'include'`**
+
+```typescript
+// frontend/src/services/capitalPartnersService.ts
+import { API_BASE_URL } from '../config';
+import { CapitalPartner } from '../types/liquidity';
+
+export const getCapitalPartners = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/capital-partners`, {
+    credentials: 'include'  // CRITICAL
   });
+  return response.json();
+};
+
+export const createCapitalPartner = async (data: Partial<CapitalPartner>) => {
+  const response = await fetch(`${API_BASE_URL}/api/capital-partners`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',  // CRITICAL
+    body: JSON.stringify(data)
+  });
+  return response.json();
+};
+
+export const downloadCapitalPartnersCSV = async () => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/capital-partners/export/csv`,
+    { credentials: 'include' }  // CRITICAL
+  );
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'contacts.csv';
+  a.download = 'capital_partners.csv';
   a.click();
+  window.URL.revokeObjectURL(url);
 };
 ```
 
-### Authenticated API Calls
+### TypeScript Types Pattern
 
-**CRITICAL**: All API calls to protected endpoints MUST include `credentials: 'include'` to send authentication cookies.
+Strong typing for all data structures with exact matches to backend.
 
 ```typescript
-// ✅ CORRECT - Includes credentials
-const response = await fetch(`${API_BASE_URL}/api/deals`, {
-  credentials: 'include'
-});
+// frontend/src/types/liquidity.ts
+export interface CapitalPartner {
+  id: string;
+  organization_type: 'capital_partner';  // Discriminator
+  name: string;
+  country: string;
+  headquarters_location: string;
+  type: string;
+  relationship: string;
+  notes: string;
+  starred: boolean;
+  preferences: InvestmentPreferences;
+  investment_min: number;
+  investment_max: number;
+  currency: string;
+  countries: string[];  // Array of country IDs from countries_master
+  created_at: string;
+  last_updated: string;
+}
 
-// ❌ WRONG - Missing credentials, will get redirect to login
-const response = await fetch(`${API_BASE_URL}/api/deals`);
+export interface InvestmentPreferences {
+  investment_grade: 'Y' | 'N' | 'any';
+  high_yield: 'Y' | 'N' | 'any';
+  transport_infra: 'Y' | 'N' | 'any';
+  energy_infra: 'Y' | 'N' | 'any';
+  us_market: 'Y' | 'N' | 'any';
+  emerging_markets: 'Y' | 'N' | 'any';
+  asia_em: 'Y' | 'N' | 'any';
+  africa_em: 'Y' | 'N' | 'any';
+  emea_em: 'Y' | 'N' | 'any';
+}
+
+export interface Contact {
+  id: string;
+  organization_id: string;  // Links to parent in organizations.json
+  organization_type: string;
+  name: string;
+  role: string;
+  email: string;
+  phone: string;
+  team_name: string;
+  meeting_history: MeetingNote[];
+  last_contact_date: string;
+  next_contact_reminder: string;
+  created_at: string;
+  last_updated: string;
+}
+
+export interface MeetingNote {
+  id: string;
+  date: string;
+  notes: string;
+  participants: string;
+  next_follow_up?: string;
+}
+
+// frontend/src/types/pipeline.ts
+export type PipelineStage =
+  | 'ideation'
+  | 'outreach'
+  | 'negotiation'
+  | 'structuring'
+  | 'documentation'
+  | 'ready_to_close';
+
+export interface PipelineStrategy {
+  id: string;
+  name: string;
+  lead_initial: string;
+  stage: PipelineStage;
+  created_at: string;
+  last_updated: string;
+
+  // Parties
+  sponsor: PipelineSponsor;
+  lenders: PipelineLender[];
+  advisors: PipelineAdvisor[];
+
+  // Deal structure
+  deal_type: string;
+  financing_scenarios: FinancingScenario[];
+
+  // Intelligence
+  target_country: string;
+  sector: string;
+  risk_score?: number;
+  feasibility_flags: string[];
+  deal_quality_rating?: 'A' | 'B' | 'C';
+
+  // Tracking
+  target_close_date: string;
+  milestones: PipelineMilestone[];
+
+  // Collaboration
+  activity_log: PipelineActivityLog[];
+  notes: PipelineNote[];
+  documents: PipelineDocument[];
+
+  // Outcomes
+  promoted_to_deal_id?: string | null;
+  archived: boolean;
+  archive_reason: string;
+
+  // Related deals (precedent transactions)
+  related_deals: string[];  // Array of deal IDs from deals database
+}
 ```
 
-This pattern is essential for:
-- All CRM operations (GET/POST/PUT/DELETE)
-- Protected market data endpoints
-- CSV export downloads
-- Statistics/counts for dashboard
+### Calendar and Meeting Management
+
+**Location:** `/liquidity/calendar` (and similar routes for other CRM modules)
+**Components:**
+- `CalendarPage.tsx` - Main calendar view using React Big Calendar
+- `QuickMeetingModal.tsx` - Create/schedule meetings from calendar
+- `EventDetailsModal.tsx` - View and navigate to meeting details
+
+#### Interactive Calendar Features
+
+The calendar system supports both creating new meetings and editing scheduled meetings across all four CRM modules.
+
+**Create New Meeting:**
+1. Click on any date in the calendar
+2. `QuickMeetingModal` opens with date pre-filled
+3. Select contact from all CRM modules (searchable)
+4. Add meeting details (notes, participants, time, assigned users)
+5. System detects past vs. future:
+   - **Past dates**: Form shows "Record Past Meeting" with "Meeting Notes" field
+   - **Future dates**: Form shows "Schedule Meeting" with "Meeting Agenda / Details" field
+6. Meeting saved to contact's `meeting_history` array
+
+**Edit Scheduled Meeting:**
+1. Click on a future meeting event in calendar
+2. `EventDetailsModal` displays meeting details with status badge:
+   - **Future meeting**: Blue "Scheduled" badge + green "Update Meeting Details" button
+   - **Past meeting**: Gray "Completed" badge + blue "View Full Contact" button
+3. Clicking "Update Meeting Details" navigates to:
+   - `/liquidity/meeting?contact={contact_id}&meeting={meeting_id}` (Capital Partners)
+   - `/sponsors/meeting?contact={contact_id}&meeting={meeting_id}` (Sponsors)
+   - `/counsel/meeting?contact={contact_id}&meeting={meeting_id}` (Counsel)
+   - `/agents/meeting?contact={contact_id}&meeting={meeting_id}` (Agents)
+4. Meeting notes page detects `meeting` parameter and pre-fills form with existing data
+5. On save, uses PUT endpoint to update existing meeting (not create duplicate)
+
+**Drag-and-Drop Rescheduling:**
+- Drag any meeting event to a new date/time
+- System automatically updates the meeting's datetime
+- Only works for meetings (not reminders)
+
+#### Meeting Notes Pages
+
+**Files:**
+- `frontend/src/pages/capital-partners/MeetingNotesNew.tsx`
+- `frontend/src/pages/sponsors/SponsorMeetingNotes.tsx`
+- `frontend/src/pages/counsel/CounselMeetingNotesNew.tsx`
+- `frontend/src/pages/agents/AgentMeetingNotes.tsx`
+
+**Dual Mode Operation:**
+
+Each meeting notes page supports both creating new meetings and editing existing ones:
+
+```typescript
+// State for tracking edit mode
+const [editingMeetingId, setEditingMeetingId] = useState<string | null>(null);
+
+// URL parameters
+const contactId = searchParams.get('contact');  // Required
+const meetingId = searchParams.get('meeting');   // Optional - triggers edit mode
+
+// Pre-fill form if editing
+if (meetingId && contact.meeting_history) {
+  const existingMeeting = contact.meeting_history.find(m => m.id === meetingId);
+  if (existingMeeting) {
+    setEditingMeetingId(meetingId);
+    setMeetingNote({
+      date: existingMeeting.date.split('T')[0],
+      notes: existingMeeting.notes || '',
+      participants: existingMeeting.participants || '',
+      next_follow_up: existingMeeting.next_follow_up || '',
+      assigned_user_ids: existingMeeting.assigned_to?.map(u => u.user_id) || []
+    });
+  }
+}
+```
+
+**Save Logic:**
+- **Creating**: POST to `/api/meeting-notes` (or module-specific endpoint)
+- **Updating**: PUT to `/api/contacts-new/{contact_id}/meetings/{meeting_id}`
+- Success message adapts: "Meeting created successfully!" vs "Meeting updated successfully!"
+
+#### Backend Endpoints
+
+**Create Meeting (Quick):**
+```
+POST /api/quick-meeting
+Body: {
+  contact_id, organization_type, date (ISO), notes, participants,
+  next_follow_up, assigned_user_ids
+}
+```
+
+**Update Meeting:**
+```
+PUT /api/contacts-new/{contact_id}/meetings/{meeting_id}         (Capital Partners)
+PUT /api/sponsor-contacts/{contact_id}/meetings/{meeting_id}     (Sponsors)
+PUT /api/counsel-contacts/{contact_id}/meetings/{meeting_id}     (Counsel)
+PUT /api/agent-contacts/{contact_id}/meetings/{meeting_id}       (Agents)
+
+Body: { notes, participants, next_follow_up, assigned_user_ids }
+```
+
+**Reschedule Meeting (Drag-and-Drop):**
+```
+PUT /api/quick-meeting/{contact_id}/{meeting_id}
+Body: { date (ISO), organization_type }
+```
+
+#### Important Notes
+
+- **Button Label**: Changed from "Start Meeting" to "Meeting Notes" across all modules
+- **Timezone Handling**: Backend uses `datetime.now(timezone.utc)` for timezone-aware comparisons
+- **Cross-Module Support**: Calendar and meeting editing work identically across all four CRM modules
+- **User Assignment**: Meetings can be assigned to multiple users via `assigned_user_ids` array
+- **Meeting History**: Stored in contact's `meeting_history` array with unique `id` for each meeting
+
+## Common Development Patterns
+
+### 1. Adding a New Page with Data
+
+```typescript
+// 1. Define types (frontend/src/types/myfeature.ts)
+export interface MyEntity {
+  id: string;
+  name: string;
+  // ...
+}
+
+// 2. Create service (frontend/src/services/myFeatureService.ts)
+import { API_BASE_URL } from '../config';
+
+export const getMyEntities = async () => {
+  const response = await fetch(`${API_BASE_URL}/api/my-entities`, {
+    credentials: 'include'
+  });
+  return response.json();
+};
+
+// 3. Create page (frontend/src/pages/myfeature/MyPage.tsx)
+import { useState, useEffect } from 'react';
+import { getMyEntities } from '../../services/myFeatureService';
+
+const MyPage = () => {
+  const [entities, setEntities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadEntities();
+  }, []);
+
+  const loadEntities = async () => {
+    try {
+      const response = await getMyEntities();
+      if (response.success) {
+        setEntities(response.data);
+      }
+    } catch (error) {
+      console.error('Error loading entities:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      {entities.map(entity => (
+        <div key={entity.id}>{entity.name}</div>
+      ))}
+    </div>
+  );
+};
+
+export default MyPage;
+
+// 4. Add route (frontend/src/App.tsx)
+<Route path="/my-page" element={<MyPage />} />
+
+// 5. Update navigation (BOTH files)
+// frontend/src/components/common/Layout.tsx
+// frontend/src/components/common/Sidebar.tsx
+```
+
+### 2. Adding a Backend API Endpoint
+
+```python
+# 1. Create blueprint (backend/src/api/myfeature.py)
+from flask import Blueprint, jsonify, request
+from flask_login import login_required
+from pathlib import Path
+
+myfeature_bp = Blueprint('myfeature', __name__, url_prefix='/api')
+
+@myfeature_bp.route('/my-entities', methods=['GET'])
+@login_required
+def get_my_entities():
+    from ..utils.json_store import read_json_list
+    from ..config import get_config
+
+    config = get_config()
+    json_dir = config.JSON_DIR
+    entities = read_json_list(Path(json_dir) / 'my_entities.json')
+
+    return jsonify({
+        "success": True,
+        "data": entities,
+        "count": len(entities)
+    })
+
+@myfeature_bp.route('/my-entities', methods=['POST'])
+@login_required
+def create_my_entity():
+    from ..utils.json_store import read_json_list, write_json_file
+    from ..config import get_config
+    import time
+
+    config = get_config()
+    json_dir = config.JSON_DIR
+    path = Path(json_dir) / 'my_entities.json'
+
+    entities = read_json_list(path)
+
+    new_entity = request.json
+    new_entity['id'] = f"entity_{int(time.time() * 1000)}"
+    new_entity['created_at'] = datetime.now().isoformat()
+
+    entities.append(new_entity)
+    write_json_file(path, entities)  # Automatic backup
+
+    return jsonify({
+        "success": True,
+        "data": new_entity,
+        "message": "Entity created successfully"
+    })
+
+# 2. Register blueprint (backend/src/app.py)
+from .api.myfeature import myfeature_bp
+
+def create_app(config_name=None):
+    app = Flask(__name__)
+    # ... existing setup
+    app.register_blueprint(myfeature_bp)
+    return app
+```
+
+### 3. CSV Export Pattern
+
+```python
+# Backend endpoint
+import csv
+from io import StringIO
+from flask import Response
+
+@bp.route('/my-entities/export/csv', methods=['GET'])
+@login_required
+def export_my_entities_csv():
+    from ..utils.json_store import read_json_list
+    from ..config import get_config
+
+    config = get_config()
+    entities = read_json_list(Path(config.JSON_DIR) / 'my_entities.json')
+
+    output = StringIO()
+    fieldnames = ['id', 'name', 'country', 'created_at']
+    writer = csv.DictWriter(output, fieldnames=fieldnames)
+
+    writer.writeheader()
+    for entity in entities:
+        writer.writerow({k: entity.get(k, '') for k in fieldnames})
+
+    response = Response(output.getvalue(), mimetype='text/csv')
+    response.headers['Content-Disposition'] = 'attachment; filename=my_entities.csv'
+    return response
+```
+
+```typescript
+// Frontend download function
+export const downloadMyEntitiesCSV = async () => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/my-entities/export/csv`,
+    { credentials: 'include' }
+  );
+  const blob = await response.blob();
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'my_entities.csv';
+  a.click();
+  window.URL.revokeObjectURL(url);
+};
+```
+
+### 4. Form Handling with Validation
+
+```typescript
+const MyForm: React.FC<Props> = ({ initialData, onSave, onCancel }) => {
+  const [formData, setFormData] = useState(initialData || {});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (field: string, value: any) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateForm = (): Record<string, string> => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name?.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    if (!formData.country) {
+      newErrors.country = 'Country is required';
+    }
+    if (formData.investment_min > formData.investment_max) {
+      newErrors.investment_max = 'Max must be greater than min';
+    }
+
+    return newErrors;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      await onSave(formData);
+    } catch (error) {
+      setErrors({ general: 'An error occurred' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name</label>
+        <input
+          value={formData.name || ''}
+          onChange={(e) => handleChange('name', e.target.value)}
+        />
+        {errors.name && <span className="error">{errors.name}</span>}
+      </div>
+
+      {errors.general && (
+        <div className="error">{errors.general}</div>
+      )}
+
+      <button type="submit" disabled={loading}>
+        {loading ? 'Saving...' : 'Save'}
+      </button>
+      <button type="button" onClick={onCancel}>Cancel</button>
+    </form>
+  );
+};
+```
+
+### 5. Table Sorting with Custom Hook
+
+```typescript
+// Using the existing useTableSort hook
+import { useTableSort } from '../../hooks/useTableSort';
+import SortableTableHeader from '../../components/ui/SortableTableHeader';
+
+const MyTableView = ({ data }) => {
+  const { sortedData, sortField, sortDirection, handleSort } = useTableSort(
+    data,
+    'name'  // Default sort field
+  );
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <SortableTableHeader
+            field="name"
+            label="Name"
+            currentSort={sortField}
+            direction={sortDirection}
+            onSort={handleSort}
+          />
+          <SortableTableHeader
+            field="country"
+            label="Country"
+            currentSort={sortField}
+            direction={sortDirection}
+            onSort={handleSort}
+          />
+        </tr>
+      </thead>
+      <tbody>
+        {sortedData.map(row => (
+          <tr key={row.id}>
+            <td>{row.name}</td>
+            <td>{row.country}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+```
+
+### 6. Using Country Multi-Select
+
+```typescript
+import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
+
+const MyForm = () => {
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+
+  return (
+    <div>
+      <label>Investment Target Countries</label>
+      <CountryMultiSelect
+        selectedCountries={selectedCountries}
+        onChange={setSelectedCountries}
+      />
+    </div>
+  );
+};
+```
+
+## Super Admin Portal
+
+**Access Level:** Super admin only (requires `is_super_admin: true` flag)
+**Routes:** `/admin/super/*`
+**Layout:** `SuperAdminLayout` with permanent left sidebar
+
+### Key Features
+
+1. **System Statistics Dashboard** - Real-time metrics (users, organizations, contacts, deals, database size)
+2. **My Notes** - Personal notes manager with TipTap rich text editor
+3. **The Playbook Manager** - 6 operational sheets (contacts, calendar, deals, people, workstreams, filing)
+4. **Countries Master Manager** - Manage 90+ countries list for investment preferences
+5. **Database Explorer** - Read-only view of all JSON files with pagination
+6. **Archive Management** - Archive/restore old records with auto-archive
+7. **Data Quality Scanner** - Find orphaned contacts, invalid participants
+8. **Bulk Operations** - Bulk update/export/import with dry-run preview
+9. **Feature Flags** - Toggle system features on/off
+10. **API Playground** - Test API endpoints with custom requests
+11. **Security Config** - View CORS, session, auth settings (read-only)
+12. **API Keys Management** - Update and test API keys (ExchangeRate API)
+13. **Audit Log** - View all super admin actions with filters
+
+### API Endpoints
+
+```
+# System Statistics
+GET  /api/admin/stats
+
+# Database Management
+GET  /api/admin/database/files
+GET  /api/admin/database/size
+POST /api/admin/database/backup
+
+# Archive Management
+GET  /api/admin/archive/stats
+POST /api/admin/archive/:entityType
+GET  /api/admin/archive/:entityType/list
+POST /api/admin/archive/:entityType/restore
+POST /api/admin/archive/:entityType/auto-archive
+
+# Data Quality
+GET  /api/admin/cleanup/scan
+POST /api/admin/cleanup/fix
+
+# Bulk Operations
+POST /api/admin/bulk/update
+POST /api/admin/bulk/export
+POST /api/admin/bulk/import/validate
+POST /api/admin/bulk/import/commit
+
+# Feature Flags
+GET  /api/admin/feature-flags
+PUT  /api/admin/feature-flags/:flagName
+POST /api/admin/feature-flags/reset
+
+# Database Explorer
+GET  /api/admin/database-explorer/files
+GET  /api/admin/database-explorer/files/:filename
+GET  /api/admin/database-explorer/files/:filename/schema
+
+# Audit Log
+GET  /api/admin/audit-log
+GET  /api/admin/audit-log/stats
+
+# API Keys & Config
+GET  /api/admin/config/security
+GET  /api/admin/config/api-keys
+PUT  /api/admin/config/api-keys/:keyName
+POST /api/admin/config/api-keys/test
+
+# System Health
+GET  /api/admin/system/health
+GET  /api/admin/logs
+GET  /api/admin/logs/:filename
+
+# My Notes
+GET    /api/admin/notes
+POST   /api/admin/notes
+PUT    /api/admin/notes/:noteId
+DELETE /api/admin/notes/:noteId
+
+# Playbook
+GET/POST/PUT/DELETE  /api/playbook/contacts
+GET/POST/PUT/DELETE  /api/playbook/calendar
+GET/POST/PUT/DELETE  /api/playbook/deals
+GET/POST/PUT/DELETE  /api/playbook/people
+GET/POST/PUT/DELETE  /api/playbook/workstreams
+GET/POST/PUT/DELETE  /api/playbook/filing
+
+# Countries Master
+GET    /api/admin/countries-master
+POST   /api/admin/countries-master
+PUT    /api/admin/countries-master/:id
+DELETE /api/admin/countries-master/:id
+GET    /api/admin/countries-master/usage
+```
+
+## Configuration
+
+### Backend Configuration
+
+**Files:** `backend/src/config.py`
+
+**Three Environments:**
+```python
+class DevelopmentConfig:
+    DEBUG = True
+    PORT = 5000
+    CORS_ORIGINS = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173"
+    ]
+
+class ProductionConfig:
+    DEBUG = False
+    PORT = 8000
+    CORS_ORIGINS = [
+        "https://your-frontend.azurestaticapps.net"
+    ]
+
+class TestConfig:
+    TESTING = True
+    PORT = 5000
+```
+
+**Path Configuration:**
+```python
+BASE_DIR = Path(__file__).resolve().parent.parent  # backend/
+DATA_DIR = BASE_DIR.parent / 'data'                # data/
+EXCEL_DIR = DATA_DIR / 'excel'                      # data/excel/
+JSON_DIR = DATA_DIR / 'json'                        # data/json/
+STORAGE_DIR = BASE_DIR / 'storage'                  # backend/storage/
+```
+
+### Frontend Configuration
+
+**File:** `frontend/src/config.ts`
+
+```typescript
+const API_BASE_URL = import.meta.env.MODE === 'production'
+  ? import.meta.env.VITE_API_URL || ''
+  : 'http://127.0.0.1:5000';
+
+export { API_BASE_URL };
+```
 
 ## Key Technologies
 
 **Backend:**
-- Flask 3.0.0 - Web framework with application factory pattern
+- Flask 3.0.0 - Web framework with application factory
 - Flask-Login 0.6.3 - Session-based authentication
 - Flask-CORS 4.0.0 - Cross-origin resource sharing
 - bcrypt 4.1.2 - Password hashing
-- gunicorn 21.2.0 - Production WSGI server
+- pandas 2.1.4 - Data manipulation
+- openpyxl 3.1.2 - Excel reading
+- Gunicorn 21.2.0 - Production WSGI server
 
 **Frontend:**
 - React 18.2.0 - UI framework with hooks
 - TypeScript 5.0.2 - Type-safe JavaScript
 - Vite 4.4.5 - Build tool and dev server
 - React Router 6.15.0 - Client-side routing
+- Tailwind CSS 3.3.0 - Utility-first CSS
 - Recharts 2.8.0 - Chart library
 - Mermaid 11.12.0 - Diagram rendering
 - TipTap 3.9.0 - Rich text WYSIWYG editor
 - React Big Calendar 1.19.4 - Calendar component
-- React Zoom Pan Pinch 3.7.0 - Interactive zooming/panning
-- Tailwind CSS 3.3.0 - Utility-first CSS framework
+- React Zoom Pan Pinch 3.7.0 - Interactive controls
+- date-fns 4.1.0 - Date utilities
 - Vitest 1.0.4 - Testing framework
 
-**Development Tools:**
-- pytest - Python testing
-- black - Python code formatter
-- flake8 - Python linter
-- mypy - Python type checker
-- ESLint - TypeScript/JavaScript linter
+## File Naming Conventions
 
-## Styling Conventions
+**Backend:**
+- Modules: `snake_case.py` (`capital_partners.py`)
+- Functions: `snake_case()` (`get_capital_partners`)
+- Classes: `PascalCase` (`CapitalPartner`)
 
-- **Framework**: Tailwind CSS
-- **Font Family**: Serif fonts (Georgia, Cambria, Times New Roman)
-- **Colors**: Primary gray tones, blue accents
-- **Charts**: Recharts library
-- **Diagrams**: Mermaid.js (InteractiveMermaidChart component)
-- **Rich Text**: TipTap editor
-- **Responsive**: Mobile-first approach with responsive breakpoints
+**Frontend:**
+- Components: `PascalCase.tsx` (`CapitalPartnerForm.tsx`)
+- Services: `camelCase.ts` (`capitalPartnersService.ts`)
+- Types: `camelCase.ts` (`liquidity.ts`)
+- Functions: `camelCase()` (`getCapitalPartners`)
+
+**Data:**
+- JSON: `snake_case.json` (`unified_contacts.json`)
+- Excel: `Title Case.xlsx` (`The Playbook.xlsx`)
+
+## Common Gotchas and Troubleshooting
+
+### 1. Missing `credentials: 'include'`
+
+**Symptom:** API calls redirect to login, return HTML instead of JSON
+**Cause:** Session cookie not sent with request
+**Fix:** Add `credentials: 'include'` to ALL authenticated fetch calls
+
+```typescript
+// ❌ WRONG
+fetch(`${API_BASE_URL}/api/deals`)
+
+// ✅ CORRECT
+fetch(`${API_BASE_URL}/api/deals`, { credentials: 'include' })
+```
+
+### 2. Looking for Separate CRM Module Files
+
+**Symptom:** Can't find `capital_partners.json` or `corporates.json`
+**Cause:** System uses unified architecture
+**Fix:** Use `organizations.json` filtered by `organization_type`
+
+### 3. Confusing Two Countries Systems
+
+**Symptom:** Can't find country in countries master, or country page doesn't exist
+**Cause:** Mixing up countries master (90+) vs country fundamentals (5)
+**Fix:**
+- Investment preferences → Use countries master
+- Market data pages → Use country fundamentals
+
+### 4. Navigation Out of Sync
+
+**Symptom:** Menu item appears in header but not sidebar (or vice versa)
+**Cause:** Forgot to update both files
+**Fix:** Update BOTH `Layout.tsx` AND `Sidebar.tsx`
+
+### 5. Shared Constants Out of Sync
+
+**Symptom:** Investment matching fails, preference keys mismatch
+**Cause:** Backend and frontend constants don't match
+**Fix:**
+1. Update both `backend/src/constants/shared.py` and `frontend/src/constants/shared.ts`
+2. Run `python shared/scripts/validate-sync.py`
+
+### 6. Organization Type Typo
+
+**Symptom:** Query returns empty array when data exists
+**Cause:** Using wrong discriminator value
+**Fix:** Use exact values: `"capital_partner"`, `"sponsor"`, `"counsel"`, `"agent"`
+
+### 7. JSON File Not Found
+
+**Symptom:** File read errors on startup
+**Cause:** Missing data file or incorrect path
+**Fix:**
+- Check file exists in `backend/data/json/`
+- Verify path configuration in `config.py`
+- Create empty array `[]` if file should be empty
+
+### 8. CORS Errors
+
+**Symptom:** Cross-origin request blocked
+**Cause:** Frontend URL not in CORS_ORIGINS
+**Fix:** Add frontend URL to `backend/src/config.py` CORS_ORIGINS list
+
+### 9. Backup File Accumulation
+
+**Symptom:** Hundreds of `.bak` files
+**Cause:** Every write creates backup
+**Fix:** Run `python scripts/cleanup_old_backups.py`
+
+### 10. Super Admin Access Denied
+
+**Symptom:** 403 error on `/admin/super` pages
+**Cause:** User doesn't have `is_super_admin` flag
+**Fix:** Update `users.json` to set `"is_super_admin": true` (Cameron only in production)
 
 ## Testing
 
-**Backend Tests** (`backend/tests/`):
+**Backend:**
 ```bash
 cd backend
 pytest                               # Run all tests
@@ -1164,146 +1560,84 @@ pytest tests/test_api/               # Test specific module
 pytest --cov=src --cov-report=html   # Coverage report
 ```
 
-**Note**: Backend test suite is in development. The `tests/` directory exists but may have limited coverage.
-
-**Frontend Tests** (`frontend/src/__tests__/`):
+**Frontend:**
 ```bash
 cd frontend
 npm test                             # Run tests (Vitest)
-npm run test:ui                      # Run tests with UI
+npm run test:ui                      # Tests with UI
 npm run test:coverage                # Coverage report
 ```
-
-**Note**: Frontend uses Vitest for testing. Test files should be placed in `frontend/src/__tests__/` or co-located with components as `*.test.tsx`.
 
 ## Deployment
 
 ### Local Development (Windows)
 
-Full stack:
 ```bash
 # Terminal 1: Backend
 cd backend
 python run.py
+# Runs on http://127.0.0.1:5000
 
 # Terminal 2: Frontend
 cd frontend
 npm run dev
+# Runs on http://localhost:5173
 ```
 
-### Azure Production (Hybrid Approach)
+### Azure Production
 
-**Frontend**: Azure Static Web Apps
+**Frontend:** Azure Static Web Apps
 ```bash
 cd frontend
 npm run build
-# Deploy dist/ folder to Azure Static Web Apps
+# Deploy dist/ folder
 ```
 
-**Backend**: Azure App Service (Linux)
+**Backend:** Azure App Service (Linux)
 ```bash
 cd backend
-# Uses startup.py as entry point
-# Configure: gunicorn --bind=0.0.0.0:8000 --timeout 600 startup:app
+# Entry point: startup.py
+# Command: gunicorn --bind=0.0.0.0:8000 --timeout 600 startup:app
 ```
 
-**Environment Variables (Azure App Service)**:
+**Environment Variables (Azure):**
 ```
 FLASK_ENV=production
-SECRET_KEY=<your-production-key>
+SECRET_KEY=<strong-secret-key>
 PORT=8000
 DATA_DIR=/home/site/data
 WEB_DIR=/home/site/wwwroot
+EXCHANGERATE_API_KEY=<your-key>
 ```
-
-## Data Migration and Maintenance
-
-**Migration History:**
-All data migrations have been completed (October 2025) and migration scripts have been deleted. For historical reference and future migration guidelines, see:
-- `backend/migrations/README.md` - Completed migrations documentation
-- `docs/architecture/migration-complete.md` - Migration completion record
-
-**Completed Migrations:**
-- Deal precedents migration (October 9, 2025)
-- Teams hierarchy removal (October 23, 2024)
-- Meeting notes IDs addition (October 2025)
-- Deal precedents cleanup (October 2025)
-
-**Backup Management:**
-- Automatic `.bak` files created on every JSON write
-- Use `scripts/cleanup_old_backups.py` to manage backup accumulation
-- Timestamped backups available in git history
 
 ## Important Notes
 
-- **Unified CRM Architecture**: All organizations are in `organizations.json`, all contacts in `unified_contacts.json` (not separate files per module)
-- **Two Countries Systems**: Countries master (90+ for investment prefs) vs Country fundamentals (5 with market data) - separate purposes
-- **Organization Type Field**: Use `organization_type` to filter by module: `capital_partner`, `corporate`, `legal_advisor`, `agent`
-- **ETL Scripts Deprecated**: ETL scripts have been removed (November 2024) - market data is now managed manually
-- **JSON Backups**: `.bak` files automatically created before overwriting any JSON file
-- **Relative Imports**: Backend uses relative imports (e.g., `from ..services.investment_profiles import ...`)
-- **Path Configuration**: Backend paths are computed from `BASE_DIR` in config.py
-- **Session-Based Auth**: API uses Flask sessions with cookies - frontend must send `credentials: 'include'`
-- **Team Name Field**: Contacts have `team_name` as a text field (not a separate teams entity)
-- **Countries Array**: Organizations have `countries` array field referencing `countries_master.json` IDs
+1. **Unified CRM Architecture** - All organizations in `organizations.json`, all contacts in `unified_contacts.json`
+2. **Two Countries Systems** - Master (90+ for preferences) vs Fundamentals (5 with market data)
+3. **Authentication Required** - All API calls need `credentials: 'include'`
+4. **Navigation Duplication** - Must update both Layout.tsx and Sidebar.tsx
+5. **Shared Constants Sync** - Run validation script after changes
+6. **Automatic Backups** - Every write creates `.bak` file
+7. **Session-Based Auth** - Not JWT, uses Flask sessions with cookies
+8. **JSON Database** - File-based storage appropriate for data scale
+9. **Relative Imports** - Backend uses relative imports (`from ..utils import`)
+10. **Path Configuration** - All paths computed from BASE_DIR in config.py
+11. **Pipeline vs Deals** - Pipeline strategies (`/api/pipeline`) track active opportunities; Deals database (`/api/deals`) contains precedent transactions
+12. **Related Deals Feature** - Pipeline strategies can link to deals database via `related_deals` array field
+13. **Six Pipeline Stages** - ideation → outreach → negotiation → structuring → documentation → ready_to_close
+14. **British English** - Use "Visualisation" not "Visualization", "Organise" not "Organize" in UI text
+15. **Clickable Headers** - Market Intelligence and Damn Effect Strategy section titles navigate to overview pages
+16. **Calendar Meeting Editing** - All four CRM modules support editing scheduled meetings from calendar via `?meeting={id}` parameter
+17. **Meeting Notes Button** - Renamed from "Start Meeting" to "Meeting Notes" across all modules
+18. **Dual Meeting Modes** - Meeting notes pages detect past vs. future dates and adapt UI labels accordingly
+19. **Meeting History IDs** - Each meeting in `meeting_history` array has unique `id` field for editing and tracking
+20. **Timezone Awareness** - Backend uses `datetime.now(timezone.utc)` for all datetime comparisons to avoid timezone errors
 
-## Troubleshooting
+## Additional Resources
 
-**Backend won't start**: Check that you're in `backend/` directory and running `python run.py`
-
-**Import errors**: Ensure relative imports use dots (e.g., `.investment_profiles` not `investment_profiles`)
-
-**CORS errors**: Verify frontend URL is in `CORS_ORIGINS` list in `backend/src/config.py`
-
-**JSON data not loading**: Check that files exist in `data/json/` and backend is running
-
-**Charts not showing**: Verify `storage/dashboard.json` exists and has valid data
-
-**Calendar reminders missing**: Verify `next_contact_reminder` dates are in ISO format
-
-**Investment matching returns empty**: Check that preference keys match between backend and frontend constants
-
-**Azure deployment fails**:
-- Port configuration: Azure expects port 8000 (configured in startup.py)
-- Environment variables: Set DATA_DIR, WEB_DIR, PORT in Azure App Service
-- CORS: Add Azure Static Web App URL to CORS origins
-
-**Home page statistics showing 0**: If CRM statistics (capital partners count, corporates count, etc.) show as 0, check that all fetch calls include `credentials: 'include'`. Without credentials, protected endpoints redirect to login and return HTML instead of JSON, causing counts to fail.
-
-**CSV export not working**: Verify that:
-1. The export button is calling the correct service function
-2. The fetch call includes `credentials: 'include'`
-3. The backend endpoint exists and has `/export/csv` suffix
-4. The user is authenticated
-
-**Whiteboard posts not showing**: Check that week boundaries are calculated correctly (Monday-Sunday) and posts have valid `week_start` and `week_end` ISO timestamps.
-
-**Country data not loading**: Verify that:
-1. `country_fundamentals.json` exists in `data/json/`
-2. Complete country data files exist in `data/json/Country Json/` folder
-3. Country slug matches the filename mapping in `countries.py` `COMPLETE_DATA_FILES`
-4. API calls include `credentials: 'include'`
-
-**Super admin portal access denied**: Check that:
-1. User has `is_super_admin: true` flag in `users.json`
-2. User is authenticated (logged in)
-3. The `is_super_admin` flag is separate from regular `role: admin`
-4. Only Cameron should have super admin access in production
-
-**CRM data not loading**: Verify unified architecture:
-1. Data should be in `organizations.json` and `unified_contacts.json` (NOT separate module files)
-2. Check `organization_type` field exists and matches expected value
-3. Contacts should have `organization_id` linking to parent organization
-4. Old files like `capital_partners.json`, `corporates.json` are obsolete
-
-**Country selection not working**: Check which system you're using:
-1. For investment preferences: Use `countries_master.json` (90+ countries), updated via super admin portal
-2. For market data pages: Use `country_fundamentals.json` (5 countries), requires complete data files
-3. Organizations use `countries` array field, not individual country flags
-4. Investment matching filters by `countries` array, not country fundamentals
-
-**Countries master updates not appearing**: Verify:
-1. Changes saved to `countries_master.json`
-2. Frontend `CountryMultiSelect` component fetching latest list
-3. API endpoint `/api/admin/countries-master` returns updated list
-4. Browser cache cleared if using cached responses
+- **Documentation Hub:** `docs/README.md`
+- **API Reference:** `docs/reference/`
+- **Migration History:** `backend/migrations/README.md`
+- **Component Guide:** `frontend/src/components/README.md`
+- **ETL Documentation:** `etl/README.md` (deprecated for market data)
+- **Scripts Guide:** `scripts/README.md`

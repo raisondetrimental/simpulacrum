@@ -312,7 +312,7 @@ const AllMeetingNotesPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Start Meeting Section */}
+      {/* Meeting Notes Section */}
       <div className="bg-white p-6 rounded-lg shadow space-y-4">
         <h2 className="text-xl font-semibold text-gray-900">Start a Meeting</h2>
 

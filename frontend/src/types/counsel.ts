@@ -37,6 +37,7 @@ export interface LegalAdvisor {
 // ============================================================================
 
 export interface MeetingHistoryEntry {
+  id: string;
   date: string;
   notes: string;
   participants: string;
@@ -46,6 +47,11 @@ export interface MeetingHistoryEntry {
     username: string;
     full_name?: string;
   };
+  assigned_to?: Array<{
+    user_id: string;
+    username: string;
+    full_name: string;
+  }>;
 }
 
 export interface CounselContact {

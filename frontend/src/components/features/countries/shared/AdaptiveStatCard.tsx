@@ -111,25 +111,43 @@ const AdaptiveStatCard: React.FC<AdaptiveStatCardProps> = ({
         const text = value as string;
         const shouldTruncate = text.length > 150;
 
+        // Determine gradient color based on background
+        const gradientColor = bgClass.includes('red') ? 'red-50'
+          : bgClass.includes('orange') ? 'orange-50'
+          : bgClass.includes('yellow') ? 'yellow-50'
+          : bgClass.includes('green') ? 'green-50'
+          : bgClass.includes('blue') ? 'blue-50'
+          : 'white';
+
         return (
           <div className="space-y-2">
             <div
               className={`relative ${!isExpanded && shouldTruncate ? 'max-h-24 overflow-hidden' : ''}`}
             >
-              <p className={`${TYPOGRAPHY.CARD.body} ${colorClass} leading-relaxed`}>
+              <p className={`${TYPOGRAPHY.CARD.body} ${colorClass} leading-relaxed whitespace-pre-wrap`}>
                 {text}
               </p>
               {!isExpanded && shouldTruncate && (
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent"></div>
+                <div className={`absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-${gradientColor} to-transparent pointer-events-none`}></div>
               )}
             </div>
 
             {shouldTruncate && (
               <button
                 onClick={() => setIsExpanded(!isExpanded)}
-                className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors"
+                className="text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-1"
               >
-                {isExpanded ? '← Show less' : 'Read more →'}
+                {isExpanded ? (
+                  <>
+                    <span>▲</span>
+                    <span>Show less</span>
+                  </>
+                ) : (
+                  <>
+                    <span>▼</span>
+                    <span>Read more</span>
+                  </>
+                )}
               </button>
             )}
           </div>

@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import type { CountryCompleteData } from '../../../types/country';
+import AdaptiveStatCard from './shared/AdaptiveStatCard';
 
 interface MacroAnalysisSectionProps {
   data: CountryCompleteData;
@@ -44,30 +45,7 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({ title, content,
   );
 };
 
-interface StatCardProps {
-  title: string;
-  value: string;
-  subtitle?: string;
-  trend?: 'up' | 'down' | 'neutral';
-}
-
-const StatCard: React.FC<StatCardProps> = ({ title, value, subtitle, trend }) => {
-  const trendColors = {
-    up: 'text-green-600',
-    down: 'text-red-600',
-    neutral: 'text-gray-600',
-  };
-
-  return (
-    <div className="bg-white p-6 rounded-lg shadow border border-gray-200">
-      <h4 className="text-sm font-medium text-gray-500 uppercase mb-2">{title}</h4>
-      <p className={`text-2xl font-bold ${trend ? trendColors[trend] : 'text-gray-900'}`}>
-        {value}
-      </p>
-      {subtitle && <p className="text-sm text-gray-600 mt-1">{subtitle}</p>}
-    </div>
-  );
-};
+// StatCard removed - now using AdaptiveStatCard for intelligent rendering
 
 const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => {
   const imf = data.IMF_Article_IV;
@@ -80,37 +58,30 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
     );
   }
 
-  // Extract key metrics from text fields (these are narrative strings in the data)
-  const extractFirstSentence = (text: string): string => {
-    if (!text) return 'N/A';
-    const sentences = text.split('. ');
-    return sentences[0] || 'N/A';
-  };
-
   return (
     <div className="space-y-6">
       {/* Key Economic Indicators Grid */}
       <div>
         <h3 className="text-xl font-semibold mb-4">Key Economic Indicators</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AdaptiveStatCard
             title="GDP Growth"
-            value={extractFirstSentence(imf.gdp_growth_current)}
+            value={imf.gdp_growth_current || 'N/A'}
             subtitle="Current"
           />
-          <StatCard
+          <AdaptiveStatCard
             title="Inflation"
-            value={extractFirstSentence(imf.inflation_current)}
+            value={imf.inflation_current || 'N/A'}
             subtitle="Consumer Price Index"
           />
-          <StatCard
+          <AdaptiveStatCard
             title="Fiscal Balance"
-            value={extractFirstSentence(imf.fiscal_balance_current)}
+            value={imf.fiscal_balance_current || 'N/A'}
             subtitle="% of GDP"
           />
-          <StatCard
+          <AdaptiveStatCard
             title="Public Debt"
-            value={extractFirstSentence(imf.public_debt_current)}
+            value={imf.public_debt_current || 'N/A'}
             subtitle="% of GDP"
           />
         </div>

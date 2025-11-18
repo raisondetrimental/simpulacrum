@@ -4,9 +4,42 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { InvestmentMatchesResponse, InvestmentProfile, SavedStrategy, Contact } from '../../types/investment';
 import { getInvestmentStrategies, saveInvestmentStrategies, getInvestmentMatches } from '../../services/investmentService';
 import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
+
+// Helper function to get organization detail link
+const getOrganizationLink = (profile: InvestmentProfile): string => {
+  switch (profile.category) {
+    case 'capital_partner':
+      return `/liquidity/capital-partners/${profile.entity_id}`;
+    case 'sponsor':
+      return `/sponsors/corporates/${profile.entity_id}`;
+    case 'counsel':
+      return `/counsel/legal-advisors/${profile.entity_id}`;
+    case 'agent':
+      return `/agents/${profile.entity_id}`;
+    default:
+      return '#';
+  }
+};
+
+// Helper function to get contact detail link
+const getContactLink = (contact: Contact): string => {
+  switch (contact.parent_org_type) {
+    case 'capital_partner':
+      return `/liquidity/contacts/${contact.id}`;
+    case 'sponsor':
+      return `/sponsors/contacts/${contact.id}`;
+    case 'counsel':
+      return `/counsel/contacts/${contact.id}`;
+    case 'agent':
+      return `/agents/contacts/${contact.id}`;
+    default:
+      return '#';
+  }
+};
 
 // ALL 19 preference columns (countries now handled separately via multi-select)
 const PREFERENCE_COLUMNS = [
@@ -102,6 +135,7 @@ const InvestmentStrategiesPage: React.FC = () => {
   const [sortBy, setSortBy] = useState<'name' | 'organization' | 'last_contact'>('name');
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingStrategyId, setEditingStrategyId] = useState<string | null>(null);
   const [newStrategyName, setNewStrategyName] = useState('');
   const [newPreferenceFilters, setNewPreferenceFilters] = useState<Record<string, FilterState>>(() => {
     const initial: Record<string, FilterState> = {};
@@ -341,44 +375,93 @@ const InvestmentStrategiesPage: React.FC = () => {
     }
   };
 
+  const handleEditStrategy = (strategy: SavedStrategy) => {
+    setEditingStrategyId(strategy.id);
+    setNewStrategyName(strategy.name);
+    setNewPreferenceFilters({ ...strategy.preferenceFilters });
+    setNewSizeFilter({ ...strategy.sizeFilter });
+    setNewCountries(strategy.countries ? [...strategy.countries] : []);
+    setShowCreateModal(true);
+  };
+
   const handleCreateStrategy = async () => {
     if (!newStrategyName.trim()) {
       alert('Please enter a strategy name');
       return;
     }
 
-    const newStrategy: SavedStrategy = {
-      id: Date.now().toString(),
-      name: newStrategyName.trim(),
-      preferenceFilters: { ...newPreferenceFilters },
-      sizeFilter: { ...newSizeFilter },
-      countries: newCountries.length > 0 ? [...newCountries] : undefined,
-      createdAt: new Date().toISOString(),
-    };
+    if (editingStrategyId) {
+      // Update existing strategy
+      const updatedStrategies = savedStrategies.map(s =>
+        s.id === editingStrategyId
+          ? {
+              ...s,
+              name: newStrategyName.trim(),
+              preferenceFilters: { ...newPreferenceFilters },
+              sizeFilter: { ...newSizeFilter },
+              countries: newCountries.length > 0 ? [...newCountries] : undefined,
+            }
+          : s
+      );
 
-    const updatedStrategies = [...savedStrategies, newStrategy];
+      try {
+        const result = await saveInvestmentStrategies(updatedStrategies);
+        if (result.success) {
+          setSavedStrategies(updatedStrategies);
+          setSelectedStrategyId(editingStrategyId);
 
-    try {
-      const result = await saveInvestmentStrategies(updatedStrategies);
-      if (result.success) {
-        setSavedStrategies(updatedStrategies);
-        setSelectedStrategyId(newStrategy.id);
-
-        // Reset modal
-        setNewStrategyName('');
-        const resetFilters: Record<string, FilterState> = {};
-        PREFERENCE_COLUMNS.forEach((col) => {
-          resetFilters[col.key] = 'any';
-        });
-        setNewPreferenceFilters(resetFilters);
-        setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
-        setNewCountries([]);
-        setShowCreateModal(false);
-      } else {
-        alert('Failed to save strategy: ' + result.message);
+          // Reset modal
+          setEditingStrategyId(null);
+          setNewStrategyName('');
+          const resetFilters: Record<string, FilterState> = {};
+          PREFERENCE_COLUMNS.forEach((col) => {
+            resetFilters[col.key] = 'any';
+          });
+          setNewPreferenceFilters(resetFilters);
+          setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
+          setNewCountries([]);
+          setShowCreateModal(false);
+        } else {
+          alert('Failed to update strategy: ' + result.message);
+        }
+      } catch (err) {
+        alert('Failed to update strategy');
       }
-    } catch (err) {
-      alert('Failed to save strategy');
+    } else {
+      // Create new strategy
+      const newStrategy: SavedStrategy = {
+        id: Date.now().toString(),
+        name: newStrategyName.trim(),
+        preferenceFilters: { ...newPreferenceFilters },
+        sizeFilter: { ...newSizeFilter },
+        countries: newCountries.length > 0 ? [...newCountries] : undefined,
+        createdAt: new Date().toISOString(),
+      };
+
+      const updatedStrategies = [...savedStrategies, newStrategy];
+
+      try {
+        const result = await saveInvestmentStrategies(updatedStrategies);
+        if (result.success) {
+          setSavedStrategies(updatedStrategies);
+          setSelectedStrategyId(newStrategy.id);
+
+          // Reset modal
+          setNewStrategyName('');
+          const resetFilters: Record<string, FilterState> = {};
+          PREFERENCE_COLUMNS.forEach((col) => {
+            resetFilters[col.key] = 'any';
+          });
+          setNewPreferenceFilters(resetFilters);
+          setNewSizeFilter({ minInvestment: 0, maxInvestment: 0 });
+          setNewCountries([]);
+          setShowCreateModal(false);
+        } else {
+          alert('Failed to save strategy: ' + result.message);
+        }
+      } catch (err) {
+        alert('Failed to save strategy');
+      }
     }
   };
 
@@ -416,7 +499,7 @@ const InvestmentStrategiesPage: React.FC = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="border-b border-gray-200 pb-4">
-        <h1 className="text-3xl font-bold text-gray-900">Investment Strategies</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Strategies Sandbox</h1>
         <p className="mt-2 text-gray-600">
           Create and save custom filter combinations to find matching organizations across all CRM modules.
         </p>
@@ -461,18 +544,32 @@ const InvestmentStrategiesPage: React.FC = () => {
                     <h3 className="font-semibold text-gray-900 flex-1">
                       {strategy.name}
                     </h3>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteStrategy(strategy.id);
-                      }}
-                      className="ml-2 text-red-600 hover:text-red-800 transition-colors"
-                      title="Delete strategy"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+                    <div className="flex gap-1">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditStrategy(strategy);
+                        }}
+                        className="text-blue-600 hover:text-blue-800 transition-colors"
+                        title="Edit strategy"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteStrategy(strategy.id);
+                        }}
+                        className="text-red-600 hover:text-red-800 transition-colors"
+                        title="Delete strategy"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
 
                   <div className="text-xs text-gray-600 space-y-1">
@@ -597,7 +694,12 @@ const InvestmentStrategiesPage: React.FC = () => {
                           {sortByRelationship(matchResults.results.capital_partners).map((partner) => (
                             <tr key={partner.profile_id} className="hover:bg-gray-50">
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="font-medium text-gray-900">{partner.name}</div>
+                                <Link
+                                  to={getOrganizationLink(partner)}
+                                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                >
+                                  {partner.name}
+                                </Link>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {(partner.metadata?.country as string) || '—'}
@@ -636,7 +738,12 @@ const InvestmentStrategiesPage: React.FC = () => {
                           {sortByRelationship(matchResults.results.sponsors).map((sponsor) => (
                             <tr key={sponsor.profile_id} className="hover:bg-gray-50">
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="font-medium text-gray-900">{sponsor.name}</div>
+                                <Link
+                                  to={getOrganizationLink(sponsor)}
+                                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                >
+                                  {sponsor.name}
+                                </Link>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {(sponsor.metadata?.country as string) || '—'}
@@ -677,7 +784,12 @@ const InvestmentStrategiesPage: React.FC = () => {
                           {sortByRelationship(matchResults.results.agents).map((agent) => (
                             <tr key={agent.profile_id} className="hover:bg-gray-50">
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="font-medium text-gray-900">{agent.name}</div>
+                                <Link
+                                  to={getOrganizationLink(agent)}
+                                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                >
+                                  {agent.name}
+                                </Link>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {(agent.metadata?.agent_type as string) || '—'}
@@ -715,7 +827,12 @@ const InvestmentStrategiesPage: React.FC = () => {
                           {sortByRelationship(matchResults.results.counsel).map((counsel) => (
                             <tr key={counsel.profile_id} className="hover:bg-gray-50">
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="font-medium text-gray-900">{counsel.name}</div>
+                                <Link
+                                  to={getOrganizationLink(counsel)}
+                                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                >
+                                  {counsel.name}
+                                </Link>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {(counsel.metadata?.headquarters_location as string) || (counsel.metadata?.country as string) || '—'}
@@ -876,7 +993,12 @@ const InvestmentStrategiesPage: React.FC = () => {
                           {getFilteredContacts().map((contact) => (
                             <tr key={contact.id} className="hover:bg-gray-50">
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="font-medium text-gray-900">{contact.name}</div>
+                                <Link
+                                  to={getContactLink(contact)}
+                                  className="font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                                >
+                                  {contact.name}
+                                </Link>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                 {contact.role}
@@ -930,7 +1052,9 @@ const InvestmentStrategiesPage: React.FC = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Create New Strategy</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                {editingStrategyId ? 'Edit Strategy' : 'Create New Strategy'}
+              </h2>
 
               {/* Strategy Name */}
               <div className="mb-6">
@@ -1013,6 +1137,7 @@ const InvestmentStrategiesPage: React.FC = () => {
                 <button
                   onClick={() => {
                     setShowCreateModal(false);
+                    setEditingStrategyId(null);
                     setNewStrategyName('');
                     const resetFilters: Record<string, FilterState> = {};
                     PREFERENCE_COLUMNS.forEach((col) => {
@@ -1030,7 +1155,7 @@ const InvestmentStrategiesPage: React.FC = () => {
                   onClick={handleCreateStrategy}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md text-sm font-medium hover:bg-blue-700 transition-colors"
                 >
-                  Save Strategy
+                  {editingStrategyId ? 'Update Strategy' : 'Save Strategy'}
                 </button>
               </div>
             </div>

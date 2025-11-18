@@ -206,11 +206,28 @@ export function decomposeNarrative(text: string): NarrativeStructure {
 export function detectTimeSeriesPattern(text: string): boolean {
   if (!text || typeof text !== 'string') return false;
 
-  // Look for at least 2 year-value pairs
+  // Look for at least 2 year-value pairs with standard format
   const pattern = /\d+\.?\d*\s*(%|billion|million|bn|mn)?\s*\(\d{4}[^)]*\)/gi;
   const matches = text.match(pattern);
 
-  return (matches?.length || 0) >= 2;
+  if ((matches?.length || 0) >= 2) return true;
+
+  // Also detect comma-separated list patterns with years and projections
+  // Pattern: "-, -, -3.1% (2023 proj), -3.1% (2024 proj), -3.6% (2025 proj)"
+  const commaListPattern = /(?:[-\d.]+%?\s*(?:\([^)]*\))?,\s*){2,}/gi;
+  const yearInListPattern = /\d{4}\s*(?:proj|est|forecast)/i;
+
+  if (commaListPattern.test(text) && yearInListPattern.test(text)) {
+    return true;
+  }
+
+  // Detect sequences of years with dashes: "2023, 2024, 2025" or with values
+  const yearSequencePattern = /\d{4}(?:\s*[-–—]\s*\d{4}|\s*,\s*\d{4}){1,}/;
+  if (yearSequencePattern.test(text)) {
+    return true;
+  }
+
+  return false;
 }
 
 /**

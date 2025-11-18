@@ -9,7 +9,10 @@ import type {
   LogFile,
   SystemHealth,
   BackupResult,
-  ApiResponse
+  ApiResponse,
+  AuditLogResponse,
+  AuditLogFilters,
+  AuditLogStats
 } from '../types/admin';
 
 /**
@@ -391,6 +394,124 @@ export const readDatabaseFile = async (
 export const getDatabaseFileSchema = async (filename: string): Promise<ApiResponse<any>> => {
   const response = await fetch(`${API_BASE_URL}/api/admin/database-explorer/files/${filename}/schema`, {
     credentials: 'include'
+  });
+  return response.json();
+};
+
+/**
+ * Get audit log entries with filters
+ */
+export const getAuditLog = async (filters: AuditLogFilters = {}): Promise<ApiResponse<AuditLogResponse>> => {
+  const params = new URLSearchParams();
+
+  if (filters.limit) params.append('limit', filters.limit.toString());
+  if (filters.offset) params.append('offset', filters.offset.toString());
+  if (filters.user_id) params.append('user_id', filters.user_id);
+  if (filters.action) params.append('action', filters.action);
+  if (filters.entity_type) params.append('entity_type', filters.entity_type);
+  if (filters.start_date) params.append('start_date', filters.start_date);
+  if (filters.end_date) params.append('end_date', filters.end_date);
+
+  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log?${params.toString()}`, {
+    credentials: 'include'
+  });
+  return response.json();
+};
+
+/**
+ * Get audit log statistics
+ */
+export const getAuditLogStats = async (): Promise<ApiResponse<AuditLogStats>> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log/stats`, {
+    credentials: 'include'
+  });
+  return response.json();
+};
+
+/**
+ * Export audit log to CSV
+ */
+export const exportAuditLogCSV = async (filters: AuditLogFilters = {}): Promise<void> => {
+  const params = new URLSearchParams();
+
+  if (filters.user_id) params.append('user_id', filters.user_id);
+  if (filters.action) params.append('action', filters.action);
+  if (filters.entity_type) params.append('entity_type', filters.entity_type);
+  if (filters.start_date) params.append('start_date', filters.start_date);
+  if (filters.end_date) params.append('end_date', filters.end_date);
+  params.append('format', 'csv');
+
+  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log?${params.toString()}`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to export audit log');
+  }
+
+  const data = await response.json();
+
+  // Convert to CSV
+  if (data.success && data.data.entries.length > 0) {
+    const entries = data.data.entries;
+    const headers = ['Timestamp', 'User', 'Action', 'Entity Type', 'Affected Count', 'Success', 'Error Message'];
+    const csvRows = [
+      headers.join(','),
+      ...entries.map((entry: any) => [
+        entry.timestamp,
+        entry.username,
+        entry.action,
+        entry.entity_type,
+        entry.affected_count,
+        entry.success ? 'Yes' : 'No',
+        entry.error_message || ''
+      ].map(field => `"${field}"`).join(','))
+    ];
+
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `audit_log_${new Date().toISOString().split('T')[0]}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
+  }
+};
+
+// ============================================================================
+// Shared Announcement Whiteboard
+// ============================================================================
+
+export interface Announcement {
+  content: string;
+  last_updated: string;
+  last_updated_by: string;
+}
+
+/**
+ * Get the shared announcement whiteboard content
+ */
+export const getAnnouncement = async (): Promise<ApiResponse<Announcement>> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/announcement`, {
+    credentials: 'include'
+  });
+  return response.json();
+};
+
+/**
+ * Update the shared announcement whiteboard content
+ */
+export const updateAnnouncement = async (content: string): Promise<ApiResponse<Announcement>> => {
+  const response = await fetch(`${API_BASE_URL}/api/admin/announcement`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify({ content })
   });
   return response.json();
 };

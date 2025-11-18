@@ -20,12 +20,6 @@ const Footer: React.FC = () => {
           {/* Links */}
           <div className="flex space-x-6">
             <Link
-              to="/meridian"
-              className="text-sm hover:text-gray-300 transition-colors"
-            >
-              Meridian
-            </Link>
-            <Link
               to="/the-firm"
               className="text-sm hover:text-gray-300 transition-colors"
             >

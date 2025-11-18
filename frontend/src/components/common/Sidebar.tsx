@@ -6,51 +6,30 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
-  const [isWhiteboardOpen, setIsWhiteboardOpen] = useState(false);
-  const [isDashboardOpen, setIsDashboardOpen] = useState(false);
-  const [isMarketsOpen, setIsMarketsOpen] = useState(false);
+  const [isMarketIntelOpen, setIsMarketIntelOpen] = useState(false);
   const [isCountryReportsOpen, setIsCountryReportsOpen] = useState(false);
-  const [isInfraGapsOpen, setIsInfraGapsOpen] = useState(false);
-  const [isOriginationOpen, setIsOriginationOpen] = useState(false);
-  const [isDealsOpen, setIsDealsOpen] = useState(false);
-  const [isStrategiesOpen, setIsStrategiesOpen] = useState(false);
-  const [isAboutMeridianOpen, setIsAboutMeridianOpen] = useState(false);
-  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [isMarketsOpen, setIsMarketsOpen] = useState(false);
+  const [isDashboardsOpen, setIsDashboardsOpen] = useState(false);
+  const [isCRMOpen, setIsCRMOpen] = useState(false);
   const [isAllCRMOpen, setIsAllCRMOpen] = useState(false);
   const [isLiquidityOpen, setIsLiquidityOpen] = useState(false);
   const [isSponsorsOpen, setIsSponsorsOpen] = useState(false);
   const [isCounselOpen, setIsCounselOpen] = useState(false);
-  const [isAgentsOpen, setIsAgentsOpen] = useState(false);
+  const [isOtherOpen, setIsOtherOpen] = useState(false);
+  const [isOriginationOpen, setIsOriginationOpen] = useState(false);
+  const [isStrategiesOpen, setIsStrategiesOpen] = useState(false);
+  const [isWhiteboardOpen, setIsWhiteboardOpen] = useState(false);
   const location = useLocation();
 
   const isActiveRoute = (path: string) => location.pathname === path;
+  const isMarketIntelRoute = () => location.pathname.startsWith('/dashboard/');
+  const isCRMRoute = () => location.pathname.startsWith('/crm/') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
+  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies' || location.pathname === '/pipeline';
   const isWhiteboardRoute = () => location.pathname.startsWith('/whiteboard');
-  const isDashboardRoute = () => location.pathname.startsWith('/dashboard');
-  const isMarketsRoute = () => location.pathname.startsWith('/dashboard/markets') || location.pathname === '/dashboard/sovereign' || location.pathname === '/dashboard/corporate' || location.pathname === '/dashboard/fx' || location.pathname === '/dashboard/central-banks' || location.pathname === '/dashboard/ratings' || location.pathname === '/dashboard/usa-historical-yields';
-  const isCountryReportsRoute = () => location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
-  const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
-  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies';
-  const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
-  const isToolsRoute = () => location.pathname.startsWith('/crm/all') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
 
-  const whiteboardPages = [
-    { name: 'Overview', path: '/whiteboard' },
-    { name: 'Weekly Whiteboard', path: '/whiteboard/weekly' },
-    { name: 'General Posts', path: '/whiteboard/general' }
-  ];
-
-  const marketPages = [
-    { name: 'Markets', path: '/dashboard/markets' },
-    { name: 'FX Markets', path: '/dashboard/fx' },
-    { name: 'US Sovereign Yields', path: '/dashboard/usa-historical-yields' },
-    { name: 'Global Corporate Bonds', path: '/dashboard/corporate-yields' },
-    { name: 'US Corporate Bonds', path: '/dashboard/corporate' },
-    { name: 'Policy Rates', path: '/dashboard/central-banks' },
-    { name: 'Sovereign Yields', path: '/dashboard/sovereign' }
-    // Tools page removed - Excel COM not available in cloud deployment
-  ];
-
+  // Market Intelligence categories
   const countryReportsPages = [
+    { name: 'Overview', path: '/dashboard/country-reports' },
     { name: 'Armenia', path: '/dashboard/armenia' },
     { name: 'Mongolia', path: '/dashboard/mongolia' },
     { name: 'Türkiye', path: '/dashboard/turkiye' },
@@ -58,23 +37,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
     { name: 'Vietnam', path: '/dashboard/vietnam' }
   ];
 
-  const infraGapsPages = [
-    { name: 'Overview', path: '/dashboard/infra-gaps' },
+  const marketPages = [
+    { name: 'Markets Overview', path: '/dashboard/markets' },
+    { name: 'FX Markets', path: '/dashboard/fx' },
+    { name: 'Sovereign Yields', path: '/dashboard/sovereign' },
+    { name: 'Global Corporate Bonds', path: '/dashboard/corporate-yields' },
+    { name: 'US Corporate Bonds', path: '/dashboard/corporate' },
+    { name: 'Policy Rates', path: '/dashboard/central-banks' }
+  ];
+
+  const dashboardPages = [
+    { name: 'Infrastructure Gaps', path: '/dashboard/infra-gaps' },
     { name: 'Transit Friction', path: '/dashboard/transit-friction' },
     { name: 'Internet Coverage', path: '/dashboard/internet-coverage' }
   ];
 
-  const dealsPages = [
-    { name: 'All Deals', path: '/deals' },
-    { name: 'New Deal', path: '/deals/new' }
-  ];
-
-  const aboutMeridianPages = [
-    { name: 'Meridian', path: '/meridian' },
-    { name: 'Firm Philosophy', path: '/the-firm' },
-    { name: 'This Website', path: '/this-website' },
-  ];
-
+  // CRM Platform categories
   const allCRMPages = [
     { name: 'Overview', path: '/crm/all' },
     { name: 'Organisations', path: '/crm/all/organizations' },
@@ -107,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
     { name: 'Meeting Notes', path: '/counsel/meeting' }
   ];
 
-  const agentsPages = [
+  const otherPages = [
     { name: 'Overview', path: '/agents' },
     { name: 'Agents', path: '/agents/list' },
     { name: 'Contacts', path: '/agents/contacts' },
@@ -115,8 +93,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
     { name: 'Meeting Notes', path: '/agents/meeting' }
   ];
 
-  const strategiesPages = [
-    { name: 'Investment Strategies', path: '/investment-strategies' }
+  // Whiteboard pages
+  const whiteboardPages = [
+    { name: 'Overview', path: '/whiteboard' },
+    { name: 'Weekly Whiteboard', path: '/whiteboard/weekly' },
+    { name: 'General Posts', path: '/whiteboard/general' }
   ];
 
   return (
@@ -159,9 +140,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
           {/* Market Intelligence */}
           <div>
             <button
-              onClick={() => setIsDashboardOpen(!isDashboardOpen)}
+              onClick={() => setIsMarketIntelOpen(!isMarketIntelOpen)}
               className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isDashboardRoute()
+                isMarketIntelRoute()
                   ? 'text-white opacity-100'
                   : 'text-white opacity-70 hover:opacity-100'
               }`}
@@ -173,7 +154,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                 Market Intelligence
               </div>
               <svg
-                className={`w-4 h-4 transition-transform ${isDashboardOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${isMarketIntelOpen ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -183,45 +164,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             </button>
 
             {/* Market Intelligence Main Dropdown */}
-            {isDashboardOpen && (
+            {isMarketIntelOpen && (
               <div className="ml-8 mt-2 space-y-1">
-                {/* Country Reports Subcategory */}
-                <div>
-                  <button
-                    onClick={() => setIsCountryReportsOpen(!isCountryReportsOpen)}
-                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
-                  >
-                    <span>Country Reports</span>
-                    <svg
-                      className={`w-4 h-4 transition-transform ${isCountryReportsOpen ? 'rotate-180' : ''}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* Country Reports Pages */}
-                  {isCountryReportsOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {countryReportsPages.map((page) => (
-                        <Link
-                          key={page.path}
-                          to={page.path}
-                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                            isActiveRoute(page.path)
-                              ? 'text-white opacity-100'
-                              : 'text-white opacity-70 hover:opacity-100'
-                          }`}
-                        >
-                          {page.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
                 {/* Markets Subcategory */}
                 <div>
                   <button
@@ -259,15 +203,52 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                   )}
                 </div>
 
+                {/* Country Reports Subcategory */}
+                <div>
+                  <button
+                    onClick={() => setIsCountryReportsOpen(!isCountryReportsOpen)}
+                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
+                  >
+                    <span>Country Reports</span>
+                    <svg
+                      className={`w-4 h-4 transition-transform ${isCountryReportsOpen ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {/* Country Reports Pages */}
+                  {isCountryReportsOpen && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {countryReportsPages.map((page) => (
+                        <Link
+                          key={page.path}
+                          to={page.path}
+                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                            isActiveRoute(page.path)
+                              ? 'text-white opacity-100'
+                              : 'text-white opacity-70 hover:opacity-100'
+                          }`}
+                        >
+                          {page.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 {/* Dashboards Subcategory */}
                 <div>
                   <button
-                    onClick={() => setIsInfraGapsOpen(!isInfraGapsOpen)}
+                    onClick={() => setIsDashboardsOpen(!isDashboardsOpen)}
                     className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
                   >
                     <span>Dashboards</span>
                     <svg
-                      className={`w-4 h-4 transition-transform ${isInfraGapsOpen ? 'rotate-180' : ''}`}
+                      className={`w-4 h-4 transition-transform ${isDashboardsOpen ? 'rotate-180' : ''}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -277,9 +258,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                   </button>
 
                   {/* Dashboards Pages */}
-                  {isInfraGapsOpen && (
+                  {isDashboardsOpen && (
                     <div className="ml-4 mt-1 space-y-1">
-                      {infraGapsPages.map((page) => (
+                      {dashboardPages.map((page) => (
                         <Link
                           key={page.path}
                           to={page.path}
@@ -302,9 +283,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
           {/* CRM Platform */}
           <div>
             <button
-              onClick={() => setIsToolsOpen(!isToolsOpen)}
+              onClick={() => setIsCRMOpen(!isCRMOpen)}
               className={`flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isToolsRoute()
+                isCRMRoute()
                   ? 'text-white opacity-100'
                   : 'text-white opacity-70 hover:opacity-100'
               }`}
@@ -313,10 +294,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                CRM
+                CRM Platform
               </div>
               <svg
-                className={`w-4 h-4 transition-transform ${isToolsOpen ? 'rotate-180' : ''}`}
+                className={`w-4 h-4 transition-transform ${isCRMOpen ? 'rotate-180' : ''}`}
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -326,7 +307,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             </button>
 
             {/* CRM Main Dropdown */}
-            {isToolsOpen && (
+            {isCRMOpen && (
               <div className="ml-8 mt-2 space-y-1">
                 {/* All Subcategory */}
                 <div>
@@ -480,15 +461,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                   )}
                 </div>
 
-                {/* Agents Subcategory */}
+                {/* Other Subcategory */}
                 <div>
                   <button
-                    onClick={() => setIsAgentsOpen(!isAgentsOpen)}
+                    onClick={() => setIsOtherOpen(!isOtherOpen)}
                     className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
                   >
-                    <span>Transaction Agents</span>
+                    <span>Other</span>
                     <svg
-                      className={`w-4 h-4 transition-transform ${isAgentsOpen ? 'rotate-180' : ''}`}
+                      className={`w-4 h-4 transition-transform ${isOtherOpen ? 'rotate-180' : ''}`}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -497,10 +478,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                     </svg>
                   </button>
 
-                  {/* Agents Pages */}
-                  {isAgentsOpen && (
+                  {/* Other Pages */}
+                  {isOtherOpen && (
                     <div className="ml-4 mt-1 space-y-1">
-                      {agentsPages.map((page) => (
+                      {otherPages.map((page) => (
                         <Link
                           key={page.path}
                           to={page.path}
@@ -520,7 +501,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             )}
           </div>
 
-          {/* Origination */}
+          {/* Damn Effect Strategy */}
           <div>
             <button
               onClick={() => setIsOriginationOpen(!isOriginationOpen)}
@@ -534,7 +515,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Origination
+                Damn Effect Strategy
               </div>
               <svg
                 className={`w-4 h-4 transition-transform ${isOriginationOpen ? 'rotate-180' : ''}`}
@@ -549,42 +530,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
             {/* Origination Main Dropdown */}
             {isOriginationOpen && (
               <div className="ml-8 mt-2 space-y-1">
-                {/* Deals Subcategory */}
-                <div>
-                  <button
-                    onClick={() => setIsDealsOpen(!isDealsOpen)}
-                    className="flex items-center justify-between w-full px-3 py-2 rounded-lg text-sm font-light text-white opacity-70 hover:opacity-100 transition-colors"
-                  >
-                    <span>Deals</span>
-                    <svg
-                      className={`w-4 h-4 transition-transform ${isDealsOpen ? 'rotate-180' : ''}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* Deals Pages */}
-                  {isDealsOpen && (
-                    <div className="ml-4 mt-1 space-y-1">
-                      {dealsPages.map((page) => (
-                        <Link
-                          key={page.path}
-                          to={page.path}
-                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                            isActiveRoute(page.path)
-                              ? 'text-white opacity-100'
-                              : 'text-white opacity-70 hover:opacity-100'
-                          }`}
-                        >
-                          {page.name}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                {/* Home Link */}
+                <Link
+                  to="/damn-effect-strategy"
+                  className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                    isActiveRoute('/damn-effect-strategy')
+                      ? 'text-white opacity-100'
+                      : 'text-white opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  Overview
+                </Link>
 
                 {/* Strategies Subcategory */}
                 <div>
@@ -606,23 +562,41 @@ const Sidebar: React.FC<SidebarProps> = ({ isHeaderDropdownOpen = false }) => {
                   {/* Strategies Pages */}
                   {isStrategiesOpen && (
                     <div className="ml-4 mt-1 space-y-1">
-                      {strategiesPages.map((page) => (
-                        <Link
-                          key={page.path}
-                          to={page.path}
-                          className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
-                            isActiveRoute(page.path)
-                              ? 'text-white opacity-100'
-                              : 'text-white opacity-70 hover:opacity-100'
-                          }`}
-                        >
-                          {page.name}
-                        </Link>
-                      ))}
+                      <Link
+                        to="/pipeline"
+                        className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                          isActiveRoute('/pipeline')
+                            ? 'text-white opacity-100'
+                            : 'text-white opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        Pipeline Strategies
+                      </Link>
+                      <Link
+                        to="/investment-strategies"
+                        className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                          isActiveRoute('/investment-strategies')
+                            ? 'text-white opacity-100'
+                            : 'text-white opacity-70 hover:opacity-100'
+                        }`}
+                      >
+                        Strategies Sandbox
+                      </Link>
                     </div>
                   )}
                 </div>
 
+                {/* Deals Database - Simple Link */}
+                <Link
+                  to="/deals"
+                  className={`block px-3 py-2 rounded-lg text-sm font-light transition-colors ${
+                    isActiveRoute('/deals')
+                      ? 'text-white opacity-100'
+                      : 'text-white opacity-70 hover:opacity-100'
+                  }`}
+                >
+                  Deals Database
+                </Link>
               </div>
             )}
           </div>

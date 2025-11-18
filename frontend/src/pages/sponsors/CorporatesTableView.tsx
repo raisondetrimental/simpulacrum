@@ -558,7 +558,7 @@ const CorporatesTableView: React.FC = () => {
                               to={`/sponsors/meeting?contact=${contact.id}`}
                               className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors text-sm"
                             >
-                              Start Meeting
+                              Meeting Notes
                             </Link>
                           </td>
                         </tr>

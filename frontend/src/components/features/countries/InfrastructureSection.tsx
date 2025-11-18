@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 import type { CountryCompleteData } from '../../../types/country';
+import AdaptiveStatCard from './shared/AdaptiveStatCard';
 
 interface InfrastructureSectionProps {
   data: CountryCompleteData;
@@ -95,11 +96,11 @@ const InfrastructureSection: React.FC<InfrastructureSectionProps> = ({ data }) =
       {/* Pipeline Highlight */}
       {imi.pipeline_total_usd && (
         <div className="bg-gradient-to-r from-green-50 to-teal-50 border-2 border-green-300 rounded-lg p-6">
-          <h3 className="text-2xl font-bold text-green-900 mb-2">Infrastructure Pipeline</h3>
-          <div className="bg-white rounded-lg p-4 shadow-sm">
-            <p className="text-sm text-gray-600 mb-1">Total Pipeline Value</p>
-            <p className="text-3xl font-bold text-green-700">{imi.pipeline_total_usd}</p>
-          </div>
+          <h3 className="text-2xl font-bold text-green-900 mb-4">Infrastructure Pipeline</h3>
+          <AdaptiveStatCard
+            title="Total Pipeline Value"
+            value={imi.pipeline_total_usd}
+          />
         </div>
       )}
 

@@ -2121,3 +2121,96 @@ def delete_note(note_id):
             "success": False,
             "message": f"Error deleting note: {str(e)}"
         }), 500
+
+
+# ============================================================================
+# Shared Announcement Whiteboard (for admins and super admins)
+# ============================================================================
+
+@admin_bp.route('/announcement', methods=['GET'])
+@login_required
+def get_announcement():
+    """Get the shared announcement whiteboard content"""
+    # Allow both admin and super admin
+    if current_user.role != 'admin' and not current_user.is_super_admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin access required"
+        }), 403
+
+    try:
+        from ..utils.json_store import read_json_file
+        json_dir = Path(current_app.config['JSON_DIR'])
+        announcement_path = json_dir / 'shared_announcement.json'
+
+        # Create file if it doesn't exist
+        if not announcement_path.exists():
+            default_announcement = {
+                "content": "",
+                "last_updated": datetime.now().isoformat(),
+                "last_updated_by": ""
+            }
+            announcement_path.write_text(json.dumps(default_announcement, indent=2), encoding='utf-8')
+            return jsonify({
+                "success": True,
+                "data": default_announcement
+            })
+
+        announcement = read_json_file(announcement_path)
+
+        return jsonify({
+            "success": True,
+            "data": announcement
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading announcement: {str(e)}"
+        }), 500
+
+
+@admin_bp.route('/announcement', methods=['PUT'])
+@login_required
+def update_announcement():
+    """Update the shared announcement whiteboard content"""
+    # Allow both admin and super admin
+    if current_user.role != 'admin' and not current_user.is_super_admin:
+        return jsonify({
+            "success": False,
+            "message": "Admin access required"
+        }), 403
+
+    try:
+        from flask import request
+        from ..utils.json_store import write_json_file
+
+        data = request.json
+        if not data or 'content' not in data:
+            return jsonify({
+                "success": False,
+                "message": "Content is required"
+            }), 400
+
+        json_dir = Path(current_app.config['JSON_DIR'])
+        announcement_path = json_dir / 'shared_announcement.json'
+
+        announcement = {
+            "content": data['content'],
+            "last_updated": datetime.now().isoformat(),
+            "last_updated_by": current_user.full_name
+        }
+
+        write_json_file(announcement_path, announcement)
+
+        return jsonify({
+            "success": True,
+            "data": announcement,
+            "message": "Announcement updated successfully"
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error updating announcement: {str(e)}"
+        }), 500

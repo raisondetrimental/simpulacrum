@@ -541,6 +541,24 @@ def save_meeting_notes():
             # Generate unique ID for meeting note using timestamp
             meeting_id = f"meeting_{int(datetime.now().timestamp() * 1000)}"
 
+            # Handle user assignment
+            from ..utils.user_helpers import validate_user_ids, get_user_details
+
+            assigned_user_ids = meeting_note.get('assigned_user_ids', [])
+            assigned_to = []
+
+            if assigned_user_ids:
+                # Validate user IDs
+                is_valid, error_msg = validate_user_ids(assigned_user_ids)
+                if not is_valid:
+                    return jsonify({
+                        "success": False,
+                        "message": error_msg
+                    }), 400
+
+                # Get full user details
+                assigned_to = get_user_details(assigned_user_ids)
+
             # Add date to meeting note
             meeting_note_with_date = {
                 'id': meeting_id,
@@ -548,6 +566,7 @@ def save_meeting_notes():
                 'notes': meeting_note.get('notes', ''),
                 'participants': meeting_note.get('participants', ''),
                 'next_follow_up': meeting_note.get('next_follow_up', None),
+                'assigned_to': assigned_to,
                 'created_by': {
                     'user_id': current_user.id,
                     'username': current_user.username,
@@ -667,6 +686,28 @@ def update_meeting_note(contact_id, meeting_id):
                 meeting['notes'] = data.get('notes', meeting.get('notes', ''))
                 meeting['participants'] = data.get('participants', meeting.get('participants', ''))
                 meeting['next_follow_up'] = data.get('next_follow_up', meeting.get('next_follow_up'))
+
+                # Handle user assignment update (reassignment)
+                if 'assigned_user_ids' in data:
+                    from ..utils.user_helpers import validate_user_ids, get_user_details
+
+                    assigned_user_ids = data.get('assigned_user_ids', [])
+                    assigned_to = []
+
+                    if assigned_user_ids:
+                        # Validate user IDs
+                        is_valid, error_msg = validate_user_ids(assigned_user_ids)
+                        if not is_valid:
+                            return jsonify({
+                                "success": False,
+                                "message": error_msg
+                            }), 400
+
+                        # Get full user details
+                        assigned_to = get_user_details(assigned_user_ids)
+
+                    meeting['assigned_to'] = assigned_to
+
                 meeting['updated_at'] = datetime.now().isoformat()
                 meeting['updated_by'] = {
                     'user_id': current_user.id,
@@ -751,6 +792,247 @@ def delete_meeting_note(contact_id, meeting_id):
         return jsonify({
             "success": False,
             "message": f"Error deleting meeting note: {str(e)}"
+        }), 500
+
+
+@capital_partners_bp.route('/quick-meeting', methods=['POST'])
+@login_required
+def create_quick_meeting():
+    """Create a quick meeting from calendar (works across all CRM modules)"""
+    try:
+        data = request.get_json()
+        print(f"[DEBUG] Received data: {data}")
+
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "No data provided"
+            }), 400
+
+        # Required fields
+        contact_id = data.get('contact_id')
+        organization_type = data.get('organization_type', 'capital_partner')
+        meeting_date = data.get('date')
+        notes = data.get('notes', '')
+
+        print(f"[DEBUG] contact_id: {contact_id}, org_type: {organization_type}, date: {meeting_date}")
+
+        if not contact_id:
+            return jsonify({
+                "success": False,
+                "message": "contact_id is required"
+            }), 400
+
+        if not meeting_date:
+            return jsonify({
+                "success": False,
+                "message": "date is required"
+            }), 400
+
+        # Get contact from unified DAL
+        print(f"[DEBUG] Looking up contact...")
+        contact = get_contact_by_id(contact_id, organization_type)
+        if not contact:
+            return jsonify({
+                "success": False,
+                "message": f"Contact {contact_id} not found"
+            }), 404
+
+        print(f"[DEBUG] Contact found: {contact.get('name')}")
+
+        # Initialize meeting_history if needed
+        if 'meeting_history' not in contact:
+            contact['meeting_history'] = []
+
+        # Generate unique ID for meeting note
+        meeting_id = f"meeting_{int(datetime.now().timestamp() * 1000)}"
+
+        # Handle user assignment
+        from ..utils.user_helpers import validate_user_ids, get_user_details
+
+        assigned_user_ids = data.get('assigned_user_ids', [])
+        assigned_to = []
+
+        print(f"[DEBUG] Assigned user IDs: {assigned_user_ids}")
+
+        if assigned_user_ids:
+            # Validate user IDs
+            is_valid, error_msg = validate_user_ids(assigned_user_ids)
+            if not is_valid:
+                return jsonify({
+                    "success": False,
+                    "message": error_msg
+                }), 400
+
+            # Get full user details
+            assigned_to = get_user_details(assigned_user_ids)
+            print(f"[DEBUG] Assigned users: {assigned_to}")
+
+        # Create meeting note
+        print(f"[DEBUG] Creating meeting note with user: {current_user.username}")
+        meeting_note = {
+            'id': meeting_id,
+            'date': meeting_date,
+            'notes': notes,
+            'participants': data.get('participants', ''),
+            'next_follow_up': data.get('next_follow_up'),
+            'assigned_to': assigned_to,
+            'created_by': {
+                'user_id': current_user.id,
+                'username': current_user.username,
+                'full_name': getattr(current_user, 'full_name', current_user.username)
+            }
+        }
+
+        contact['meeting_history'].append(meeting_note)
+
+        # Update last_contact_date if meeting is in the past
+        print(f"[DEBUG] Parsing datetime: {meeting_date}")
+        try:
+            from datetime import timezone
+            meeting_datetime = datetime.fromisoformat(meeting_date.replace('Z', '+00:00'))
+            now_utc = datetime.now(timezone.utc)
+            if meeting_datetime <= now_utc:
+                contact['last_contact_date'] = meeting_date
+        except ValueError as ve:
+            print(f"[ERROR] DateTime parsing failed: {ve}")
+            # Continue anyway, don't fail the request
+
+        # Update next_contact_reminder if provided
+        if data.get('next_follow_up'):
+            contact['next_contact_reminder'] = data['next_follow_up']
+
+        # Update contact using unified DAL
+        print(f"[DEBUG] Updating contact...")
+        updated_contact = update_contact(contact_id, contact, organization_type)
+
+        if updated_contact:
+            print(f"[DEBUG] Contact updated successfully")
+            return jsonify({
+                "success": True,
+                "data": {
+                    "contact": updated_contact,
+                    "meeting": meeting_note
+                },
+                "message": "Meeting created successfully"
+            }), 201
+        else:
+            print(f"[ERROR] Failed to save meeting")
+            return jsonify({
+                "success": False,
+                "message": "Failed to save meeting"
+            }), 500
+
+    except Exception as e:
+        import traceback
+        print(f"[ERROR] Exception in create_quick_meeting: {str(e)}")
+        print(traceback.format_exc())
+        return jsonify({
+            "success": False,
+            "message": f"Error creating meeting: {str(e)}"
+        }), 500
+
+
+@capital_partners_bp.route('/quick-meeting/<contact_id>/<meeting_id>', methods=['PUT'])
+@login_required
+def update_quick_meeting(contact_id, meeting_id):
+    """Update a meeting (for drag-and-drop rescheduling, works across all CRM modules)"""
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({
+                "success": False,
+                "message": "No data provided"
+            }), 400
+
+        organization_type = data.get('organization_type', 'capital_partner')
+
+        # Get contact from unified DAL
+        contact = get_contact_by_id(contact_id, organization_type)
+        if not contact:
+            return jsonify({
+                "success": False,
+                "message": f"Contact {contact_id} not found"
+            }), 404
+
+        # Find meeting note
+        if 'meeting_history' not in contact:
+            return jsonify({
+                "success": False,
+                "message": "No meeting history found"
+            }), 404
+
+        meeting_found = False
+        for meeting in contact['meeting_history']:
+            if meeting.get('id') == meeting_id:
+                # Update date (for drag-and-drop)
+                if 'date' in data:
+                    meeting['date'] = data['date']
+
+                # Update other fields if provided
+                if 'notes' in data:
+                    meeting['notes'] = data['notes']
+                if 'participants' in data:
+                    meeting['participants'] = data['participants']
+                if 'next_follow_up' in data:
+                    meeting['next_follow_up'] = data['next_follow_up']
+
+                # Handle user assignment update
+                if 'assigned_user_ids' in data:
+                    from ..utils.user_helpers import validate_user_ids, get_user_details
+
+                    assigned_user_ids = data.get('assigned_user_ids', [])
+                    assigned_to = []
+
+                    if assigned_user_ids:
+                        # Validate user IDs
+                        is_valid, error_msg = validate_user_ids(assigned_user_ids)
+                        if not is_valid:
+                            return jsonify({
+                                "success": False,
+                                "message": error_msg
+                            }), 400
+
+                        # Get full user details
+                        assigned_to = get_user_details(assigned_user_ids)
+
+                    meeting['assigned_to'] = assigned_to
+
+                meeting['updated_at'] = datetime.now().isoformat()
+                meeting['updated_by'] = {
+                    'user_id': current_user.id,
+                    'username': current_user.username,
+                    'full_name': current_user.full_name
+                }
+                meeting_found = True
+                break
+
+        if not meeting_found:
+            return jsonify({
+                "success": False,
+                "message": f"Meeting {meeting_id} not found"
+            }), 404
+
+        # Update contact using unified DAL
+        updated_contact = update_contact(contact_id, contact, organization_type)
+
+        if updated_contact:
+            return jsonify({
+                "success": True,
+                "data": updated_contact,
+                "message": "Meeting updated successfully"
+            })
+        else:
+            return jsonify({
+                "success": False,
+                "message": "Failed to save meeting"
+            }), 500
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error updating meeting: {str(e)}"
         }), 500
 
 

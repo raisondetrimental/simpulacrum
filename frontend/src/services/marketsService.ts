@@ -11,22 +11,31 @@ export interface HistoricalYieldDataPoint {
   value: number | null;
 }
 
+export interface HistoricalYieldDataItem {
+  date: string;
+  '1_month': number | null;
+  '3_month': number | null;
+  '6_month': number | null;
+  '1_year': number | null;
+  '2_year': number | null;
+  '3_year': number | null;
+  '5_year': number | null;
+  '7_year': number | null;
+  '10_year': number | null;
+  '20_year': number | null;
+  '30_year': number | null;
+}
+
 export interface HistoricalYield {
-  dates: string[];
-  maturities: {
-    '1M': (number | null)[];
-    '3M': (number | null)[];
-    '6M': (number | null)[];
-    '1Y': (number | null)[];
-    '2Y': (number | null)[];
-    '3Y': (number | null)[];
-    '5Y': (number | null)[];
-    '7Y': (number | null)[];
-    '10Y': (number | null)[];
-    '20Y': (number | null)[];
-    '30Y': (number | null)[];
-    [maturity: string]: (number | null)[];
+  meta: {
+    source: string;
+    endpoint: string;
+    series_ids: { [key: string]: string };
+    observation_window_days: number;
+    generated_utc: string;
+    notes: string;
   };
+  data: HistoricalYieldDataItem[];
 }
 
 export interface CorporateBondsYield {
@@ -205,6 +214,37 @@ export async function refreshCorporateYields(): Promise<{ success: boolean; mess
 }
 
 // ============================================================================
+// Markets Overview (Aggregated Data)
+// ============================================================================
+
+export interface MarketsOverviewData {
+  timestamp: string;
+  us_yields: HistoricalYield | null;
+  corporate_bonds: CorporateBondsYield | null;
+  corporate_yields: CorporateYieldsData | null;
+  corporate_spreads: CorporateSpreadsData | null;
+  policy_rates: PolicyRatesData | null;
+  fx_rates: any | null; // FX Yahoo data structure
+  countries: any[]; // Country fundamentals array
+}
+
+/**
+ * Get aggregated markets overview data
+ */
+export async function getMarketsOverview(): Promise<MarketsOverviewData> {
+  const response = await fetch(`${API_BASE_URL}/api/markets/overview`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to fetch markets overview');
+  }
+
+  return response.json();
+}
+
+// ============================================================================
 // Policy Rates (BIS SDMX)
 // ============================================================================
 
@@ -264,6 +304,288 @@ export async function refreshPolicyRates(): Promise<{ success: boolean; message:
   if (!response.ok) {
     const error = await response.json();
     throw new Error(error.message || 'Failed to refresh policy rates');
+  }
+
+  return response.json();
+}
+
+// ============================================================================
+// Weekly Report Generation
+// ============================================================================
+
+/**
+ * Generate and open comprehensive weekly markets HTML report in new window
+ */
+export async function generateWeeklyMarketsReport(): Promise<void> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/reports/markets/weekly`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to generate weekly report');
+    }
+
+    // Get HTML content
+    const htmlContent = await response.text();
+
+    // Open in new window
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+      newWindow.document.write(htmlContent);
+      newWindow.document.close();
+    } else {
+      throw new Error('Failed to open new window. Please check your popup blocker settings.');
+    }
+  } catch (error) {
+    console.error('Error generating weekly report:', error);
+    throw error;
+  }
+}
+
+// ============================================================================
+// Turkey Yield Curve
+// ============================================================================
+
+export interface TurkeyYieldCurveDataPoint {
+  maturity: string;
+  maturity_text: string;
+  maturity_years: number;
+  yield: {
+    last: number;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  price: {
+    last: number | null;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  capital_growth: number | null;
+  last_update: string;
+}
+
+export interface TurkeyYieldCurveData {
+  last_updated: string;
+  country: string;
+  currency: string;
+  data_source: string;
+  yields: TurkeyYieldCurveDataPoint[];
+  notes?: string;
+}
+
+/**
+ * Fetch Turkey sovereign yield curve data
+ */
+export async function getTurkeyYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/turkey-yield-curve`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch Turkey yield curve data');
+  }
+
+  return response.json() as Promise<TurkeyYieldCurveData>;
+}
+
+/**
+ * Refresh Turkey yield curve data by running the fetch script
+ */
+export async function refreshTurkeyYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/refresh/turkey-yield-curve`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to refresh Turkey yield curve data');
+  }
+
+  return response.json() as Promise<TurkeyYieldCurveData>;
+}
+
+// ============================================================================
+// Vietnam Yield Curve
+// ============================================================================
+
+export interface VietnamYieldCurveDataPoint {
+  maturity: string;
+  maturity_text: string;
+  maturity_years: number;
+  yield: {
+    last: number;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  price: {
+    last: number | null;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  capital_growth: number | null;
+  last_update: string;
+}
+
+export interface VietnamYieldCurveData {
+  last_updated: string;
+  country: string;
+  currency: string;
+  data_source: string;
+  yields: VietnamYieldCurveDataPoint[];
+  notes?: string;
+}
+
+/**
+ * Fetch Vietnam sovereign yield curve data
+ */
+export async function getVietnamYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/vietnam-yield-curve`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch Vietnam yield curve data');
+  }
+
+  return response.json() as Promise<VietnamYieldCurveData>;
+}
+
+/**
+ * Refresh Vietnam yield curve data by running the fetch script
+ */
+export async function refreshVietnamYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/refresh/vietnam-yield-curve`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to refresh Vietnam yield curve data');
+  }
+
+  return response.json() as Promise<VietnamYieldCurveData>;
+}
+
+// ============================================================================
+// UK Yield Curve
+// ============================================================================
+
+export interface UKYieldCurveDataPoint {
+  maturity: string;
+  maturity_text: string;
+  maturity_years: number;
+  yield: {
+    last: number;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  price: {
+    last: number | null;
+    chg_1m: number | null;
+    chg_6m: number | null;
+    chg_12m: number | null;
+  };
+  capital_growth: number | null;
+  last_update: string;
+}
+
+export interface UKYieldCurveData {
+  last_updated: string;
+  country: string;
+  currency: string;
+  data_source: string;
+  yields: UKYieldCurveDataPoint[];
+  notes?: string;
+}
+
+/**
+ * Fetch UK sovereign yield curve data
+ */
+export async function getUKYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/uk-yield-curve`, {
+    credentials: 'include'
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch UK yield curve data');
+  }
+
+  return response.json() as Promise<UKYieldCurveData>;
+}
+
+/**
+ * Refresh UK yield curve data by running the fetch script
+ */
+export async function refreshUKYieldCurve() {
+  const response = await fetch(`${API_BASE_URL}/api/refresh/uk-yield-curve`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to refresh UK yield curve data');
+  }
+
+  return response.json() as Promise<UKYieldCurveData>;
+}
+
+// ============================================================================
+// Comprehensive Market Data Refresh
+// ============================================================================
+
+export interface RefreshResult {
+  name: string;
+  status: 'pending' | 'success' | 'error';
+  message: string;
+  timestamp: string | null;
+}
+
+export interface RefreshAllResponse {
+  success: boolean;
+  completed_at: string;
+  summary: {
+    total: number;
+    successful: number;
+    failed: number;
+  };
+  results: RefreshResult[];
+}
+
+/**
+ * Refresh ALL market data sources (US yields, corporate data, FX, policy rates, yield curves)
+ */
+export async function refreshAllMarketsData(): Promise<RefreshAllResponse> {
+  const response = await fetch(`${API_BASE_URL}/api/markets/refresh-all`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || 'Failed to refresh market data');
   }
 
   return response.json();

@@ -17,6 +17,7 @@ import {
 } from '../../types/sponsors';
 import SponsorPreferencesGrid from '../../components/features/sponsors/SponsorPreferencesGrid';
 import { API_BASE_URL } from '../../config';
+import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-corporate' | 'select-contact' | 'edit-details';
 
@@ -34,6 +35,7 @@ const SponsorMeetingNotes: React.FC = () => {
   // Selected entities
   const [selectedCorporate, setSelectedCorporate] = useState<Corporate | null>(null);
   const [selectedContact, setSelectedContact] = useState<SponsorContact | null>(null);
+  const [editingMeetingId, setEditingMeetingId] = useState<string | null>(null);
 
   // Loading states
   const [loading, setLoading] = useState(false);
@@ -81,7 +83,8 @@ const SponsorMeetingNotes: React.FC = () => {
     date: new Date().toISOString().split('T')[0],
     notes: '',
     participants: '',
-    next_follow_up: ''
+    next_follow_up: '',
+    assigned_user_ids: [] as string[]
   });
 
   // Step 3: Editable contact/corporate data
@@ -128,6 +131,8 @@ const SponsorMeetingNotes: React.FC = () => {
   // Auto-select contact and corporate if contact query parameter is provided
   useEffect(() => {
     const contactId = searchParams.get('contact');
+    const meetingId = searchParams.get('meeting');
+
     if (contactId && allContacts.length > 0 && allCorporates.length > 0) {
       const contact = allContacts.find(c => c.id === contactId);
       if (contact) {
@@ -135,6 +140,22 @@ const SponsorMeetingNotes: React.FC = () => {
         const corporate = allCorporates.find(corp => corp.id === contact.corporate_id);
         if (corporate) {
           setSelectedCorporate(corporate);
+
+          // If meeting ID is provided, pre-fill the meeting form for editing
+          if (meetingId && contact.meeting_history) {
+            const existingMeeting = contact.meeting_history.find(m => m.id === meetingId);
+            if (existingMeeting) {
+              setEditingMeetingId(meetingId);
+              setMeetingNote({
+                date: existingMeeting.date.split('T')[0],
+                notes: existingMeeting.notes || '',
+                participants: existingMeeting.participants || '',
+                next_follow_up: existingMeeting.next_follow_up || '',
+                assigned_user_ids: existingMeeting.assigned_to?.map(u => u.user_id) || []
+              });
+            }
+          }
+
           setCurrentStep('edit-details');
         }
       }
@@ -147,8 +168,8 @@ const SponsorMeetingNotes: React.FC = () => {
       setNewContactRelationship(selectedContact.relationship);
       setNewDiscProfile(selectedContact.disc_profile);
       setNewCorporateRelationship(selectedCorporate.relationship);
-      setInvestmentNeedMin(selectedCorporate.investment_min);
-      setInvestmentNeedMax(selectedCorporate.investment_max);
+      setInvestmentMin(selectedCorporate.investment_min);
+      setInvestmentMax(selectedCorporate.investment_max);
       setCurrency(selectedCorporate.currency);
       setInfrastructureTypes(selectedCorporate.infrastructure_types);
       setRegions(selectedCorporate.regions);
@@ -311,38 +332,101 @@ const SponsorMeetingNotes: React.FC = () => {
 
     setSaving(true);
     try {
-      const payload = {
-        contact_id: selectedContact.id,
-        contact_updates: {
-          relationship: newContactRelationship,
-          disc_profile: newDiscProfile
-        },
-        corporate_updates: {
-          relationship: newCorporateRelationship,
-          investment_min: investmentMin,
-          investment_max: investmentMax,
-          currency: currency,
-          infrastructure_types: infrastructureTypes,
-          regions: regions
-        },
-        meeting_note: {
+      let result: ApiResponse<any>;
+
+      if (editingMeetingId) {
+        // Update existing meeting
+        const updatePayload = {
           notes: meetingNote.notes,
           participants: meetingNote.participants,
-          next_follow_up: meetingNote.next_follow_up || null
+          next_follow_up: meetingNote.next_follow_up || null,
+          assigned_user_ids: meetingNote.assigned_user_ids
+        };
+
+        const meetingResponse = await fetch(
+          `${API_BASE_URL}/api/sponsor-contacts/${selectedContact.id}/meetings/${editingMeetingId}`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(updatePayload)
+          }
+        );
+
+        result = await meetingResponse.json();
+
+        // Also update contact/corporate details if they were changed
+        if (result.success) {
+          const contactUpdateResponse = await fetch(
+            `${API_BASE_URL}/api/sponsor-contacts/${selectedContact.id}`,
+            {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                relationship: newContactRelationship,
+                disc_profile: newDiscProfile
+              })
+            }
+          );
+          await contactUpdateResponse.json();
+
+          if (selectedCorporate) {
+            const corporateUpdateResponse = await fetch(
+              `${API_BASE_URL}/api/corporates/${selectedCorporate.id}`,
+              {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                  relationship: newCorporateRelationship,
+                  investment_min: investmentMin,
+                  investment_max: investmentMax,
+                  currency: currency,
+                  infrastructure_types: infrastructureTypes,
+                  regions: regions
+                })
+              }
+            );
+            await corporateUpdateResponse.json();
+          }
         }
-      };
+      } else {
+        // Create new meeting (original behavior)
+        const payload = {
+          contact_id: selectedContact.id,
+          contact_updates: {
+            relationship: newContactRelationship,
+            disc_profile: newDiscProfile
+          },
+          corporate_updates: {
+            relationship: newCorporateRelationship,
+            investment_min: investmentMin,
+            investment_max: investmentMax,
+            currency: currency,
+            infrastructure_types: infrastructureTypes,
+            regions: regions
+          },
+          meeting_note: {
+            notes: meetingNote.notes,
+            participants: meetingNote.participants,
+            next_follow_up: meetingNote.next_follow_up || null,
+            assigned_user_ids: meetingNote.assigned_user_ids
+          }
+        };
 
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-meetings`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-        credentials: 'include'
-      });
+        const response = await fetch(`${API_BASE_URL}/api/sponsor-meetings`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          credentials: 'include'
+        });
 
-      const result = await response.json();
+        result = await response.json();
+      }
 
       if (result.success) {
-        setSuccessMessage('Meeting saved successfully!');
+        setSuccessMessage(editingMeetingId ? 'Meeting updated successfully!' : 'Meeting saved successfully!');
         setTimeout(() => {
           navigate(`/sponsors/contacts/${selectedContact.id}`);
         }, 1500);
@@ -364,7 +448,8 @@ const SponsorMeetingNotes: React.FC = () => {
       date: new Date().toISOString().split('T')[0],
       notes: '',
       participants: '',
-      next_follow_up: ''
+      next_follow_up: '',
+      assigned_user_ids: []
     });
   };
 
@@ -921,6 +1006,17 @@ const SponsorMeetingNotes: React.FC = () => {
                   onChange={(e) => setMeetingNote({ ...meetingNote, next_follow_up: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
+              </div>
+              <div>
+                <UserMultiSelect
+                  selectedUserIds={meetingNote.assigned_user_ids}
+                  onChange={(userIds) => setMeetingNote({ ...meetingNote, assigned_user_ids: userIds })}
+                  label="Assign Follow-up To"
+                  placeholder="Select users for follow-up..."
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Optional: Assign this meeting to specific users for tracking
+                </p>
               </div>
             </div>
           </div>

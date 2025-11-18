@@ -273,3 +273,48 @@ def get_country_preferences_stats():
             'success': False,
             'message': f'Error getting country preferences stats: {str(e)}'
         }), 500
+
+
+@reports_bp.route('/markets/weekly', methods=['POST'])
+@login_required
+def generate_markets_weekly_report():
+    """
+    Generate comprehensive weekly markets HTML report.
+    Restricted to super admins only.
+
+    Returns:
+        HTML page containing all markets data in clean, table-based format
+    """
+    from flask_login import current_user
+
+    # Check if user is super admin
+    if not current_user.is_super_admin:
+        return jsonify({
+            'success': False,
+            'message': 'Access denied. Super admin privileges required.'
+        }), 403
+
+    try:
+        from ..services.markets_simple_html_report import generate_markets_simple_html_report
+
+        # Get path to market data JSON files
+        json_dir = Path(current_app.config['JSON_DIR'])
+
+        # Generate HTML
+        html_content = generate_markets_simple_html_report(json_dir)
+
+        # Return HTML
+        return Response(
+            html_content,
+            mimetype='text/html',
+            headers={
+                'Content-Type': 'text/html; charset=utf-8'
+            }
+        )
+
+    except Exception as e:
+        current_app.logger.error(f"Error generating markets weekly report: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': f'Error generating report: {str(e)}'
+        }), 500

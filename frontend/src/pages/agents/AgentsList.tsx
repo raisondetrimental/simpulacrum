@@ -441,7 +441,7 @@ const AgentsList: React.FC = () => {
                               to={`/agents/meeting-notes/${contact.id}`}
                               className="ml-4 bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors text-sm"
                             >
-                              Start Meeting
+                              Meeting Notes
                             </Link>
                           </div>
                         </div>

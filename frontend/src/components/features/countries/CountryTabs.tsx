@@ -18,8 +18,9 @@ import StrategySection from './StrategySection';
 import InfrastructureSection from './InfrastructureSection';
 import ClimateRiskSection from './ClimateRiskSection';
 import DealsSection from './DealsSection';
+import YieldCurveSection from './YieldCurveSection';
 
-type TabId = 'overview' | 'macro' | 'financial' | 'capital-markets' | 'strategy' | 'infrastructure' | 'climate' | 'deals';
+type TabId = 'overview' | 'macro' | 'financial' | 'capital-markets' | 'strategy' | 'infrastructure' | 'climate' | 'yield-curve' | 'deals';
 
 interface Tab {
   id: TabId;
@@ -55,25 +56,42 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData, f
       { id: 'macro', label: 'Macro Analysis' },
     ];
 
+    // Check if this country has yield curve data (Turkey or Vietnam)
+    const hasYieldCurve = fundamentals.slug === 'turkiye' || fundamentals.slug === 'vietnam';
+
     if (hasStructuredData) {
       // Structured format tabs (Armenia, Mongolia, Turkey, Uzbekistan)
-      return [
+      const tabs = [
         ...baseTabs,
         { id: 'financial', label: 'Financial Sector' },
         { id: 'capital-markets', label: 'Capital Markets' },
         { id: 'strategy', label: 'Development Strategy' },
         { id: 'infrastructure', label: 'Infrastructure' },
-        { id: 'deals', label: 'Deals' },
       ];
+
+      // Add yield curve tab before deals for Turkey
+      if (hasYieldCurve) {
+        tabs.push({ id: 'yield-curve', label: 'Yield Curve' });
+      }
+
+      tabs.push({ id: 'deals', label: 'Deals' });
+      return tabs;
     } else {
       // Narrative format tabs (Vietnam)
-      return [
+      const tabs = [
         ...baseTabs,
         { id: 'strategy', label: 'Development Strategy' },
         { id: 'infrastructure', label: 'Infrastructure' },
         { id: 'climate', label: 'Climate & Risk' },
-        { id: 'deals', label: 'Deals' },
       ];
+
+      // Add yield curve tab before deals for Vietnam
+      if (hasYieldCurve) {
+        tabs.push({ id: 'yield-curve', label: 'Yield Curve' });
+      }
+
+      tabs.push({ id: 'deals', label: 'Deals' });
+      return tabs;
     }
   };
 
@@ -230,6 +248,9 @@ const CountryTabs: React.FC<CountryTabsProps> = ({ fundamentals, completeData, f
 
       case 'climate':
         return <ClimateRiskSection data={completeData} />;
+
+      case 'yield-curve':
+        return <YieldCurveSection countrySlug={fundamentals.slug as 'turkiye' | 'vietnam'} />;
 
       case 'deals':
         return <DealsSection countrySlug={fundamentals.slug} countryName={fundamentals.name} />;

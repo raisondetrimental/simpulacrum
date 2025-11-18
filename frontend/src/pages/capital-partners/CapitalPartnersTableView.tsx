@@ -9,6 +9,7 @@ import { CapitalPartner, Contact, ApiResponse } from '../../types/liquidity';
 import { API_BASE_URL } from '../../config';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
+import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
 
 interface CapitalPartnerWithContacts extends CapitalPartner {
   contacts: Contact[];
@@ -16,7 +17,7 @@ interface CapitalPartnerWithContacts extends CapitalPartner {
 
 type FilterState = 'any' | 'Y' | 'N';
 
-// Main investment preference filters (10 commonly used)
+// Main investment preference filters (7 commonly used - countries now handled separately)
 const MAIN_PREFERENCES = [
   { key: 'transport_infra', label: 'Transport Infrastructure' },
   { key: 'energy_infra', label: 'Energy Infrastructure' },
@@ -25,9 +26,6 @@ const MAIN_PREFERENCES = [
   { key: 'asia_em', label: 'Asia EM' },
   { key: 'africa_em', label: 'Africa EM' },
   { key: 'emea_em', label: 'EMEA EM' },
-  { key: 'vietnam', label: 'Vietnam' },
-  { key: 'mongolia', label: 'Mongolia' },
-  { key: 'turkey', label: 'Turkey' },
 ];
 
 // Advanced filters (remaining preferences)
@@ -52,6 +50,7 @@ const CapitalPartnersTableView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCountry, setFilterCountry] = useState<string>('');
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
   // Main preference filters
@@ -129,8 +128,12 @@ const CapitalPartnersTableView: React.FC = () => {
       partner.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
       partner.contacts.some(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    // Country filter
+    // Country filter (headquarters)
     const matchesCountry = !filterCountry || partner.country === filterCountry;
+
+    // Countries array filter (investment focus countries)
+    const matchesInvestmentCountries = selectedCountries.length === 0 ||
+      (partner.countries && partner.countries.some(c => selectedCountries.includes(c)));
 
     // Main preference filters
     const matchesMainFilters = MAIN_PREFERENCES.every(pref => {
@@ -147,6 +150,7 @@ const CapitalPartnersTableView: React.FC = () => {
     return (
       matchesSearch &&
       matchesCountry &&
+      matchesInvestmentCountries &&
       matchesMainFilters &&
       matchesAdvancedFilters
     );
@@ -252,6 +256,16 @@ const CapitalPartnersTableView: React.FC = () => {
                 <option key={country} value={country}>{country}</option>
               ))}
             </select>
+          </div>
+
+          {/* Investment Focus Countries Filter */}
+          <div>
+            <CountryMultiSelect
+              selectedCountries={selectedCountries}
+              onChange={setSelectedCountries}
+              label="Investment Focus Countries"
+              placeholder="Filter by investment countries..."
+            />
           </div>
         </div>
 
@@ -371,9 +385,15 @@ const CapitalPartnersTableView: React.FC = () => {
                   if (partner.preferences?.asia_em === 'Y') activePrefs.push({ label: 'Asia', type: 'region' });
                   if (partner.preferences?.africa_em === 'Y') activePrefs.push({ label: 'Africa', type: 'region' });
                   if (partner.preferences?.emea_em === 'Y') activePrefs.push({ label: 'EMEA', type: 'region' });
-                  if (partner.preferences?.vietnam === 'Y') activePrefs.push({ label: 'Vietnam', type: 'region' });
-                  if (partner.preferences?.mongolia === 'Y') activePrefs.push({ label: 'Mongolia', type: 'region' });
-                  if (partner.preferences?.turkey === 'Y') activePrefs.push({ label: 'Turkey', type: 'region' });
+
+                  // Countries from countries array
+                  if (partner.countries && partner.countries.length > 0) {
+                    partner.countries.forEach(countryId => {
+                      // Capitalize first letter for display
+                      const displayName = countryId.charAt(0).toUpperCase() + countryId.slice(1);
+                      activePrefs.push({ label: displayName, type: 'country' });
+                    });
+                  }
 
                   return (
                     <React.Fragment key={partner.id}>
@@ -507,7 +527,7 @@ const CapitalPartnersTableView: React.FC = () => {
                               to={`/liquidity/meeting-notes/${contact.id}`}
                               className="bg-green-600 text-white px-3 py-1 rounded-md hover:bg-green-700 transition-colors text-sm"
                             >
-                              Start Meeting
+                              Meeting Notes
                             </Link>
                           </td>
                         </tr>

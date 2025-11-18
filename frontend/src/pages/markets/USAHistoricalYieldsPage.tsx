@@ -58,6 +58,7 @@ const MATURITY_LABELS: Record<MaturityKey, string> = {
 const UsaHistoricalYieldsPage: React.FC = () => {
   const [data, setData] = useState<FredData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [visibleMaturities, setVisibleMaturities] = useState<Set<MaturityKey>>(
     new Set(['3_month', '2_year', '10_year', '30_year']) // Default: benchmark yields
@@ -67,13 +68,26 @@ const UsaHistoricalYieldsPage: React.FC = () => {
     fetchData();
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (isRefresh = false) => {
     try {
-      setLoading(true);
+      if (isRefresh) {
+        setRefreshing(true);
+      } else {
+        setLoading(true);
+      }
       setError(null);
-      console.log('Fetching from:', `${API_BASE_URL}/api/historical-yields/usa`);
 
-      const response = await fetch(`${API_BASE_URL}/api/historical-yields/usa`);
+      // Use refresh endpoint if refreshing, otherwise use regular endpoint
+      const endpoint = isRefresh
+        ? `${API_BASE_URL}/api/refresh/us-yields`
+        : `${API_BASE_URL}/api/historical-yields/usa`;
+
+      console.log('Fetching from:', endpoint);
+
+      const response = await fetch(endpoint, {
+        method: isRefresh ? 'POST' : 'GET',
+        credentials: 'include' // Required for authentication
+      });
       console.log('Response status:', response.status);
 
       if (!response.ok) {
@@ -103,8 +117,16 @@ const UsaHistoricalYieldsPage: React.FC = () => {
       console.error('Error fetching data:', err);
       setError(err instanceof Error ? err.message : 'Failed to load data');
     } finally {
-      setLoading(false);
+      if (isRefresh) {
+        setRefreshing(false);
+      } else {
+        setLoading(false);
+      }
     }
+  };
+
+  const handleRefresh = () => {
+    fetchData(true);
   };
 
   const toggleMaturity = (maturity: MaturityKey) => {
@@ -148,7 +170,7 @@ const UsaHistoricalYieldsPage: React.FC = () => {
         <div className="text-center">
           <div className="text-red-600 text-xl mb-4">Error: {error}</div>
           <button
-            onClick={fetchData}
+            onClick={() => fetchData(false)}
             className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
           >
             Retry
@@ -213,9 +235,35 @@ const UsaHistoricalYieldsPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            US Sovereign Yields
-          </h1>
+          <div className="flex justify-between items-start mb-2">
+            <h1 className="text-4xl font-bold text-gray-900">
+              US Sovereign Yields
+            </h1>
+            <button
+              onClick={handleRefresh}
+              disabled={refreshing}
+              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all ${
+                refreshing
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md'
+              }`}
+            >
+              <svg
+                className={`w-5 h-5 mr-2 ${refreshing ? 'animate-spin' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+              {refreshing ? 'Refreshing...' : 'Refresh Data'}
+            </button>
+          </div>
           <p className="text-lg text-gray-600">
             United States Treasury Securities - Real-time yield curve analysis
           </p>

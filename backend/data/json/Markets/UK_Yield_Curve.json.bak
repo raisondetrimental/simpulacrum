@@ -1,0 +1,390 @@
+{
+  "last_updated": "2025-11-17T14:10:24.042614",
+  "country": "United Kingdom",
+  "currency": "GBP",
+  "data_source": "worldgovernmentbonds.com (automated - complete table)",
+  "url": "https://www.worldgovernmentbonds.com/country/united-kingdom/",
+  "yields": [
+    {
+      "maturity": "0M",
+      "maturity_text": "1 month",
+      "maturity_years": 0.083,
+      "yield": {
+        "last": 4.129,
+        "chg_1m": 3.5,
+        "chg_6m": 1.2,
+        "chg_12m": -69.2
+      },
+      "price": {
+        "last": 99.66,
+        "chg_1m": -0.01,
+        "chg_6m": 0.0,
+        "chg_12m": 0.05
+      },
+      "capital_growth": 1.003,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "3M",
+      "maturity_text": "3 months",
+      "maturity_years": 0.25,
+      "yield": {
+        "last": 4.008,
+        "chg_1m": -9.8,
+        "chg_6m": -30.7,
+        "chg_12m": -73.1
+      },
+      "price": {
+        "last": 99.02,
+        "chg_1m": 0.02,
+        "chg_6m": 0.07,
+        "chg_12m": 0.17
+      },
+      "capital_growth": 1.009,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "6M",
+      "maturity_text": "6 months",
+      "maturity_years": 0.5,
+      "yield": {
+        "last": 3.934,
+        "chg_1m": -11.9,
+        "chg_6m": -35.1,
+        "chg_12m": -76.7
+      },
+      "price": {
+        "last": 98.09,
+        "chg_1m": 0.06,
+        "chg_6m": 0.17,
+        "chg_12m": 0.37
+      },
+      "capital_growth": 1.019,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "1Y",
+      "maturity_text": "1 year",
+      "maturity_years": 1.0,
+      "yield": {
+        "last": 3.759,
+        "chg_1m": -9.1,
+        "chg_6m": -7.6,
+        "chg_12m": -85.7
+      },
+      "price": {
+        "last": 96.38,
+        "chg_1m": 0.09,
+        "chg_6m": 0.07,
+        "chg_12m": 0.83
+      },
+      "capital_growth": 1.037,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "2Y",
+      "maturity_text": "2 years",
+      "maturity_years": 2.0,
+      "yield": {
+        "last": 3.809,
+        "chg_1m": -7.9,
+        "chg_6m": -21.0,
+        "chg_12m": -57.6
+      },
+      "price": {
+        "last": 92.8,
+        "chg_1m": 0.15,
+        "chg_6m": 0.41,
+        "chg_12m": 1.12
+      },
+      "capital_growth": 1.077,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "3Y",
+      "maturity_text": "3 years",
+      "maturity_years": 3.0,
+      "yield": {
+        "last": 3.822,
+        "chg_1m": -4.4,
+        "chg_6m": -19.6,
+        "chg_12m": -37.9
+      },
+      "price": {
+        "last": 89.36,
+        "chg_1m": 0.13,
+        "chg_6m": 0.57,
+        "chg_12m": 1.1
+      },
+      "capital_growth": 1.119,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "4Y",
+      "maturity_text": "4 years",
+      "maturity_years": 4.0,
+      "yield": {
+        "last": 3.911,
+        "chg_1m": -0.9,
+        "chg_6m": -16.3,
+        "chg_12m": -27.6
+      },
+      "price": {
+        "last": 85.77,
+        "chg_1m": 0.03,
+        "chg_6m": 0.62,
+        "chg_12m": 1.06
+      },
+      "capital_growth": 1.165,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "5Y",
+      "maturity_text": "5 years",
+      "maturity_years": 5.0,
+      "yield": {
+        "last": 3.974,
+        "chg_1m": -0.6,
+        "chg_6m": -18.6,
+        "chg_12m": -34.1
+      },
+      "price": {
+        "last": 82.3,
+        "chg_1m": 0.04,
+        "chg_6m": 0.91,
+        "chg_12m": 1.66
+      },
+      "capital_growth": 1.215,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "6Y",
+      "maturity_text": "6 years",
+      "maturity_years": 6.0,
+      "yield": {
+        "last": 4.126,
+        "chg_1m": -1.2,
+        "chg_6m": -16.9,
+        "chg_12m": -11.8
+      },
+      "price": {
+        "last": 78.46,
+        "chg_1m": 0.06,
+        "chg_6m": 0.98,
+        "chg_12m": 0.68
+      },
+      "capital_growth": 1.274,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "7Y",
+      "maturity_text": "7 years",
+      "maturity_years": 7.0,
+      "yield": {
+        "last": 4.134,
+        "chg_1m": 0.1,
+        "chg_6m": -15.2,
+        "chg_12m": -22.4
+      },
+      "price": {
+        "last": 75.31,
+        "chg_1m": 0.0,
+        "chg_6m": 1.03,
+        "chg_12m": 1.51
+      },
+      "capital_growth": 1.327,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "8Y",
+      "maturity_text": "8 years",
+      "maturity_years": 8.0,
+      "yield": {
+        "last": 4.421,
+        "chg_1m": 1.5,
+        "chg_6m": -5.1,
+        "chg_12m": 1.5
+      },
+      "price": {
+        "last": 70.75,
+        "chg_1m": -0.11,
+        "chg_6m": 0.4,
+        "chg_12m": -0.11
+      },
+      "capital_growth": 1.413,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "9Y",
+      "maturity_text": "9 years",
+      "maturity_years": 9.0,
+      "yield": {
+        "last": 4.48,
+        "chg_1m": 1.1,
+        "chg_6m": -11.4,
+        "chg_12m": 2.4
+      },
+      "price": {
+        "last": 67.41,
+        "chg_1m": -0.09,
+        "chg_6m": 0.99,
+        "chg_12m": -0.21
+      },
+      "capital_growth": 1.483,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "10Y",
+      "maturity_text": "10 years",
+      "maturity_years": 10.0,
+      "yield": {
+        "last": 4.542,
+        "chg_1m": 0.9,
+        "chg_6m": -11.1,
+        "chg_12m": 8.2
+      },
+      "price": {
+        "last": 64.13,
+        "chg_1m": -0.09,
+        "chg_6m": 1.06,
+        "chg_12m": -0.79
+      },
+      "capital_growth": 1.559,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "12Y",
+      "maturity_text": "12 years",
+      "maturity_years": 12.0,
+      "yield": {
+        "last": 4.829,
+        "chg_1m": 1.2,
+        "chg_6m": 0.0,
+        "chg_12m": 29.6
+      },
+      "price": {
+        "last": 56.78,
+        "chg_1m": -0.14,
+        "chg_6m": 0.0,
+        "chg_12m": -3.34
+      },
+      "capital_growth": 1.761,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "15Y",
+      "maturity_text": "15 years",
+      "maturity_years": 15.0,
+      "yield": {
+        "last": 4.951,
+        "chg_1m": -0.7,
+        "chg_6m": -9.9,
+        "chg_12m": 20.5
+      },
+      "price": {
+        "last": 48.44,
+        "chg_1m": 0.1,
+        "chg_6m": 1.42,
+        "chg_12m": -2.89
+      },
+      "capital_growth": 2.064,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "20Y",
+      "maturity_text": "20 years",
+      "maturity_years": 20.0,
+      "yield": {
+        "last": 5.224,
+        "chg_1m": 0.4,
+        "chg_6m": -6.2,
+        "chg_12m": 33.1
+      },
+      "price": {
+        "last": 36.12,
+        "chg_1m": -0.06,
+        "chg_6m": 1.2,
+        "chg_12m": -6.11
+      },
+      "capital_growth": 2.768,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "25Y",
+      "maturity_text": "25 years",
+      "maturity_years": 25.0,
+      "yield": {
+        "last": 5.297,
+        "chg_1m": -0.1,
+        "chg_6m": -6.0,
+        "chg_12m": 38.2
+      },
+      "price": {
+        "last": 27.52,
+        "chg_1m": 0.04,
+        "chg_6m": 1.44,
+        "chg_12m": -8.66
+      },
+      "capital_growth": 3.634,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "30Y",
+      "maturity_text": "30 years",
+      "maturity_years": 30.0,
+      "yield": {
+        "last": 5.359,
+        "chg_1m": 1.5,
+        "chg_6m": -4.0,
+        "chg_12m": 42.0
+      },
+      "price": {
+        "last": 20.89,
+        "chg_1m": -0.43,
+        "chg_6m": 1.16,
+        "chg_12m": -11.26
+      },
+      "capital_growth": 4.787,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "40Y",
+      "maturity_text": "40 years",
+      "maturity_years": 40.0,
+      "yield": {
+        "last": 5.325,
+        "chg_1m": 2.0,
+        "chg_6m": -2.6,
+        "chg_12m": 47.8
+      },
+      "price": {
+        "last": 12.55,
+        "chg_1m": -0.79,
+        "chg_6m": 0.97,
+        "chg_12m": -16.67
+      },
+      "capital_growth": 7.966,
+      "last_update": "17 Nov"
+    },
+    {
+      "maturity": "50Y",
+      "maturity_text": "50 years",
+      "maturity_years": 50.0,
+      "yield": {
+        "last": 4.852,
+        "chg_1m": 7.7,
+        "chg_6m": 17.8,
+        "chg_12m": 47.0
+      },
+      "price": {
+        "last": 9.36,
+        "chg_1m": -3.6,
+        "chg_6m": -8.15,
+        "chg_12m": -20.07
+      },
+      "capital_growth": 10.686,
+      "last_update": "17 Nov"
+    }
+  ],
+  "notes": "Automatically fetched complete Residual Maturity table from https://www.worldgovernmentbonds.com/country/united-kingdom/"
+}

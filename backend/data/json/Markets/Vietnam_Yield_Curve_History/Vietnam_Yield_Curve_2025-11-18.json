@@ -1,0 +1,181 @@
+{
+  "last_updated": "2025-11-18T10:16:35.732066",
+  "country": "Vietnam",
+  "currency": "VND",
+  "data_source": "worldgovernmentbonds.com (automated - complete table)",
+  "url": "https://www.worldgovernmentbonds.com/country/vietnam/",
+  "yields": [
+    {
+      "maturity": "1Y",
+      "maturity_text": "1 year",
+      "maturity_years": 1.0,
+      "yield": {
+        "last": 2.983,
+        "chg_1m": 9.1,
+        "chg_6m": 74.4,
+        "chg_12m": 108.8
+      },
+      "price": {
+        "last": 97.1,
+        "chg_1m": -0.09,
+        "chg_6m": -0.73,
+        "chg_12m": -1.06
+      },
+      "capital_growth": 1.029,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "2Y",
+      "maturity_text": "2 years",
+      "maturity_years": 2.0,
+      "yield": {
+        "last": 3.028,
+        "chg_1m": 8.7,
+        "chg_6m": 76.3,
+        "chg_12m": 108.4
+      },
+      "price": {
+        "last": 94.21,
+        "chg_1m": -0.17,
+        "chg_6m": -1.47,
+        "chg_12m": -2.09
+      },
+      "capital_growth": 1.061,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "3Y",
+      "maturity_text": "3 years",
+      "maturity_years": 3.0,
+      "yield": {
+        "last": 3.093,
+        "chg_1m": 7.5,
+        "chg_6m": 76.3,
+        "chg_12m": 111.6
+      },
+      "price": {
+        "last": 91.27,
+        "chg_1m": -0.22,
+        "chg_6m": -2.2,
+        "chg_12m": -3.21
+      },
+      "capital_growth": 1.095,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "5Y",
+      "maturity_text": "5 years",
+      "maturity_years": 5.0,
+      "yield": {
+        "last": 3.339,
+        "chg_1m": 4.0,
+        "chg_6m": 78.0,
+        "chg_12m": 132.9
+      },
+      "price": {
+        "last": 84.86,
+        "chg_1m": -0.19,
+        "chg_6m": -3.71,
+        "chg_12m": -6.26
+      },
+      "capital_growth": 1.178,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "7Y",
+      "maturity_text": "7 years",
+      "maturity_years": 7.0,
+      "yield": {
+        "last": 3.585,
+        "chg_1m": 2.4,
+        "chg_6m": 69.4,
+        "chg_12m": 126.5
+      },
+      "price": {
+        "last": 78.15,
+        "chg_1m": -0.17,
+        "chg_6m": -4.59,
+        "chg_12m": -8.24
+      },
+      "capital_growth": 1.279,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "10Y",
+      "maturity_text": "10 years",
+      "maturity_years": 10.0,
+      "yield": {
+        "last": 3.992,
+        "chg_1m": 11.6,
+        "chg_6m": 82.0,
+        "chg_12m": 118.3
+      },
+      "price": {
+        "last": 67.61,
+        "chg_1m": -1.11,
+        "chg_6m": -7.61,
+        "chg_12m": -10.8
+      },
+      "capital_growth": 1.479,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "15Y",
+      "maturity_text": "15 years",
+      "maturity_years": 15.0,
+      "yield": {
+        "last": 4.096,
+        "chg_1m": 12.9,
+        "chg_6m": 74.9,
+        "chg_12m": 101.8
+      },
+      "price": {
+        "last": 54.76,
+        "chg_1m": -1.85,
+        "chg_6m": -10.27,
+        "chg_12m": -13.71
+      },
+      "capital_growth": 1.826,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "20Y",
+      "maturity_text": "20 years",
+      "maturity_years": 20.0,
+      "yield": {
+        "last": 4.132,
+        "chg_1m": 16.1,
+        "chg_6m": 65.8,
+        "chg_12m": 100.3
+      },
+      "price": {
+        "last": 44.5,
+        "chg_1m": -3.03,
+        "chg_6m": -11.9,
+        "chg_12m": -17.59
+      },
+      "capital_growth": 2.247,
+      "last_update": "18 Nov"
+    },
+    {
+      "maturity": "30Y",
+      "maturity_text": "30 years",
+      "maturity_years": 30.0,
+      "yield": {
+        "last": 4.18,
+        "chg_1m": 15.0,
+        "chg_6m": 62.0,
+        "chg_12m": 88.3
+      },
+      "price": {
+        "last": 29.27,
+        "chg_1m": -4.25,
+        "chg_6m": -16.4,
+        "chg_12m": -22.55
+      },
+      "capital_growth": 3.416,
+      "last_update": "18 Nov"
+    }
+  ],
+  "notes": "Automatically fetched complete Residual Maturity table from https://www.worldgovernmentbonds.com/country/vietnam/"
+}

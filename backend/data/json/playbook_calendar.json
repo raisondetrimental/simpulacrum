@@ -1122,10 +1122,10 @@
   {
     "id": "playbook_cal_071",
     "date": "2025-11-17T00:00:00",
-    "tasks": "",
+    "tasks": "D2",
     "internal_ents": "",
     "external_ents": "",
-    "where": "",
+    "where": "10 York Rd",
     "other_notes": "",
     "other_external": "",
     "nav": false,

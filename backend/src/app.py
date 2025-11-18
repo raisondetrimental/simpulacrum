@@ -59,6 +59,7 @@ def create_app(config_name=None):
     from .api.data import data_bp
     from .api.deals import deals_bp
     from .api.deal_participants import deal_participants_bp
+    from .api.pipeline import pipeline_bp
     from .api.users import users_bp
     from .api.profile import profile_bp
     from .api.whiteboard import whiteboard_bp
@@ -78,6 +79,7 @@ def create_app(config_name=None):
     app.register_blueprint(data_bp)
     app.register_blueprint(deals_bp)
     app.register_blueprint(deal_participants_bp)
+    app.register_blueprint(pipeline_bp)
     app.register_blueprint(users_bp)
     app.register_blueprint(profile_bp)
     app.register_blueprint(whiteboard_bp)

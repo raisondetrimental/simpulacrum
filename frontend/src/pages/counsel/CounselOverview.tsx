@@ -178,6 +178,11 @@ const CounselOverview: React.FC = () => {
                     Participants: {item.meeting.participants}
                   </p>
                 )}
+                {item.meeting.assigned_to && item.meeting.assigned_to.length > 0 && (
+                  <p className="text-xs text-blue-600 mb-1">
+                    Assigned: {item.meeting.assigned_to.map(u => u.full_name).join(', ')}
+                  </p>
+                )}
                 <p className="text-sm text-gray-700 whitespace-pre-wrap line-clamp-2">
                   {item.meeting.notes}
                 </p>

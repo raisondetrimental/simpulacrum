@@ -10,12 +10,12 @@
       "BAMLEMRECRPIEMEAEY": "em_emea",
       "BAMLEMRLCRPILAEY": "em_latam"
     },
-    "generated_utc": "2025-11-11T16:49:16Z",
+    "generated_utc": "2025-11-18T10:15:55Z",
     "notes": "ICE BofA Global Corporate Bond Effective Yields (%). Missing days are None, typically weekends or holidays. Data accumulated incrementally.",
-    "total_days": 64,
+    "total_days": 69,
     "date_range": {
       "start": "2025-08-13",
-      "end": "2025-11-07"
+      "end": "2025-11-14"
     }
   },
   "data": [
@@ -594,6 +594,51 @@
       "em_asia": 4.59,
       "em_emea": 4.99,
       "em_latam": 6.69
+    },
+    {
+      "date": "2025-11-10",
+      "global_hy": 6.75,
+      "global_ig_bbb": 5.05,
+      "em_corporate": 7.16,
+      "em_asia": 4.61,
+      "em_emea": 4.99,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-11-11",
+      "global_hy": 6.75,
+      "global_ig_bbb": 5.05,
+      "em_corporate": 7.16,
+      "em_asia": 4.61,
+      "em_emea": 4.99,
+      "em_latam": 6.68
+    },
+    {
+      "date": "2025-11-12",
+      "global_hy": 6.71,
+      "global_ig_bbb": 5.02,
+      "em_corporate": 7.12,
+      "em_asia": 4.58,
+      "em_emea": 4.98,
+      "em_latam": 6.67
+    },
+    {
+      "date": "2025-11-13",
+      "global_hy": 6.82,
+      "global_ig_bbb": 5.07,
+      "em_corporate": 7.13,
+      "em_asia": 4.6,
+      "em_emea": 5.0,
+      "em_latam": 6.69
+    },
+    {
+      "date": "2025-11-14",
+      "global_hy": 6.81,
+      "global_ig_bbb": 5.09,
+      "em_corporate": 7.15,
+      "em_asia": 4.62,
+      "em_emea": 5.0,
+      "em_latam": 6.71
     }
   ]
 }

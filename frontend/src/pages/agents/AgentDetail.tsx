@@ -422,7 +422,7 @@ const AgentDetail: React.FC = () => {
                     to={`/agents/meeting?contact=${contact.id}`}
                     className="ml-4 bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors text-sm"
                   >
-                    Start Meeting
+                    Meeting Notes
                   </Link>
                 </div>
               </div>
@@ -559,6 +559,11 @@ const AgentDetail: React.FC = () => {
                       {item.meeting.participants && (
                         <p className="text-xs text-gray-600 mb-1">
                           Participants: {item.meeting.participants}
+                        </p>
+                      )}
+                      {item.meeting.assigned_to && item.meeting.assigned_to.length > 0 && (
+                        <p className="text-xs text-blue-600 mb-1">
+                          Assigned: {item.meeting.assigned_to.map(u => u.full_name).join(', ')}
                         </p>
                       )}
                       <p className="text-sm text-gray-700 whitespace-pre-wrap max-h-24 overflow-hidden">

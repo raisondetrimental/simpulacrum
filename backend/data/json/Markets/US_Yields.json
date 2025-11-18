@@ -15,9 +15,13 @@
       "DGS20": "20_year",
       "DGS30": "30_year"
     },
-    "observation_window_days": 90,
-    "generated_utc": "2025-11-11T12:23:16Z",
-    "notes": "Values are percent per annum. Missing days are None, typically weekends or holidays."
+    "generated_utc": "2025-11-18T10:15:39Z",
+    "notes": "Values are percent per annum. Missing days are None, typically weekends or holidays. Data accumulated incrementally.",
+    "total_days": 68,
+    "date_range": {
+      "start": "2025-08-13",
+      "end": "2025-11-14"
+    }
   },
   "data": [
     {
@@ -901,6 +905,76 @@
       "10_year": 4.11,
       "20_year": 4.68,
       "30_year": 4.7
+    },
+    {
+      "date": "2025-11-10",
+      "1_month": 4.04,
+      "3_month": 3.95,
+      "6_month": 3.79,
+      "1_year": 3.66,
+      "2_year": 3.58,
+      "3_year": 3.56,
+      "5_year": 3.72,
+      "7_year": 3.9,
+      "10_year": 4.13,
+      "20_year": 4.69,
+      "30_year": 4.71
+    },
+    {
+      "date": "2025-11-11",
+      "1_month": null,
+      "3_month": null,
+      "6_month": null,
+      "1_year": null,
+      "2_year": null,
+      "3_year": null,
+      "5_year": null,
+      "7_year": null,
+      "10_year": null,
+      "20_year": null,
+      "30_year": null
+    },
+    {
+      "date": "2025-11-12",
+      "1_month": 4.03,
+      "3_month": 3.95,
+      "6_month": 3.78,
+      "1_year": 3.65,
+      "2_year": 3.56,
+      "3_year": 3.55,
+      "5_year": 3.68,
+      "7_year": 3.86,
+      "10_year": 4.08,
+      "20_year": 4.65,
+      "30_year": 4.67
+    },
+    {
+      "date": "2025-11-13",
+      "1_month": 4.05,
+      "3_month": 3.96,
+      "6_month": 3.8,
+      "1_year": 3.68,
+      "2_year": 3.58,
+      "3_year": 3.57,
+      "5_year": 3.71,
+      "7_year": 3.89,
+      "10_year": 4.11,
+      "20_year": 4.69,
+      "30_year": 4.7
+    },
+    {
+      "date": "2025-11-14",
+      "1_month": 4.04,
+      "3_month": 3.95,
+      "6_month": 3.8,
+      "1_year": 3.7,
+      "2_year": 3.62,
+      "3_year": 3.61,
+      "5_year": 3.74,
+      "7_year": 3.92,
+      "10_year": 4.14,
+      "20_year": 4.73,
+      "30_year": 4.74
     }
   ]
 }

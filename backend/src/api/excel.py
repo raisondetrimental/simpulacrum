@@ -71,6 +71,95 @@ def health_check():
 
 
 # ============================================================================
+# MARKETS OVERVIEW AGGREGATION
+# ============================================================================
+
+@excel_bp.route('/markets/overview', methods=['GET'])
+def get_markets_overview():
+    """Get aggregated markets data for overview page"""
+    try:
+        json_dir = Path(current_app.config['JSON_DIR'])
+        markets_dir = json_dir / 'Markets'
+
+        # Initialize response object
+        overview = {
+            "timestamp": datetime.now().isoformat(),
+            "us_yields": None,
+            "corporate_bonds": None,
+            "corporate_yields": None,
+            "corporate_spreads": None,
+            "policy_rates": None,
+            "fx_rates": None,
+            "countries": []
+        }
+
+        # Load US Yields
+        us_yields_path = markets_dir / 'US_Yields.json'
+        if us_yields_path.exists():
+            with open(us_yields_path, 'r', encoding='utf-8') as f:
+                overview['us_yields'] = json.load(f)
+
+        # Load Corporate Bonds (AAA to High Yield)
+        corporate_bonds_path = markets_dir / 'Corporate_Bonds.json'
+        if corporate_bonds_path.exists():
+            with open(corporate_bonds_path, 'r', encoding='utf-8') as f:
+                overview['corporate_bonds'] = json.load(f)
+
+        # Load Corporate Yields (Effective Yields)
+        corporate_yields_path = markets_dir / 'Corporate_Yields.json'
+        if corporate_yields_path.exists():
+            with open(corporate_yields_path, 'r', encoding='utf-8') as f:
+                overview['corporate_yields'] = json.load(f)
+
+        # Load Corporate Spreads (OAS)
+        corporate_spreads_path = markets_dir / 'Corporate_Spreads.json'
+        if corporate_spreads_path.exists():
+            with open(corporate_spreads_path, 'r', encoding='utf-8') as f:
+                overview['corporate_spreads'] = json.load(f)
+
+        # Load Policy Rates
+        policy_rates_path = markets_dir / 'Policy_Rates.json'
+        if policy_rates_path.exists():
+            with open(policy_rates_path, 'r', encoding='utf-8') as f:
+                overview['policy_rates'] = json.load(f)
+
+        # Load FX Rates (Yahoo)
+        fx_rates_path = markets_dir / 'FX_Rates_Yahoo.json'
+        if fx_rates_path.exists():
+            with open(fx_rates_path, 'r', encoding='utf-8') as f:
+                fx_data = json.load(f)
+
+            # Merge with ExchangeRate API history for MNT/AMD
+            exchangerate_history_path = json_dir / 'fx_rates_history.json'
+            if exchangerate_history_path.exists():
+                with open(exchangerate_history_path, 'r', encoding='utf-8') as f:
+                    exchangerate_history = json.load(f)
+                fx_data = merge_fx_data_sources(fx_data, exchangerate_history)
+
+            overview['fx_rates'] = fx_data
+
+        # Load Country Fundamentals (basic info)
+        country_fundamentals_path = json_dir / 'country_fundamentals.json'
+        if country_fundamentals_path.exists():
+            with open(country_fundamentals_path, 'r', encoding='utf-8') as f:
+                countries_data = json.load(f)
+                # Only include the 5 focus countries
+                focus_countries = ['armenia', 'mongolia', 'turkiye', 'uzbekistan', 'vietnam']
+                overview['countries'] = [
+                    c for c in countries_data.values()
+                    if c.get('slug') in focus_countries
+                ]
+
+        return jsonify(overview)
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "message": f"Error loading markets overview: {str(e)}"
+        }), 500
+
+
+# ============================================================================
 # HISTORICAL DATA
 # ============================================================================
 
@@ -887,4 +976,162 @@ def refresh_fx_rates_yahoo():
         return jsonify({
             "success": False,
             "message": f"Error refreshing FX rates: {str(e)}"
+        }), 500
+
+
+# ============================================================================
+# COMPREHENSIVE MARKETS REFRESH
+# ============================================================================
+
+@excel_bp.route('/markets/refresh-all', methods=['POST'])
+@login_required
+def refresh_all_markets_data():
+    """
+    Refresh ALL market data sources in sequence
+    Returns progress updates for each data source
+    """
+    try:
+        import os
+        import sys
+
+        base_dir = Path(current_app.config['BASE_DIR']).parent
+        results = []
+
+        # Define all data sources to refresh
+        data_sources = [
+            {
+                'name': 'US Treasury Yields',
+                'script': base_dir / 'scripts' / 'fetch_us_yields_fred.py',
+                'timeout': 60,
+                'requires_api_key': True,
+                'api_key_env': 'FRED_API_KEY'
+            },
+            {
+                'name': 'Corporate Bonds',
+                'script': base_dir / 'scripts' / 'fetch_corporate_bonds_fred.py',
+                'timeout': 60,
+                'requires_api_key': True,
+                'api_key_env': 'FRED_API_KEY'
+            },
+            {
+                'name': 'Corporate Spreads',
+                'script': base_dir / 'scripts' / 'fetch_corporate_spreads_fred.py',
+                'timeout': 60,
+                'requires_api_key': True,
+                'api_key_env': 'FRED_API_KEY'
+            },
+            {
+                'name': 'Corporate Yields',
+                'script': base_dir / 'scripts' / 'fetch_corporate_yields_fred.py',
+                'timeout': 60,
+                'requires_api_key': True,
+                'api_key_env': 'FRED_API_KEY'
+            },
+            {
+                'name': 'Policy Rates',
+                'script': base_dir / 'scripts' / 'fetch_policy_rates_bis.py',
+                'timeout': 120,
+                'requires_api_key': False
+            },
+            {
+                'name': 'FX Rates',
+                'script': base_dir / 'scripts' / 'fetch_fx_rates_yfinance.py',
+                'timeout': 60,
+                'requires_api_key': False
+            },
+            {
+                'name': 'Turkey Yield Curve',
+                'script': base_dir / 'backend' / 'scripts' / 'fetch_turkey_yield_curve.py',
+                'timeout': 60,
+                'requires_api_key': False
+            },
+            {
+                'name': 'Vietnam Yield Curve',
+                'script': base_dir / 'backend' / 'scripts' / 'fetch_vietnam_yield_curve.py',
+                'timeout': 60,
+                'requires_api_key': False
+            },
+            {
+                'name': 'UK Yield Curve',
+                'script': base_dir / 'backend' / 'scripts' / 'fetch_uk_yield_curve.py',
+                'timeout': 60,
+                'requires_api_key': False
+            }
+        ]
+
+        # Process each data source
+        for source in data_sources:
+            result = {
+                'name': source['name'],
+                'status': 'pending',
+                'message': '',
+                'timestamp': None
+            }
+
+            try:
+                # Check if script exists
+                if not source['script'].exists():
+                    result['status'] = 'error'
+                    result['message'] = f"Script not found: {source['script']}"
+                    results.append(result)
+                    continue
+
+                # Prepare environment
+                env = os.environ.copy()
+                if source.get('requires_api_key'):
+                    api_key = os.getenv(source['api_key_env'])
+                    if not api_key:
+                        result['status'] = 'error'
+                        result['message'] = f"{source['api_key_env']} not set"
+                        results.append(result)
+                        continue
+                    env[source['api_key_env']] = api_key
+
+                # Run the script
+                script_result = subprocess.run(
+                    [sys.executable, str(source['script'])],
+                    env=env,
+                    capture_output=True,
+                    text=True,
+                    timeout=source['timeout'],
+                    cwd=str(base_dir if 'backend' not in str(source['script']) else base_dir / 'backend')
+                )
+
+                if script_result.returncode == 0:
+                    result['status'] = 'success'
+                    result['message'] = 'Data refreshed successfully'
+                    result['timestamp'] = datetime.now().isoformat()
+                else:
+                    result['status'] = 'error'
+                    result['message'] = f"Script failed: {script_result.stderr[:200]}"
+
+            except subprocess.TimeoutExpired:
+                result['status'] = 'error'
+                result['message'] = f"Timeout after {source['timeout']} seconds"
+            except Exception as e:
+                result['status'] = 'error'
+                result['message'] = str(e)[:200]
+
+            results.append(result)
+
+        # Calculate summary
+        success_count = sum(1 for r in results if r['status'] == 'success')
+        error_count = sum(1 for r in results if r['status'] == 'error')
+
+        return jsonify({
+            'success': True,
+            'completed_at': datetime.now().isoformat(),
+            'summary': {
+                'total': len(results),
+                'successful': success_count,
+                'failed': error_count
+            },
+            'results': results
+        })
+
+    except Exception as e:
+        current_app.logger.error(f"Error in refresh_all_markets_data: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': f"Fatal error: {str(e)}"
         }), 500

@@ -170,7 +170,7 @@ const ContactDetail: React.FC = () => {
             to={`/liquidity/meeting?contact=${contact.id}`}
             className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
           >
-            Start Meeting
+            Meeting Notes
           </Link>
           <Link
             to={`/liquidity/contacts/${contact.id}/edit`}
@@ -338,6 +338,11 @@ const ContactDetail: React.FC = () => {
                       {meeting.participants && (
                         <span className="text-xs md:text-sm text-gray-600">
                           Participants: {meeting.participants}
+                        </span>
+                      )}
+                      {meeting.assigned_to && meeting.assigned_to.length > 0 && (
+                        <span className="text-xs md:text-sm text-blue-600">
+                          Assigned: {meeting.assigned_to.map(u => u.full_name).join(', ')}
                         </span>
                       )}
                     </div>

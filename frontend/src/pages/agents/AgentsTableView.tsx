@@ -10,6 +10,7 @@ import AgentForm from '../../components/features/agents/AgentForm';
 import { API_BASE_URL } from '../../config';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
+import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
 
 interface AgentWithContacts extends Agent {
   contacts: AgentContact[];
@@ -23,6 +24,7 @@ const AgentsTableView: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCountry, setFilterCountry] = useState<string>('');
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
 
   // Infrastructure type filters
   const [transportFilter, setTransportFilter] = useState<FilterState>('any');
@@ -34,9 +36,6 @@ const AgentsTableView: React.FC = () => {
   const [asiaEmFilter, setAsiaEmFilter] = useState<FilterState>('any');
   const [africaEmFilter, setAfricaEmFilter] = useState<FilterState>('any');
   const [emeaEmFilter, setEmeaEmFilter] = useState<FilterState>('any');
-  const [vietnamFilter, setVietnamFilter] = useState<FilterState>('any');
-  const [mongoliaFilter, setMongoliaFilter] = useState<FilterState>('any');
-  const [turkeyFilter, setTurkeyFilter] = useState<FilterState>('any');
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [createStatus, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
@@ -129,8 +128,12 @@ const AgentsTableView: React.FC = () => {
       agent.country.toLowerCase().includes(searchTerm.toLowerCase()) ||
       agent.contacts.some(c => c.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    // Country filter
+    // Country filter (headquarters)
     const matchesCountry = !filterCountry || agent.country === filterCountry;
+
+    // Countries array filter (investment focus countries)
+    const matchesInvestmentCountries = selectedCountries.length === 0 ||
+      (agent.countries && agent.countries.some(c => selectedCountries.includes(c)));
 
     // Get preferences with fallback to empty object
     const prefs = agent.agent_preferences || {};
@@ -145,23 +148,18 @@ const AgentsTableView: React.FC = () => {
     const matchesAsiaEm = matchesFilter(prefs.asia_em, asiaEmFilter);
     const matchesAfricaEm = matchesFilter(prefs.africa_em, africaEmFilter);
     const matchesEmeaEm = matchesFilter(prefs.emea_em, emeaEmFilter);
-    const matchesVietnam = matchesFilter(prefs.vietnam, vietnamFilter);
-    const matchesMongolia = matchesFilter(prefs.mongolia, mongoliaFilter);
-    const matchesTurkey = matchesFilter(prefs.turkey, turkeyFilter);
 
     return (
       matchesSearch &&
       matchesCountry &&
+      matchesInvestmentCountries &&
       matchesTransport &&
       matchesEnergy &&
       matchesUsMarket &&
       matchesEm &&
       matchesAsiaEm &&
       matchesAfricaEm &&
-      matchesEmeaEm &&
-      matchesVietnam &&
-      matchesMongolia &&
-      matchesTurkey
+      matchesEmeaEm
     );
   });
 
@@ -175,6 +173,7 @@ const AgentsTableView: React.FC = () => {
   const clearFilters = () => {
     setSearchTerm('');
     setFilterCountry('');
+    setSelectedCountries([]);
     setTransportFilter('any');
     setEnergyFilter('any');
     setUsMarketFilter('any');
@@ -182,25 +181,20 @@ const AgentsTableView: React.FC = () => {
     setAsiaEmFilter('any');
     setAfricaEmFilter('any');
     setEmeaEmFilter('any');
-    setVietnamFilter('any');
-    setMongoliaFilter('any');
-    setTurkeyFilter('any');
   };
 
   // Check if any filters are active
   const hasActiveFilters =
     searchTerm ||
     filterCountry ||
+    selectedCountries.length > 0 ||
     transportFilter !== 'any' ||
     energyFilter !== 'any' ||
     usMarketFilter !== 'any' ||
     emFilter !== 'any' ||
     asiaEmFilter !== 'any' ||
     africaEmFilter !== 'any' ||
-    emeaEmFilter !== 'any' ||
-    vietnamFilter !== 'any' ||
-    mongoliaFilter !== 'any' ||
-    turkeyFilter !== 'any';
+    emeaEmFilter !== 'any';
 
   if (loading) {
     return (
@@ -380,46 +374,17 @@ const AgentsTableView: React.FC = () => {
                 <option value="N">No</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Vietnam</label>
-              <select
-                value={vietnamFilter}
-                onChange={(e) => setVietnamFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mongolia</label>
-              <select
-                value={mongoliaFilter}
-                onChange={(e) => setMongoliaFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Turkey</label>
-              <select
-                value={turkeyFilter}
-                onChange={(e) => setTurkeyFilter(e.target.value as FilterState)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                <option value="any">Any</option>
-                <option value="Y">Yes</option>
-                <option value="N">No</option>
-              </select>
-            </div>
           </div>
+        </div>
+
+        {/* Investment Focus Countries Filter */}
+        <div className="mb-6">
+          <CountryMultiSelect
+            selectedCountries={selectedCountries}
+            onChange={setSelectedCountries}
+            label="Investment Focus Countries"
+            placeholder="Filter by investment countries..."
+          />
         </div>
 
         {hasActiveFilters && (
@@ -622,7 +587,7 @@ const AgentsTableView: React.FC = () => {
                               to={`/agents/meeting?contact=${contact.id}`}
                               className="bg-orange-600 text-white px-3 py-1 rounded-md hover:bg-orange-700 transition-colors text-sm"
                             >
-                              Start Meeting
+                              Meeting Notes
                             </Link>
                           </td>
                         </tr>

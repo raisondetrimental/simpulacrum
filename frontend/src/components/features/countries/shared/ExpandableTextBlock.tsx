@@ -33,6 +33,9 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
   const headline = showHeadline ? extractHeadline(text, maxHeadlineWords) : '';
   const hasHeadline = headline && headline.length > 0 && headline !== text;
 
+  // Determine if text is actually long enough to need expansion
+  const needsExpansion = text.length > 200;
+
   // Color scheme mapping
   const colorSchemes = {
     default: {
@@ -42,6 +45,7 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
       bodyText: 'text-gray-700',
       buttonText: 'text-blue-600 hover:text-blue-800',
       accentBorder: 'border-l-gray-400',
+      gradientFrom: 'from-white',
     },
     info: {
       bg: 'bg-blue-50',
@@ -50,6 +54,7 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
       bodyText: 'text-blue-800',
       buttonText: 'text-blue-700 hover:text-blue-900',
       accentBorder: 'border-l-blue-500',
+      gradientFrom: 'from-blue-50',
     },
     warning: {
       bg: 'bg-orange-50',
@@ -58,6 +63,7 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
       bodyText: 'text-orange-800',
       buttonText: 'text-orange-700 hover:text-orange-900',
       accentBorder: 'border-l-orange-500',
+      gradientFrom: 'from-orange-50',
     },
     success: {
       bg: 'bg-green-50',
@@ -66,6 +72,7 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
       bodyText: 'text-green-800',
       buttonText: 'text-green-700 hover:text-green-900',
       accentBorder: 'border-l-green-500',
+      gradientFrom: 'from-green-50',
     },
     danger: {
       bg: 'bg-red-50',
@@ -74,6 +81,7 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
       bodyText: 'text-red-800',
       buttonText: 'text-red-700 hover:text-red-900',
       accentBorder: 'border-l-red-500',
+      gradientFrom: 'from-red-50',
     },
   };
 
@@ -102,19 +110,19 @@ const ExpandableTextBlock: React.FC<ExpandableTextBlockProps> = ({
         {/* Collapsed Preview or Full Text */}
         <div
           className={`relative ${
-            !isExpanded && !hasHeadline ? 'max-h-20 overflow-hidden' : ''
+            !isExpanded && needsExpansion && !hasHeadline ? 'max-h-20 overflow-hidden' : ''
           }`}
         >
           <p className={`${TYPOGRAPHY.CARD.body} ${colors.bodyText} leading-relaxed whitespace-pre-wrap`}>
-            {isExpanded ? text : (hasHeadline ? text : text.slice(0, 200) + (text.length > 200 ? '...' : ''))}
+            {isExpanded || !needsExpansion || hasHeadline ? text : text.slice(0, 200) + '...'}
           </p>
-          {!isExpanded && !hasHeadline && text.length > 200 && (
-            <div className={`absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-${colorScheme === 'default' ? 'white' : `${colorScheme}-50`} to-transparent`}></div>
+          {!isExpanded && needsExpansion && !hasHeadline && (
+            <div className={`absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t ${colors.gradientFrom} to-transparent pointer-events-none`}></div>
           )}
         </div>
 
-        {/* Expand/Collapse Button */}
-        {(hasHeadline || text.length > 200) && (
+        {/* Expand/Collapse Button - Only show if text actually needs expansion */}
+        {needsExpansion && (hasHeadline || !isExpanded) && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className={`text-xs font-medium ${colors.buttonText} transition-colors flex items-center gap-1`}

@@ -97,3 +97,51 @@ export interface ApiResponse<T = any> {
   message?: string;
   count?: number;
 }
+
+export interface AuditLogEntry {
+  id: string;
+  timestamp: string;
+  user_id: string;
+  username: string;
+  action: string;
+  entity_type: string;
+  affected_ids: string[];
+  affected_count: number;
+  old_values?: Record<string, any>;
+  new_values?: Record<string, any>;
+  metadata: Record<string, any>;
+  success: boolean;
+  error_message?: string;
+}
+
+export interface AuditLogPagination {
+  total: number;
+  limit: number;
+  offset: number;
+  has_more: boolean;
+}
+
+export interface AuditLogResponse {
+  entries: AuditLogEntry[];
+  pagination: AuditLogPagination;
+}
+
+export interface AuditLogFilters {
+  user_id?: string;
+  action?: string;
+  entity_type?: string;
+  start_date?: string;
+  end_date?: string;
+  limit?: number;
+  offset?: number;
+}
+
+export interface AuditLogStats {
+  total_entries: number;
+  by_action: Record<string, number>;
+  by_user: Record<string, number>;
+  by_entity_type: Record<string, number>;
+  successful_operations: number;
+  failed_operations: number;
+  success_rate: number;
+}

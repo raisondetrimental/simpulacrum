@@ -76,6 +76,11 @@ export interface MeetingHistoryEntry {
   notes: string;
   participants: string;
   next_follow_up: string | null;
+  assigned_to?: Array<{
+    user_id: string;
+    username: string;
+    full_name: string;
+  }>;
   created_by?: {
     user_id: string;
     username: string;

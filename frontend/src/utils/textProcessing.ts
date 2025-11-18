@@ -33,6 +33,42 @@ export const detectContentType = (value: any): ContentType => {
     if (trimmed.length === 0) {
       return 'short-text';
     }
+
+    // Check for patterns that should always be long-text regardless of length
+    // 1. Multiple commas (lists): "-, -, -3.1% (2023 proj), -3.1% (2024 proj)..."
+    const commaCount = (trimmed.match(/,/g) || []).length;
+    if (commaCount >= 3) {
+      return 'long-text';
+    }
+
+    // 2. Multiple parentheses (time series): "(2023)", "(2024)", "(2025)"
+    const parenCount = (trimmed.match(/\(/g) || []).length;
+    if (parenCount >= 3) {
+      return 'long-text';
+    }
+
+    // 3. Very long sequences of dashes/values
+    if (/(?:[-\d.]+\s*,\s*){3,}/.test(trimmed)) {
+      return 'long-text';
+    }
+
+    // 4. Multiple percentage values in sequence
+    const percentCount = (trimmed.match(/%/g) || []).length;
+    if (percentCount >= 3) {
+      return 'long-text';
+    }
+
+    // 5. Year patterns repeated multiple times
+    if (/\d{4}.*\d{4}.*\d{4}/.test(trimmed)) {
+      return 'long-text';
+    }
+
+    // 6. Projection/forecast keywords with commas (typically time series)
+    if ((trimmed.includes('proj') || trimmed.includes('forecast') || trimmed.includes('est')) && commaCount >= 2) {
+      return 'long-text';
+    }
+
+    // Regular length-based detection
     if (trimmed.length <= CONTENT_THRESHOLDS.shortTextMaxLength) {
       return 'short-text';
     }

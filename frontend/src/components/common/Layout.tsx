@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import MarketIntelSidebar from './MarketIntelSidebar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -41,13 +42,24 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   const isActiveRoute = (path: string) => location.pathname === path;
   const isWhiteboardRoute = () => location.pathname.startsWith('/whiteboard');
   const isDashboardRoute = () => location.pathname.startsWith('/dashboard');
-  const isMarketsRoute = () => location.pathname.startsWith('/dashboard/markets') || location.pathname === '/dashboard/sovereign' || location.pathname === '/dashboard/corporate' || location.pathname === '/dashboard/fx' || location.pathname === '/dashboard/central-banks' || location.pathname === '/dashboard/ratings' || location.pathname === '/dashboard/usa-historical-yields';
-  const isCountryReportsRoute = () => location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
+  const isMarketsRoute = () => location.pathname.startsWith('/dashboard/markets') || location.pathname === '/dashboard/sovereign' || location.pathname === '/dashboard/corporate' || location.pathname === '/dashboard/fx' || location.pathname === '/dashboard/central-banks' || location.pathname === '/dashboard/ratings';
+  const isCountryReportsRoute = () => location.pathname === '/dashboard/country-reports' || location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
   const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
   const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
-  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies';
+  const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies' || location.pathname === '/pipeline';
   const isToolsroute = () => location.pathname.startsWith('/crm/all') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
   const isCalendarRoute = () => location.pathname === '/liquidity/calendar';
+  const isMarketsPageWithSidebar = () => {
+    // Only show sidebar on Markets pages (not country reports or infra dashboards)
+    return (
+      location.pathname === '/dashboard/markets' ||
+      location.pathname === '/dashboard/fx' ||
+      location.pathname === '/dashboard/sovereign' ||
+      location.pathname === '/dashboard/corporate-yields' ||
+      location.pathname === '/dashboard/corporate' ||
+      location.pathname === '/dashboard/central-banks'
+    );
+  };
 
   const whiteboardPages = [
     { name: 'Overview', path: '/whiteboard' },
@@ -58,11 +70,10 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
   const marketPages = [
     { name: 'Markets', path: '/dashboard/markets' },
     { name: 'FX Markets', path: '/dashboard/fx' },
-    { name: 'US Sovereign Yields', path: '/dashboard/usa-historical-yields' },
+    { name: 'Sovereign Yields', path: '/dashboard/sovereign' },
     { name: 'Global Corporate Bonds', path: '/dashboard/corporate-yields' },
     { name: 'US Corporate Bonds', path: '/dashboard/corporate' },
-    { name: 'Policy Rates', path: '/dashboard/central-banks' },
-    { name: 'Sovereign Yields', path: '/dashboard/sovereign' }
+    { name: 'Policy Rates', path: '/dashboard/central-banks' }
     // Tools page removed - Excel COM not available in cloud deployment
   ];
 
@@ -82,14 +93,14 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
 
   const dashboardCategories = [
     {
-      name: 'Country Reports',
-      path: null, // No overview page for country reports
-      pages: countryReportsPages
-    },
-    {
       name: 'Markets',
       path: '/dashboard/markets',
       pages: marketPages
+    },
+    {
+      name: 'Country Reports',
+      path: '/dashboard/country-reports', // Overview page for all country reports
+      pages: countryReportsPages
     },
     {
       name: 'Dashboards',
@@ -100,20 +111,17 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
 
   const originationCategories = [
     {
-      name: 'Deals',
-      path: '/deals',
-      pages: [
-        { name: 'All Deals', path: '/deals' },
-        { name: 'New Deal', path: '/deals/new' }
-      ]
-    },
-    {
       name: 'Strategies',
-      path: '/investment-strategies',
+      path: '/pipeline',
       pages: [
-        { name: 'Investment Strategies', path: '/investment-strategies' }
+        { name: 'Pipeline Strategies', path: '/pipeline' },
+        { name: 'Strategies Sandbox', path: '/investment-strategies' }
       ]
     }
+  ];
+
+  const originationLinks = [
+    { name: 'Deals Database', path: '/deals' }
   ];
 
   const desCategories = [
@@ -162,7 +170,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
       ]
     },
     {
-      name: 'Transaction Agents',
+      name: 'Other',
       path: '/agents',
       pages: [
         {name: 'Overview', path: '/agents'},
@@ -216,8 +224,9 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                   onMouseEnter={() => setActiveDropdown('dashboard')}
                   className="pb-2"
                 >
-                  <div
-                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                  <Link
+                    to="/dashboard/markets"
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isDashboardRoute()
                         ? 'text-white opacity-100'
                         : 'text-white opacity-70 hover:opacity-100'
@@ -227,7 +236,7 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                     <svg className="ml-1 w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ transform: activeDropdown === 'dashboard' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
+                  </Link>
                 </div>
 
                 {/* CRM Platform */}
@@ -251,24 +260,25 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                   </Link>
                 </div>
 
-                {/* Origination */}
+                {/* Damn Effect Strategy */}
                 <div
                   ref={originationRef}
                   onMouseEnter={() => setActiveDropdown('origination')}
                   className="pb-2"
                 >
-                  <div
-                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+                  <Link
+                    to="/damn-effect-strategy"
+                    className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                       isOriginationRoute()
                         ? 'text-white opacity-100'
                         : 'text-white opacity-70 hover:opacity-100'
                     }`}
                   >
-                    Origination
+                    Damn Effect Strategy
                     <svg className="ml-1 w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ transform: activeDropdown === 'origination' ? 'rotate(180deg)' : 'rotate(0deg)' }}>
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
-                  </div>
+                  </Link>
                 </div>
 
                 {/* Whiteboard */}
@@ -562,6 +572,22 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
                       {category.name}
                     </Link>
                   ))}
+                  {/* Simple links without subcategories */}
+                  {originationLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      onMouseEnter={() => setHoveredCategory(null)}
+                      onClick={() => {
+                        setActiveDropdown(null);
+                        setHoveredCategory(null);
+                      }}
+                      className={`px-4 py-2.5 text-sm text-white font-medium cursor-pointer transition-all duration-200 min-w-[180px] flex items-center opacity-70 hover:opacity-100`}
+                    >
+                      <span className="mr-2 opacity-0">›</span>
+                      {link.name}
+                    </Link>
+                  ))}
                 </div>
 
                 {/* Right Column - Pages (shown on hover) */}
@@ -645,15 +671,35 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
       {/* Sidebar */}
       <Sidebar isHeaderDropdownOpen={activeDropdown !== null} />
 
-      {/* Main content - centered */}
-      <main
-        className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 flex-1 pt-24"
-        style={{ maxWidth: isCountryReportsRoute() ? '1300px' : '1200px' }}
-      >
-        <div className="py-6">
-          {children}
-        </div>
-      </main>
+      {/* Main content area */}
+      {isMarketsPageWithSidebar() ? (
+        /* Markets pages with right sidebar */
+        <main className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 flex-1 pt-24" style={{ maxWidth: '1400px' }}>
+          <div className="flex flex-col lg:flex-row gap-6 py-6">
+            {/* Main Content (78%) */}
+            <div className="flex-1 lg:w-[78%]">
+              {children}
+            </div>
+
+            {/* Markets Sidebar (22%) */}
+            <div className="lg:w-[22%]">
+              <div className="lg:sticky lg:top-24">
+                <MarketIntelSidebar />
+              </div>
+            </div>
+          </div>
+        </main>
+      ) : (
+        /* Main content - centered (for non-markets pages) */
+        <main
+          className="container mx-auto py-6 px-4 sm:px-6 lg:px-8 flex-1 pt-24"
+          style={{ maxWidth: isCountryReportsRoute() ? '1800px' : '1200px' }}
+        >
+          <div className="py-6">
+            {children}
+          </div>
+        </main>
+      )}
 
       {/* Footer */}
       <Footer />

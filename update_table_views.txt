@@ -1,0 +1,12 @@
+Files to update:
+1. frontend/src/pages/agents/AgentsTableView.tsx
+2. frontend/src/pages/counsel/LegalAdvisorsTableView.tsx
+3. frontend/src/pages/sponsors/CorporatesTableView.tsx
+
+Changes needed for each:
+- Import CountryMultiSelect
+- Remove vietnam, mongolia, turkey filter states
+- Add selectedCountries state
+- Update filtering logic to use countries array
+- Add CountryMultiSelect component to UI
+- Update display logic to show countries from array
