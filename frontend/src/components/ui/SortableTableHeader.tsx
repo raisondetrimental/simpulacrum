@@ -4,7 +4,6 @@
  * Visual indicators: arrows and highlight for active column
  */
 
-import React from 'react';
 import { SortConfig } from '../../hooks/useTableSort';
 
 interface SortableTableHeaderProps<T> {

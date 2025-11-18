@@ -287,8 +287,8 @@ const SponsorMeetingNotes: React.FC = () => {
         setNewContactRelationship(result.data.relationship);
         setNewDiscProfile(result.data.disc_profile);
         setNewCorporateRelationship(selectedCorporate.relationship);
-        setInvestmentNeedMin(selectedCorporate.investment_min);
-        setInvestmentNeedMax(selectedCorporate.investment_max);
+        setInvestmentMin(selectedCorporate.investment_min);
+        setInvestmentMax(selectedCorporate.investment_max);
         setCurrency(selectedCorporate.currency);
         setInfrastructureTypes(selectedCorporate.infrastructure_types);
         setRegions(selectedCorporate.regions);
@@ -876,7 +876,7 @@ const SponsorMeetingNotes: React.FC = () => {
                 <input
                   type="number"
                   value={investmentMin}
-                  onChange={(e) => setInvestmentNeedMin(Number(e.target.value))}
+                  onChange={(e) => setInvestmentMin(Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -885,7 +885,7 @@ const SponsorMeetingNotes: React.FC = () => {
                 <input
                   type="number"
                   value={investmentMax}
-                  onChange={(e) => setInvestmentNeedMax(Number(e.target.value))}
+                  onChange={(e) => setInvestmentMax(Number(e.target.value))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>

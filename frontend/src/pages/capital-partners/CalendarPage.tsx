@@ -543,7 +543,7 @@ const CalendarPage: React.FC = () => {
   }, []);
 
   // Handle event drop (drag-and-drop rescheduling)
-  const handleEventDrop = useCallback(async ({ event, start }: { event: CalendarEvent; start: Date }) => {
+  const handleEventDrop = useCallback(async ({ event, start }: { event: CalendarEvent; start: Date | string }) => {
     // Only allow rescheduling meetings, not reminders
     if (!event.eventType.includes('meeting')) {
       alert('Only meetings can be rescheduled. To change a follow-up reminder, please edit the contact.');
@@ -556,6 +556,9 @@ const CalendarPage: React.FC = () => {
                              event.eventType.includes('agent') ? 'agent' :
                              'capital_partner';
 
+    // Convert start to Date if it's a string
+    const startDate = typeof start === 'string' ? new Date(start) : start;
+
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/quick-meeting/${meetingEvent.contact.id}/${meetingEvent.meeting_id}`,
@@ -564,7 +567,7 @@ const CalendarPage: React.FC = () => {
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({
-            date: start.toISOString(),
+            date: startDate.toISOString(),
             organization_type: organizationType,
           }),
         }

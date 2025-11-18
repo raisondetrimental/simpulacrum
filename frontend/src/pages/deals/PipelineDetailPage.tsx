@@ -6,7 +6,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import type {
-  PipelineStrategy,
   CreatePipelineRequest,
   PipelineStage,
   CommitmentLevel,
@@ -213,7 +212,7 @@ const PipelineDetailPage: React.FC = () => {
         sponsor: selectedSponsor ? {
           organization_id: selectedSponsor,
           commitment_level: sponsorCommitment
-        } : {},
+        } : undefined,
         lenders,
         advisors,
         financing_scenarios: scenarios,
@@ -317,11 +316,6 @@ const PipelineDetailPage: React.FC = () => {
 
   const getOrganizationsByType = (type: string) => {
     return allOrganizations.filter(o => o.organization_type === type);
-  };
-
-  const getOrganizationName = (orgId: string) => {
-    const org = allOrganizations.find(o => o.id === orgId);
-    return org?.name || '—';
   };
 
   if (loading && isEditMode) {

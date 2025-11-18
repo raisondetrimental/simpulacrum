@@ -137,13 +137,13 @@ const CapitalPartnersTableView: React.FC = () => {
 
     // Main preference filters
     const matchesMainFilters = MAIN_PREFERENCES.every(pref => {
-      const value = partner.preferences?.[pref.key] || '';
+      const value = partner.preferences?.[pref.key as keyof InvestmentPreferences] || '';
       return matchesFilter(value, mainFilters[pref.key]);
     });
 
     // Advanced preference filters
     const matchesAdvancedFilters = ADVANCED_PREFERENCES.every(pref => {
-      const value = partner.preferences?.[pref.key] || '';
+      const value = partner.preferences?.[pref.key as keyof InvestmentPreferences] || '';
       return matchesFilter(value, advancedFilters[pref.key]);
     });
 
@@ -371,7 +371,7 @@ const CapitalPartnersTableView: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {sortedPartners.map((partner, partnerIndex) => {
+                {sortedPartners.map((partner) => {
                   // Get active preferences for display
                   const activePrefs = [];
 

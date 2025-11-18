@@ -51,37 +51,25 @@ const CounselMeetingNotesNew: React.FC = () => {
     relationship: 'Developing' as const,
     notes: '',
     counsel_preferences: {
-      // Asset Classes
-      equity: 'N',
-      debt_senior: 'N',
-      debt_mezzanine: 'N',
-      debt_subordinated: 'N',
-      hybrid: 'N',
-      derivatives: 'N',
-
-      // Infrastructure Types
-      transport_infra: 'N',
-      energy_infra: 'N',
-      social_infra: 'N',
-      telecom_infra: 'N',
-      water_waste_infra: 'N',
-
-      // Regions
+      investment_grade: 'N',
+      high_yield: 'N',
+      infra_debt: 'N',
+      senior_secured: 'N',
+      subordinated: 'N',
+      bonds: 'N',
+      loan_agreement: 'N',
+      quasi_sovereign_only: 'N',
+      public_bond_high_yield: 'N',
       us_market: 'N',
-      europe_developed: 'N',
-      asia_developed: 'N',
       emerging_markets: 'N',
       asia_em: 'N',
       africa_em: 'N',
-      latam_em: 'N',
       emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N',
-
-      // Deal Structures
-      greenfield: 'N',
-      brownfield: 'N'
+      coal: 'N',
+      energy_infra: 'N',
+      transport_infra: 'N',
+      more_expensive_than_usual: 'N',
+      require_bank_guarantee: 'N'
     } as CounselPreferences
   });
 
@@ -111,30 +99,25 @@ const CounselMeetingNotesNew: React.FC = () => {
   const [newDiscProfile, setNewDiscProfile] = useState('');
   const [newAdvisorRelationship, setNewAdvisorRelationship] = useState<'Strong' | 'Medium' | 'Developing' | 'Cold'>('Developing');
   const [counselPreferences, setCounselPreferences] = useState<CounselPreferences>({
-    equity: 'N',
-    debt_senior: 'N',
-    debt_mezzanine: 'N',
-    debt_subordinated: 'N',
-    hybrid: 'N',
-    derivatives: 'N',
-    transport_infra: 'N',
-    energy_infra: 'N',
-    social_infra: 'N',
-    telecom_infra: 'N',
-    water_waste_infra: 'N',
+    investment_grade: 'N',
+    high_yield: 'N',
+    infra_debt: 'N',
+    senior_secured: 'N',
+    subordinated: 'N',
+    bonds: 'N',
+    loan_agreement: 'N',
+    quasi_sovereign_only: 'N',
+    public_bond_high_yield: 'N',
     us_market: 'N',
-    europe_developed: 'N',
-    asia_developed: 'N',
     emerging_markets: 'N',
     asia_em: 'N',
     africa_em: 'N',
-    latam_em: 'N',
     emea_em: 'N',
-    vietnam: 'N',
-    mongolia: 'N',
-    turkey: 'N',
-    greenfield: 'N',
-    brownfield: 'N'
+    coal: 'N',
+    energy_infra: 'N',
+    transport_infra: 'N',
+    more_expensive_than_usual: 'N',
+    require_bank_guarantee: 'N'
   });
 
   // UI states
@@ -254,30 +237,25 @@ const CounselMeetingNotesNew: React.FC = () => {
           relationship: 'Developing',
           notes: '',
           counsel_preferences: {
-            equity: 'N',
-            debt_senior: 'N',
-            debt_mezzanine: 'N',
-            debt_subordinated: 'N',
-            hybrid: 'N',
-            derivatives: 'N',
-            transport_infra: 'N',
-            energy_infra: 'N',
-            social_infra: 'N',
-            telecom_infra: 'N',
-            water_waste_infra: 'N',
+            investment_grade: 'N',
+            high_yield: 'N',
+            infra_debt: 'N',
+            senior_secured: 'N',
+            subordinated: 'N',
+            bonds: 'N',
+            loan_agreement: 'N',
+            quasi_sovereign_only: 'N',
+            public_bond_high_yield: 'N',
             us_market: 'N',
-            europe_developed: 'N',
-            asia_developed: 'N',
             emerging_markets: 'N',
             asia_em: 'N',
             africa_em: 'N',
-            latam_em: 'N',
             emea_em: 'N',
-            vietnam: 'N',
-            mongolia: 'N',
-            turkey: 'N',
-            greenfield: 'N',
-            brownfield: 'N'
+            coal: 'N',
+            energy_infra: 'N',
+            transport_infra: 'N',
+            more_expensive_than_usual: 'N',
+            require_bank_guarantee: 'N'
           }
         });
       } else {

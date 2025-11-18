@@ -6,9 +6,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAllContacts, updateMeetingNote, deleteMeetingNote } from '../../services/crmService';
-import { UnifiedContact, OrganizationTypeFilter as FilterType, MeetingHistoryEntry } from '../../types/crm';
+import { OrganizationTypeFilter as FilterType, MeetingHistoryEntry } from '../../types/crm';
 import OrganizationTypeBadge from '../../components/features/crm/OrganizationTypeBadge';
 import OrganizationTypeFilter from '../../components/features/crm/OrganizationTypeFilter';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
@@ -121,39 +121,6 @@ const AllMeetingNotesPage: React.FC = () => {
     }
 
     setFilteredMeetings(filtered);
-  };
-
-  const getContactLink = (meeting: MeetingWithContext): string => {
-    const routes: Record<string, string> = {
-      capital_partner: '/liquidity/contacts',
-      sponsor: '/sponsors/contacts',
-      counsel: '/counsel/contacts',
-      agent: '/agents/contacts'
-    };
-    return `${routes[meeting.organization_type]}/${meeting.contact_id}`;
-  };
-
-  const formatDate = (dateString: string): string => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  const getRelativeTime = (dateString: string): string => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Yesterday';
-    if (diffDays < 7) return `${diffDays} days ago`;
-    if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-    if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
-    return `${Math.floor(diffDays / 365)} years ago`;
   };
 
   // Organization search functionality

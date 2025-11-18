@@ -105,7 +105,20 @@ const LegalAdvisorDetail: React.FC = () => {
       const response = await toggleLegalAdvisorStar(id);
 
       if (response.success && response.data) {
-        setAdvisor(response.data);
+        setAdvisor({
+          id: response.data.id,
+          name: response.data.name,
+          type: response.data.type || '',
+          country: response.data.country || '',
+          headquarters_location: response.data.headquarters_location || '',
+          counsel_preferences: response.data.counsel_preferences || {} as any,
+          relationship: response.data.relationship || 'Developing',
+          notes: response.data.notes || '',
+          starred: response.data.starred || false,
+          countries: response.data.countries || [],
+          created_at: response.data.created_at || '',
+          last_updated: response.data.last_updated || ''
+        });
       } else {
         alert(response.message || 'Failed to toggle star');
       }

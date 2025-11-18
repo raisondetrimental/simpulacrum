@@ -3,16 +3,11 @@ import { Link } from 'react-router-dom';
 import {
   LineChart,
   Line,
-  BarChart,
-  Bar,
-  AreaChart,
-  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  ResponsiveContainer,
-  Legend
+  ResponsiveContainer
 } from 'recharts';
 import { DashboardData } from '../../types/dashboard';
 import { API_BASE_URL } from '../../config';
@@ -86,7 +81,7 @@ const RATING_LABELS: Record<RatingKey, string> = {
 const MarketChartsSection: React.FC<MarketChartsSectionProps> = ({ data }) => {
   const [usYields, setUsYields] = useState<FredYieldsData | null>(null);
   const [corporateBonds, setCorporateBonds] = useState<CorporateBondsData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
 
   useEffect(() => {
     fetchMarketData();
@@ -203,24 +198,6 @@ const MarketChartsSection: React.FC<MarketChartsSectionProps> = ({ data }) => {
       rate: currencyData.rate || 0,
       change: currencyData.changes['1D'] ? (currencyData.changes['1D'] * 100) : 0
     }));
-
-  // Custom tooltip for professional look
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="bg-slate-800 text-white px-4 py-2 rounded-lg shadow-lg border border-slate-700">
-          <p className="font-semibold text-sm">{label}</p>
-          {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-xs" style={{ color: entry.color }}>
-              {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(2) : entry.value}
-              {entry.dataKey === 'value' || entry.dataKey === 'spread' ? '' : '%'}
-            </p>
-          ))}
-        </div>
-      );
-    }
-    return null;
-  };
 
   return (
     <div className="space-y-6">

@@ -18,6 +18,24 @@ export interface AgentPreferences {
 }
 
 // ============================================================================
+// Deal Precedent (Historical Deal Information)
+// ============================================================================
+
+export interface DealPrecedent {
+  id: string;
+  deal_date: string;
+  deal_name: string;
+  structure: string;
+  pricing: string;
+  spread_bps: number;
+  currency: string;
+  size: number;
+  maturity: string;
+  notes: string;
+  created_at: string;
+}
+
+// ============================================================================
 // Agent Types (Transaction Agent roles)
 // ============================================================================
 
@@ -34,6 +52,20 @@ export const AGENT_TYPES = [
   'Other'
 ];
 
+// Infrastructure and Region types (for compatibility)
+export const INFRASTRUCTURE_TYPES = [
+  { key: 'transport_infra', label: 'Transport Infrastructure' },
+  { key: 'energy_infra', label: 'Energy Infrastructure' }
+];
+
+export const REGION_OPTIONS = [
+  { key: 'us_market', label: 'US Market' },
+  { key: 'emerging_markets', label: 'Emerging Markets' },
+  { key: 'asia_em', label: 'Asia EM' },
+  { key: 'africa_em', label: 'Africa EM' },
+  { key: 'emea_em', label: 'EMEA EM' }
+];
+
 // ============================================================================
 // Agent (Transaction agent organization or individual)
 // ============================================================================
@@ -47,6 +79,12 @@ export interface Agent {
   agent_preferences: AgentPreferences;
   relationship: 'Strong' | 'Medium' | 'Developing' | 'Cold';
   notes: string;
+  starred?: boolean;
+  countries?: string[];
+  investment_need_min?: number;
+  investment_need_max?: number;
+  currency?: string;
+  deal_precedents?: any[];
   created_at: string;
   last_updated: string;
 }

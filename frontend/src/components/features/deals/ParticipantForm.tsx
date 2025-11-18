@@ -24,6 +24,7 @@ interface ParticipantFormProps {
 }
 
 export interface ParticipantFormData {
+  deal_id: string;
   entity_type: ParticipantEntityType;
   entity_id: string;
   role: ParticipantRole;
@@ -39,6 +40,7 @@ interface EntityOption {
 
 const ParticipantForm: React.FC<ParticipantFormProps> = ({ dealId, onSave, onCancel }) => {
   const [formData, setFormData] = useState<ParticipantFormData>({
+    deal_id: dealId,
     entity_type: 'capital_partner',
     entity_id: '',
     role: 'lender',

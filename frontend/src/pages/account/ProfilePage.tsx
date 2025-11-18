@@ -9,7 +9,7 @@ const ProfilePage: React.FC = () => {
   const [profileData, setProfileData] = useState({
     username: '',
     full_name: '',
-    email: '',
+    email: '' as string | undefined,
     role: '',
     created_at: ''
   });

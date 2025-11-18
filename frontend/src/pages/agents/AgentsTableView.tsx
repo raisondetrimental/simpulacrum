@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Agent, AgentContact, ApiResponse, AgentFormData, INFRASTRUCTURE_TYPES, REGION_OPTIONS } from '../../types/agents';
+import { Agent, AgentContact, ApiResponse, AgentFormData } from '../../types/agents';
 import AgentForm from '../../components/features/agents/AgentForm';
 import { API_BASE_URL } from '../../config';
 import { useTableSort } from '../../hooks/useTableSort';
@@ -38,7 +38,7 @@ const AgentsTableView: React.FC = () => {
   const [emeaEmFilter, setEmeaEmFilter] = useState<FilterState>('any');
 
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [createStatus, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     fetchData();
@@ -453,9 +453,6 @@ const AgentsTableView: React.FC = () => {
                   if (prefs.asia_em === 'Y') activeRegions.push('Asia');
                   if (prefs.africa_em === 'Y') activeRegions.push('Africa');
                   if (prefs.emea_em === 'Y') activeRegions.push('EMEA');
-                  if (prefs.vietnam === 'Y') activeRegions.push('Vietnam');
-                  if (prefs.mongolia === 'Y') activeRegions.push('Mongolia');
-                  if (prefs.turkey === 'Y') activeRegions.push('Turkey');
 
                   return (
                     <React.Fragment key={agent.id}>
@@ -488,7 +485,7 @@ const AgentsTableView: React.FC = () => {
                           {agent.country}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {agent.investment_need_min > 0 && agent.investment_need_max > 0 ? (
+                          {agent.investment_need_min && agent.investment_need_max && agent.investment_need_min > 0 && agent.investment_need_max > 0 ? (
                             <>${(agent.investment_need_min / 1000000).toFixed(0)}M - ${(agent.investment_need_max / 1000000).toFixed(0)}M {agent.currency}</>
                           ) : (
                             <span className="text-gray-400">Not specified</span>

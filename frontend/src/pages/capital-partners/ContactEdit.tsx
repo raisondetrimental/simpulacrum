@@ -112,7 +112,7 @@ const ContactEdit: React.FC = () => {
 
       <ContactForm
         initialData={contact}
-        preselectedPartnerId={preselectedPartnerId || undefined}
+        capitalPartnerId={preselectedPartnerId || contact?.capital_partner_id || ''}
         onSave={handleSave}
         onCancel={() => navigate(-1)}
       />

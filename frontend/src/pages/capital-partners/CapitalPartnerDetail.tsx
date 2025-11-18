@@ -142,7 +142,25 @@ const CapitalPartnerDetail: React.FC = () => {
       const response = await toggleCapitalPartnerStar(id);
 
       if (response.success && response.data) {
-        setPartner(response.data);
+        setPartner({
+          id: response.data.id,
+          name: response.data.name,
+          type: response.data.type || '',
+          country: response.data.country || '',
+          headquarters_location: response.data.headquarters_location || '',
+          relationship: response.data.relationship || 'Developing',
+          notes: response.data.notes || '',
+          company_description: response.data.company_description,
+          deal_precedents: response.data.deal_precedents || [],
+          preferences: response.data.preferences || {} as any,
+          investment_min: response.data.investment_min || 0,
+          investment_max: response.data.investment_max || 0,
+          currency: response.data.currency || 'USD',
+          starred: response.data.starred || false,
+          countries: response.data.countries || [],
+          created_at: response.data.created_at || '',
+          last_updated: response.data.last_updated || ''
+        });
         setError(null);
       } else {
         setError(response.message || 'Failed to toggle star');

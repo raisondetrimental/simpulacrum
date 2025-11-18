@@ -373,9 +373,6 @@ const LegalAdvisorsTableView: React.FC = () => {
                   if (advisor.counsel_preferences?.asia_em === 'Y') activePrefs.push({ label: 'Asia', type: 'region' });
                   if (advisor.counsel_preferences?.africa_em === 'Y') activePrefs.push({ label: 'Africa', type: 'region' });
                   if (advisor.counsel_preferences?.emea_em === 'Y') activePrefs.push({ label: 'EMEA', type: 'region' });
-                  if (advisor.counsel_preferences?.vietnam === 'Y') activePrefs.push({ label: 'Vietnam', type: 'region' });
-                  if (advisor.counsel_preferences?.mongolia === 'Y') activePrefs.push({ label: 'Mongolia', type: 'region' });
-                  if (advisor.counsel_preferences?.turkey === 'Y') activePrefs.push({ label: 'Turkey', type: 'region' });
 
                   return (
                     <React.Fragment key={advisor.id}>

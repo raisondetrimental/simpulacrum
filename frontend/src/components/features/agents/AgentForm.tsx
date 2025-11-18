@@ -7,13 +7,11 @@ import React, { useState } from 'react';
 import {
   Agent,
   AgentFormData,
-  DealPrecedent,
   RELATIONSHIP_LEVELS,
   AgentPreferences,
   AGENT_TYPES
 } from '../../../types/agents';
 import AgentPreferencesGrid from './AgentPreferencesGrid';
-import DealPrecedentsEditor from '../../shared/DealPrecedentsEditor';
 import CountryMultiSelect from '../../ui/CountryMultiSelect';
 
 interface AgentFormProps {
@@ -34,7 +32,6 @@ const AgentForm: React.FC<AgentFormProps> = ({
     headquarters_location: initialData?.headquarters_location || '',
     relationship: initialData?.relationship || 'Developing',
     notes: initialData?.notes || '',
-    deal_precedents: initialData?.deal_precedents || [],
     countries: initialData?.countries || [],
     agent_preferences: initialData?.agent_preferences || {
       transport_infra: 'N',
@@ -80,13 +77,6 @@ const AgentForm: React.FC<AgentFormProps> = ({
         africa_em: preferences.africa_em || 'N',
         emea_em: preferences.emea_em || 'N'
       }
-    }));
-  };
-
-  const handleDealPrecedentsChange = (deals: DealPrecedent[]) => {
-    setFormData((prev) => ({
-      ...prev,
-      deal_precedents: deals
     }));
   };
 
@@ -257,14 +247,6 @@ const AgentForm: React.FC<AgentFormProps> = ({
           rows={4}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
           placeholder="Additional information about this agent..."
-        />
-      </div>
-
-      {/* Deal Precedents */}
-      <div className="border-t border-gray-200 pt-6">
-        <DealPrecedentsEditor
-          deals={formData.deal_precedents || []}
-          onChange={handleDealPrecedentsChange}
         />
       </div>
 

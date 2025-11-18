@@ -28,10 +28,10 @@ const CapitalPartnersList: React.FC = () => {
   const [filterCountry, setFilterCountry] = useState<string>('');
   const [expandedPartners, setExpandedPartners] = useState<Set<string>>(new Set());
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [createStatus, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [showCreateContactModal, setShowCreateContactModal] = useState(false);
   const [selectedPartnerForContact, setSelectedPartnerForContact] = useState<CapitalPartner | null>(null);
-  const [createContactStatus, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     fetchData();

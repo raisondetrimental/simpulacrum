@@ -7,7 +7,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllOrganizations, getAllContacts, downloadAllOrganizationsCSV, downloadAllOrganizationsXLSX } from '../../services/crmService';
-import { UnifiedOrganization, UnifiedContact, OrganizationFilter, OrganizationTypeFilter as FilterType } from '../../types/crm';
+import { UnifiedOrganization, UnifiedContact, OrganizationTypeFilter as FilterType } from '../../types/crm';
 import OrganizationTypeBadge from '../../components/features/crm/OrganizationTypeBadge';
 import OrganizationTypeFilter from '../../components/features/crm/OrganizationTypeFilter';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';

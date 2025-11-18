@@ -12,7 +12,7 @@ interface LayoutProps {
 
 type ActiveDropdown = 'dashboard' | 'crm' | 'origination' | 'whiteboard' | null;
 
-const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuth();
@@ -30,22 +30,10 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
     navigate('/login');
   };
 
-  const formatDate = (dateString: string) => {
-    try {
-      const date = new Date(dateString);
-      return date.toLocaleString();
-    } catch {
-      return dateString;
-    }
-  };
-
   const isActiveRoute = (path: string) => location.pathname === path;
   const isWhiteboardRoute = () => location.pathname.startsWith('/whiteboard');
   const isDashboardRoute = () => location.pathname.startsWith('/dashboard');
-  const isMarketsRoute = () => location.pathname.startsWith('/dashboard/markets') || location.pathname === '/dashboard/sovereign' || location.pathname === '/dashboard/corporate' || location.pathname === '/dashboard/fx' || location.pathname === '/dashboard/central-banks' || location.pathname === '/dashboard/ratings';
   const isCountryReportsRoute = () => location.pathname === '/dashboard/country-reports' || location.pathname === '/dashboard/armenia' || location.pathname === '/dashboard/mongolia' || location.pathname === '/dashboard/turkiye' || location.pathname === '/dashboard/uzbekistan' || location.pathname === '/dashboard/vietnam';
-  const isInfraGapsRoute = () => location.pathname === '/dashboard/infra-gaps' || location.pathname === '/dashboard/transit-friction' || location.pathname === '/dashboard/internet-coverage';
-  const isAboutMeridianRoute = () => location.pathname === '/the-firm' || location.pathname === '/this-website' || location.pathname === '/firm-research' || location.pathname === '/firm-theory';
   const isOriginationRoute = () => location.pathname.startsWith('/deals') || location.pathname === '/investment-strategies' || location.pathname === '/pipeline';
   const isToolsroute = () => location.pathname.startsWith('/crm/all') || location.pathname.startsWith('/liquidity') || location.pathname.startsWith('/sponsors') || location.pathname.startsWith('/counsel') || location.pathname.startsWith('/agents');
   const isCalendarRoute = () => location.pathname === '/liquidity/calendar';
@@ -180,12 +168,6 @@ const Layout: React.FC<LayoutProps> = ({ children, lastUpdated }) => {
         {name: 'Meeting Notes', path: '/agents/meeting'}
       ]
     }
-  ]
-
-  const aboutMeridianPages = [
-    { name: 'Meridian', path: '/meridian' },
-    { name: 'Firm Philosophy', path: '/the-firm' },
-    { name: 'This Website', path: '/this-website' },
   ]
 
   return (

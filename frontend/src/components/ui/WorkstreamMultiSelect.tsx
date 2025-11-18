@@ -92,12 +92,6 @@ const WorkstreamMultiSelect: React.FC<WorkstreamMultiSelectProps> = ({
     onChange(selectedCodes.filter(c => c !== code));
   };
 
-  // Get display label for selected codes
-  const getSelectedLabels = (): string => {
-    if (selectedCodes.length === 0) return 'Select workstreams...';
-    return selectedCodes.join(', ');
-  };
-
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Dropdown trigger */}

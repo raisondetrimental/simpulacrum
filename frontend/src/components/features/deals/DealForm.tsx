@@ -7,12 +7,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Deal,
   DealFormData,
-  DealStatus,
-  DealType,
-  DealSector,
-  DealRegion,
-  DealStructure,
-  SyndicationType,
   DEAL_STATUSES,
   DEAL_TYPES,
   DEAL_SECTORS,
@@ -126,7 +120,7 @@ const DealForm: React.FC<DealFormProps> = ({
 
   // Update sub-sectors when sector changes
   useEffect(() => {
-    if (formData.sector && !DEAL_SUB_SECTORS[formData.sector].includes(formData.sub_sector)) {
+    if (formData.sector && !DEAL_SUB_SECTORS[formData.sector].includes(formData.sub_sector || '')) {
       setFormData(prev => ({ ...prev, sub_sector: '' }));
     }
   }, [formData.sector]);

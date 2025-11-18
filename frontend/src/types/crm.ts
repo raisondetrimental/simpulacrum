@@ -43,6 +43,7 @@ export interface UnifiedOrganization {
   created_at: string;
   last_updated: string;
   starred?: boolean;
+  countries?: string[];
 
   // Type-specific fields (may be null for non-applicable types)
   type?: string | null;                    // Capital Partner type (Pension Fund, etc.)

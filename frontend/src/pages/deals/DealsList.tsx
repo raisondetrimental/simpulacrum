@@ -429,7 +429,7 @@ const DealsList: React.FC = () => {
             )}
           </div>
         ) : (
-          sortedDeals.map((deal, index) => (
+          sortedDeals.map((deal) => (
             <div key={deal.id} className="table-row-stagger">
               <DealCard
                 deal={deal}

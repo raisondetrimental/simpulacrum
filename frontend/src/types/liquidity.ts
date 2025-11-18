@@ -65,6 +65,8 @@ export interface CapitalPartner {
   investment_min: number;
   investment_max: number;
   currency: string;
+  starred?: boolean;
+  countries?: string[];
   created_at: string;
   last_updated: string;
 }
@@ -93,6 +95,7 @@ export interface MeetingHistoryEntry {
 
 export interface Contact {
   id: string;
+  contact_id?: string; // Alias for id, used in some legacy code
   capital_partner_id: string;
   team_name: string;
   name: string;

@@ -187,9 +187,6 @@ export function exportLegalAdvisorsToCSV(advisors: LegalAdvisor[]): string {
     'Asia EM',
     'Africa EM',
     'EMEA EM',
-    'Vietnam',
-    'Mongolia',
-    'Turkey',
     'Coal',
     'Energy Infra',
     'Transport Infra',
@@ -202,9 +199,9 @@ export function exportLegalAdvisorsToCSV(advisors: LegalAdvisor[]): string {
   ];
 
   const rows = advisors.map(advisor => [
-    advisor.legal_advisor_id,
+    advisor.id,
     advisor.name,
-    advisor.type || '',
+    advisor.type,
     advisor.country,
     advisor.headquarters_location || '',
     advisor.relationship || '',
@@ -223,9 +220,6 @@ export function exportLegalAdvisorsToCSV(advisors: LegalAdvisor[]): string {
     advisor.counsel_preferences?.asia_em || '',
     advisor.counsel_preferences?.africa_em || '',
     advisor.counsel_preferences?.emea_em || '',
-    advisor.counsel_preferences?.vietnam || '',
-    advisor.counsel_preferences?.mongolia || '',
-    advisor.counsel_preferences?.turkey || '',
     advisor.counsel_preferences?.coal || '',
     advisor.counsel_preferences?.energy_infra || '',
     advisor.counsel_preferences?.transport_infra || '',
@@ -358,9 +352,9 @@ export async function downloadLegalAdvisorsXLSX(): Promise<void> {
 
   // Prepare data for Excel
   const data = response.data.map(advisor => ({
-    'Legal Advisor ID': advisor.legal_advisor_id,
+    'Legal Advisor ID': advisor.id,
     'Name': advisor.name,
-    'Type': advisor.type || '',
+    'Type': advisor.type,
     'Country': advisor.country,
     'Headquarters': advisor.headquarters_location || '',
     'Relationship': advisor.relationship || '',
@@ -379,9 +373,6 @@ export async function downloadLegalAdvisorsXLSX(): Promise<void> {
     'Asia EM': advisor.counsel_preferences?.asia_em || '',
     'Africa EM': advisor.counsel_preferences?.africa_em || '',
     'EMEA EM': advisor.counsel_preferences?.emea_em || '',
-    'Vietnam': advisor.counsel_preferences?.vietnam || '',
-    'Mongolia': advisor.counsel_preferences?.mongolia || '',
-    'Turkey': advisor.counsel_preferences?.turkey || '',
     'Coal': advisor.counsel_preferences?.coal || '',
     'Energy Infra': advisor.counsel_preferences?.energy_infra || '',
     'Transport Infra': advisor.counsel_preferences?.transport_infra || '',

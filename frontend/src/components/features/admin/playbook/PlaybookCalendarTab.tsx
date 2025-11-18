@@ -85,8 +85,8 @@ const PlaybookCalendarTab: React.FC = () => {
       if (sortKey === 'date') {
         if (!aVal) return 1;
         if (!bVal) return -1;
-        aVal = new Date(aVal as string).getTime();
-        bVal = new Date(bVal as string).getTime();
+        aVal = new Date(aVal as string).getTime().toString();
+        bVal = new Date(bVal as string).getTime().toString();
       }
 
       if (aVal < bVal) return sortAsc ? -1 : 1;

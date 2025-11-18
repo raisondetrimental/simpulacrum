@@ -26,7 +26,7 @@ const CorporateDetail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showCreateContactModal, setShowCreateContactModal] = useState(false);
-  const [createContactStatus, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedMeeting, setSelectedMeeting] = useState<{ meeting: MeetingHistoryEntry; contact: SponsorContact } | null>(null);
 
@@ -131,7 +131,7 @@ const CorporateDetail: React.FC = () => {
       const response = await toggleCorporateStar(id);
 
       if (response.success && response.data) {
-        setCorporate(response.data);
+        setCorporate({ ...response.data });
         setError(null);
       } else {
         setError(response.message || 'Failed to toggle star');

@@ -5,7 +5,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ALL_COUNTRIES, PRIORITY_COUNTRY_IDS } from '../../constants/countries';
+import { ALL_COUNTRIES } from '../../constants/countries';
 
 interface CountryMultiSelectProps {
   selectedCountries: string[];

@@ -28,6 +28,8 @@ export interface LegalAdvisor {
   counsel_preferences: CounselPreferences;
   relationship: 'Strong' | 'Medium' | 'Developing' | 'Cold';
   notes: string;
+  starred?: boolean;
+  countries?: string[];
   created_at: string;
   last_updated: string;
 }

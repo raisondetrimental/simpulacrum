@@ -47,7 +47,6 @@ const MeetingDetailsModal: React.FC<MeetingDetailsModalProps> = ({
   meeting,
   contactName,
   contactRole,
-  contactId,
   context = [],
   onUpdate,
   onDelete

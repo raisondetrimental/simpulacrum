@@ -57,6 +57,8 @@ export interface Corporate {
   notes: string;
   company_description?: string;
   deal_precedents?: DealPrecedent[];
+  starred?: boolean;
+  countries?: string[];
   created_at: string;
   last_updated: string;
 }

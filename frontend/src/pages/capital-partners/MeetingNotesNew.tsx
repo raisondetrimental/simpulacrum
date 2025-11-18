@@ -53,13 +53,23 @@ const MeetingNotesNew: React.FC = () => {
   });
 
   // New Contact Form
-  const [newContact, setNewContact] = useState({
+  const [newContact, setNewContact] = useState<{
+    name: string;
+    role: string;
+    email: string;
+    phone: string;
+    linkedin: string;
+    relationship: 'Strong' | 'Medium' | 'Developing' | 'Cold';
+    disc_profile: string;
+    contact_notes: string;
+    team_name: string;
+  }>({
     name: '',
     role: '',
     email: '',
     phone: '',
     linkedin: '',
-    relationship: 'Developing' as const,
+    relationship: 'Developing',
     disc_profile: '',
     contact_notes: '',
     team_name: ''

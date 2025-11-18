@@ -4,7 +4,6 @@
  */
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { PlaybookTab } from '../../types/playbook';
 import PlaybookContactsTab from '../../components/features/admin/playbook/PlaybookContactsTab';
 import PlaybookCalendarTab from '../../components/features/admin/playbook/PlaybookCalendarTab';
@@ -14,7 +13,6 @@ import PlaybookWorkstreamsTab from '../../components/features/admin/playbook/Pla
 
 const PlaybookManager: React.FC = () => {
   const [activeTab, setActiveTab] = useState<PlaybookTab>('workstreams');
-  const navigate = useNavigate();
 
   const tabs: { id: PlaybookTab; label: string; description: string }[] = [
     {

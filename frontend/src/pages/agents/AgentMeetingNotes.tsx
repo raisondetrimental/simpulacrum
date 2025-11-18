@@ -58,10 +58,7 @@ const AgentMeetingNotes: React.FC = () => {
       emerging_markets: 'N',
       asia_em: 'N',
       africa_em: 'N',
-      emea_em: 'N',
-      vietnam: 'N',
-      mongolia: 'N',
-      turkey: 'N'
+      emea_em: 'N'
     }
   });
 
@@ -97,10 +94,7 @@ const AgentMeetingNotes: React.FC = () => {
     emerging_markets: 'N',
     asia_em: 'N',
     africa_em: 'N',
-    emea_em: 'N',
-    vietnam: 'N',
-    mongolia: 'N',
-    turkey: 'N'
+    emea_em: 'N'
   });
 
   // UI states
@@ -228,10 +222,7 @@ const AgentMeetingNotes: React.FC = () => {
             emerging_markets: 'N',
             asia_em: 'N',
             africa_em: 'N',
-            emea_em: 'N',
-            vietnam: 'N',
-            mongolia: 'N',
-            turkey: 'N'
+            emea_em: 'N'
           }
         });
       } else {

@@ -18,7 +18,6 @@ interface RichTextEditorProps {
 const RichTextEditor: React.FC<RichTextEditorProps> = ({
   content,
   onChange,
-  placeholder = 'Start typing...',
   disabled = false,
   minHeight = '200px',
 }) => {

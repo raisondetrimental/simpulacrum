@@ -6,7 +6,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllOrganizations, getAllContacts, downloadAllOrganizationsCSV } from '../../services/crmService';
+import { getAllOrganizations, getAllContacts } from '../../services/crmService';
 import { UnifiedOrganization, UnifiedContact, OrganizationTypeFilter as FilterType } from '../../types/crm';
 import OrganizationTypeBadge from '../../components/features/crm/OrganizationTypeBadge';
 import OrganizationTypeFilter from '../../components/features/crm/OrganizationTypeFilter';

@@ -15,6 +15,7 @@ export interface CountryUsage {
   name: string;
   active: boolean;
   count: number;
+  by_type?: Record<string, number>;
   organizations: Array<{
     id: string;
     name: string;

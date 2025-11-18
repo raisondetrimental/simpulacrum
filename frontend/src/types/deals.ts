@@ -74,6 +74,9 @@ export interface Deal {
   first_drawdown_date: string;
   maturity_date: string;
 
+  // Participant info (optional, added for UI compatibility)
+  participants_count?: number;
+
   // Classification
   status: DealStatus;
   deal_type: DealType;
@@ -353,6 +356,31 @@ export interface DealFormData {
   upfront_fee_bps?: number;
   commitment_fee_bps?: number;
   agency_fee?: number;
+  // Equity-Specific Terms
+  equity_percentage?: number;
+  pre_money_valuation?: number;
+  post_money_valuation?: number;
+  target_irr?: number;
+  target_multiple?: number;
+  liquidation_preference?: string;
+  board_seats?: number;
+  governance_rights?: string;
+  drag_along_rights?: boolean;
+  tag_along_rights?: boolean;
+  anti_dilution_protection?: string;
+  // JV-Specific Terms
+  jv_ownership_split?: string;
+  capital_contribution?: string;
+  profit_sharing_ratio?: string;
+  management_structure?: string;
+  voting_rights?: string;
+  // Mezzanine-Specific Terms
+  pik_rate?: number;
+  equity_kicker?: number;
+  warrant_coverage?: number;
+  conversion_price?: number;
+  conversion_ratio?: string;
+  redemption_premium?: number;
   covenants?: Record<string, any>;
   security_package?: string;
   guarantees?: string[];

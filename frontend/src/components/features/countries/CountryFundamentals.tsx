@@ -7,7 +7,6 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, BarChart, Bar } from 'recharts';
 import type { CountryFundamentals } from '../../../types/country';
 import { getCountryImages, getCapitalName } from '../../../utils/countryImages';
-import type { FXRatesData } from '../../../types/dashboard';
 import { useScrollReveal } from '../../../hooks/useScrollReveal';
 
 interface CountryFundamentalsProps {
@@ -52,7 +51,7 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data, fxData,
   // Prepare industry pie chart data
   const totalIndustryPercentage = data.top_industries.reduce((sum, industry) => sum + industry.gdp_percentage, 0);
   const industryPieData = [
-    ...data.top_industries.map((industry, index) => ({
+    ...data.top_industries.map((industry) => ({
       name: industry.name.split(';')[0].replace(/^[A-Z] – /, ''),
       value: industry.gdp_percentage,
       originalName: industry.name
@@ -340,7 +339,7 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data, fxData,
                 cx="50%"
                 cy="50%"
                 labelLine={false}
-                label={({ name, value }) => value > 5 ? `${value.toFixed(0)}%` : ''}
+                label={({ value }) => value > 5 ? `${value.toFixed(0)}%` : ''}
                 outerRadius={90}
                 fill="#8884d8"
                 dataKey="value"
@@ -355,7 +354,7 @@ const CountryFundamentals: React.FC<CountryFundamentalsProps> = ({ data, fxData,
               <Tooltip content={<IndustryTooltip />} />
               <Legend
                 wrapperStyle={{ fontSize: '11px' }}
-                formatter={(value, entry: any) => {
+                formatter={(value) => {
                   const maxLength = 25;
                   return value.length > maxLength ? value.substring(0, maxLength) + '...' : value;
                 }}

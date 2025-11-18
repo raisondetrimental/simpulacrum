@@ -4,7 +4,6 @@
  * Reusable for dashboard metrics, statistics, and cards
  */
 
-import React from 'react';
 import { useCountUp, useCountUpFormatted, useCountUpPercentage } from '../../hooks/useCountUp';
 
 interface AnimatedStatProps {

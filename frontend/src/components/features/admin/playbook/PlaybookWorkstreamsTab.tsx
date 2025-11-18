@@ -12,7 +12,7 @@ import {
   toggleWorkstreamCompletion,
   createSubtask
 } from '../../../../services/playbookService';
-import { PlaybookWorkstream, PlaybookSubtask, FormStatus, WORKSTREAM_CLASSIFIERS } from '../../../../types/playbook';
+import { PlaybookWorkstream, FormStatus, WORKSTREAM_CLASSIFIERS } from '../../../../types/playbook';
 
 const PlaybookWorkstreamsTab: React.FC = () => {
   const [workstreams, setWorkstreams] = useState<PlaybookWorkstream[]>([]);

@@ -98,11 +98,11 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <CollapsibleSection
           title="GDP Growth Forecast"
-          content={imf.gdp_growth_forecast}
+          content={imf.gdp_growth_forecast || ''}
         />
         <CollapsibleSection
           title="Inflation Outlook"
-          content={imf.inflation_outlook}
+          content={imf.inflation_outlook || ''}
         />
       </div>
 
@@ -112,11 +112,11 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Fiscal Balance Outlook"
-            content={imf.fiscal_balance_outlook}
+            content={imf.fiscal_balance_outlook || ''}
           />
           <CollapsibleSection
             title="Public Debt Trajectory"
-            content={imf.public_debt_trajectory}
+            content={imf.public_debt_trajectory || ''}
           />
         </div>
       </div>
@@ -127,22 +127,22 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Monetary Policy Stance"
-            content={imf.monetary_policy_current}
+            content={imf.monetary_policy_current || ''}
           />
           <CollapsibleSection
             title="Monetary Policy Outlook"
-            content={imf.monetary_policy_outlook}
+            content={imf.monetary_policy_outlook || ''}
           />
           {imf.exchange_rate_current && (
             <CollapsibleSection
               title="Exchange Rate"
-              content={imf.exchange_rate_current}
+              content={imf.exchange_rate_current || ''}
             />
           )}
           {imf.exchange_rate_policy && (
             <CollapsibleSection
               title="Exchange Rate Policy"
-              content={imf.exchange_rate_policy}
+              content={imf.exchange_rate_policy || ''}
             />
           )}
         </div>
@@ -154,26 +154,26 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Foreign Reserves"
-            content={imf.reserves_current}
+            content={imf.reserves_current || ''}
           />
           {imf.reserves_adequacy && (
             <CollapsibleSection
               title="Reserves Adequacy Assessment"
-              content={imf.reserves_adequacy}
+              content={imf.reserves_adequacy || ''}
             />
           )}
           <CollapsibleSection
             title="Current Account"
-            content={imf.current_account_current}
+            content={imf.current_account_current || ''}
           />
           <CollapsibleSection
             title="Current Account Outlook"
-            content={imf.current_account_outlook}
+            content={imf.current_account_outlook || ''}
           />
           {imf.trade_balance_goods && (
             <CollapsibleSection
               title="Trade Balance"
-              content={imf.trade_balance_goods}
+              content={imf.trade_balance_goods || ''}
             />
           )}
         </div>
@@ -185,16 +185,16 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="FDI Current Status"
-            content={imf.fdi_current}
+            content={imf.fdi_current || ''}
           />
           <CollapsibleSection
             title="FDI Outlook"
-            content={imf.fdi_outlook}
+            content={imf.fdi_outlook || ''}
           />
           {imf.capital_flows && (
             <CollapsibleSection
               title="Capital Flows"
-              content={imf.capital_flows}
+              content={imf.capital_flows || ''}
             />
           )}
         </div>
@@ -206,7 +206,7 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Financial Sector Overview"
-            content={imf.financial_sector_overview}
+            content={imf.financial_sector_overview || ''}
           />
           {imf.banking_sector_risks && (
             <CollapsibleSection
@@ -239,18 +239,18 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Structural Challenges Overview"
-            content={imf.structural_challenges}
+            content={imf.structural_challenges || ''}
           />
           {imf.infrastructure_needs && (
             <CollapsibleSection
               title="Infrastructure Needs"
-              content={imf.infrastructure_needs}
+              content={imf.infrastructure_needs || ''}
             />
           )}
           {imf.governance_business_environment && (
             <CollapsibleSection
               title="Governance & Business Environment"
-              content={imf.governance_business_environment}
+              content={imf.governance_business_environment || ''}
             />
           )}
         </div>
@@ -262,12 +262,12 @@ const MacroAnalysisSection: React.FC<MacroAnalysisSectionProps> = ({ data }) => 
         <div className="space-y-4">
           <CollapsibleSection
             title="Key Risks"
-            content={imf.key_risks}
+            content={imf.key_risks || ''}
             defaultOpen={true}
           />
           <CollapsibleSection
             title="Policy Recommendations"
-            content={imf.policy_recommendations}
+            content={imf.policy_recommendations || ''}
             defaultOpen={true}
           />
         </div>

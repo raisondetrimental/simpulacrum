@@ -128,7 +128,7 @@ const CRMModuleCard: React.FC<CRMModuleCardProps> = ({
                 paddingAngle={2}
                 dataKey="value"
               >
-                {chartData.map((entry, index) => (
+                {chartData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={scheme.chartColors[index % scheme.chartColors.length]} />
                 ))}
               </Pie>

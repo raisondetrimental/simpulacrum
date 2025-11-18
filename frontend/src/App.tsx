@@ -198,7 +198,7 @@ const App: React.FC = () => {
                   <Route path="/dashboard/markets" element={<MarketsOverviewPage />} />
                   <Route path="/dashboard/markets/weekly-report" element={<MarketsWeeklyReportPage />} />
                   <Route path="/dashboard/sovereign" element={<SovereignYieldsPage />} />
-                  <Route path="/dashboard/corporate" element={<CorporateBondsPage data={data.sections.corporate_yields} />} />
+                  <Route path="/dashboard/corporate" element={<CorporateBondsPage />} />
                   <Route path="/dashboard/corporate-spreads" element={<CorporateSpreadsPage />} />
                   <Route path="/dashboard/corporate-yields" element={<CorporateYieldsPage />} />
                   <Route path="/dashboard/fx" element={<FXMarketsYahooPage />} />

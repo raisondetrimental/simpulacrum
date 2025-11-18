@@ -27,10 +27,10 @@ const AgentsList: React.FC = () => {
   const [filterCountry, setFilterCountry] = useState<string>('');
   const [expandedAgents, setExpandedAgents] = useState<Set<string>>(new Set());
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [createStatus, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [showCreateContactModal, setShowCreateContactModal] = useState(false);
   const [selectedAgentForContact, setSelectedAgentForContact] = useState<Agent | null>(null);
-  const [createContactStatus, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
+  const [, setCreateContactStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
 
   useEffect(() => {
     fetchData();

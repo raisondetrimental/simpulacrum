@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 import RichTextEditor from './RichTextEditor';
-import type { GeneralPost, Reply, ReplyFormData } from '../../../types/whiteboard';
+import type { GeneralPost, ReplyFormData } from '../../../types/whiteboard';
 import { formatDateTime } from '../../../types/whiteboard';
 
 interface GeneralPostDetailProps {
