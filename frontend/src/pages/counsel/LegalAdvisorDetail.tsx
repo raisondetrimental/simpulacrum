@@ -9,7 +9,7 @@ import { LegalAdvisor, CounselContact, ApiResponse, LegalAdvisorFormData, Meetin
 import LegalAdvisorForm from '../../components/features/counsel/LegalAdvisorForm';
 import CounselPreferencesGrid from '../../components/features/counsel/CounselPreferencesGrid';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPut, apiDelete } from '../../services/api';
 import { getLegalAdvisorDeals } from '../../services/dealsService';
 import { Deal, formatDealSize, formatDealDate, DEAL_STATUS_COLORS, DEAL_STATUS_LABELS } from '../../types/deals';
 import { updateCounselMeetingNote, deleteCounselMeetingNote, toggleLegalAdvisorStar } from '../../services/counselService';
@@ -35,8 +35,7 @@ const LegalAdvisorDetail: React.FC = () => {
 
   const fetchAdvisor = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/legal-advisors/${id}`);
-      const result: ApiResponse<LegalAdvisor> = await response.json();
+      const result = await apiGet<LegalAdvisor>(`/api/legal-advisors/${id}`);
 
       if (result.success && result.data) {
         setAdvisor(result.data);
@@ -53,8 +52,7 @@ const LegalAdvisorDetail: React.FC = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/counsel-contacts?legal_advisor_id=${id}`);
-      const result: ApiResponse<CounselContact[]> = await response.json();
+      const result = await apiGet<CounselContact[]>(`/api/counsel-contacts?legal_advisor_id=${id}`);
 
       if (result.success && result.data) {
         setContacts(result.data);
@@ -79,13 +77,7 @@ const LegalAdvisorDetail: React.FC = () => {
 
   const handleUpdate = async (formData: LegalAdvisorFormData) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/legal-advisors/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<LegalAdvisor> = await response.json();
+      const result = await apiPut<LegalAdvisor>(`/api/legal-advisors/${id}`, formData);
 
       if (result.success) {
         setAdvisor(result.data!);
@@ -133,11 +125,7 @@ const LegalAdvisorDetail: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/legal-advisors/${id}`, {
-        method: 'DELETE',
-      });
-
-      const result: ApiResponse<void> = await response.json();
+      const result = await apiDelete(`/api/legal-advisors/${id}`);
 
       if (result.success) {
         navigate('/counsel/legal-advisors');

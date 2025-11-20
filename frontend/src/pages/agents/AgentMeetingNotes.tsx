@@ -16,7 +16,7 @@ import {
   AgentPreferences
 } from '../../types/agents';
 import AgentPreferencesGrid from '../../components/features/agents/AgentPreferencesGrid';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut } from '../../services/api';
 import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-agent' | 'select-contact' | 'edit-details';

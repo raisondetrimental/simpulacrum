@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet, apiPost } from '../../../services/api';
 
 interface ScanResults {
   scan_timestamp: string;
@@ -50,11 +50,7 @@ const DataCleanupModal: React.FC<DataCleanupModalProps> = ({ isOpen, onClose }) 
       setError(null);
       setMessage(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/cleanup/scan`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/cleanup/scan');
 
       if (data.success && data.data) {
         setScanResults(data.data);
@@ -91,19 +87,10 @@ const DataCleanupModal: React.FC<DataCleanupModalProps> = ({ isOpen, onClose }) 
 
       const contactIds = scanResults.orphaned_contacts.map(c => c.id);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/cleanup/fix`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          fix_type: 'orphaned_contacts',
-          record_ids: contactIds
-        })
+      const data = await apiPost('/api/admin/cleanup/fix', {
+        fix_type: 'orphaned_contacts',
+        record_ids: contactIds
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setMessage({
@@ -139,19 +126,10 @@ const DataCleanupModal: React.FC<DataCleanupModalProps> = ({ isOpen, onClose }) 
 
       const participantIds = scanResults.invalid_references.map(r => r.participant.id);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/cleanup/fix`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          fix_type: 'invalid_references',
-          record_ids: participantIds
-        })
+      const data = await apiPost('/api/admin/cleanup/fix', {
+        fix_type: 'invalid_references',
+        record_ids: participantIds
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setMessage({

@@ -21,8 +21,9 @@ export interface ApiError {
 
 /**
  * Base fetch wrapper with error handling
+ * Exported for advanced use cases
  */
-async function apiFetch<T = any>(
+export async function apiFetch<T = any>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<ApiResponse<T>> {
@@ -123,6 +124,38 @@ export async function apiPut<T = any>(
  */
 export async function apiDelete<T = any>(endpoint: string): Promise<ApiResponse<T>> {
   return apiFetch<T>(endpoint, { method: 'DELETE' });
+}
+
+/**
+ * Download file (blob) - for CSV exports, PDFs, etc.
+ * @param endpoint - API endpoint that returns a file
+ * @param filename - Name to save the file as
+ */
+export async function apiDownload(endpoint: string, filename: string): Promise<void> {
+  try {
+    const url = apiUrl(endpoint);
+
+    const response = await fetch(url, {
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Download failed: ${response.statusText}`);
+    }
+
+    const blob = await response.blob();
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = downloadUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(downloadUrl);
+  } catch (error) {
+    console.error(`[API] Download error on ${endpoint}:`, error);
+    throw error;
+  }
 }
 
 /**

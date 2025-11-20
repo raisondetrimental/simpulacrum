@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet } from '../../../services/api';
 
 interface SecurityConfig {
   cors: {
@@ -51,11 +51,7 @@ const SecuritySettingsModal: React.FC<SecuritySettingsModalProps> = ({ isOpen, o
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/config/security`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/config/security');
 
       if (data.success && data.data) {
         setConfig(data.data);

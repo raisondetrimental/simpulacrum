@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { API_BASE_URL } from '../../config';
+import { apiPost } from '../../services/api';
 
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +9,7 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, checkAuth } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,26 +17,27 @@ const LoginPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
+      console.log('[Login] Attempting login...');
+      const data = await apiPost('/api/auth/login', { username, password });
+      console.log('[Login] Login response:', data);
 
       if (data.success) {
+        console.log('[Login] Login successful, user data:', data.user);
+
+        // Set user immediately from login response
         login(data.user);
+
+        // Small delay to ensure cookie is set before navigation
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        console.log('[Login] Navigating to home...');
         navigate('/');
       } else {
         setError(data.message || 'Login failed');
       }
     } catch (err) {
       setError('Network error. Please try again.');
-      console.error('Login error:', err);
+      console.error('[Login] Login error:', err);
     } finally {
       setLoading(false);
     }

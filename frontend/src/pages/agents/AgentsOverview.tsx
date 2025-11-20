@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import AgentReminders from '../../components/features/agents/AgentReminders';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
 import { AgentContact, MeetingHistoryEntry, ApiResponse } from '../../types/agents';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { updateAgentMeetingNote, deleteAgentMeetingNote } from '../../services/agentsService';
 
 const AgentsOverview: React.FC = () => {
@@ -20,10 +20,7 @@ const AgentsOverview: React.FC = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/agent-contacts`, {
-        credentials: 'include'
-      });
-      const result: ApiResponse<AgentContact[]> = await response.json();
+      const result = await apiGet<AgentContact[]>('/api/agent-contacts');
       if (result.success && result.data) {
         setContacts(result.data);
       }

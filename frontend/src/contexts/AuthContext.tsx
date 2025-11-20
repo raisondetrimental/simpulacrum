@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost } from '../services/api';
 
 interface User {
   id: string;
@@ -37,18 +37,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/status`, {
-        credentials: 'include',
-      });
-      const data = await response.json();
+      console.log('[AuthContext] Checking auth status...');
+      const data = await apiGet('/api/auth/status');
+      console.log('[AuthContext] Auth status response:', data);
 
       if (data.authenticated) {
+        console.log('[AuthContext] User authenticated:', data.user);
         setUser(data.user);
       } else {
+        console.log('[AuthContext] User not authenticated');
         setUser(null);
       }
     } catch (error) {
-      console.error('Auth check failed:', error);
+      console.error('[AuthContext] Auth check failed:', error);
       setUser(null);
     } finally {
       setLoading(false);
@@ -65,10 +66,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${API_BASE_URL}/api/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
-      });
+      await apiPost('/api/auth/logout', {});
     } catch (error) {
       console.error('Logout failed:', error);
     } finally {

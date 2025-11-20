@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 
 interface User {
   id: string;
@@ -51,42 +51,19 @@ export const UserMultiSelect: React.FC<UserMultiSelectProps> = ({
   const fetchActiveUsers = async () => {
     try {
       setLoading(true);
-      console.log('Fetching active users from:', `${API_BASE_URL}/api/users/active`);
+      console.log('Fetching active users from: /api/users/active');
 
-      const response = await fetch(`${API_BASE_URL}/api/users/active`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      console.log('Response status:', response.status);
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          // Check if user is actually logged in by trying auth status
-          const authCheck = await fetch(`${API_BASE_URL}/api/auth/status`, {
-            credentials: 'include'
-          });
-          const authData = await authCheck.json();
-          console.log('Auth status:', authData);
-
-          throw new Error('Authentication required. Please refresh the page.');
-        }
-        throw new Error('Failed to fetch users');
-      }
-
-      const data = await response.json();
+      const data = await apiGet<User[]>('/api/users/active');
       console.log('Users data:', data);
 
       if (data.success) {
-        setUsers(data.data);
+        setUsers(data.data || []);
       } else {
         throw new Error(data.message || 'Failed to fetch users');
       }
     } catch (err: any) {
       console.error('Error fetching users:', err);
-      setError(err.message);
+      setError(err.message || 'Failed to fetch users');
     } finally {
       setLoading(false);
     }

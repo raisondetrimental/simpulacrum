@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { LegalAdvisor, CounselContact, ApiResponse } from '../../types/counsel';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
@@ -81,13 +81,10 @@ const LegalAdvisorsTableView: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [advisorsRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/legal-advisors`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/counsel-contacts`, { credentials: 'include' })
+      const [advisorsResult, contactsResult] = await Promise.all([
+        apiGet<LegalAdvisor[]>('/api/legal-advisors'),
+        apiGet<CounselContact[]>('/api/counsel-contacts')
       ]);
-
-      const advisorsResult: ApiResponse<LegalAdvisor[]> = await advisorsRes.json();
-      const contactsResult: ApiResponse<CounselContact[]> = await contactsRes.json();
 
       if (advisorsResult.success && contactsResult.success) {
         // Build hierarchy

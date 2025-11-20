@@ -9,7 +9,7 @@ import { Corporate, SponsorContact, ApiResponse, CorporateFormData, SponsorConta
 import CorporateForm from '../../components/features/sponsors/CorporateForm';
 import SponsorContactForm from '../../components/features/sponsors/SponsorContactForm';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { downloadCorporatesCSV, downloadCorporatesXLSX } from '../../services/sponsorsService';
 
 interface CorporateWithContacts extends Corporate {
@@ -49,26 +49,23 @@ const CorporatesList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [corporatesRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/corporates`),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`)
+      const [corporatesResult, contactsResult] = await Promise.all([
+        apiGet<Corporate[]>('/api/corporates'),
+        apiGet<SponsorContact[]>('/api/sponsor-contacts')
       ]);
 
-      const corporatesResult: ApiResponse<Corporate[]> = await corporatesRes.json();
-      const contactsResult: ApiResponse<SponsorContact[]> = await contactsRes.json();
-
-      if (corporatesResult.success && contactsResult.success) {
+      if (corporatesResult.success && contactsResult.success && corporatesResult.data && contactsResult.data) {
         // Build hierarchy
         const contactsMap = new Map<string, SponsorContact[]>();
 
-        contactsResult.data!.forEach(contact => {
+        contactsResult.data.forEach(contact => {
           if (!contactsMap.has(contact.corporate_id)) {
             contactsMap.set(contact.corporate_id, []);
           }
           contactsMap.get(contact.corporate_id)!.push(contact);
         });
 
-        const corporatesWithContacts = corporatesResult.data!.map(corporate => ({
+        const corporatesWithContacts = corporatesResult.data.map(corporate => ({
           ...corporate,
           contacts: contactsMap.get(corporate.id) || []
         }));
@@ -76,7 +73,7 @@ const CorporatesList: React.FC = () => {
         setCorporates(corporatesWithContacts);
         setError(null);
       } else {
-        setError('Failed to load data');
+        setError(corporatesResult.message || contactsResult.message || 'Failed to load data');
       }
     } catch (err) {
       setError('Failed to connect to API. Make sure the server is running on port 5000.');
@@ -99,15 +96,7 @@ const CorporatesList: React.FC = () => {
     setCreateStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/corporates`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<Corporate> = await response.json();
+      const result = await apiPost<Corporate>('/api/corporates', formData);
 
       if (result.success && result.data) {
         setCreateStatus('success');
@@ -129,15 +118,7 @@ const CorporatesList: React.FC = () => {
     setCreateContactStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<SponsorContact> = await response.json();
+      const result = await apiPost<SponsorContact>('/api/sponsor-contacts', formData);
 
       if (result.success && result.data) {
         setCreateContactStatus('success');

@@ -30,12 +30,22 @@ def create_app(config_name=None):
     config = get_config(config_name)
     app.config.from_object(config)
 
-    # Initialize CORS
+    # Explicitly set session cookie configuration for cross-site authentication
+    app.config['SESSION_COOKIE_SAMESITE'] = config.SESSION_COOKIE_SAMESITE
+    app.config['SESSION_COOKIE_SECURE'] = config.SESSION_COOKIE_SECURE
+    app.config['SESSION_COOKIE_HTTPONLY'] = config.SESSION_COOKIE_HTTPONLY
+    app.config['REMEMBER_COOKIE_SAMESITE'] = config.REMEMBER_COOKIE_SAMESITE
+    app.config['REMEMBER_COOKIE_SECURE'] = config.REMEMBER_COOKIE_SECURE
+    app.config['REMEMBER_COOKIE_HTTPONLY'] = config.REMEMBER_COOKIE_HTTPONLY
+    app.config['PERMANENT_SESSION_LIFETIME'] = 86400  # 24 hours
+
+    # Initialize CORS - use origins from config
     CORS(app, supports_credentials=True, resources={
         r"/api/*": {
-            "origins": app.config['CORS_ORIGINS']
+            "origins": config.CORS_ORIGINS
         }
     })
+
 
     # Initialize Flask-Login
     login_manager = LoginManager()

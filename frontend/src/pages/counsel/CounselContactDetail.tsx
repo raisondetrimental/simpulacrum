@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { CounselContact, LegalAdvisor, ApiResponse, MeetingHistoryEntry } from '../../types/counsel';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPut, apiDelete } from '../../services/api';
 import { updateCounselMeetingNote, deleteCounselMeetingNote } from '../../services/counselService';
 
 const CounselContactDetail: React.FC = () => {

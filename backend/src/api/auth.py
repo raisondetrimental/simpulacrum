@@ -23,9 +23,19 @@ def login():
 
     # Handle POST requests (actual login)
     try:
-        data = request.get_json()
+        data = request.get_json(force=True)
+        if not data:
+            current_app.logger.error("[LOGIN] No JSON data in request")
+            return jsonify({
+                "success": False,
+                "message": "No JSON data provided"
+            }), 400
+
         username = data.get('username')
         password = data.get('password')
+
+        current_app.logger.info(f"[LOGIN] Attempt for username: {username}")
+        current_app.logger.info(f"[LOGIN] Password length: {len(password) if password else 0}")
 
         if not username or not password:
             return jsonify({
@@ -35,15 +45,23 @@ def login():
 
         # Find user
         users_json_path = Path(current_app.config['JSON_DIR']) / current_app.config['JSON_USERS']
+        current_app.logger.info(f"[LOGIN] Looking for user in: {users_json_path}")
         user_data = get_user_by_username(username, users_json_path)
         if not user_data:
+            current_app.logger.warning(f"[LOGIN] User not found: {username}")
             return jsonify({
                 "success": False,
                 "message": "Invalid username or password"
-            }), 401
+            })
+
+        current_app.logger.info(f"[LOGIN] User found: {user_data.get('id')}")
+        current_app.logger.info(f"[LOGIN] Password hash from DB: {user_data['password_hash'][:20]}...")
 
         # Verify password
-        if verify_password(password, user_data['password_hash']):
+        verification_result = verify_password(password, user_data['password_hash'])
+        current_app.logger.info(f"[LOGIN] Password verification result: {verification_result}")
+
+        if verification_result:
             # Create user object and login
             user = User(
                 user_data['id'],
@@ -52,6 +70,10 @@ def login():
                 user_data.get('role', 'user'),
                 user_data.get('is_super_admin', False)
             )
+
+            # Login user with permanent session for remember me
+            from flask import session
+            session.permanent = True
             login_user(user, remember=True)
 
             return jsonify({
@@ -69,7 +91,7 @@ def login():
             return jsonify({
                 "success": False,
                 "message": "Invalid username or password"
-            }), 401
+            })
 
     except Exception as e:
         return jsonify({

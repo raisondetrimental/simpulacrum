@@ -89,6 +89,7 @@ const MarketChartsSection: React.FC<MarketChartsSectionProps> = ({ data }) => {
 
   const fetchMarketData = async () => {
     try {
+      // Note: These endpoints don't use the standard API response format
       const [yieldsResponse, bondsResponse] = await Promise.all([
         fetch(`${API_BASE_URL}/api/historical-yields/usa`),
         fetch(`${API_BASE_URL}/api/corporate-bonds/yields`, { credentials: 'include' })

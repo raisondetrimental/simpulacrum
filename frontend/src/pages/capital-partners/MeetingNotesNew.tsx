@@ -15,7 +15,7 @@ import {
   ORGANIZATION_TYPES,
   DISC_PROFILES
 } from '../../types/liquidity';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut } from '../../services/api';
 import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-partner' | 'select-contact' | 'edit-details';
@@ -155,13 +155,10 @@ const MeetingNotesNew: React.FC = () => {
   const fetchAllData = async () => {
     setLoading(true);
     try {
-      const [partnersRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/capital-partners`),
-        fetch(`${API_BASE_URL}/api/contacts-new`)
+      const [partnersResult, contactsResult] = await Promise.all([
+        apiGet<CapitalPartner[]>('/api/capital-partners'),
+        apiGet<Contact[]>('/api/contacts-new')
       ]);
-
-      const partnersResult: ApiResponse<CapitalPartner[]> = await partnersRes.json();
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
 
       if (partnersResult.success) setAllPartners(partnersResult.data || []);
       if (contactsResult.success) setAllContacts(contactsResult.data || []);
@@ -182,14 +179,7 @@ const MeetingNotesNew: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/capital-partners`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // REQUIRED: Send session cookie for authentication
-        body: JSON.stringify(newPartner)
-      });
-
-      const result: ApiResponse<CapitalPartner> = await response.json();
+      const result = await apiPost<CapitalPartner>('/api/capital-partners', newPartner);
 
       if (result.success && result.data) {
         setSelectedPartner(result.data);
@@ -232,14 +222,7 @@ const MeetingNotesNew: React.FC = () => {
         capital_partner_id: selectedPartner.id
       };
 
-      const contactResponse = await fetch(`${API_BASE_URL}/api/contacts-new`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // REQUIRED: Send session cookie for authentication
-        body: JSON.stringify(contactPayload)
-      });
-
-      const contactResult: ApiResponse<Contact> = await contactResponse.json();
+      const contactResult = await apiPost<Contact>('/api/contacts-new', contactPayload);
 
       if (contactResult.success && contactResult.data) {
         setSelectedContact(contactResult.data);
@@ -299,30 +282,14 @@ const MeetingNotesNew: React.FC = () => {
           assigned_user_ids: meetingNote.assigned_user_ids
         };
 
-        const meetingResponse = await fetch(
-          `${API_BASE_URL}/api/contacts-new/${selectedContact.id}/meetings/${editingMeetingId}`,
-          {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-            body: JSON.stringify(updatePayload)
-          }
+        meetingResult = await apiPut(
+          `/api/contacts-new/${selectedContact.id}/meetings/${editingMeetingId}`,
+          updatePayload
         );
-
-        meetingResult = await meetingResponse.json();
 
         // Also update contact details if they were changed
         if (meetingResult.success) {
-          const contactUpdateResponse = await fetch(
-            `${API_BASE_URL}/api/contacts-new/${selectedContact.id}`,
-            {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              credentials: 'include',
-              body: JSON.stringify(newContact)
-            }
-          );
-          await contactUpdateResponse.json();
+          await apiPut(`/api/contacts-new/${selectedContact.id}`, newContact);
         }
       } else {
         // Create new meeting note (original behavior)
@@ -332,14 +299,7 @@ const MeetingNotesNew: React.FC = () => {
           meeting_note: meetingNote
         };
 
-        const meetingResponse = await fetch(`${API_BASE_URL}/api/meeting-notes`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(meetingPayload)
-        });
-
-        meetingResult = await meetingResponse.json();
+        meetingResult = await apiPost('/api/meeting-notes', meetingPayload);
       }
 
       if (meetingResult.success) {

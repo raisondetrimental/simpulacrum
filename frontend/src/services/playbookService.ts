@@ -3,7 +3,7 @@
  * API client for Playbook management (Admin only)
  */
 
-import { apiGet, apiPost, apiPut, apiDelete, ApiResponse } from './api';
+import { apiGet, apiPost, apiPut, apiDelete, apiDownload, ApiResponse } from './api';
 import {
   PlaybookContact,
   PlaybookCalendarEntry,
@@ -61,26 +61,7 @@ export async function deletePlaybookContact(id: string): Promise<ApiResponse<voi
  * Export playbook contacts to CSV
  */
 export async function exportPlaybookContactsCSV(): Promise<void> {
-  const { apiUrl } = await import('../config');
-  const url = apiUrl('/api/playbook/contacts/export/csv');
-
-  const response = await fetch(url, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to export contacts');
-  }
-
-  const blob = await response.blob();
-  const downloadUrl = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = downloadUrl;
-  a.download = 'playbook_contacts.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(downloadUrl);
+  return apiDownload('/api/playbook/contacts/export/csv', 'playbook_contacts.csv');
 }
 
 // ============================================================================

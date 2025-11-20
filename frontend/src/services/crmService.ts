@@ -767,6 +767,8 @@ export async function updateMeetingNote(
     next_follow_up?: string;
   }
 ): Promise<any> {
+  const { apiPut } = await import('./api');
+
   const endpointMap: Record<OrganizationType, string> = {
     capital_partner: `/api/contacts-new/${contactId}/meetings/${meetingId}`,
     sponsor: `/api/sponsor-contacts/${contactId}/meetings/${meetingId}`,
@@ -779,14 +781,7 @@ export async function updateMeetingNote(
     throw new Error(`Unknown organization type: ${organizationType}`);
   }
 
-  const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}${endpoint}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(data)
-  });
-
-  return response.json();
+  return apiPut(endpoint, data);
 }
 
 /**
@@ -797,6 +792,8 @@ export async function deleteMeetingNote(
   contactId: string,
   meetingId: string
 ): Promise<any> {
+  const { apiDelete } = await import('./api');
+
   const endpointMap: Record<OrganizationType, string> = {
     capital_partner: `/api/contacts-new/${contactId}/meetings/${meetingId}`,
     sponsor: `/api/sponsor-contacts/${contactId}/meetings/${meetingId}`,
@@ -809,10 +806,5 @@ export async function deleteMeetingNote(
     throw new Error(`Unknown organization type: ${organizationType}`);
   }
 
-  const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000'}${endpoint}`, {
-    method: 'DELETE',
-    credentials: 'include'
-  });
-
-  return response.json();
+  return apiDelete(endpoint);
 }

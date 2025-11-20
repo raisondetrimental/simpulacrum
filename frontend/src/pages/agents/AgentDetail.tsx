@@ -10,7 +10,7 @@ import AgentContactForm from '../../components/features/agents/AgentContactForm'
 import AgentForm from '../../components/features/agents/AgentForm';
 import AgentPreferencesGrid from '../../components/features/agents/AgentPreferencesGrid';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut, apiDelete } from '../../services/api';
 import { Deal, formatDealSize, formatDealDate, DEAL_STATUS_COLORS, DEAL_STATUS_LABELS } from '../../types/deals';
 import { updateAgentMeetingNote, deleteAgentMeetingNote, getAgentDeals, toggleAgentStar } from '../../services/agentsService';
 

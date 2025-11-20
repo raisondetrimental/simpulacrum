@@ -9,7 +9,7 @@ import { Agent, AgentContact, ApiResponse, AgentFormData, AgentContactFormData }
 import AgentForm from '../../components/features/agents/AgentForm';
 import AgentContactForm from '../../components/features/agents/AgentContactForm';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { downloadAgentsCSV, downloadAgentsXLSX } from '../../services/agentsService';
 
 interface AgentWithContacts extends Agent {

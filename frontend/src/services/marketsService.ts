@@ -2,8 +2,8 @@
  * Markets service
  * Handles market data and historical yields
  */
-import { apiGet, ApiResponse } from './api';
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost, ApiResponse } from './api';
+import { apiUrl } from '../config';
 
 // Types
 export interface HistoricalYieldDataPoint {
@@ -94,66 +94,44 @@ export async function getHistoricalYieldsUSA(): Promise<ApiResponse<HistoricalYi
  * Get corporate bonds yields (90 days of data from FRED)
  */
 export async function getCorporateBondsYields(): Promise<CorporateBondsYield> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-bonds/yields`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch corporate bonds yields');
+  const result = await apiGet<CorporateBondsYield>('/api/corporate-bonds/yields');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch corporate bonds yields');
   }
-
-  return response.json();
+  return result.data as CorporateBondsYield;
 }
 
 /**
  * Refresh corporate bonds yields data from FRED API
  */
 export async function refreshCorporateBondsYields(): Promise<{ success: boolean; message: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-bonds/yields/refresh`, {
-    method: 'POST',
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh corporate bonds yields');
+  const result = await apiPost<{ success: boolean; message: string }>('/api/corporate-bonds/yields/refresh');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh corporate bonds yields');
   }
-
-  return response.json();
+  return result.data as { success: boolean; message: string };
 }
 
 /**
  * Get corporate bond spreads (OAS) data from FRED
  */
 export async function getCorporateSpreads(): Promise<CorporateSpreadsData> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-spreads`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch corporate spreads');
+  const result = await apiGet<CorporateSpreadsData>('/api/corporate-spreads');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch corporate spreads');
   }
-
-  return response.json();
+  return result.data as CorporateSpreadsData;
 }
 
 /**
  * Refresh corporate spreads data from FRED API
  */
 export async function refreshCorporateSpreads(): Promise<{ success: boolean; message: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-spreads/refresh`, {
-    method: 'POST',
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh corporate spreads');
+  const result = await apiPost<{ success: boolean; message: string }>('/api/corporate-spreads/refresh');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh corporate spreads');
   }
-
-  return response.json();
+  return result.data as { success: boolean; message: string };
 }
 
 export interface CorporateYieldsData {
@@ -184,33 +162,22 @@ export interface CorporateYieldsData {
  * Get corporate bond yields (Effective Yields) data from FRED
  */
 export async function getCorporateYields(): Promise<CorporateYieldsData> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-yields`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch corporate yields');
+  const result = await apiGet<CorporateYieldsData>('/api/corporate-yields');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch corporate yields');
   }
-
-  return response.json();
+  return result.data as CorporateYieldsData;
 }
 
 /**
  * Refresh corporate yields data from FRED API
  */
 export async function refreshCorporateYields(): Promise<{ success: boolean; message: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/corporate-yields/refresh`, {
-    method: 'POST',
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh corporate yields');
+  const result = await apiPost<{ success: boolean; message: string }>('/api/corporate-yields/refresh');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh corporate yields');
   }
-
-  return response.json();
+  return result.data as { success: boolean; message: string };
 }
 
 // ============================================================================
@@ -232,16 +199,11 @@ export interface MarketsOverviewData {
  * Get aggregated markets overview data
  */
 export async function getMarketsOverview(): Promise<MarketsOverviewData> {
-  const response = await fetch(`${API_BASE_URL}/api/markets/overview`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch markets overview');
+  const result = await apiGet<MarketsOverviewData>('/api/markets/overview');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch markets overview');
   }
-
-  return response.json();
+  return result.data as MarketsOverviewData;
 }
 
 // ============================================================================
@@ -277,36 +239,22 @@ export interface PolicyRatesData {
  * Get policy rates data from BIS SDMX
  */
 export async function getPolicyRates(): Promise<PolicyRatesData> {
-  const response = await fetch(`${API_BASE_URL}/api/policy-rates`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch policy rates');
+  const result = await apiGet<PolicyRatesData>('/api/policy-rates');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch policy rates');
   }
-
-  return response.json();
+  return result.data as PolicyRatesData;
 }
 
 /**
  * Refresh policy rates data from BIS SDMX API
  */
 export async function refreshPolicyRates(): Promise<{ success: boolean; message: string }> {
-  const response = await fetch(`${API_BASE_URL}/api/policy-rates/refresh`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh policy rates');
+  const result = await apiPost<{ success: boolean; message: string }>('/api/policy-rates/refresh');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh policy rates');
   }
-
-  return response.json();
+  return result.data as { success: boolean; message: string };
 }
 
 // ============================================================================
@@ -318,7 +266,8 @@ export async function refreshPolicyRates(): Promise<{ success: boolean; message:
  */
 export async function generateWeeklyMarketsReport(): Promise<void> {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/reports/markets/weekly`, {
+    // Use apiUrl for consistency but keep custom fetch for HTML response
+    const response = await fetch(apiUrl('/api/reports/markets/weekly'), {
       method: 'POST',
       credentials: 'include'
     });
@@ -382,35 +331,22 @@ export interface TurkeyYieldCurveData {
  * Fetch Turkey sovereign yield curve data
  */
 export async function getTurkeyYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/turkey-yield-curve`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch Turkey yield curve data');
+  const result = await apiGet<TurkeyYieldCurveData>('/api/turkey-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch Turkey yield curve data');
   }
-
-  return response.json() as Promise<TurkeyYieldCurveData>;
+  return result.data as TurkeyYieldCurveData;
 }
 
 /**
  * Refresh Turkey yield curve data by running the fetch script
  */
 export async function refreshTurkeyYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/refresh/turkey-yield-curve`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh Turkey yield curve data');
+  const result = await apiPost<TurkeyYieldCurveData>('/api/refresh/turkey-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh Turkey yield curve data');
   }
-
-  return response.json() as Promise<TurkeyYieldCurveData>;
+  return result.data as TurkeyYieldCurveData;
 }
 
 // ============================================================================
@@ -450,35 +386,22 @@ export interface VietnamYieldCurveData {
  * Fetch Vietnam sovereign yield curve data
  */
 export async function getVietnamYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/vietnam-yield-curve`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch Vietnam yield curve data');
+  const result = await apiGet<VietnamYieldCurveData>('/api/vietnam-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch Vietnam yield curve data');
   }
-
-  return response.json() as Promise<VietnamYieldCurveData>;
+  return result.data as VietnamYieldCurveData;
 }
 
 /**
  * Refresh Vietnam yield curve data by running the fetch script
  */
 export async function refreshVietnamYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/refresh/vietnam-yield-curve`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh Vietnam yield curve data');
+  const result = await apiPost<VietnamYieldCurveData>('/api/refresh/vietnam-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh Vietnam yield curve data');
   }
-
-  return response.json() as Promise<VietnamYieldCurveData>;
+  return result.data as VietnamYieldCurveData;
 }
 
 // ============================================================================
@@ -518,35 +441,22 @@ export interface UKYieldCurveData {
  * Fetch UK sovereign yield curve data
  */
 export async function getUKYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/uk-yield-curve`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch UK yield curve data');
+  const result = await apiGet<UKYieldCurveData>('/api/uk-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to fetch UK yield curve data');
   }
-
-  return response.json() as Promise<UKYieldCurveData>;
+  return result.data as UKYieldCurveData;
 }
 
 /**
  * Refresh UK yield curve data by running the fetch script
  */
 export async function refreshUKYieldCurve() {
-  const response = await fetch(`${API_BASE_URL}/api/refresh/uk-yield-curve`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh UK yield curve data');
+  const result = await apiPost<UKYieldCurveData>('/api/refresh/uk-yield-curve');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh UK yield curve data');
   }
-
-  return response.json() as Promise<UKYieldCurveData>;
+  return result.data as UKYieldCurveData;
 }
 
 // ============================================================================
@@ -575,18 +485,9 @@ export interface RefreshAllResponse {
  * Refresh ALL market data sources (US yields, corporate data, FX, policy rates, yield curves)
  */
 export async function refreshAllMarketsData(): Promise<RefreshAllResponse> {
-  const response = await fetch(`${API_BASE_URL}/api/markets/refresh-all`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to refresh market data');
+  const result = await apiPost<RefreshAllResponse>('/api/markets/refresh-all');
+  if (!result.success) {
+    throw new Error(result.message || 'Failed to refresh market data');
   }
-
-  return response.json();
+  return result.data as RefreshAllResponse;
 }

@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut, apiDelete } from '../../services/api';
 
 interface Note {
   id: string;
@@ -34,10 +34,7 @@ const MyNotes: React.FC = () => {
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/admin/notes`, {
-        credentials: 'include'
-      });
-      const data = await response.json();
+      const data = await apiGet<Note[]>('/api/admin/notes');
       if (data.success) {
         setNotes(data.data || []);
       }
@@ -55,14 +52,7 @@ const MyNotes: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/notes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
+      const data = await apiPost<Note>('/api/admin/notes', formData);
       if (data.success) {
         await fetchNotes();
         setFormData({ title: '', content: '' });
@@ -79,14 +69,7 @@ const MyNotes: React.FC = () => {
     if (!selectedNote) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/notes/${selectedNote.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(formData)
-      });
-
-      const data = await response.json();
+      const data = await apiPut<Note>(`/api/admin/notes/${selectedNote.id}`, formData);
       if (data.success) {
         await fetchNotes();
         setIsEditing(false);
@@ -102,12 +85,7 @@ const MyNotes: React.FC = () => {
     if (!confirm('Delete this note?')) return;
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/notes/${noteId}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiDelete(`/api/admin/notes/${noteId}`);
       if (data.success) {
         await fetchNotes();
         if (selectedNote?.id === noteId) {
@@ -124,7 +102,8 @@ const MyNotes: React.FC = () => {
     event.stopPropagation(); // Prevent note selection when clicking star
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/admin/notes/${noteId}/star`, {
+      // Using fetch directly for PATCH since we don't have apiPatch helper
+      const response = await fetch(`/api/admin/notes/${noteId}/star`, {
         method: 'PATCH',
         credentials: 'include'
       });

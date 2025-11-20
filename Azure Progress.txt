@@ -1,0 +1,218 @@
+1. You started with a project that worked locally but CI was failing
+
+Your GitHub Actions pipeline was running:
+
+frontend lint
+
+frontend type checking
+
+frontend tests
+
+backend lint
+
+backend tests
+
+These all failed.
+You asked whether these failures matter for deployment.
+
+Key point we established:
+CI failures do not stop you deploying a production app unless your deployment pipeline depends on CI.
+Azure Static Web Apps uses GitHub Actions by default.
+This means those failures do block Azure if you use the automatic deployment path.
+
+2. You wanted to deploy despite CI failures
+
+Because GitHub Actions was full of red checks, you moved away from the CI dependent deployment model.
+
+We identified two deployment models:
+
+A. Automatic deployment (needs CI)
+
+Azure pulls from GitHub
+
+GitHub Actions must succeed
+
+Your CI failures block deployment
+
+B. Manual deployment (CI irrelevant)
+
+You build locally
+
+You upload your output to Azure yourself
+
+CI can be completely broken
+
+You decided to use the manual route for both frontend and backend.
+
+3. You installed Azure CLI to manage Azure manually
+
+We installed Azure CLI in Windows using:
+
+curl to download the installer
+
+msiexec to install silently
+
+Your PATH variable was broken, so you fixed it using the Windows GUI to restore:
+
+C:\Windows\system32
+
+C:\Windows
+
+and other required system paths
+
+Once PATH was fixed, az --version worked normally.
+
+4. Frontend: You chose to use Static Web Apps but with manual deployment
+
+Instead of letting Azure deploy from GitHub via Actions, you:
+
+Built the frontend locally:
+
+npm run build
+
+
+Used Static Web Apps CLI to deploy:
+
+swa deploy dist --deployment-token TOKEN --env production
+
+
+This bypasses CI entirely.
+
+You also created a .env.production file for Vite with:
+
+VITE_API_URL=https://<your-backend-url>
+
+5. Backend: Azure App Service failed due to zero quota
+
+When you tried to create an App Service Plan:
+
+B1 tier failed
+
+F1 tier failed
+
+Azure told you:
+
+Current Limit (Free VMs): 0
+Amount required: 1
+
+
+Your subscription has zero App Service VM quota in that region.
+This is common for new or restricted Azure accounts.
+
+Important:
+App Service cannot work without VM quota.
+Quota requests take time and are not guaranteed.
+
+So we moved to the correct alternative.
+
+6. We switched your backend to Azure Container Apps
+
+Container Apps does not use App Service VM quotas.
+It works even on restricted subscriptions.
+
+It is modern and suits Flask very well.
+
+To deploy to Container Apps, you need your Flask backend containerised.
+This means building a Docker image.
+
+7. Creating a production Dockerfile
+
+We wrote a production dockerfile that:
+
+uses Python 3.10 slim
+
+installs only the backend dependencies your API uses
+
+runs your Flask app using Gunicorn
+
+exposes port 8000
+
+sets the correct Gunicorn import path (src.app:app)
+
+Example:
+
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "src.app:app"]
+
+8. We discovered your full requirements.txt is too large for Docker
+
+Your main requirements.txt contains lots of Windows only and heavy desktop packages:
+
+pywin32
+
+xlwings
+
+playwright
+
+matplotlib
+
+scipy
+
+etc
+
+These break on Linux slim images and slow the build massively.
+
+So we created a trimmed requirements file just for the container:
+
+requirements-app.txt
+
+This file contains only the packages the API actually needs at runtime.
+
+9. We iteratively fixed missing modules
+
+After building the Docker image, the container started failing with errors like:
+
+ModuleNotFoundError: No module named 'bcrypt'
+
+
+We added this to the minimal requirements file, rebuilt, and ran again.
+
+Next error:
+
+ModuleNotFoundError: No module named 'openpyxl'
+
+
+We added that too.
+
+This iterative process continues until the container has exactly the correct dependencies.
+
+This is the correct and standard approach for building clean production containers.
+
+10. Your backend container is now close to production ready
+
+You:
+
+built a container
+
+ran it locally
+
+tested it
+
+iteratively added the correct modules
+
+Once the container starts without errors, you deploy it to Azure Container Apps with:
+
+az containerapp create ^
+  --name meridian-dashboard-backend ^
+  --resource-group meridian-dashboard-rg ^
+  --environment meridian-dashboard-env ^
+  --ingress external ^
+  --target-port 8000 ^
+  --source .
+
+
+Azure Container Apps builds your Dockerfile automatically and hosts your Flask API.
+
+11. Once backend is live → update frontend → deploy manually
+
+You update:
+
+VITE_API_URL=https://<container-app-url>
+
+
+Then:
+
+npm run build
+swa deploy dist --deployment-token ...
+
+
+CI still does not matter at all.

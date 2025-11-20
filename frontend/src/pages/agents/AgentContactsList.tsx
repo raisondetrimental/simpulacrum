@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AgentContact, Agent, ApiResponse } from '../../types/agents';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { downloadAgentContactsCSV, downloadAgentContactsXLSX } from '../../services/agentsService';
 
 interface AgentContactWithDetails extends AgentContact {
@@ -29,13 +29,10 @@ const AgentContactsList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [contactsRes, agentsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/agent-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/agents`, { credentials: 'include' })
+      const [contactsResult, agentsResult] = await Promise.all([
+        apiGet<AgentContact[]>('/api/agent-contacts'),
+        apiGet<Agent[]>('/api/agents')
       ]);
-
-      const contactsResult: ApiResponse<AgentContact[]> = await contactsRes.json();
-      const agentsResult: ApiResponse<Agent[]> = await agentsRes.json();
 
       if (contactsResult.success && agentsResult.success) {
         const agentsMap = new Map(agentsResult.data!.map(c => [c.id, c]));

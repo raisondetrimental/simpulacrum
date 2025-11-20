@@ -9,7 +9,7 @@ import { LegalAdvisor, CounselContact, ApiResponse, LegalAdvisorFormData, Counse
 import LegalAdvisorForm from '../../components/features/counsel/LegalAdvisorForm';
 import CounselContactForm from '../../components/features/counsel/CounselContactForm';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { downloadLegalAdvisorsCSV, downloadLegalAdvisorsXLSX } from '../../services/counselService';
 
 interface LegalAdvisorWithContacts extends LegalAdvisor {
@@ -49,13 +49,10 @@ const LegalAdvisorsList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [advisorsRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/legal-advisors`),
-        fetch(`${API_BASE_URL}/api/counsel-contacts`)
+      const [advisorsResult, contactsResult] = await Promise.all([
+        apiGet<LegalAdvisor[]>('/api/legal-advisors'),
+        apiGet<CounselContact[]>('/api/counsel-contacts')
       ]);
-
-      const advisorsResult: ApiResponse<LegalAdvisor[]> = await advisorsRes.json();
-      const contactsResult: ApiResponse<CounselContact[]> = await contactsRes.json();
 
       if (advisorsResult.success && contactsResult.success) {
         // Build hierarchy
@@ -99,15 +96,7 @@ const LegalAdvisorsList: React.FC = () => {
     setCreateStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/legal-advisors`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<LegalAdvisor> = await response.json();
+      const result = await apiPost<LegalAdvisor>('/api/legal-advisors', formData);
 
       if (result.success && result.data) {
         setCreateStatus('success');
@@ -129,15 +118,7 @@ const LegalAdvisorsList: React.FC = () => {
     setCreateContactStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/counsel-contacts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<CounselContact> = await response.json();
+      const result = await apiPost<CounselContact>('/api/counsel-contacts', formData);
 
       if (result.success && result.data) {
         setCreateContactStatus('success');

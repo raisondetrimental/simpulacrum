@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet, apiPost } from '../../../services/api';
 
 interface Endpoint {
   path: string;
@@ -60,11 +60,7 @@ const ApiPlaygroundModal: React.FC<ApiPlaygroundModalProps> = ({ isOpen, onClose
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/api-playground/endpoints?grouped=true`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/api-playground/endpoints?grouped=true');
 
       if (data.success && data.data) {
         setGroupedEndpoints(data.data.endpoints);
@@ -167,22 +163,13 @@ const ApiPlaygroundModal: React.FC<ApiPlaygroundModalProps> = ({ isOpen, onClose
         }
       }
 
-      const apiResponse = await fetch(`${API_BASE_URL}/api/admin/api-playground/execute`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          path: requestPath,
-          method: requestMethod,
-          headers,
-          query_params: params,
-          body
-        })
+      const data = await apiPost('/api/admin/api-playground/execute', {
+        path: requestPath,
+        method: requestMethod,
+        headers,
+        query_params: params,
+        body
       });
-
-      const data = await apiResponse.json();
 
       if (data.success && data.data) {
         setResponse(data.data);

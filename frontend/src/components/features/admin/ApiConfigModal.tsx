@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet, apiPost, apiPut } from '../../../services/api';
 
 interface ApiKey {
   name: string;
@@ -42,11 +42,7 @@ const ApiConfigModal: React.FC<ApiConfigModalProps> = ({ isOpen, onClose }) => {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/config/api-keys');
 
       if (data.success && data.data) {
         setApiKeys(data.data.api_keys);
@@ -82,19 +78,10 @@ const ApiConfigModal: React.FC<ApiConfigModalProps> = ({ isOpen, onClose }) => {
       setTesting(true);
       setTestResult(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys/test`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          key_name: keyName,
-          api_key: newKeyValue.trim()
-        })
+      const data = await apiPost('/api/admin/config/api-keys/test', {
+        key_name: keyName,
+        api_key: newKeyValue.trim()
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setTestResult({type: 'success', message: data.message || 'API key is valid'});
@@ -122,18 +109,9 @@ const ApiConfigModal: React.FC<ApiConfigModalProps> = ({ isOpen, onClose }) => {
       setSaving(true);
       setTestResult(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys/${keyName}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          api_key: newKeyValue.trim()
-        })
+      const data = await apiPut(`/api/admin/config/api-keys/${keyName}`, {
+        api_key: newKeyValue.trim()
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setTestResult({type: 'success', message: 'API key updated successfully'});

@@ -16,7 +16,7 @@ import {
   CounselPreferences
 } from '../../types/counsel';
 import CounselPreferencesGrid from '../../components/features/counsel/CounselPreferencesGrid';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut } from '../../services/api';
 import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-advisor' | 'select-contact' | 'edit-details';

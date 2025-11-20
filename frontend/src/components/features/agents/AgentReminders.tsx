@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AgentContact, ApiResponse } from '../../../types/agents';
-import { API_BASE_URL } from '../../../config';
+import { apiGet } from '../../../services/api';
 
 interface ReminderData {
   contact: AgentContact;
@@ -26,8 +26,7 @@ const AgentReminders: React.FC = () => {
 
   const fetchReminders = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/agent-meetings/reminders`);
-      const result: ApiResponse<ReminderData[]> = await response.json();
+      const result = await apiGet<ReminderData[]>('/api/agent-meetings/reminders');
 
       if (result.success && result.data) {
         setReminders(result.data);

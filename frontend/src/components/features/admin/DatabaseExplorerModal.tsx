@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet } from '../../../services/api';
 
 interface DatabaseFile {
   filename: string;
@@ -58,11 +58,7 @@ const DatabaseExplorerModal: React.FC<DatabaseExplorerModalProps> = ({ isOpen, o
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/database-explorer/files?grouped=true`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/database-explorer/files?grouped=true');
 
       if (data.success && data.data) {
         setGroupedFiles(data.data.files);

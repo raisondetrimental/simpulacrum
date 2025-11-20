@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { apiPost } from '../../../services/api';
 import { API_BASE_URL } from '../../../config';
 
 interface BulkOperationsModalProps {
@@ -43,21 +44,12 @@ const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({ isOpen, onClo
       const filters = filterField && filterValue ? {[filterField]: filterValue} : {};
       const updates = {[updateField]: updateValue};
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/bulk/update`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          entity_type: entityType,
-          filters,
-          updates,
-          dry_run: true
-        })
+      const data = await apiPost('/api/admin/bulk/update', {
+        entity_type: entityType,
+        filters,
+        updates,
+        dry_run: true
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setPreview(data.data);
@@ -92,21 +84,12 @@ const BulkOperationsModal: React.FC<BulkOperationsModalProps> = ({ isOpen, onClo
       const filters = filterField && filterValue ? {[filterField]: filterValue} : {};
       const updates = {[updateField]: updateValue};
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/bulk/update`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          entity_type: entityType,
-          filters,
-          updates,
-          dry_run: false
-        })
+      const data = await apiPost('/api/admin/bulk/update', {
+        entity_type: entityType,
+        filters,
+        updates,
+        dry_run: false
       });
-
-      const data = await response.json();
 
       if (data.success) {
         setMessage({

@@ -16,7 +16,7 @@ import {
   SponsorPreferences
 } from '../../types/sponsors';
 import SponsorPreferencesGrid from '../../components/features/sponsors/SponsorPreferencesGrid';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut } from '../../services/api';
 import { UserMultiSelect } from '../../components/ui/UserMultiSelect';
 
 type Step = 'select-corporate' | 'select-contact' | 'edit-details';
@@ -179,13 +179,10 @@ const SponsorMeetingNotes: React.FC = () => {
   const fetchAllData = async () => {
     setLoading(true);
     try {
-      const [corporatesRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/corporates`),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`)
+      const [corporatesResult, contactsResult] = await Promise.all([
+        apiGet<Corporate[]>('/api/corporates'),
+        apiGet<SponsorContact[]>('/api/sponsor-contacts')
       ]);
-
-      const corporatesResult: ApiResponse<Corporate[]> = await corporatesRes.json();
-      const contactsResult: ApiResponse<SponsorContact[]> = await contactsRes.json();
 
       if (corporatesResult.success) setAllCorporates(corporatesResult.data || []);
       if (contactsResult.success) setAllContacts(contactsResult.data || []);
@@ -206,13 +203,7 @@ const SponsorMeetingNotes: React.FC = () => {
 
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/corporates`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newCorporate)
-      });
-
-      const result: ApiResponse<Corporate> = await response.json();
+      const result = await apiPost<Corporate>('/api/corporates', newCorporate);
 
       if (result.success && result.data) {
         setSelectedCorporate(result.data);
@@ -269,13 +260,7 @@ const SponsorMeetingNotes: React.FC = () => {
         corporate_id: selectedCorporate.id
       };
 
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactData)
-      });
-
-      const result: ApiResponse<SponsorContact> = await response.json();
+      const result = await apiPost<SponsorContact>('/api/sponsor-contacts', contactData);
 
       if (result.success && result.data) {
         setSelectedContact(result.data);
@@ -415,14 +400,7 @@ const SponsorMeetingNotes: React.FC = () => {
           }
         };
 
-        const response = await fetch(`${API_BASE_URL}/api/sponsor-meetings`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-          credentials: 'include'
-        });
-
-        result = await response.json();
+        result = await apiPost('/api/sponsor-meetings', payload);
       }
 
       if (result.success) {

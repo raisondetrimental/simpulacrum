@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { Contact, ContactFormData, ApiResponse } from '../../types/liquidity';
 import ContactForm from '../../components/features/capital-partners/ContactForm';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut } from '../../services/api';
 
 const ContactEdit: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -32,8 +32,7 @@ const ContactEdit: React.FC = () => {
   const fetchContact = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts-new/${id}`);
-      const result: ApiResponse<Contact> = await response.json();
+      const result = await apiGet<Contact>(`/api/contacts-new/${id}`);
 
       if (result.success && result.data) {
         setContact(result.data);
@@ -50,19 +49,9 @@ const ContactEdit: React.FC = () => {
 
   const handleSave = async (formData: ContactFormData) => {
     try {
-      const url = isNew
-        ? `${API_BASE_URL}/api/contacts-new`
-        : `${API_BASE_URL}/api/contacts-new/${id}`;
-
-      const method = isNew ? 'POST' : 'PUT';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const result: ApiResponse<Contact> = await response.json();
+      const result = isNew
+        ? await apiPost<Contact>('/api/contacts-new', formData)
+        : await apiPut<Contact>(`/api/contacts-new/${id}`, formData);
 
       if (result.success && result.data) {
         navigate(`/liquidity/contacts/${result.data.id}`);

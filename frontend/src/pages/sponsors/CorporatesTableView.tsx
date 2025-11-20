@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Corporate, SponsorContact, ApiResponse, CorporateFormData, INFRASTRUCTURE_TYPES, REGION_OPTIONS } from '../../types/sponsors';
 import CorporateForm from '../../components/features/sponsors/CorporateForm';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 
@@ -45,26 +45,23 @@ const CorporatesTableView: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [corporatesRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/corporates`),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`)
+      const [corporatesResult, contactsResult] = await Promise.all([
+        apiGet<Corporate[]>('/api/corporates'),
+        apiGet<SponsorContact[]>('/api/sponsor-contacts')
       ]);
 
-      const corporatesResult: ApiResponse<Corporate[]> = await corporatesRes.json();
-      const contactsResult: ApiResponse<SponsorContact[]> = await contactsRes.json();
-
-      if (corporatesResult.success && contactsResult.success) {
+      if (corporatesResult.success && contactsResult.success && corporatesResult.data && contactsResult.data) {
         // Build hierarchy
         const contactsMap = new Map<string, SponsorContact[]>();
 
-        contactsResult.data!.forEach(contact => {
+        contactsResult.data.forEach(contact => {
           if (!contactsMap.has(contact.corporate_id)) {
             contactsMap.set(contact.corporate_id, []);
           }
           contactsMap.get(contact.corporate_id)!.push(contact);
         });
 
-        const corporatesWithContacts = corporatesResult.data!.map(corporate => ({
+        const corporatesWithContacts = corporatesResult.data.map(corporate => ({
           ...corporate,
           contacts: contactsMap.get(corporate.id) || []
         }));
@@ -72,7 +69,7 @@ const CorporatesTableView: React.FC = () => {
         setCorporates(corporatesWithContacts);
         setError(null);
       } else {
-        setError('Failed to load data');
+        setError(corporatesResult.message || contactsResult.message || 'Failed to load data');
       }
     } catch (err) {
       setError('Failed to connect to API. Make sure the server is running on port 5000.');
@@ -85,15 +82,7 @@ const CorporatesTableView: React.FC = () => {
     setCreateStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/corporates`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<Corporate> = await response.json();
+      const result = await apiPost<Corporate>('/api/corporates', formData);
 
       if (result.success && result.data) {
         setCreateStatus('success');

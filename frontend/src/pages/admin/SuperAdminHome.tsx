@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 
 interface SystemStats {
   users: {
@@ -50,20 +50,16 @@ const SuperAdminHome: React.FC = () => {
     try {
       setLoading(true);
 
-      // Fetch system stats
-      const statsResponse = await fetch(`${API_BASE_URL}/api/admin/stats`, {
-        credentials: 'include'
-      });
-      const statsData = await statsResponse.json();
+      // Fetch system stats and recent notes in parallel
+      const [statsData, notesData] = await Promise.all([
+        apiGet<SystemStats>('/api/admin/stats'),
+        apiGet<Note[]>('/api/admin/notes')
+      ]);
+
       if (statsData.success) {
         setStats(statsData.data);
       }
 
-      // Fetch recent notes
-      const notesResponse = await fetch(`${API_BASE_URL}/api/admin/notes`, {
-        credentials: 'include'
-      });
-      const notesData = await notesResponse.json();
       if (notesData.success) {
         setRecentNotes(notesData.data.slice(0, 5)); // Get 5 most recent
       }

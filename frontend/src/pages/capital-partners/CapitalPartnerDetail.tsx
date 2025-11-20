@@ -10,7 +10,7 @@ import { CapitalPartner, Contact, ApiResponse, MeetingHistoryEntry } from '../..
 import CapitalPartnerForm from '../../components/features/capital-partners/CapitalPartnerForm';
 import PreferencesGrid from '../../components/features/capital-partners/PreferencesGrid';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut, apiDelete } from '../../services/api';
 import { getCapitalPartnerDeals } from '../../services/dealsService';
 import { Deal, formatDealSize, formatDealDate, DEAL_STATUS_COLORS, DEAL_STATUS_LABELS } from '../../types/deals';
 import { updateMeetingNote, deleteMeetingNote, toggleCapitalPartnerStar } from '../../services/capitalPartnersService';
@@ -41,8 +41,7 @@ const CapitalPartnerDetail: React.FC = () => {
   const fetchPartner = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/capital-partners/${id}`);
-      const result: ApiResponse<CapitalPartner> = await response.json();
+      const result = await apiGet<CapitalPartner>(`/api/capital-partners/${id}`);
 
       if (result.success && result.data) {
         setPartner(result.data);
@@ -59,8 +58,7 @@ const CapitalPartnerDetail: React.FC = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts-new?capital_partner_id=${id}`);
-      const result: ApiResponse<Contact[]> = await response.json();
+      const result = await apiGet<Contact[]>(`/api/contacts-new?capital_partner_id=${id}`);
 
       if (result.success && result.data) {
         setContacts(result.data);
@@ -85,19 +83,9 @@ const CapitalPartnerDetail: React.FC = () => {
 
   const handleSave = async (formData: Partial<CapitalPartner>) => {
     try {
-      const url = id === 'new'
-        ? `${API_BASE_URL}/api/capital-partners`
-        : `${API_BASE_URL}/api/capital-partners/${id}`;
-
-      const method = id === 'new' ? 'POST' : 'PUT';
-
-      const response = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      const result: ApiResponse<CapitalPartner> = await response.json();
+      const result = id === 'new'
+        ? await apiPost<CapitalPartner>('/api/capital-partners', formData)
+        : await apiPut<CapitalPartner>(`/api/capital-partners/${id}`, formData);
 
       if (result.success && result.data) {
         if (id === 'new') {
@@ -117,11 +105,7 @@ const CapitalPartnerDetail: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/capital-partners/${id}`, {
-        method: 'DELETE'
-      });
-
-      const result: ApiResponse<void> = await response.json();
+      const result = await apiDelete(`/api/capital-partners/${id}`);
 
       if (result.success) {
         navigate('/liquidity/capital-partners');

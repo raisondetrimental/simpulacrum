@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { SponsorContact, Corporate, ApiResponse } from '../../types/sponsors';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { downloadSponsorContactsCSV, downloadSponsorContactsXLSX } from '../../services/sponsorsService';
 
 interface SponsorContactWithDetails extends SponsorContact {
@@ -29,13 +29,10 @@ const SponsorContactsList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [contactsRes, corporatesRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`),
-        fetch(`${API_BASE_URL}/api/corporates`)
+      const [contactsResult, corporatesResult] = await Promise.all([
+        apiGet<SponsorContact[]>('/api/sponsor-contacts'),
+        apiGet<Corporate[]>('/api/corporates')
       ]);
-
-      const contactsResult: ApiResponse<SponsorContact[]> = await contactsRes.json();
-      const corporatesResult: ApiResponse<Corporate[]> = await corporatesRes.json();
 
       if (contactsResult.success && corporatesResult.success) {
         const corporatesMap = new Map(corporatesResult.data!.map(c => [c.id, c]));

@@ -95,10 +95,21 @@ class ProductionConfig(Config):
     """Production configuration"""
     DEBUG = False
     TESTING = False
+
+    # Production CORS - Allow your Azure Static Web App
+    CORS_ORIGINS = [
+        "https://gentle-water-0d2bfab0f.3.azurestaticapps.net",  # Your production frontend
+        "http://localhost:5173",  # Keep for local testing against production backend
+        "http://127.0.0.1:5173"
+    ]
+
+    # Cross-site cookie requirements for authentication
+    SESSION_COOKIE_SAMESITE = "None"
     SESSION_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SAMESITE = "None"
     REMEMBER_COOKIE_SECURE = True
 
-    # Azure-specific paths
+    # Azure paths
     DATA_DIR = os.getenv('DATA_DIR', '/home/site/data')
     WEB_DIR = os.getenv('WEB_DIR', '/home/site/wwwroot')
 

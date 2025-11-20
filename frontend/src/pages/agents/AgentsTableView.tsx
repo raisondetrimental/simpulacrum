@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Agent, AgentContact, ApiResponse, AgentFormData } from '../../types/agents';
 import AgentForm from '../../components/features/agents/AgentForm';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 import CountryMultiSelect from '../../components/ui/CountryMultiSelect';

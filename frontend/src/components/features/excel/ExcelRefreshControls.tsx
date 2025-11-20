@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet, apiPost } from '../../../services/api';
 
 interface RefreshOperation {
   id: string;
@@ -20,8 +20,6 @@ const ExcelRefreshControls: React.FC = () => {
   const [connectionStatus, setConnectionStatus] = useState<'unknown' | 'testing' | 'connected' | 'failed'>('unknown');
   const [lastOperationTimes, setLastOperationTimes] = useState<LastOperationTimes>({});
 
-  const API_URL = `${API_BASE_URL}/api`;
-
   // Load last operation times from localStorage on component mount
   useEffect(() => {
     const savedTimes = localStorage.getItem('excel_operation_times');
@@ -33,11 +31,7 @@ const ExcelRefreshControls: React.FC = () => {
   const testConnection = async () => {
     setConnectionStatus('testing');
     try {
-      const response = await fetch(`${API_URL}/excel/test`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      const result = await response.json();
+      const result = await apiPost('/api/excel/test', {});
 
       setConnectionStatus(result.success ? 'connected' : 'failed');
 
@@ -52,17 +46,7 @@ const ExcelRefreshControls: React.FC = () => {
 
   const regenerateJson = async () => {
     try {
-      const response = await fetch(`${API_URL}/excel/regenerate-json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const result = await response.json();
+      const result = await apiPost('/api/excel/regenerate-json', {});
 
       if (result.success) {
         // Force page reload to clear cache and fetch new JSON
@@ -75,7 +59,7 @@ const ExcelRefreshControls: React.FC = () => {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       const detailedMessage = errorMessage.includes('Failed to fetch')
-        ? `Cannot connect to API server at ${API_URL}. Please ensure:\n1. Flask API is running (python api/excel_api.py)\n2. Server is accessible at port 5000\n3. No firewall blocking the connection`
+        ? `Cannot connect to API server. Please ensure:\n1. Flask API is running (python api/excel_api.py)\n2. Server is accessible at port 5000\n3. No firewall blocking the connection`
         : `JSON regeneration failed: ${errorMessage}`;
 
       alert(detailedMessage);
@@ -85,17 +69,7 @@ const ExcelRefreshControls: React.FC = () => {
 
   const triggerOperation = async (action: 'refresh' | 'archive' | 'refresh-and-archive') => {
     try {
-      const response = await fetch(`${API_URL}/excel/${action}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const result = await response.json();
+      const result = await apiPost(`/api/excel/${action}`, {});
 
       if (result.operation_id) {
         const newOperation: RefreshOperation = {
@@ -119,7 +93,7 @@ const ExcelRefreshControls: React.FC = () => {
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
       const detailedMessage = errorMessage.includes('Failed to fetch')
-        ? `Cannot connect to API server at ${API_URL}. Please ensure:\n1. Flask API is running (python api/excel_api.py)\n2. Server is accessible at port 5000\n3. No firewall blocking the connection`
+        ? `Cannot connect to API server. Please ensure:\n1. Flask API is running (python api/excel_api.py)\n2. Server is accessible at port 5000\n3. No firewall blocking the connection`
         : `Excel ${action} operation failed: ${errorMessage}`;
 
       alert(detailedMessage);
@@ -129,8 +103,7 @@ const ExcelRefreshControls: React.FC = () => {
 
   const pollOperationStatus = async (operationId: string) => {
     try {
-      const response = await fetch(`${API_URL}/excel/status/${operationId}`);
-      const status = await response.json();
+      const status = await apiGet(`/api/excel/status/${operationId}`);
 
       setOperations(prev => ({
         ...prev,

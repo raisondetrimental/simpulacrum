@@ -9,7 +9,7 @@ import { Contact } from '../../../types/liquidity';
 import { SponsorContact } from '../../../types/sponsors';
 import { CounselContact } from '../../../types/counsel';
 import { AgentContact } from '../../../types/agents';
-import { API_BASE_URL } from '../../../config';
+import { apiPost } from '../../../services/api';
 import { useAuth } from '../../../contexts/AuthContext';
 
 interface QuickMeetingModalProps {
@@ -166,22 +166,15 @@ const QuickMeetingModal: React.FC<QuickMeetingModalProps> = ({
       const meetingDateTime = new Date(selectedDate);
       meetingDateTime.setHours(hours, minutes, 0, 0);
 
-      const response = await fetch(`${API_BASE_URL}/api/quick-meeting`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify({
-          contact_id: selectedContact.id,
-          organization_type: selectedContact.organizationType,
-          date: meetingDateTime.toISOString(),
-          notes: notes.trim(),
-          participants: participants.trim(),
-          next_follow_up: nextFollowUp || undefined,
-          assigned_user_ids: user ? [user.id] : [],
-        }),
+      const result = await apiPost('/api/quick-meeting', {
+        contact_id: selectedContact.id,
+        organization_type: selectedContact.organizationType,
+        date: meetingDateTime.toISOString(),
+        notes: notes.trim(),
+        participants: participants.trim(),
+        next_follow_up: nextFollowUp || undefined,
+        assigned_user_ids: user ? [user.id] : [],
       });
-
-      const result = await response.json();
 
       if (result.success) {
         onMeetingCreated();

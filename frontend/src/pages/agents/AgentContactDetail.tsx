@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { AgentContact, Agent, MeetingHistoryEntry, ApiResponse, RELATIONSHIP_LEVELS, DISC_PROFILES } from '../../types/agents';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPut, apiDelete } from '../../services/api';
 import { updateAgentMeetingNote, deleteAgentMeetingNote } from '../../services/agentsService';
 
 const AgentContactDetail: React.FC = () => {

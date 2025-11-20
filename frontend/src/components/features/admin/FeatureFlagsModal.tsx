@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet, apiPut } from '../../../services/api';
 
 interface FeatureFlag {
   enabled: boolean;
@@ -39,11 +39,7 @@ const FeatureFlagsModal: React.FC<FeatureFlagsModalProps> = ({ isOpen, onClose }
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/feature-flags');
 
       if (data.success && data.data) {
         setFlags(data.data.flags);
@@ -73,16 +69,7 @@ const FeatureFlagsModal: React.FC<FeatureFlagsModalProps> = ({ isOpen, onClose }
       setToggling(flagName);
       setMessage(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags/${flagName}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({ enabled: newValue })
-      });
-
-      const data = await response.json();
+      const data = await apiPut(`/api/admin/feature-flags/${flagName}`, { enabled: newValue });
 
       if (data.success) {
         setMessage({

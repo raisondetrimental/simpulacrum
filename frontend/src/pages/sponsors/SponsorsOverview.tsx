@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import SponsorReminders from '../../components/features/sponsors/SponsorReminders';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
 import { SponsorContact, MeetingHistoryEntry, ApiResponse } from '../../types/sponsors';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { updateSponsorMeetingNote, deleteSponsorMeetingNote } from '../../services/sponsorsService';
 
 const SponsorsOverview: React.FC = () => {
@@ -20,10 +20,7 @@ const SponsorsOverview: React.FC = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts`, {
-        credentials: 'include'
-      });
-      const result: ApiResponse<SponsorContact[]> = await response.json();
+      const result = await apiGet<SponsorContact[]>('/api/sponsor-contacts');
       if (result.success && result.data) {
         setContacts(result.data);
       }

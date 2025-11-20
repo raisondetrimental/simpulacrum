@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import CounselReminders from '../../components/features/counsel/CounselReminders';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
 import { CounselContact, MeetingHistoryEntry, ApiResponse } from '../../types/counsel';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { updateCounselMeetingNote, deleteCounselMeetingNote } from '../../services/counselService';
 
 const CounselOverview: React.FC = () => {
@@ -20,10 +20,7 @@ const CounselOverview: React.FC = () => {
 
   const fetchContacts = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/counsel-contacts`, {
-        credentials: 'include'
-      });
-      const result: ApiResponse<CounselContact[]> = await response.json();
+      const result = await apiGet<CounselContact[]>('/api/counsel-contacts');
       if (result.success && result.data) {
         setContacts(result.data);
       }

@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Contact, CapitalPartner, ApiResponse } from '../../types/liquidity';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { downloadContactsCSV, downloadContactsXLSX } from '../../services/capitalPartnersService';
 
 interface ContactWithDetails extends Contact {
@@ -29,13 +29,10 @@ const ContactsList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [contactsRes, partnersRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/capital-partners`, { credentials: 'include' })
+      const [contactsResult, partnersResult] = await Promise.all([
+        apiGet<Contact[]>('/api/contacts-new'),
+        apiGet<CapitalPartner[]>('/api/capital-partners')
       ]);
-
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
-      const partnersResult: ApiResponse<CapitalPartner[]> = await partnersRes.json();
 
       if (contactsResult.success && partnersResult.success) {
         const partnersMap = new Map(partnersResult.data!.map(p => [p.id, p]));

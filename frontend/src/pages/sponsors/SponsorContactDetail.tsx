@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { SponsorContact, Corporate, MeetingHistoryEntry, ApiResponse, RELATIONSHIP_LEVELS, DISC_PROFILES } from '../../types/sponsors';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPut, apiDelete } from '../../services/api';
 import { updateSponsorMeetingNote, deleteSponsorMeetingNote } from '../../services/sponsorsService';
 
 const SponsorContactDetail: React.FC = () => {
@@ -62,8 +62,7 @@ const SponsorContactDetail: React.FC = () => {
     setError(null);
 
     try {
-      const contactRes = await fetch(`${API_BASE_URL}/api/sponsor-contacts/${id}`);
-      const contactResult: ApiResponse<SponsorContact> = await contactRes.json();
+      const contactResult = await apiGet<SponsorContact>(`/api/sponsor-contacts/${id}`);
 
       if (contactResult.success && contactResult.data) {
         setContact(contactResult.data);
@@ -79,8 +78,7 @@ const SponsorContactDetail: React.FC = () => {
         });
 
         // Fetch corporate details
-        const corporateRes = await fetch(`${API_BASE_URL}/api/corporates/${contactResult.data.corporate_id}`);
-        const corporateResult: ApiResponse<Corporate> = await corporateRes.json();
+        const corporateResult = await apiGet<Corporate>(`/api/corporates/${contactResult.data.corporate_id}`);
         if (corporateResult.success && corporateResult.data) {
           setCorporate(corporateResult.data);
         }
@@ -98,15 +96,7 @@ const SponsorContactDetail: React.FC = () => {
     setSaveStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<SponsorContact> = await response.json();
+      const result = await apiPut<SponsorContact>(`/api/sponsor-contacts/${id}`, formData);
 
       if (result.success && result.data) {
         setContact(result.data);
@@ -127,11 +117,7 @@ const SponsorContactDetail: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts/${id}`, {
-        method: 'DELETE',
-      });
-
-      const result = await response.json();
+      const result = await apiDelete(`/api/sponsor-contacts/${id}`);
 
       if (result.success) {
         navigate('/sponsors/corporates');

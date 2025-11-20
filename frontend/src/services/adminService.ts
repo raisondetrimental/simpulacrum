@@ -1,7 +1,8 @@
 /**
  * System Administration API Service
  */
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost, apiPut, apiDownload, apiFetch } from './api';
+import { apiUrl } from '../config';
 import type {
   SystemStats,
   DatabaseFile,
@@ -19,160 +20,91 @@ import type {
  * Get comprehensive system statistics
  */
 export const getSystemStats = async (): Promise<ApiResponse<SystemStats>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/stats`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<SystemStats>('/api/admin/stats');
 };
 
 /**
  * List all database files with metadata
  */
 export const getDatabaseFiles = async (): Promise<ApiResponse<DatabaseFile[]>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/database/files`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<DatabaseFile[]>('/api/admin/database/files');
 };
 
 /**
  * Get total database size breakdown
  */
 export const getDatabaseSize = async (): Promise<ApiResponse<DatabaseSizeInfo>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/database/size`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<DatabaseSizeInfo>('/api/admin/database/size');
 };
 
 /**
  * List available log files
  */
 export const getSystemLogs = async (): Promise<ApiResponse<LogFile[]>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/logs`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<LogFile[]>('/api/admin/logs');
 };
 
 /**
  * Download a specific log file
  */
 export const downloadLogFile = async (filename: string): Promise<void> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/logs/${filename}`, {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to download log file');
-  }
-
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
+  return apiDownload(`/api/admin/logs/${filename}`, filename);
 };
 
 /**
  * Get system health status
  */
 export const getSystemHealth = async (): Promise<ApiResponse<SystemHealth>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/system/health`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<SystemHealth>('/api/admin/system/health');
 };
 
 /**
  * Manually trigger database backup
  */
 export const triggerBackup = async (): Promise<ApiResponse<BackupResult>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/database/backup`, {
-    method: 'POST',
-    credentials: 'include'
-  });
-  return response.json();
+  return apiPost<BackupResult>('/api/admin/database/backup');
 };
 
 /**
  * Get security configuration (read-only)
  */
 export const getSecurityConfig = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/config/security`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet('/api/admin/config/security');
 };
 
 /**
  * Get API keys (masked)
  */
 export const getApiKeys = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet('/api/admin/config/api-keys');
 };
 
 /**
  * Update API key
  */
 export const updateApiKey = async (keyName: string, apiKey: string): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys/${keyName}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ api_key: apiKey })
-  });
-  return response.json();
+  return apiPut(`/api/admin/config/api-keys/${keyName}`, { api_key: apiKey });
 };
 
 /**
  * Test API key validity
  */
 export const testApiKey = async (keyName: string, apiKey: string): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/config/api-keys/test`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ key_name: keyName, api_key: apiKey })
-  });
-  return response.json();
+  return apiPost('/api/admin/config/api-keys/test', { key_name: keyName, api_key: apiKey });
 };
 
 /**
  * Get archive statistics
  */
 export const getArchiveStats = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/archive/stats`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet('/api/admin/archive/stats');
 };
 
 /**
  * Archive records
  */
 export const archiveRecords = async (entityType: string, recordIds: string[]): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/archive/${entityType}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ record_ids: recordIds })
-  });
-  return response.json();
+  return apiPost(`/api/admin/archive/${entityType}`, { record_ids: recordIds });
 };
 
 /**
@@ -183,50 +115,28 @@ export const listArchivedRecords = async (entityType: string, limit?: number, of
   if (limit) params.append('limit', limit.toString());
   if (offset) params.append('offset', offset.toString());
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/archive/${entityType}/list?${params.toString()}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/archive/${entityType}/list?${params.toString()}`);
 };
 
 /**
  * Restore archived records
  */
 export const restoreArchivedRecords = async (entityType: string, recordIds: string[]): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/archive/${entityType}/restore`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ record_ids: recordIds })
-  });
-  return response.json();
+  return apiPost(`/api/admin/archive/${entityType}/restore`, { record_ids: recordIds });
 };
 
 /**
  * Scan for data quality issues
  */
 export const scanDataIssues = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/cleanup/scan`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet('/api/admin/cleanup/scan');
 };
 
 /**
  * Fix data quality issues
  */
 export const fixDataIssues = async (fixType: string, recordIds: string[]): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/cleanup/fix`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ fix_type: fixType, record_ids: recordIds })
-  });
-  return response.json();
+  return apiPost('/api/admin/cleanup/fix', { fix_type: fixType, record_ids: recordIds });
 };
 
 /**
@@ -238,15 +148,12 @@ export const bulkUpdateRecords = async (
   updates: any,
   dryRun: boolean = true
 ): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/bulk/update`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ entity_type: entityType, filters, updates, dry_run: dryRun })
+  return apiPost('/api/admin/bulk/update', {
+    entity_type: entityType,
+    filters,
+    updates,
+    dry_run: dryRun
   });
-  return response.json();
 };
 
 /**
@@ -257,7 +164,7 @@ export const bulkExportRecords = async (
   filters: any,
   format: 'csv' | 'json' = 'csv'
 ): Promise<Response> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/bulk/export`, {
+  const response = await fetch(apiUrl('/api/admin/bulk/export'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -272,66 +179,42 @@ export const bulkExportRecords = async (
  * Get all feature flags
  */
 export const getFeatureFlags = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet('/api/admin/feature-flags');
 };
 
 /**
  * Toggle a feature flag
  */
 export const toggleFeatureFlag = async (flagName: string, enabled: boolean): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags/${flagName}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ enabled })
-  });
-  return response.json();
+  return apiPut(`/api/admin/feature-flags/${flagName}`, { enabled });
 };
 
 /**
  * Get metadata for a specific feature flag
  */
 export const getFeatureFlagMetadata = async (flagName: string): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags/${flagName}/metadata`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/feature-flags/${flagName}/metadata`);
 };
 
 /**
  * Reset all feature flags to defaults
  */
 export const resetFeatureFlags = async (): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/feature-flags/reset`, {
-    method: 'POST',
-    credentials: 'include'
-  });
-  return response.json();
+  return apiPost('/api/admin/feature-flags/reset');
 };
 
 /**
  * Get all API endpoints (optionally grouped by blueprint)
  */
 export const getApiEndpoints = async (grouped: boolean = true): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/api-playground/endpoints?grouped=${grouped}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/api-playground/endpoints?grouped=${grouped}`);
 };
 
 /**
  * Search API endpoints
  */
 export const searchApiEndpoints = async (query: string): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/api-playground/endpoints/search?q=${encodeURIComponent(query)}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/api-playground/endpoints/search?q=${encodeURIComponent(query)}`);
 };
 
 /**
@@ -344,25 +227,20 @@ export const executeApiRequest = async (
   queryParams: Record<string, string> = {},
   body: any = null
 ): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/api-playground/execute`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ path, method, headers, query_params: queryParams, body })
+  return apiPost('/api/admin/api-playground/execute', {
+    path,
+    method,
+    headers,
+    query_params: queryParams,
+    body
   });
-  return response.json();
 };
 
 /**
  * List database files (optionally grouped by category)
  */
 export const getDatabaseExplorerFiles = async (grouped: boolean = true): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/database-explorer/files?grouped=${grouped}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/database-explorer/files?grouped=${grouped}`);
 };
 
 /**
@@ -382,20 +260,14 @@ export const readDatabaseFile = async (
     params.append('search', search);
   }
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/database-explorer/files/${filename}?${params}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/database-explorer/files/${filename}?${params}`);
 };
 
 /**
  * Get schema for a database file
  */
 export const getDatabaseFileSchema = async (filename: string): Promise<ApiResponse<any>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/database-explorer/files/${filename}/schema`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/database-explorer/files/${filename}/schema`);
 };
 
 /**
@@ -412,20 +284,14 @@ export const getAuditLog = async (filters: AuditLogFilters = {}): Promise<ApiRes
   if (filters.start_date) params.append('start_date', filters.start_date);
   if (filters.end_date) params.append('end_date', filters.end_date);
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log?${params.toString()}`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet(`/api/admin/audit-log?${params.toString()}`);
 };
 
 /**
  * Get audit log statistics
  */
 export const getAuditLogStats = async (): Promise<ApiResponse<AuditLogStats>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log/stats`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<AuditLogStats>('/api/admin/audit-log/stats');
 };
 
 /**
@@ -441,7 +307,7 @@ export const exportAuditLogCSV = async (filters: AuditLogFilters = {}): Promise<
   if (filters.end_date) params.append('end_date', filters.end_date);
   params.append('format', 'csv');
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/audit-log?${params.toString()}`, {
+  const response = await fetch(apiUrl(`/api/admin/audit-log?${params.toString()}`), {
     credentials: 'include'
   });
 
@@ -495,23 +361,12 @@ export interface Announcement {
  * Get the shared announcement whiteboard content
  */
 export const getAnnouncement = async (): Promise<ApiResponse<Announcement>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/announcement`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<Announcement>('/api/admin/announcement');
 };
 
 /**
  * Update the shared announcement whiteboard content
  */
 export const updateAnnouncement = async (content: string): Promise<ApiResponse<Announcement>> => {
-  const response = await fetch(`${API_BASE_URL}/api/admin/announcement`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({ content })
-  });
-  return response.json();
+  return apiPut<Announcement>('/api/admin/announcement', { content });
 };

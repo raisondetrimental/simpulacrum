@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from '../../../config';
+import { apiGet } from '../../../services/api';
 
 interface ArchiveStats {
   deals: {
@@ -64,11 +64,7 @@ const ArchiveManagerModal: React.FC<ArchiveManagerModalProps> = ({ isOpen, onClo
       setLoading(true);
       setError(null);
 
-      const response = await fetch(`${API_BASE_URL}/api/admin/archive/stats`, {
-        credentials: 'include'
-      });
-
-      const data = await response.json();
+      const data = await apiGet('/api/admin/archive/stats');
 
       if (data.success && data.data) {
         setStats(data.data.stats);

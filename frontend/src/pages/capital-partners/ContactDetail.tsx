@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Contact, CapitalPartner, MeetingHistoryEntry, ApiResponse } from '../../types/liquidity';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiDelete } from '../../services/api';
 import { updateMeetingNote, deleteMeetingNote } from '../../services/capitalPartnersService';
 
 const ContactDetail: React.FC = () => {
@@ -29,8 +29,7 @@ const ContactDetail: React.FC = () => {
   const fetchContact = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts-new/${id}`);
-      const result: ApiResponse<Contact> = await response.json();
+      const result = await apiGet<Contact>(`/api/contacts-new/${id}`);
 
       if (result.success && result.data) {
         setContact(result.data);
@@ -67,8 +66,7 @@ const ContactDetail: React.FC = () => {
 
   const fetchPartner = async (partnerId: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/capital-partners/${partnerId}`);
-      const result: ApiResponse<CapitalPartner> = await response.json();
+      const result = await apiGet<CapitalPartner>(`/api/capital-partners/${partnerId}`);
 
       if (result.success && result.data) {
         setPartner(result.data);
@@ -80,11 +78,7 @@ const ContactDetail: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts-new/${id}`, {
-        method: 'DELETE'
-      });
-
-      const result: ApiResponse<void> = await response.json();
+      const result = await apiDelete(`/api/contacts-new/${id}`);
 
       if (result.success) {
         navigate('/liquidity/contacts');

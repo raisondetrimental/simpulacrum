@@ -10,7 +10,7 @@ import { CapitalPartner, Contact, ApiResponse, CapitalPartnerFormData, ContactFo
 import CapitalPartnerForm from '../../components/features/capital-partners/CapitalPartnerForm';
 import ContactForm from '../../components/features/capital-partners/ContactForm';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost } from '../../services/api';
 import { downloadCapitalPartnersCSV, downloadCapitalPartnersXLSX } from '../../services/capitalPartnersService';
 
 interface PartnerWithContacts extends CapitalPartner {
@@ -50,17 +50,14 @@ const CapitalPartnersList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [partnersRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/capital-partners`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' })
+      const [partnersResult, contactsResult] = await Promise.all([
+        apiGet<CapitalPartner[]>('/api/capital-partners'),
+        apiGet<Contact[]>('/api/contacts-new')
       ]);
 
-      const partnersResult: ApiResponse<CapitalPartner[]> = await partnersRes.json();
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
-
-      if (partnersResult.success && contactsResult.success) {
+      if (partnersResult.success && contactsResult.success && partnersResult.data && contactsResult.data) {
         // Build hierarchy: Capital Partners → Contacts (direct)
-        const partnersWithContacts = partnersResult.data!.map(partner => {
+        const partnersWithContacts = partnersResult.data.map(partner => {
           const partnerContacts = contactsResult.data!
             .filter(c => c.capital_partner_id === partner.id);
 
@@ -73,7 +70,7 @@ const CapitalPartnersList: React.FC = () => {
         setPartners(partnersWithContacts);
         setError(null);
       } else {
-        setError('Failed to load data');
+        setError(partnersResult.message || contactsResult.message || 'Failed to load data');
       }
     } catch (err) {
       setError('Failed to connect to API. Make sure the server is running on port 5000.');
@@ -97,16 +94,7 @@ const CapitalPartnersList: React.FC = () => {
     setCreateStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/capital-partners`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<CapitalPartner> = await response.json();
+      const result = await apiPost<CapitalPartner>('/api/capital-partners', formData);
 
       if (result.success && result.data) {
         setCreateStatus('success');
@@ -128,16 +116,7 @@ const CapitalPartnersList: React.FC = () => {
     setCreateContactStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/contacts-new`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<Contact> = await response.json();
+      const result = await apiPost<Contact>('/api/contacts-new', formData);
 
       if (result.success && result.data) {
         setCreateContactStatus('success');

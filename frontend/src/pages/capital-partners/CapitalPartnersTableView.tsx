@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CapitalPartner, Contact, ApiResponse } from '../../types/liquidity';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { useTableSort } from '../../hooks/useTableSort';
 import { SortableTableHeader, TableHeader } from '../../components/ui/SortableTableHeader';
 import CountryMultiSelect from '../../components/ui/CountryMultiSelect';
@@ -78,26 +78,23 @@ const CapitalPartnersTableView: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [partnersRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/capital-partners`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' })
+      const [partnersResult, contactsResult] = await Promise.all([
+        apiGet<CapitalPartner[]>('/api/capital-partners'),
+        apiGet<Contact[]>('/api/contacts-new')
       ]);
 
-      const partnersResult: ApiResponse<CapitalPartner[]> = await partnersRes.json();
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
-
-      if (partnersResult.success && contactsResult.success) {
+      if (partnersResult.success && contactsResult.success && partnersResult.data && contactsResult.data) {
         // Build hierarchy
         const contactsMap = new Map<string, Contact[]>();
 
-        contactsResult.data!.forEach(contact => {
+        contactsResult.data.forEach(contact => {
           if (!contactsMap.has(contact.capital_partner_id)) {
             contactsMap.set(contact.capital_partner_id, []);
           }
           contactsMap.get(contact.capital_partner_id)!.push(contact);
         });
 
-        const partnersWithContacts = partnersResult.data!.map(partner => ({
+        const partnersWithContacts = partnersResult.data.map(partner => ({
           ...partner,
           contacts: contactsMap.get(partner.id) || []
         }));
@@ -105,7 +102,7 @@ const CapitalPartnersTableView: React.FC = () => {
         setPartners(partnersWithContacts);
         setError(null);
       } else {
-        setError('Failed to load data');
+        setError(partnersResult.message || contactsResult.message || 'Failed to load data');
       }
     } catch (err) {
       setError('Failed to connect to API. Make sure the server is running on port 5000.');

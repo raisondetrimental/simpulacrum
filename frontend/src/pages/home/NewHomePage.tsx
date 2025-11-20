@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { DashboardData } from '../../types/dashboard';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { AnimatedStat } from '../../components/ui/AnimatedStat';
 import MarketChartsSection from '../../components/home/MarketChartsSection';
 import PipelineVisualization from '../../components/home/PipelineVisualization';
@@ -63,39 +63,28 @@ const NewHomePage: React.FC<NewHomePageProps> = ({ data }) => {
     try {
       // Fetch all CRM data in parallel with credentials for authentication
       const [
-        cpResponse,
-        corpResponse,
-        laResponse,
-        agentsResponse,
-        contactsResponse,
-        sponsorContactsResponse,
-        counselContactsResponse,
-        agentContactsResponse,
-        pipelineResponse,
-        investmentStrategiesResponse
+        cpData,
+        corpData,
+        laData,
+        agentsData,
+        contactsData,
+        sponsorContactsData,
+        counselContactsData,
+        agentContactsData,
+        pipelineData,
+        investmentStrategiesData
       ] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/capital-partners`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/corporates`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/legal-advisors`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/agents`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/counsel-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/agent-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/pipeline`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/investment-strategies`, { credentials: 'include' })
+        apiGet('/api/capital-partners'),
+        apiGet('/api/corporates'),
+        apiGet('/api/legal-advisors'),
+        apiGet('/api/agents'),
+        apiGet('/api/contacts-new'),
+        apiGet('/api/sponsor-contacts'),
+        apiGet('/api/counsel-contacts'),
+        apiGet('/api/agent-contacts'),
+        apiGet('/api/pipeline'),
+        apiGet('/api/investment-strategies')
       ]);
-
-      const cpData = await cpResponse.json();
-      const corpData = await corpResponse.json();
-      const laData = await laResponse.json();
-      const agentsData = await agentsResponse.json();
-      const contactsData = await contactsResponse.json();
-      const sponsorContactsData = await sponsorContactsResponse.json();
-      const counselContactsData = await counselContactsResponse.json();
-      const agentContactsData = await agentContactsResponse.json();
-      const pipelineData = await pipelineResponse.json();
-      const investmentStrategiesData = await investmentStrategiesResponse.json();
 
       const capitalPartnersCount = cpData.success ? cpData.data.length : 0;
       const corporatesCount = corpData.success ? corpData.data.length : 0;

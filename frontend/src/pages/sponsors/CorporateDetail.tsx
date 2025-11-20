@@ -10,7 +10,7 @@ import SponsorContactForm from '../../components/features/sponsors/SponsorContac
 import CorporateForm from '../../components/features/sponsors/CorporateForm';
 import SponsorPreferencesGrid from '../../components/features/sponsors/SponsorPreferencesGrid';
 import MeetingDetailsModal from '../../components/ui/MeetingDetailsModal';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPost, apiPut, apiDelete } from '../../services/api';
 import { getCorporateDeals } from '../../services/dealsService';
 import { Deal, formatDealSize, formatDealDate, DEAL_STATUS_COLORS, DEAL_STATUS_LABELS } from '../../types/deals';
 import { updateSponsorMeetingNote, deleteSponsorMeetingNote, toggleCorporateStar } from '../../services/sponsorsService';
@@ -39,13 +39,10 @@ const CorporateDetail: React.FC = () => {
     setError(null);
 
     try {
-      const [corporateRes, contactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/corporates/${id}`),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`)
+      const [corporateResult, contactsResult] = await Promise.all([
+        apiGet<Corporate>(`/api/corporates/${id}`),
+        apiGet<SponsorContact[]>('/api/sponsor-contacts')
       ]);
-
-      const corporateResult: ApiResponse<Corporate> = await corporateRes.json();
-      const contactsResult: ApiResponse<SponsorContact[]> = await contactsRes.json();
 
       if (corporateResult.success && corporateResult.data) {
         setCorporate(corporateResult.data);
@@ -53,8 +50,8 @@ const CorporateDetail: React.FC = () => {
         setError('Corporate not found');
       }
 
-      if (contactsResult.success) {
-        const corporateContacts = contactsResult.data!.filter(c => c.corporate_id === id);
+      if (contactsResult.success && contactsResult.data) {
+        const corporateContacts = contactsResult.data.filter(c => c.corporate_id === id);
         setContacts(corporateContacts);
       }
 
@@ -82,15 +79,7 @@ const CorporateDetail: React.FC = () => {
 
   const handleSave = async (formData: Partial<Corporate>) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/corporates/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<Corporate> = await response.json();
+      const result = await apiPut<Corporate>(`/api/corporates/${id}`, formData);
 
       if (result.success && result.data) {
         setCorporate(result.data);
@@ -106,11 +95,7 @@ const CorporateDetail: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/corporates/${id}`, {
-        method: 'DELETE',
-      });
-
-      const result: ApiResponse<void> = await response.json();
+      const result = await apiDelete(`/api/corporates/${id}`);
 
       if (result.success) {
         navigate('/sponsors/corporates');
@@ -145,15 +130,7 @@ const CorporateDetail: React.FC = () => {
     setCreateContactStatus('saving');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/sponsor-contacts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const result: ApiResponse<SponsorContact> = await response.json();
+      const result = await apiPost<SponsorContact>('/api/sponsor-contacts', formData);
 
       if (result.success && result.data) {
         setCreateContactStatus('success');

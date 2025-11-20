@@ -1,7 +1,7 @@
 /**
  * FX Rates Service - Yahoo Finance (yfinance) integration
  */
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost } from './api';
 import type { FXRatesYahooData, CurrencyCode } from '../types/fxYahoo';
 
 export const fxYahooService = {
@@ -9,36 +9,22 @@ export const fxYahooService = {
    * Get FX rates from Yahoo Finance (90 days of historical data)
    */
   async getYahooRates(): Promise<FXRatesYahooData> {
-    const response = await fetch(`${API_BASE_URL}/api/fx-rates-yahoo`, {
-      credentials: 'include'
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Failed to fetch FX rates from Yahoo Finance');
+    const result = await apiGet<FXRatesYahooData>('/api/fx-rates-yahoo');
+    if (!result.success || !result.data) {
+      throw new Error(result.message || 'Failed to fetch FX rates from Yahoo Finance');
     }
-
-    return response.json();
+    return result.data;
   },
 
   /**
    * Refresh FX rates from Yahoo Finance (fetch last 7 days, add only new dates)
    */
   async refreshYahooRates(): Promise<{ success: boolean; message: string; output?: string }> {
-    const response = await fetch(`${API_BASE_URL}/api/fx-rates-yahoo/refresh`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.message || 'Failed to refresh FX rates from Yahoo Finance');
+    const result = await apiPost<{ success: boolean; message: string; output?: string }>('/api/fx-rates-yahoo/refresh');
+    if (!result.success || !result.data) {
+      throw new Error(result.message || 'Failed to refresh FX rates from Yahoo Finance');
     }
-
-    return response.json();
+    return result.data;
   },
 
   /**

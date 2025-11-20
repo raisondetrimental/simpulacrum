@@ -3,24 +3,15 @@
  * API client for investment strategies
  */
 
-import { API_BASE_URL } from '../config';
+import { apiGet, apiPost } from './api';
 import { InvestmentMatchesResponse, SavedStrategy } from '../types/investment';
 
 export const getInvestmentStrategies = async (): Promise<{ success: boolean; data: SavedStrategy[] }> => {
-  const response = await fetch(`${API_BASE_URL}/api/investment-strategies`, {
-    credentials: 'include'
-  });
-  return response.json();
+  return apiGet<SavedStrategy[]>('/api/investment-strategies') as Promise<{ success: boolean; data: SavedStrategy[] }>;
 };
 
 export const saveInvestmentStrategies = async (strategies: SavedStrategy[]): Promise<{ success: boolean; message?: string }> => {
-  const response = await fetch(`${API_BASE_URL}/api/investment-strategies/save`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(strategies),
-    credentials: 'include'
-  });
-  return response.json();
+  return apiPost('/api/investment-strategies/save', strategies) as Promise<{ success: boolean; message?: string }>;
 };
 
 export const getInvestmentMatches = async (
@@ -28,15 +19,9 @@ export const getInvestmentMatches = async (
   ticketRange: { minInvestment: number; maxInvestment: number; unit: string },
   countryFilters?: string[]
 ): Promise<InvestmentMatchesResponse> => {
-  const response = await fetch(`${API_BASE_URL}/api/investment-matches`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      preferenceFilters,
-      ticketRange,
-      countryFilters: countryFilters || null
-    }),
-    credentials: 'include'
-  });
-  return response.json();
+  return apiPost<InvestmentMatchesResponse>('/api/investment-matches', {
+    preferenceFilters,
+    ticketRange,
+    countryFilters: countryFilters || null
+  }) as Promise<InvestmentMatchesResponse>;
 };

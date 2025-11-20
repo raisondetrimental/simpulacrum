@@ -16,7 +16,7 @@ import { Contact, ApiResponse } from '../../types/liquidity';
 import { SponsorContact, ApiResponse as SponsorApiResponse } from '../../types/sponsors';
 import { CounselContact, ApiResponse as CounselApiResponse } from '../../types/counsel';
 import { AgentContact, ApiResponse as AgentApiResponse } from '../../types/agents';
-import { API_BASE_URL } from '../../config';
+import { apiGet, apiPut } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 import QuickMeetingModal from '../../components/features/calendar/QuickMeetingModal';
 import EventDetailsModal from '../../components/features/calendar/EventDetailsModal';
@@ -153,20 +153,13 @@ const CalendarPage: React.FC = () => {
   const fetchData = async () => {
     try {
       // Fetch liquidity contacts/reminders, sponsor contacts, counsel contacts, and agent contacts
-      // CRITICAL: Added credentials: 'include' to all fetch calls
-      const [remindersRes, contactsRes, sponsorContactsRes, counselContactsRes, agentContactsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/meeting-notes/reminders`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/contacts-new`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/sponsor-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/counsel-contacts`, { credentials: 'include' }),
-        fetch(`${API_BASE_URL}/api/agent-contacts`, { credentials: 'include' })
+      const [remindersResult, contactsResult, sponsorContactsResult, counselContactsResult, agentContactsResult] = await Promise.all([
+        apiGet<ReminderData[]>('/api/meeting-notes/reminders'),
+        apiGet<Contact[]>('/api/contacts-new'),
+        apiGet<SponsorContact[]>('/api/sponsor-contacts'),
+        apiGet<CounselContact[]>('/api/counsel-contacts'),
+        apiGet<AgentContact[]>('/api/agent-contacts')
       ]);
-
-      const remindersResult: ApiResponse<ReminderData[]> = await remindersRes.json();
-      const contactsResult: ApiResponse<Contact[]> = await contactsRes.json();
-      const sponsorContactsResult: SponsorApiResponse<SponsorContact[]> = await sponsorContactsRes.json();
-      const counselContactsResult: CounselApiResponse<CounselContact[]> = await counselContactsRes.json();
-      const agentContactsResult: AgentApiResponse<AgentContact[]> = await agentContactsRes.json();
 
       if (remindersResult.success && remindersResult.data) {
         setReminders(remindersResult.data);
@@ -560,20 +553,14 @@ const CalendarPage: React.FC = () => {
     const startDate = typeof start === 'string' ? new Date(start) : start;
 
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/quick-meeting/${meetingEvent.contact.id}/${meetingEvent.meeting_id}`,
+      const result = await apiPut(
+        `/api/quick-meeting/${meetingEvent.contact.id}/${meetingEvent.meeting_id}`,
         {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            date: startDate.toISOString(),
-            organization_type: organizationType,
-          }),
+          date: startDate.toISOString(),
+          organization_type: organizationType,
         }
       );
 
-      const result = await response.json();
       if (result.success) {
         // Refresh data to show updated meeting date
         await fetchData();

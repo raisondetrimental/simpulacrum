@@ -1,0 +1,36 @@
+# OS / editor junk
+.DS_Store
+Thumbs.db
+nul
+
+# Git
+.git
+.gitignore
+
+# Python cache / build artefacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+
+# Tests and local tooling
+tests/
+migrations/requirements/
+.mypy_cache/
+.pytest_cache/
+
+# Local env / venv
+.env
+*.venv/
+venv/
+env/
+
+# Logs and generated stuff
+storage/logs/
+storage/generated-reports/
+storage/uploads/
+
+# Claude / editor stuff
+data/json/Country JSON/.claude/

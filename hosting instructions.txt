@@ -1,0 +1,37 @@
+Frontend:
+Your frontend is deployed to Azure Static Web Apps.
+The site you are hitting is:
+
+https://gentle-water-0d2bfab0f.3.azurestaticapps.net
+
+Azure Static Web Apps hosts only static assets. It does not run a backend server. It serves your built React application (your /dist output). All API calls are routed out from the browser to wherever your backend lives.
+
+Backend:
+Your backend Flask application is containerised and deployed to Azure Container Apps.
+
+Your active backend endpoint is:
+
+https://meridian-backend.yellowbay-aa9a97a0.canadacentral.azurecontainerapps.io
+
+This is running your Docker image that you pushed to Azure Container Registry (ACR). The flow is:
+
+You build a Docker image locally.
+
+You push it to your ACR instance (ca57e6c4e3e5acr.azurecr.io).
+
+Azure Container Apps pulls that image and runs it in a lightweight managed container environment.
+
+This backend instance is where all API endpoints should be served from. Anything at /api/... originates here.
+
+What both parts are doing:
+
+The frontend is running static files, nothing server-side, and is responsible for making API calls.
+
+The backend is running inside a container in the Canada Central region and exposing HTTP endpoints at the Container Apps default ingress URL.
+
+How the two are connected:
+Your frontend sends requests like:
+
+https://meridian-backend.yellowbay-aa9a97a0.canadacentral.azurecontainerapps.io/api/dashboard-data
+
+When CORS or routing is wrong, these calls fail.

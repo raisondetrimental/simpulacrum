@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { CounselContact, LegalAdvisor, ApiResponse } from '../../types/counsel';
 import DownloadDropdown from '../../components/ui/DownloadDropdown';
-import { API_BASE_URL } from '../../config';
+import { apiGet } from '../../services/api';
 import { downloadCounselContactsCSV, downloadCounselContactsXLSX } from '../../services/counselService';
 
 interface CounselContactWithDetails extends CounselContact {
@@ -29,13 +29,10 @@ const CounselContactsList: React.FC = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [contactsRes, advisorsRes] = await Promise.all([
-        fetch(`${API_BASE_URL}/api/counsel-contacts`),
-        fetch(`${API_BASE_URL}/api/legal-advisors`)
+      const [contactsResult, advisorsResult] = await Promise.all([
+        apiGet<CounselContact[]>('/api/counsel-contacts'),
+        apiGet<LegalAdvisor[]>('/api/legal-advisors')
       ]);
-
-      const contactsResult: ApiResponse<CounselContact[]> = await contactsRes.json();
-      const advisorsResult: ApiResponse<LegalAdvisor[]> = await advisorsRes.json();
 
       if (contactsResult.success && advisorsResult.success) {
         const advisorsMap = new Map(advisorsResult.data!.map(a => [a.id, a]));
